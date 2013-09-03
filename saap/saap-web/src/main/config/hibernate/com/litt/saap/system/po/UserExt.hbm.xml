@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-9-2 13:12:34 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.UserExt" dynamic-insert="true" dynamic-update="true" table="user_ext">
+        <comment>用户扩展表</comment>
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="level" type="java.lang.Integer">
+            <column name="LEVEL">
+                <comment>用户等级</comment>
+            </column>
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="100">
+                <comment>用户来源</comment>
+            </column>
+        </property>
+        <property name="birthday" type="timestamp">
+            <column name="BIRTHDAY" length="19">
+                <comment>生日</comment>
+            </column>
+        </property>
+        <property name="zipCode" type="string">
+            <column name="ZIP_CODE" length="6">
+                <comment>邮政编码</comment>
+            </column>
+        </property>
+        <property name="address" type="string">
+            <column name="ADDRESS" length="200">
+                <comment>联系地址</comment>
+            </column>
+        </property>
+        <property name="district" type="string">
+            <column name="DISTRICT" length="50">
+                <comment>区</comment>
+            </column>
+        </property>
+        <property name="city" type="string">
+            <column name="CITY" length="50">
+                <comment>城市</comment>
+            </column>
+        </property>
+        <property name="state" type="string">
+            <column name="STATE" length="50">
+                <comment>省份</comment>
+            </column>
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="50">
+                <comment>国家</comment>
+            </column>
+        </property>
+        <property name="securityQuestion" type="string">
+            <column name="SECURITY_QUESTION" length="100">
+                <comment>安全问题</comment>
+            </column>
+        </property>
+        <property name="answer" type="string">
+            <column name="ANSWER" length="100">
+                <comment>答案</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

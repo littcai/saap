@@ -1,0 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.littcore.com/core" prefix="li" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>

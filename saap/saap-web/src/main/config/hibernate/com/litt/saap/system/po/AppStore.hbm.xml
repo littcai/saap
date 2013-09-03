@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-8-29 17:55:22 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.AppStore" dynamic-insert="true" dynamic-update="true" table="app_store">
+        <comment>应用商店</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="uuid" type="string">
+            <column name="UUID" length="36" not-null="true">
+                <comment>组件标识（全局唯一）</comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="50" not-null="true">
+                <comment>名称</comment>
+            </column>
+        </property>
+        <property name="type" type="int">
+            <column name="TYPE" not-null="true">
+                <comment>类型(3001) 1：个人 2：企业 3：通用</comment>
+            </column>
+        </property>
+        <property name="authType" type="int">
+            <column name="AUTH_TYPE" not-null="true">
+                <comment>授权类型(3002) 1：免费 2：收费</comment>
+            </column>
+        </property>
+        <property name="authAddress" type="string">
+            <column name="AUTH_ADDRESS" length="100">
+                <comment>认证地址</comment>
+            </column>
+        </property>
+        <property name="accessType" type="int">
+            <column name="ACCESS_TYPE" not-null="true">
+                <comment>接入类型(3003) 1：接入型 2：介绍型</comment>
+            </column>
+        </property>
+        <property name="accessAddress" type="string">
+            <column name="ACCESS_ADDRESS" length="100">
+                <comment>接入地址</comment>
+            </column>
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="65535">
+                <comment>详细描述</comment>
+            </column>
+        </property>
+        <property name="iconUrl" type="string">
+            <column name="ICON_URL" length="200">
+                <comment>组件图标地址</comment>
+            </column>
+        </property>
+        <property name="certCode" type="string">
+            <column name="CERT_CODE" length="100" not-null="true">
+                <comment>安全编码(数字签名)</comment>
+            </column>
+        </property>
+        <property name="isChecked" type="boolean">
+            <column name="IS_CHECKED" not-null="true">
+                <comment>是否审核通过</comment>
+            </column>
+        </property>
+        <property name="status" type="int">
+            <column name="STATUS" not-null="true">
+                <comment>状态(3004) 0：未上线 1：正常 2：删除 3：锁定</comment>
+            </column>
+        </property>
+        <property name="position" type="int">
+            <column name="POSITION" not-null="true">
+                <comment>排行</comment>
+            </column>
+        </property>
+        <property name="revision" type="string">
+            <column name="REVISION" length="10" not-null="true">
+                <comment>版本号</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <property name="onlineDatetime" type="timestamp">
+            <column name="ONLINE_DATETIME" length="19">
+                <comment>上线时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

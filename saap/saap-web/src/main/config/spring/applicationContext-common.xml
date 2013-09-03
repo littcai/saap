@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 		http://www.springframework.org/schema/context 
+ 		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:init.properties</value>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- i18n -->
+	<bean id="messageSource" 
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" abstract="false">	 	
+	 	<property name="useCodeAsDefaultMessage" value="true" /> 
+	 	<property name="basenames">
+	 		<list>
+	 			<value>WEB-INF/messages/common</value>
+	 			<value>WEB-INF/messages/exceptions</value>
+	 			<value>WEB-INF/messages/menu</value>
+	 			<value>WEB-INF/messages/module</value>
+	 			<value>WEB-INF/messages/dictparam</value>
+	 			<value>WEB-INF/messages/system</value>
+	 			<value>WEB-INF/messages/assistant</value>
+	 			<value>WEB-INF/messages/personal</value>
+	 			<value>WEB-INF/messages/report</value>
+	 		</list>
+	 	</property>
+	</bean>	
+	
+	<!-- Used for dev
+	<bean id="messageSource" 
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" abstract="false">
+	 	<property name="basename" value="messages" />
+	 	<property name="cacheSeconds" value="10" />
+	 	<property name="useCodeAsDefaultMessage" value="true" /> 
+	</bean>	
+	 -->
+	<!-- c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}"/>	
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+				
+		<!--<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+		<property name="user" value="orcl"/>
+		<property name="password" value="000000"/>-->
+		
+		<!-- c3p0's properties-->
+		<property name="initialPoolSize"><value>${jdbc.pool.c3p0.initial_pool_size}</value></property>
+		<property name="minPoolSize"><value>${jdbc.pool.c3p0.min_pool_size}</value></property>
+        <property name="maxPoolSize"><value>${jdbc.pool.c3p0.max_pool_size}</value></property>
+        <property name="maxIdleTime"><value>${jdbc.pool.c3p0.max_idle_time}</value></property>
+        <property name="acquireIncrement"><value>${jdbc.pool.c3p0.acquire_increment}</value></property>
+        <property name="acquireRetryAttempts"><value>${jdbc.pool.c3p0.acquire_retry_attempts}</value></property>   
+        <property name="maxStatements"><value>${jdbc.pool.c3p0.max_statements}</value></property>
+       <!--  <property name="maxStatementsPerConnection"><value>${jdbc.pool.c3p0.maxStatementsPerConnection}</value></property> --> 
+        <property name="idleConnectionTestPeriod"><value>18000</value></property>        
+        <property name="breakAfterAcquireFailure"><value>false</value></property>
+        <property name="testConnectionOnCheckout"><value>true</value></property>
+	</bean>		
+	
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Oracle9i use this conf
+	<bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor"/>
+
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+	     <property name="nativeJdbcExtractor">
+	         <ref bean="nativeJdbcExtractor"/>
+	     </property>
+	</bean>	
+	 -->
+	<!-- MySQL、DB2、MS SQL Server、Oracle 10g use this conf -->
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="hibernateProperties">
+			<props>
+				 <prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop> 
+				<prop key="hibernate.show_sql">
+					${hibernate.show_sql}
+				</prop>
+				<prop key="hibernate.use_sql_comments">
+					${hibernate.use_sql_comments}
+				</prop>
+				<prop key="hibernate.format_sql">
+					${hibernate.format_sql}
+				</prop>
+				<prop key="hibernate.jdbc.batch_size">
+					${hibernate.jdbc.batch_size}
+				</prop>	
+				<prop key="hibernate.cache.provider_class">
+					${hibernate.cache.provider_class}
+				</prop>
+				<prop key="hibernate.cache.use_query_cache">
+					${hibernate.cache.use_query_cache}
+				</prop>	
+				<prop key="hibernate.cache.use_second_level_cache">
+					${hibernate.cache.use_second_level_cache}
+				</prop>			
+			</props>
+		</property>
+		<property name="lobHandler">
+		  <ref local="lobHandler" />
+		</property>	
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>			
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:hibernate/**/*.hbm.xml</value>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref local="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">
+					PROPAGATION_REQUIRED,-CheckedBusiException
+				</prop>
+				<prop key="update*">
+					PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-CheckedBusiException
+				</prop>
+				<prop key="delete*">
+					PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-CheckedBusiException
+				</prop>
+				<prop key="check*">
+					PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-CheckedBusiException
+				</prop>
+				<prop key="do*">
+					PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-CheckedBusiException
+				</prop>
+				<prop key="load*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="list*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="count*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+ 
+	<bean id="ServiceAutoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="proxyTargetClass" value="false"></property>
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+			<!-- 
+				<value>cachingInterceptor</value>
+				<value>flushingInterceptor</value>  -->
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>	
+	 
+	<!-- Base class of hibernate DAO -->
+	<bean id="hibernateDao" class="com.litt.core.dao.BaseHibernateDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/> 
+	</bean>
+	
+	<!-- Base class of jdbc DAO -->
+	<bean id="jdbcDao" class="com.litt.core.dao.BaseJdbcDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>  
+	</bean>
+	
+	<bean id="baseDao" class="com.litt.core.dao.GenericHibernateDao" abstract="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="baseService" class="com.litt.core.service.BaseService">
+		<property name="hibernateDao" ref="hibernateDao"/>
+		<property name="jdbcDao" ref="jdbcDao"/>  
+	</bean>
+	
+	<!-- EventBus -->
+	<bean id="eventBus" class="com.litt.core.eventbus.SpringEventBus"></bean>
+	
+	<bean id="eventBusRegistration" class="com.litt.core.eventbus.EventBusRegisterBeanPostProcessor">
+		<property name="eventBus" ref="eventBus"/>
+	</bean>
+	
+	<!-- Database migration -->
+	<!-- 
+	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+      <property ref="dataSource" name="dataSource"></property>
+      <property name="changeLog" value="classpath:changelog.xml"></property>
+      <property name="contexts" value="test, production"></property>
+      <property name="changeLogParameters">
+      	<map>
+      		<entry key="system.version" value="${system.version}" />
+      	</map>
+      </property>
+  	</bean>   
+	 -->
+</beans>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systemConfig>
+	<baseInfo>
+		<code>SYS-SAAS-0001</code>
+		<name>SaaS平台</name>		
+		<companyName>LITTCORE</companyName>
+		<copyright></copyright>
+		<version>0.1.0</version>
+		<lastUpdateDatetime>2013-09-01 00:00:00</lastUpdateDatetime>
+	</baseInfo>
+	<smtpServer>
+		<host></host>
+		<port></port>
+	</smtpServer>
+	<globalization>
+		<dateFormat>yyyy-MM-dd hh:mm:ss</dateFormat>
+		<currencyFormat>#####.###</currencyFormat>
+	</globalization>
+</systemConfig>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-9-2 15:38:08 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.UserInfo" dynamic-insert="true" dynamic-update="true" table="user_info">
+        <comment>用户信息表</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="loginId" type="string">
+            <column name="LOGIN_ID" length="50" not-null="true">
+                <comment>登录ID</comment>
+            </column>
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="50" not-null="true">
+                <comment>密码</comment>
+            </column>
+        </property>
+        <property name="userType" type="int">
+            <column name="USER_TYPE" not-null="true">
+                <comment>用户类型</comment>
+            </column>
+        </property>
+        <property name="userName" type="string">
+            <column name="USER_NAME" length="50" not-null="true">
+                <comment>用户名</comment>
+            </column>
+        </property>
+        <property name="nickName" type="string">
+            <column name="NICK_NAME" length="100" not-null="true">
+                <comment>昵称</comment>
+            </column>
+        </property>
+        <property name="gender" type="int">
+            <column name="GENDER" not-null="true">
+                <comment>性别 0:Unknown 1:Male 2:Female</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="50">
+                <comment>电子邮件</comment>
+            </column>
+        </property>
+        <property name="mobile" type="string">
+            <column name="MOBILE" length="20">
+                <comment>手机号</comment>
+            </column>
+        </property>
+        <property name="status" type="int">
+            <column name="STATUS" not-null="true">
+                <comment>状态(1001) 0：未审核 1：正常 2：注销 3：删除 4：锁定</comment>
+            </column>
+        </property>
+        <property name="locale" type="string">
+            <column name="LOCALE" length="20" not-null="true">
+                <comment>语言</comment>
+            </column>
+        </property>
+        <property name="timezone" type="int">
+            <column name="TIMEZONE" not-null="true">
+                <comment>时区</comment>
+            </column>
+        </property>
+        <property name="theme" type="string">
+            <column name="THEME" length="20" not-null="true">
+                <comment>主题</comment>
+            </column>
+        </property>
+        <property name="headImgUrl" type="string">
+            <column name="HEAD_IMG_URL" length="200">
+                <comment>头像地址</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

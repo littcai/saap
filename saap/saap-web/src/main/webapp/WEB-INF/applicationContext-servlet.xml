@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 		http://www.springframework.org/schema/context 
+ 		http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<context:component-scan base-package="com.litt.saap.common.web" />	
+	<context:component-scan base-package="com.litt.saap.system.web" />
+	<context:component-scan base-package="com.litt.saap.assistant.web" />
+	<context:component-scan base-package="com.litt.saap.personal.web" />
+	
+	<!-- 默认的注解映射的支持 -->  
+   	<!-- <mvc:annotation-driven />  -->  
+   	<!-- 默认映射处理器，基于注解 -->
+   	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+   	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" >
+		<property name="interceptors">
+			<list>
+				<ref bean="localeChangeInterceptor" />	
+				<ref bean="themeChangeInterceptor" />				
+			</list>
+		</property>	
+	</bean>   	
+   	
+	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
+	<!-- 
+	<mvc:default-servlet-handler/>
+	 -->	
+	<!-- 对静态资源文件的访问  方案二 （二选一）-->  
+	<!--  -->
+	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>  
+	<mvc:resources mapping="/scripts/**" location="/scripts/" cache-period="31556926"/> 
+	<mvc:resources mapping="/widgets/**" location="/widgets/" cache-period="31556926"/>  
+	<mvc:resources mapping="/theme/**" location="/theme/" cache-period="31556926"/>  
+	
+	<!-- 定义无需Controller的url<->view直接映射 -->
+	<!-- 
+	<mvc:view-controller path="/" view-name="index"/>
+	 -->
+		
+	<!-- 
+		Operate log + Permission check(SpringMVC interceptor)
+		Notice: operatorHttpSessionContextIntegrationFilter must be added, so that this interceptor can get login operator's info
+		
+	 -->
+	<bean id="funcInterceptor"
+		class="com.litt.core.module.interceptor.FuncInterceptor" depends-on="dataSource" init-method="init" destroy-method="destroy">
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+		
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
+	
+	<!-- 基于cookie的本地化 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="_saap_clientlanguage"/>
+     	<property name="cookieMaxAge" value="94608000"/>
+		<property name="defaultLocale" value="en_US"></property>	
+	</bean>
+	
+	<!-- KEY: SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME  -->
+	<!-- 
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en_US"></property>	
+	</bean>   
+	-->
+
+	<!-- 主题 -->
+	<bean id="themeSource"
+		class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+		<property name="basenamePrefix" value="theme/theme-"></property>
+	</bean>  
+
+	<bean id="themeResolver"
+		class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="cookieName" value="_saap_clienttheme"/>
+        <property name="cookieMaxAge" value="94608000"/>
+		<property name="defaultThemeName" value="bootstrap" /> 
+	</bean>	  
+	 
+	<bean id="themeChangeInterceptor" class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />  
+
+	<!-- 基于类名约定及包名约定的映射处理器 -->
+	<bean id="handlerMapping"
+		class="com.litt.core.web.mvc.support.ControllerClassPackageNameHandlerMapping">
+		<property name="caseSensitive" value="true"></property>
+		<property name="interceptors">
+			<list>
+				<ref bean="funcInterceptor"/>				
+				<ref bean="localeChangeInterceptor" />	
+				<ref bean="themeChangeInterceptor" />				
+			</list>
+		</property>		
+	</bean>
+			
+	<!-- ftl参数配置 -->
+	<bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:freemarker.properties"/>
+	</bean>		
+			
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">	
+		<property name="templateLoaderPath" value="/WEB-INF/templates/"/> 
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+	</bean>
+	
+	<!-- freemarker视图 -->
+	<bean id="freemarkerResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="1" />
+		<property name="cache" value="false" />
+		<property name="prefix" value="" />
+		<property name="suffix" value="" />
+		<property name="exposeSpringMacroHelpers" value="true"/>  
+        <property name="exposeRequestAttributes" value="true"/>  
+        <property name="exposeSessionAttributes" value="true"/>  
+        <!--  把contextPath暴露给freemaker，前端可以通过${request.getContextPath()} 来获取上下文路径  -->
+		<property name="requestContextAttribute" value="request"/>
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.freemarker.FreeMarkerView</value>
+		</property>		
+		<property name="viewNames" value="*.ftl"/>		
+	</bean>	
+
+	<!-- 根据客户端的不同的请求决定不同的view进行响应, 如 /blog/1.json /blog/1.xml -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="0" />
+		<!-- 设置为true以忽略对Accept Header的支持-->
+		<property name="ignoreAcceptHeader" value="true" />
+		<!-- 在没有扩展名时即: "/user/1" 时的默认展现形式 -->
+		<property name="defaultContentType" value="text/html" />
+		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
+		<property name="mediaTypes">
+			<map>
+				<entry key="do" value="text/html" />
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+				<entry key="xls" value="application/x-msexcel" />
+				<entry key="pdf" value="application/pdf" />
+				<entry key="atom" value="application/atom+xml" />
+			</map>
+		</property>
+		<!-- 用于开启 /userinfo/123?format=json 的支持 -->
+		<property name="favorParameter" value="false" />
+		<property name="viewResolvers">
+			<list>
+			<!-- 
+				基于扩展名的view匹配
+				<bean
+					class="com.litt.core.web.ExtensionAwareBeanNameViewResolver" p:extension="json" />	
+			 -->			 	
+				<bean
+					class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.JstlView" />
+					<property name="prefix" value="" />
+					<property name="suffix" value=".jsp"></property>
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- for application/json -->	
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+				<!-- for application/xml 			
+					<bean class="org.springframework.web.servlet.view.xml.MarshallingView" >
+					<property name="marshaller">
+					<bean class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+					</property>
+					</bean>
+				-->
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="customView-json" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+
+	<!-- 异常处理 -->
+	<!-- 
+	<bean id="simpleMappingExceptionResolver"
+		class="com.litt.core.web.handler.SuffixMappingExceptionResolver">
+		<property name="defaultStatusCode" value="500"/>
+		<property name="suffixMappings">
+			<props>
+				<prop key="json">customView-json</prop>		
+			</props>
+		</property>		
+		<property name="statusCodes">
+			<props>
+				<prop key="customView-json">300</prop>		
+			</props>
+		</property>		
+	</bean>
+	 -->
+
+
+</beans>

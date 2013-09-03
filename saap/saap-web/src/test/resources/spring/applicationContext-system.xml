@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 		http://www.springframework.org/schema/context 
+ 		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
+	
+	<!-- 系统信息及参数 -->
+	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
+		
+	<!-- 用户 -->	
+	<bean id="userInfoDao" class="com.litt.saap.system.dao.UserInfoDao" parent="baseDao"/>	
+	<bean id="userExtDao" class="com.litt.saap.system.dao.UserExtDao" parent="baseDao"/>	
+	<bean id="userStateDao" class="com.litt.saap.system.dao.UserStateDao" parent="baseDao"/>	
+	
+	<bean id="userService" class="com.litt.saap.system.service.impl.UserInfoServiceImpl"/>	
+	
+	<!-- 用户组 -->
+	<bean id="userGroupDao" class="com.litt.saap.system.dao.UserGroupDao" parent="baseDao"/>
+	<bean id="userGroupMemberDao" class="com.litt.saap.system.dao.UserGroupMemberDao" parent="baseDao"/>	
+		
+	<bean id="userGroupService" class="com.litt.saap.system.service.impl.UserGroupServiceImpl"/>
+	
+	
+	
+</beans>

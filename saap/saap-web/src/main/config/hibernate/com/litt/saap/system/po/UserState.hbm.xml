@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-9-2 13:10:00 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.UserState" dynamic-insert="true" dynamic-update="true" table="user_state">
+        <comment>用户状态信息表</comment>
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="totalLoginTimes" type="int">
+            <column name="TOTAL_LOGIN_TIMES" not-null="true">
+                <comment>总登录次数</comment>
+            </column>
+        </property>
+        <property name="loginRetryTimes" type="int">
+            <column name="LOGIN_RETRY_TIMES" not-null="true">
+                <comment>登录重试次数</comment>
+            </column>
+        </property>
+        <property name="lastLoginDatetime" type="timestamp">
+            <column name="LAST_LOGIN_DATETIME" length="19" not-null="true">
+                <comment>上次登录时间</comment>
+            </column>
+        </property>
+        <property name="lastLoginIp" type="string">
+            <column name="LAST_LOGIN_IP" length="20" not-null="true">
+                <comment>上次登录IP</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
