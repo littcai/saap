@@ -9,5 +9,19 @@
  		http://www.springframework.org/schema/context 
  		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
 	
+	<!-- Todo -->	
+	<bean id="todoDao" class="com.litt.saap.personal.dao.TodoDao" parent="baseDao"/>		
+	
+	<bean id="todoService" class="com.litt.saap.personal.service.impl.TodoServiceImpl" parent="baseService"/>	
+	
+	<!-- Calendar -->	
+	<bean id="calendarDao" class="com.litt.saap.personal.dao.CalendarDao" parent="baseDao"/>		
+	
+	<bean id="calendarService" class="com.litt.saap.personal.service.impl.CalendarServiceImpl"/>	
+	
+	<!-- Contacts -->	
+	<bean id="contactsDao" class="com.litt.saap.personal.dao.ContactsDao" parent="baseDao"/>		
+	
+	<bean id="contactsService" class="com.litt.saap.personal.service.impl.ContactsServiceImpl" parent="baseService"/>	
 	
 </beans>

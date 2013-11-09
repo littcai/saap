@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.LocaleUtils;
+import org.springframework.beans.propertyeditors.LocaleEditor;
 import org.springframework.ui.context.Theme;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -15,10 +16,15 @@ import org.springframework.web.servlet.theme.SessionThemeResolver;
 
 import com.litt.core.common.BeanManager;
 import com.litt.core.common.CoreConstants;
+import com.litt.core.exception.BusiException;
+import com.litt.core.exception.ErrorCode;
 import com.litt.core.exception.NotLoginException;
+import com.litt.core.shield.security.SecurityContext;
+import com.litt.core.shield.security.SecurityContextHolder;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.util.CookieUtils;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.common.SaapConstants;
 
 /** 
@@ -97,6 +103,17 @@ public class LoginUtils
 	}
 	
 	/**
+	 * 是否自动登录.
+	 *
+	 * @param request the request
+	 * @return true, if is auto login
+	 */
+	public static boolean isAutoLogin(HttpServletRequest request)
+	{
+		return ValidateUtils.isEmpty(CookieUtils.getCookieValue(request, SaapConstants.COOKIE_USER_TOKEN));
+	}
+	
+	/**
 	 * Gets the auto login token.
 	 *
 	 * @param request the request
@@ -155,6 +172,7 @@ public class LoginUtils
 	
 	/**
 	 * Gets the locale.
+	 * 如果没有Locale，则取浏览器的Locale
 	 *
 	 * @param request the request
 	 * @return the locale
@@ -186,10 +204,29 @@ public class LoginUtils
 	 * @param locale
 	 * @param request
 	 */
-	public static void changeLocale(String lang, HttpServletRequest request) {
+	public static void changeLocale(String lang, HttpServletRequest request, HttpServletResponse response) {
 		
-		Locale locale = getLocale(lang);
-		request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
+		LocaleEditor localeEditor = new LocaleEditor();  
+		localeEditor.setAsText(lang);
+		Locale locale = (Locale)localeEditor.getValue();
+		
+		changeLocale(locale, request, response); 	
+		
+		//Locale locale = getLocale(lang);
+		//request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @param locale
+	 */
+	public static void changeLocale(Locale locale, HttpServletRequest request, HttpServletResponse response) {
+		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);  
+		if (localeResolver == null) {  
+			throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");  
+		} 		
+		localeResolver.setLocale(request, response, locale);
 	}
 	
 	/**
@@ -203,4 +240,126 @@ public class LoginUtils
 		
 		request.getSession().setAttribute(SessionThemeResolver.THEME_SESSION_ATTRIBUTE_NAME, theme);
 	}
+	
+	/**
+	 * Adds the flush attribute.
+	 *
+	 * @param session the session
+	 */
+	public static void addFlushAttribute(HttpSession session, String key, Object value)
+	{
+		session.setAttribute(key, value);
+	}
+	
+	/**
+	 * Gets the flush attribute.
+	 *
+	 * @param session the session
+	 * @param key the key
+	 * @return the flush attribute
+	 */
+	public static Object getFlushAttribute(HttpSession session, String key)
+	{
+		Object value = session.getAttribute(key);
+		session.removeAttribute(key);
+		return value;
+	}
+	
+	/**
+	 * 获取登录操作员信息.
+	 * 
+	 * 需配置实现SecurityContext
+	 * 
+	 * @return ILoginVo 登录对象
+	 * 
+	 * @throws NotLoginException 未登录则抛出此异常
+	 */
+	public static ILoginVo getLoginVo() throws NotLoginException
+	{
+		SecurityContext context = SecurityContextHolder.getContext();
+		if(context!=null)
+			return context.getLoginVo();
+		else 
+			throw new NotLoginException("用户尚未登录或登录已超时！");
+	}
+	
+	/**
+	 * 获得登录操作员ID.
+	 * 需配置实现SecurityContext
+	 * 
+	 * @return 操作员ID
+	 * 
+	 * @throws NotLoginException 未登录则抛出此异常
+	 */
+	public static Long getLoginOpId() throws NotLoginException
+	{
+		ILoginVo loginVo = getLoginVo();
+		if(loginVo!=null)
+			return loginVo.getOpId();
+		else
+			return null;
+	}
+	
+	/**
+	 * 获得登录操作员登录ID.
+	 * 需配置实现SecurityContext
+	 * 
+	 * @return 操作员登录ID
+	 * 
+	 * @throws NotLoginException 未登录则抛出此异常
+	 */
+	public static String getLoginId() throws NotLoginException
+	{
+		ILoginVo loginVo = getLoginVo();
+		if(loginVo!=null)
+			return loginVo.getLoginId();
+		else
+			return null;
+	}
+	
+	/**
+	 * 获得登录操作员登录IP.
+	 * 需配置实现SecurityContext
+	 * 
+	 * @return 登录客户端IP
+	 * 
+	 * @throws NotLoginException 未登录则抛出此异常
+	 */
+	public static String getLoginIp() throws NotLoginException
+	{
+		ILoginVo loginVo = getLoginVo();
+		if(loginVo!=null)
+			return loginVo.getLoginIp();
+		else
+			return null;
+	}
+	
+	/**
+	 * 
+	 * @return 租户ID
+	 * 
+	 * @throws NotLoginException 未登录则抛出此异常
+	 */
+	public static int getTenantId() throws NotLoginException
+	{
+		LoginUserVo loginUser = (LoginUserVo)getLoginVo();
+		if(loginUser!=null)		
+			return loginUser.getTenantId();
+		else 
+			return -1;
+	}
+	
+	/**
+	 * @param tenantId
+	 * @throws NotLoginException
+	 */
+	public static void validateTenant(int tenantId) throws NotLoginException {
+		ILoginVo loginVo = LoginUtils.getLoginVo();
+		int loginTenantId = LoginUtils.getTenantId();
+		if(loginTenantId!=tenantId)
+		{
+			throw new BusiException(new ErrorCode("error.biz.unauthorized", loginVo.toLocale()));
+		}
+	}
+	
 }

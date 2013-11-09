@@ -1,5 +1,6 @@
 package com.litt.saap.system.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.litt.core.version.Version;
@@ -19,7 +20,7 @@ import com.litt.core.version.Version;
  * @since 2013-9-2
  * @version 1.0
  */
-public class SystemInfoVo {
+public class SystemInfoVo implements Serializable {
 	
 	/** The system code. */
 	private String systemCode;

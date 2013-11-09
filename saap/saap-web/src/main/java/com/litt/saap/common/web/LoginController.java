@@ -1,29 +1,36 @@
 package com.litt.saap.common.web;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.propertyeditors.LocaleEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.context.Theme;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ThemeResolver;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.litt.core.common.BeanManager;
 import com.litt.core.exception.BusiException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.servlet.LoginCaptchaServlet;
+import com.litt.core.web.util.WebUtils;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.system.biz.IUserBizService;
+import com.litt.saap.system.po.ForgetPassword;
+import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IUserInfoService;
+import com.litt.saap.system.vo.MenuTreeNodeVo;
 
 /** 
  * 
@@ -48,6 +55,15 @@ public class LoginController {
 	@Resource
 	private IUserInfoService userInfoService;
 	
+	@Resource
+	private IUserBizService userBizService;
+	
+	@Resource
+	private IMenuService menuService;	
+	
+	@Resource
+	private MessageSource messageSource;
+	
 	/**
 	 * The theme resolver.
 	 */
@@ -55,16 +71,25 @@ public class LoginController {
     private ThemeResolver themeResolver; 	
 	
 	@RequestMapping(value="index.do")
-	public ModelAndView index(HttpServletRequest request,HttpServletResponse response)
+	public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
 	{
 		if(LoginUtils.isUserLogin(request))
 		{
 			return new ModelAndView("redirect:/main.do");
 		}
 		else{
-			Locale locale = LoginUtils.getLocale(request);
+			String timeout = null;
+			if(request.getSession().getAttribute("timeout")!=null)
+			{
+				Locale locale = LoginUtils.getLocale(request);
+				timeout = messageSource.getMessage("login.error.timeout", null, locale);
+				request.getSession().removeAttribute("timeout");
+			}
+			
+			Locale locale = LoginUtils.getLocale(request);				
+			LoginUtils.changeLocale(locale, request, response);
 			Theme theme = LoginUtils.getTheme(request);
-			return new ModelAndView("/theme/"+theme.getName()+"/login").addObject("locale", locale);
+			return new ModelAndView("/theme/"+theme.getName()+"/login").addObject("locale", locale).addObject("timeout", timeout);
 		}
 	}
 
@@ -89,7 +114,7 @@ public class LoginController {
 		boolean isValid = LoginCaptchaServlet.validateCaptcha(request);	//验证操作员登录认证码
 		if(!isValid)
 		{
-			throw new BusiException(BeanManager.getMessage("login.error.captcha", LoginUtils.getLocale(locale)));
+			throw new BusiException(BeanManager.getMessage("error.login.captcha", LoginUtils.getLocale(request)));			
 		}
 		return this.loginDirect(loginId, password, isAutoLogin, locale, request, response);
 	}
@@ -111,16 +136,17 @@ public class LoginController {
 			, @RequestParam(required=false) boolean isAutoLogin, @RequestParam(required=false) String locale,
 			HttpServletRequest request, HttpServletResponse response) throws Exception
 	{			
-		LoginUtils.changeLocale(locale, request);
+		if(!ValidateUtils.isEmpty(locale))
+			LoginUtils.changeLocale(locale, request, response);
 		
 		//从请求中获取查询条件
-		String loginIp = request.getRemoteAddr();		
-		ILoginVo loginVo = userInfoService.doLogin(loginId, password, loginIp, isAutoLogin, LoginUtils.getLocale(locale));		
+		String loginIp =  WebUtils.getRemoteIp(request);		
+		ILoginVo loginVo = userBizService.doLogin(loginId, password, loginIp, isAutoLogin, LoginUtils.getLocale(request));		
 		HttpSession session = request.getSession();
 		LoginUtils.setLoginSession(session, loginVo);
 		if(isAutoLogin)
 		{		
-			//LoginUtils.setAutoLoginCookie(response, loginVo, loginVo.getAutoLoginToken());	//设置自动登录
+			LoginUtils.setAutoLoginCookie(response, loginVo, loginVo.getAutoLoginToken());	//设置自动登录
 		}		
 		return new ModelAndView("jsonView");
 	}	
@@ -156,6 +182,125 @@ public class LoginController {
 	}
 	
 	/**
+	 * 用户注册.
+	 *
+	 * @param loginId 用户名
+	 * @param password 密码
+	 * @param email the email
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="register.json")
+	public ModelAndView register(@RequestParam String loginId, @RequestParam String password, @RequestParam String email
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);		
+		TimeZone timeZone = TimeZone.getDefault();
+		Theme theme = LoginUtils.getTheme(request);
+		//从请求中获取查询条件	
+		userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);		
+		
+		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * Forget password.
+	 *
+	 * @param email the email
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="forgetPassword.json")
+	public ModelAndView forgetPassword(@RequestParam String email
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+		//从请求中获取查询条件	
+		userInfoService.doForgetPassword(email, loginIp, locale);
+		
+		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * 重置密码.
+	 *
+	 * @param id 找回密码ID
+	 * @param password 新密码
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="resetPassword.do")
+	public ModelAndView toResetPassword(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String token = request.getParameter("token");
+		Theme theme = LoginUtils.getTheme(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+		ForgetPassword forgetPassword = userInfoService.loadForgetPassword(token, locale);			
+		UserInfo userInfo = userInfoService.load(forgetPassword.getUserId());
+		
+		return new ModelAndView("/theme/"+theme.getName()+"/resetPassword").addObject("token", token).addObject("userInfo", userInfo);
+	}
+	
+	/**
+	 * 重置密码.
+	 *
+	 * @param id 找回密码ID
+	 * @param password 新密码
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="resetPassword.json")
+	public ModelAndView resetPassword(@RequestParam String id, @RequestParam String password
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+		//从请求中获取查询条件	
+		userInfoService.doResetPassword(id, password, loginIp, locale);
+		
+		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * 获得登录用户的授权菜单.
+	 *
+	 * @param id 找回密码ID
+	 * @param password 新密码
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="getMenuTree.json")
+	public ModelAndView getMenuTree(HttpServletRequest request) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		ILoginVo loginVo = LoginUtils.getLoginVo();
+		
+		Locale locale = LoginUtils.getLocale(request);
+		
+		MenuTreeNodeVo menuTree = menuService.findTreeByOpPermission((LoginUserVo)loginVo);
+		
+		return new ModelAndView("jsonView").addObject("menuTree", menuTree);
+	}
+	
+	
+	/**
 	 * Change locale.
 	 *
 	 * @param locale the locale
@@ -166,16 +311,8 @@ public class LoginController {
 	@RequestMapping
 	public void changeLocale(@RequestParam(required=false) String locale,
 			HttpServletRequest request, HttpServletResponse response) throws Exception
-	{			
-		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);  
-		if (localeResolver == null) {  
-			throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");  
-		} 
-		LocaleEditor localeEditor = new LocaleEditor();  
-		localeEditor.setAsText(locale);
-		localeResolver.setLocale(request, response, (Locale)localeEditor.getValue()); 	
-		
-		LoginUtils.changeLocale(locale, request);
+	{					
+		LoginUtils.changeLocale(locale, request, response);
 	}
 	
 	

@@ -11,9 +11,14 @@
 	<smtpServer>
 		<host></host>
 		<port></port>
+		<username></username>
+		<password></password>
 	</smtpServer>
 	<globalization>
 		<dateFormat>yyyy-MM-dd hh:mm:ss</dateFormat>
 		<currencyFormat>#####.###</currencyFormat>
 	</globalization>
+	<security>
+		<cookieEncryptKey>saap</cookieEncryptKey>	<!-- 用于cookie加密，在SaaS环境下可将tenant信息加到key中实现安全隔离 -->
+	</security>
 </systemConfig>

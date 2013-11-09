@@ -61,3 +61,36 @@ jQuery.validator.addMethod("isZipCode", function(value, element) {
 	var tel = /^[0-9]{6}$/;
 	return this.optional(element) || (tel.test(value));
 }, "Please enter a valid Zip Code.");
+
+
+function setValidatorDefaults(appendElementType)
+{
+	/*
+	 * bootstrap popover样式
+	 * 注：popover且focus方式不适用于checkbox，radio之类的控件
+	 */
+	jQuery.validator.setDefaults({
+		
+		showErrors: function(errorMap, errorList) {
+			  
+			  $.each( this.successList , function(index, value) {
+				  $(value).popover('hide');
+			  });					  
+			
+			  $.each( errorList , function(index, value) { 						  
+				   var _popover = $(value.element).popover({
+						trigger: 'manual',
+						placement: 'top',
+						content: value.message,
+						template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
+					});
+			
+				   _popover.data('popover').options.content = value.message;
+				   
+				   $(value.element).popover('show');	
+
+			  });
+		}		  
+		
+	});
+}

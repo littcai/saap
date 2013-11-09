@@ -9,6 +9,11 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
         <property name="groupId" type="int">
             <column name="GROUP_ID" not-null="true">
                 <comment>用户组ID</comment>

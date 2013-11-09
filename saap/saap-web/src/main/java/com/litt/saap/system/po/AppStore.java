@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 表名：app_store<br>
  * @author Hibernate Tools 3.2.4.GA
  * @version 1.0
- * @since 2013-8-29 17:55:22
+ * @since 2013-10-17 13:19:47
  */
 public class AppStore implements Serializable {
 	/**

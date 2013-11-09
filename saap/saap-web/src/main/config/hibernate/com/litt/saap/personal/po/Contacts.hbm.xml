@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-9-18 11:02:37 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.personal.po.Contacts" dynamic-insert="true" dynamic-update="true" table="contacts">
+        <comment>联系人</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="200" not-null="true">
+                <comment>名称</comment>
+            </column>
+        </property>
+        <property name="gender" type="byte">
+            <column name="GENDER" not-null="true">
+                <comment>性别 0:unknown 1:male 2:female</comment>
+            </column>
+        </property>
+        <property name="mobile" type="string">
+            <column name="MOBILE" length="50" not-null="true">
+                <comment>手机号</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="100" not-null="true">
+                <comment>电子邮件</comment>
+            </column>
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="50" not-null="true">
+                <comment>联系电话</comment>
+            </column>
+        </property>
+        <property name="fax" type="string">
+            <column name="FAX" length="50" not-null="true">
+                <comment>传真号</comment>
+            </column>
+        </property>
+        <property name="address" type="string">
+            <column name="ADDRESS" length="200" not-null="true">
+                <comment>地址</comment>
+            </column>
+        </property>
+        <property name="zipCode" type="string">
+            <column name="ZIP_CODE" length="20" not-null="true">
+                <comment>邮编</comment>
+            </column>
+        </property>
+        <property name="createUserId" type="int">
+            <column name="CREATE_USER_ID" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="REMARK" length="200">
+                <comment>备注</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

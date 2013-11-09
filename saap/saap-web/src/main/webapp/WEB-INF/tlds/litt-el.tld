@@ -68,6 +68,13 @@
   <example>${li:formatLongIp(3232235521L)}</example>
  </function>
  <function>
+  <description>输出HTML安全的文本</description>
+  <name>out</name>
+  <function-class>com.litt.core.web.tag.el.FormatEL</function-class>
+  <function-signature>java.lang.String out(java.lang.String)</function-signature>
+  <example>${li:out("HTML内容")}</example>
+ </function>
+ <function>
   <description>将字符串中的HTML标签转义为文本</description>
   <name>escapeHTML</name>
   <function-class>com.litt.core.web.tag.el.FormatEL</function-class>
@@ -76,10 +83,10 @@
  </function>
  <function>
   <description>按条件输出</description>
-  <name>out</name>
+  <name>switchOut</name>
   <function-class>com.litt.core.web.tag.el.FormatEL</function-class>
-  <function-signature>java.lang.String out(java.lang.Boolean, java.lang.String, java.lang.String)</function-signature>
-  <example>${li:out(flag, "为true时输出", "为false时输出")}</example>
+  <function-signature>java.lang.String switchOut(java.lang.Boolean, java.lang.String, java.lang.String)</function-signature>
+  <example>${li:switchOut(flag, "为true时输出", "为false时输出")}</example>
  </function> 
  <function>
   <description>处理单选框/复选框的选中状态</description>
@@ -102,35 +109,28 @@
   <function-signature>java.lang.String renderBoolean(java.lang.Boolean)</function-signature>
   <example>${li:renderBoolean(true)}</example>
  </function> 
- <!-- CIDP标签 -->
+ <!-- SAAP标签 -->
  <function>
   <description>处理参数字典值转内容</description>
   <name>genDictContent</name>
-  <function-class>com.litt.cidp.core.web.tag.el.DictEL</function-class>
+  <function-class>com.litt.saap.core.web.tag.el.DictEL</function-class>
   <function-signature>java.lang.String genDictContent(java.lang.String,java.lang.String)</function-signature>
   <example>${li:genDictContent("0001","1")}</example>
  </function> 
  <function>
-  <description>获得参数字典列表</description>
-  <name>getDictList</name>
-  <function-class>com.litt.cidp.core.web.tag.el.DictEL</function-class>
-  <function-signature>java.lang.String getDictList(java.lang.String)</function-signature>
-  <example>${li:getDictList("0001")}</example>
+  <description>获得用户菜单树</description>
+  <name>getMenuTree</name>
+  <function-class>com.litt.saap.core.web.tag.el.WebEL</function-class>
+  <function-signature>java.util.List getMenuTree(com.litt.saap.common.vo.LoginUserVo)</function-signature>
+  <example>${li:getMenuTree(loginUserVo)}</example>
  </function>  
  <function>
-  <description>获得操作员名称</description>
-  <name>getOpName</name>
-  <function-class>com.litt.cidp.core.web.tag.el.OperatorEL</function-class>
-  <function-signature>java.lang.String getOpName(java.lang.Long)</function-signature>
-  <example>${li:getOpName(1)}</example>
- </function>  
- <function>
-  <description>生成以操作员名称为显示的超链接</description>
-  <name>genOpInfoLink</name>
-  <function-class>com.litt.cidp.core.web.tag.el.OperatorEL</function-class>
-  <function-signature>java.lang.String genOpInfoLink(java.lang.String, java.lang.Long)</function-signature>
-  <example>${li:genOpInfoLink(contextPath, 1)}</example>
- </function>  
+  <description>获得用户域菜单树</description>
+  <name>getDomainMenuTree</name>
+  <function-class>com.litt.saap.core.web.tag.el.WebEL</function-class>
+  <function-signature>com.litt.saap.system.vo.MenuTreeNodeVo getDomainMenuTree(com.litt.saap.common.vo.LoginUserVo, java.lang.String)</function-signature>
+  <example>${li:getDomainMenuTree(loginUserVo, "01")}</example>
+ </function>
  <!-- 
  示例：<li:options collection="${roleList }" property="roleId" label="roleName" value="${roleId }" />
  
@@ -168,7 +168,7 @@
 <!-- 
 说明：该标签实现集合的选项遍历
 示例：
-<li:optionsCollection collection="${roleList }" var="role">	
+<li:optionsCollection collection="${roleList }" var="role" value="${currentRoleId}">	
 	<li:option property="${role.roleId }">${role.roleId } - ${role.roleName }</li:option>			
 </li:optionsCollection>
  -->   
@@ -222,7 +222,7 @@
   <tag>
     <description>参数字典下拉选项生成.</description>
     <name>dictOptions</name>
-    <tag-class>com.litt.cidp.core.web.tag.DictOptionsTag</tag-class>
+    <tag-class>com.litt.saap.core.web.tag.DictOptionsTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
         <description>参数类型</description>
@@ -241,7 +241,7 @@
   <tag>
     <description>功能项权限检查.</description>
     <name>p</name>
-    <tag-class>com.litt.cidp.core.web.tag.PermissionTag</tag-class>
+    <tag-class>com.litt.saap.core.web.tag.PermissionTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
         <description>permission Code</description>
@@ -256,7 +256,7 @@
     	基于模块编号和功能编号组成产生权限编号，传参更灵活
     </description>
     <name>p2</name>
-    <tag-class>com.litt.cidp.core.web.tag.Permission2Tag</tag-class>
+    <tag-class>com.litt.saap.core.web.tag.Permission2Tag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
         <description>module Code</description>
@@ -271,35 +271,5 @@
         <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>   
-<!-- 
-说明：该标签实现根据操作员ID或登陆ID取得操作员对象
-示例：
-<li:operator var="operator" opId="1">	
-	${operator.opCode } - ${operator.opName }	
-</li:operator>
- -->   
-  <tag>
-    <description>操作员信息获取.</description>
-    <name>operator</name>
-    <tag-class>com.litt.cidp.core.web.tag.OperatorTag</tag-class>
-    <body-content>jsp</body-content>    
-    <attribute>
-        <description>变量名称</description>
-        <name>var</name>
-        <required>true</required>
-        <rtexprvalue>false</rtexprvalue>
-    </attribute>   
-    <attribute>
-        <description>操作员ID</description>
-        <name>opId</name>
-        <required>false</required>
-        <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-        <description>操作员登录名</description>
-        <name>loginId</name>
-        <required>false</required>
-        <rtexprvalue>true</rtexprvalue>
-    </attribute>
-  </tag>
+
 </taglib>

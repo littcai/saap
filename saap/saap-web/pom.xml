@@ -10,7 +10,7 @@
   </parent> 
   <artifactId>saap-web</artifactId>
   <packaging>war</packaging>
-  <name>saap-web Maven Webapp</name>
+  <name>saas-web Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <properties>
@@ -68,7 +68,7 @@
 		<properties>
 			<package.environment>ci</package.environment>
 		</properties>
-	</profile>
+	</profile>	
   </profiles>
   
   <dependencies>

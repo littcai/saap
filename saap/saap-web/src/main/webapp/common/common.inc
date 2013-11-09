@@ -6,5 +6,4 @@ response.setHeader("Expires","0");//防止被proxy
 
 String contextPath = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
-String imagePath = contextPath + "/theme/default/images";
 %>

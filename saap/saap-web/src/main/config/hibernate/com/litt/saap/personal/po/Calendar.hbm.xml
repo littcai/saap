@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-9-13 13:47:20 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.personal.po.Calendar" dynamic-insert="true" dynamic-update="true" table="calendar">
+        <comment>个人日程计划表</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="subject" type="string">
+            <column name="SUBJECT" length="200" not-null="true">
+                <comment>主题</comment>
+            </column>
+        </property>
+        <property name="type" type="int">
+            <column name="TYPE" not-null="true">
+                <comment>类型（3801） 1：电话 2：Email 3：会议 4：拜访 5：直邮 6：短信</comment>
+            </column>
+        </property>
+        <property name="startDatetime" type="timestamp">
+            <column name="START_DATETIME" length="19" not-null="true">
+                <comment>开始时间</comment>
+            </column>
+        </property>
+        <property name="endDatetime" type="timestamp">
+            <column name="END_DATETIME" length="19" not-null="true">
+                <comment>结束时间</comment>
+            </column>
+        </property>
+        <property name="status" type="int">
+            <column name="STATUS" not-null="true">
+                <comment>状态（3802） 1：尚未开始 2：处理中 3：暂停 4：已完成 5：延迟 6：取消</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="2000">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="isRemind" type="boolean">
+            <column name="IS_REMIND" not-null="true">
+                <comment>是否提醒</comment>
+            </column>
+        </property>
+        <property name="remindMinutes" type="java.lang.Integer">
+            <column name="REMIND_MINUTES">
+                <comment>提醒时间（提前分钟数）</comment>
+            </column>
+        </property>
+        <property name="remindTime" type="timestamp">
+            <column name="REMIND_TIME" length="19">
+                <comment>提醒时间 计算后的时间，用于查询</comment>
+            </column>
+        </property>
+        <property name="createUserId" type="int">
+            <column name="CREATE_USER_ID" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <property name="repeatable" type="boolean">
+            <column name="REPEATABLE" not-null="true">
+                <comment>是否可重复</comment>
+            </column>
+        </property>
+        <property name="repeatPeriod" type="java.lang.Integer">
+            <column name="REPEAT_PERIOD">
+                <comment>重复周期 1、日 2、周 3、月</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

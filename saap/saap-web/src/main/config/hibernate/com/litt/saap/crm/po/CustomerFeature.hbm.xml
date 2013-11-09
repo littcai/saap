@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-14 23:28:21 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.crm.po.CustomerFeature" dynamic-insert="true" dynamic-update="true" table="customer_feature">
+        <comment>客户特征表</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="customerId" type="int">
+            <column name="CUSTOMER_ID" not-null="true">
+                <comment>客户ID</comment>
+            </column>
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" length="20" not-null="true">
+                <comment>编号</comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="50" not-null="true">
+                <comment>名称</comment>
+            </column>
+        </property>
+        <property name="dataType" type="byte">
+            <column name="DATA_TYPE" not-null="true">
+                <comment>数据类型</comment>
+            </column>
+        </property>
+        <property name="dataValue" type="string">
+            <column name="DATA_VALUE">
+                <comment>数据值</comment>
+            </column>
+        </property>
+        <property name="dataValueInt" type="java.lang.Integer">
+            <column name="DATA_VALUE_INT">
+                <comment>整型值</comment>
+            </column>
+        </property>
+        <property name="dataValueDate" type="timestamp">
+            <column name="DATA_VALUE_DATE" length="19">
+                <comment>日期值</comment>
+            </column>
+        </property>
+        <property name="dataValueDecimal" type="big_decimal">
+            <column name="DATA_VALUE_DECIMAL" precision="12" scale="4">
+                <comment>浮点值</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

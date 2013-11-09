@@ -25,10 +25,11 @@
 	<bean id="messageSource" 
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" abstract="false">	 	
 	 	<property name="useCodeAsDefaultMessage" value="true" /> 
+	 	<property name="cacheSeconds" value="10" />
 	 	<property name="basenames">
 	 		<list>
 	 			<value>WEB-INF/messages/common</value>
-	 			<value>WEB-INF/messages/exceptions</value>
+	 			<value>WEB-INF/messages/exception</value>
 	 			<value>WEB-INF/messages/menu</value>
 	 			<value>WEB-INF/messages/module</value>
 	 			<value>WEB-INF/messages/dictparam</value>
@@ -36,6 +37,7 @@
 	 			<value>WEB-INF/messages/assistant</value>
 	 			<value>WEB-INF/messages/personal</value>
 	 			<value>WEB-INF/messages/report</value>
+	 			<value>WEB-INF/messages/crm</value>
 	 		</list>
 	 	</property>
 	</bean>	
@@ -179,7 +181,7 @@
  
 	<bean id="ServiceAutoProxyCreator"
 		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-		<property name="proxyTargetClass" value="false"></property>
+		<property name="proxyTargetClass" value="true"></property>	<!-- CGLIB -->
 		<property name="beanNames">
 			<list>
 				<value>*Service</value>

@@ -16,7 +16,7 @@ import com.litt.core.license.LicenseException;
 import com.litt.core.license.LicenseManager;
 import com.litt.core.util.PropertiesUtils;
 import com.litt.saap.core.common.SaapConstants;
-import com.litt.saap.system.service.impl.ISystemInfoService;
+import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.vo.SystemInfoVo;
 
 /**

@@ -17,6 +17,7 @@
 	<context:component-scan base-package="com.litt.saap.system.web" />
 	<context:component-scan base-package="com.litt.saap.assistant.web" />
 	<context:component-scan base-package="com.litt.saap.personal.web" />
+	<context:component-scan base-package="com.litt.saap.crm.web" />
 	
 	<!-- 默认的注解映射的支持 -->  
    	<!-- <mvc:annotation-driven />  -->  
@@ -56,6 +57,10 @@
 	<bean id="funcInterceptor"
 		class="com.litt.core.module.interceptor.FuncInterceptor" depends-on="dataSource" init-method="init" destroy-method="destroy">
 		<property name="dataSource" ref="dataSource" />
+		<property name="logEnabled" value="false"/>
+		<!-- 
+		<property name="tableName" value="USER_OP_LOG"/>		
+		 -->
 	</bean>	
 		
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
@@ -84,7 +89,7 @@
 		class="org.springframework.web.servlet.theme.CookieThemeResolver">
 		<property name="cookieName" value="_saap_clienttheme"/>
         <property name="cookieMaxAge" value="94608000"/>
-		<property name="defaultThemeName" value="bootstrap" /> 
+		<property name="defaultThemeName" value="default" /> 
 	</bean>	  
 	 
 	<bean id="themeChangeInterceptor" class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />  
@@ -167,7 +172,7 @@
 					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 					<property name="viewClass"
 						value="org.springframework.web.servlet.view.JstlView" />
-					<property name="prefix" value="" />
+					<property name="prefix" value="/pages" />
 					<property name="suffix" value=".jsp"></property>
 				</bean>
 			</list>
@@ -189,8 +194,7 @@
 	
 	<bean id="customView-json" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
 
-	<!-- 异常处理 -->
-	<!-- 
+	<!-- 异常处理 -->	
 	<bean id="simpleMappingExceptionResolver"
 		class="com.litt.core.web.handler.SuffixMappingExceptionResolver">
 		<property name="defaultStatusCode" value="500"/>
@@ -204,8 +208,6 @@
 				<prop key="customView-json">300</prop>		
 			</props>
 		</property>		
-	</bean>
-	 -->
-
+	</bean>		
 
 </beans>

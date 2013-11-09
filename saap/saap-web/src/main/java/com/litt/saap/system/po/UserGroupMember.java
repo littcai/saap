@@ -20,6 +20,9 @@ public class UserGroupMember implements Serializable {
 	 * 序号.
 	 */
 	private Integer id;
+	
+	/** The tenant id. */
+	private int tenantId;
 
 	/**
 	 * 用户组ID.
@@ -54,8 +57,9 @@ public class UserGroupMember implements Serializable {
 	public UserGroupMember() {
 	}
 
-	public UserGroupMember(int groupId, int userId, int type, int status,
+	public UserGroupMember(int tenantId, int groupId, int userId, int type, int status,
 			Date createDatetime) {
+		this.tenantId = tenantId;
 		this.groupId = groupId;
 		this.userId = userId;
 		this.type = type;
@@ -177,6 +181,20 @@ public class UserGroupMember implements Serializable {
 	 */
 	public void setCreateDatetime(Date createDatetime) {
 		this.createDatetime = createDatetime;
+	}
+
+	/**
+	 * @return the tenantId
+	 */
+	public int getTenantId() {
+		return tenantId;
+	}
+
+	/**
+	 * @param tenantId the tenantId to set
+	 */
+	public void setTenantId(int tenantId) {
+		this.tenantId = tenantId;
 	}
 
 }

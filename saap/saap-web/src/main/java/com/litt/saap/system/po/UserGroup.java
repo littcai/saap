@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 表名：user_group<br>
  * @author Hibernate Tools 3.2.4.GA
  * @version 1.0
- * @since 2013-8-29 17:55:22
+ * @since 2013-10-21 14:00:40
  */
 public class UserGroup implements Serializable {
 	/**
@@ -20,6 +20,19 @@ public class UserGroup implements Serializable {
 	 * 序号.
 	 */
 	private Integer id;
+	
+	/** The tenant id. */
+	private int tenantId;
+
+	/**
+	 * 父组织ID.
+	 */
+	private int parentId;
+
+	/**
+	 * 编号.
+	 */
+	private String code;
 
 	/**
 	 * 名称.
@@ -27,7 +40,9 @@ public class UserGroup implements Serializable {
 	private String name;
 
 	/**
-	 * 类型.
+	 * 类型
+	        1：部门
+	        2：群组.
 	 */
 	private int type;
 
@@ -64,8 +79,12 @@ public class UserGroup implements Serializable {
 	public UserGroup() {
 	}
 
-	public UserGroup(String name, int type, String description, int status,
-			int createUserId, Date createDatetime) {
+	public UserGroup(int tenantId, int parentId, String code, String name, int type,
+			String description, int status, int createUserId,
+			Date createDatetime) {
+		this.tenantId = tenantId;
+		this.parentId = parentId;
+		this.code = code;
 		this.name = name;
 		this.type = type;
 		this.description = description;
@@ -74,9 +93,12 @@ public class UserGroup implements Serializable {
 		this.createDatetime = createDatetime;
 	}
 
-	public UserGroup(String name, int type, String description, int status,
-			int createUserId, Date createDatetime, Integer updateUserId,
-			Date updateDatetime) {
+	public UserGroup(int tenantId, int parentId, String code, String name, int type,
+			String description, int status, int createUserId,
+			Date createDatetime, Integer updateUserId, Date updateDatetime) {
+		this.tenantId = tenantId;
+		this.parentId = parentId;
+		this.code = code;
 		this.name = name;
 		this.type = type;
 		this.description = description;
@@ -104,6 +126,38 @@ public class UserGroup implements Serializable {
 	}
 
 	/**  
+	 * 取得 父组织ID.
+	 * @return 父组织ID
+	 */
+	public int getParentId() {
+		return this.parentId;
+	}
+
+	/**
+	 * 设置 父组织ID.
+	 * @param parentId 父组织ID
+	 */
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
+	/**  
+	 * 取得 编号.
+	 * @return 编号
+	 */
+	public String getCode() {
+		return this.code;
+	}
+
+	/**
+	 * 设置 编号.
+	 * @param code 编号
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	/**  
 	 * 取得 名称.
 	 * @return 名称
 	 */
@@ -120,16 +174,24 @@ public class UserGroup implements Serializable {
 	}
 
 	/**  
-	 * 取得 类型.
+	 * 取得 类型
+	        1：部门
+	        2：群组.
 	 * @return 类型
+	        1：部门
+	        2：群组
 	 */
 	public int getType() {
 		return this.type;
 	}
 
 	/**
-	 * 设置 类型.
+	 * 设置 类型
+	        1：部门
+	        2：群组.
 	 * @param type 类型
+	        1：部门
+	        2：群组
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -229,6 +291,20 @@ public class UserGroup implements Serializable {
 	 */
 	public void setUpdateDatetime(Date updateDatetime) {
 		this.updateDatetime = updateDatetime;
+	}
+
+	/**
+	 * @return the tenantId
+	 */
+	public int getTenantId() {
+		return tenantId;
+	}
+
+	/**
+	 * @param tenantId the tenantId to set
+	 */
+	public void setTenantId(int tenantId) {
+		this.tenantId = tenantId;
 	}
 
 }

@@ -4,13 +4,14 @@
 		<pattern>/images/*</pattern>
 		<pattern>/widgets/*</pattern>
 		<pattern>/theme/*</pattern>
-		<pattern>/pages/theme/*</pattern>
 	</excludes>
 
-    <decorator name="main" page="panel.jsp">
+    <decorator name="main" page="main_with_sidebar.jsp">
         <pattern>/pages/*</pattern>
     </decorator>
 
+	<decorator name="main" page="main_with_sidebar.jsp"/>
+	<decorator name="none" page="none.jsp"/>
     <decorator name="panel" page="panel.jsp"/>
     <decorator name="popup" page="popup.jsp"/>
     <decorator name="printable" page="printable.jsp"/>

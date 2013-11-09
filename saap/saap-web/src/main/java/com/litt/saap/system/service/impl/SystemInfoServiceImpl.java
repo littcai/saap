@@ -1,5 +1,6 @@
 package com.litt.saap.system.service.impl;
 
+import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.vo.SystemInfoVo;
 
 /**

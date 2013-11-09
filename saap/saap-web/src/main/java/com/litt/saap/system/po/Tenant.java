@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 表名：tenant<br>
  * @author Hibernate Tools 3.2.4.GA
  * @version 1.0
- * @since 2013-8-29 15:57:06
+ * @since 2013-10-17 14:07:31
  */
 public class Tenant implements Serializable {
 	/**
@@ -22,9 +22,9 @@ public class Tenant implements Serializable {
 	private Integer id;
 
 	/**
-	 * 应用ID.
+	 * 应用编号.
 	 */
-	private int appId;
+	private String appCode;
 
 	/**
 	 * 应用别名.
@@ -65,14 +65,19 @@ public class Tenant implements Serializable {
 	private Date updateDatetime;
 
 	/**
+	 * 最大成员数.
+	 */
+	private int maxMembers;
+
+	/**
 	 * 试用期限.
 	 */
 	private int trialDays;
 
 	/**
-	 * 租期.
+	 * 到期日.
 	 */
-	private Date tenancy;
+	private Date expiredDate;
 
 	/**
 	 * 购买价格.
@@ -82,18 +87,20 @@ public class Tenant implements Serializable {
 	public Tenant() {
 	}
 
-	public Tenant(int appId, String appAlias, int isolatedMode, int status,
-			int createUserId, Date createDatetime, Date updateDatetime,
-			int trialDays, Date tenancy, int price) {
-		this.appId = appId;
+	public Tenant(String appCode, String appAlias, int isolatedMode,
+			int status, int createUserId, Date createDatetime,
+			Date updateDatetime, int maxMembers, int trialDays,
+			Date expiredDate, int price) {
+		this.appCode = appCode;
 		this.appAlias = appAlias;
 		this.isolatedMode = isolatedMode;
 		this.status = status;
 		this.createUserId = createUserId;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
+		this.maxMembers = maxMembers;
 		this.trialDays = trialDays;
-		this.tenancy = tenancy;
+		this.expiredDate = expiredDate;
 		this.price = price;
 	}
 
@@ -114,19 +121,19 @@ public class Tenant implements Serializable {
 	}
 
 	/**  
-	 * 取得 应用ID.
-	 * @return 应用ID
+	 * 取得 应用编号.
+	 * @return 应用编号
 	 */
-	public int getAppId() {
-		return this.appId;
+	public String getAppCode() {
+		return this.appCode;
 	}
 
 	/**
-	 * 设置 应用ID.
-	 * @param appId 应用ID
+	 * 设置 应用编号.
+	 * @param appCode 应用编号
 	 */
-	public void setAppId(int appId) {
-		this.appId = appId;
+	public void setAppCode(String appCode) {
+		this.appCode = appCode;
 	}
 
 	/**  
@@ -258,6 +265,22 @@ public class Tenant implements Serializable {
 	}
 
 	/**  
+	 * 取得 最大成员数.
+	 * @return 最大成员数
+	 */
+	public int getMaxMembers() {
+		return this.maxMembers;
+	}
+
+	/**
+	 * 设置 最大成员数.
+	 * @param maxMembers 最大成员数
+	 */
+	public void setMaxMembers(int maxMembers) {
+		this.maxMembers = maxMembers;
+	}
+
+	/**  
 	 * 取得 试用期限.
 	 * @return 试用期限
 	 */
@@ -274,19 +297,19 @@ public class Tenant implements Serializable {
 	}
 
 	/**  
-	 * 取得 租期.
-	 * @return 租期
+	 * 取得 到期日.
+	 * @return 到期日
 	 */
-	public Date getTenancy() {
-		return this.tenancy;
+	public Date getExpiredDate() {
+		return this.expiredDate;
 	}
 
 	/**
-	 * 设置 租期.
-	 * @param tenancy 租期
+	 * 设置 到期日.
+	 * @param expiredDate 到期日
 	 */
-	public void setTenancy(Date tenancy) {
-		this.tenancy = tenancy;
+	public void setExpiredDate(Date expiredDate) {
+		this.expiredDate = expiredDate;
 	}
 
 	/**  
