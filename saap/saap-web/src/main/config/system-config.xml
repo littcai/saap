@@ -9,10 +9,10 @@
 		<lastUpdateDatetime>2013-09-01 00:00:00</lastUpdateDatetime>
 	</baseInfo>
 	<smtpServer>
-		<host></host>
-		<port></port>
-		<username></username>
-		<password></password>
+		<host>smtp.qq.com</host>
+		<port>25</port>
+		<username>service@webestlife.com</username>
+		<password enctypted="true">Service810802</password>
 	</smtpServer>
 	<globalization>
 		<dateFormat>yyyy-MM-dd hh:mm:ss</dateFormat>

@@ -14,12 +14,14 @@
 	
 	<!-- 系统信息及参数 -->
 	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
+	
+	<!-- 激活码 -->
+	<bean id="activationCodeDao" class="com.litt.saap.system.dao.ActivationCodeDao" parent="baseDao"/>	
 		
 	<!-- 用户 -->	
 	<bean id="userInfoDao" class="com.litt.saap.system.dao.UserInfoDao" parent="baseDao"/>	
 	<bean id="userExtDao" class="com.litt.saap.system.dao.UserExtDao" parent="baseDao"/>	
 	<bean id="userStateDao" class="com.litt.saap.system.dao.UserStateDao" parent="baseDao"/>	
-	<bean id="forgetPasswordDao" class="com.litt.saap.system.dao.ForgetPasswordDao" parent="baseDao"/>	
 	
 	<bean id="userInfoService" class="com.litt.saap.system.service.impl.UserInfoServiceImpl"/>	
 	

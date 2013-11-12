@@ -10,14 +10,12 @@ import org.apache.commons.lang.LocaleUtils;
 import org.springframework.beans.propertyeditors.LocaleEditor;
 import org.springframework.ui.context.Theme;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.theme.SessionThemeResolver;
 
 import com.litt.core.common.BeanManager;
 import com.litt.core.common.CoreConstants;
-import com.litt.core.exception.BusiException;
-import com.litt.core.exception.ErrorCode;
+import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.security.SecurityContext;
 import com.litt.core.shield.security.SecurityContextHolder;
@@ -358,7 +356,7 @@ public class LoginUtils
 		int loginTenantId = LoginUtils.getTenantId();
 		if(loginTenantId!=tenantId)
 		{
-			throw new BusiException(new ErrorCode("error.biz.unauthorized", loginVo.toLocale()));
+			throw new BusiCodeException("error.biz.unauthorized", loginVo.toLocale());
 		}
 	}
 	

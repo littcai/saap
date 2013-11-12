@@ -171,6 +171,9 @@
 				<prop key="do*">
 					PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-CheckedBusiException
 				</prop>
+				<prop key="newTran*">
+					PROPAGATION_REQUIRES_NEW,ISOLATION_DEFAULT,-CheckedBusiException
+				</prop>
 				<prop key="load*">PROPAGATION_SUPPORTS,readOnly</prop>
 				<prop key="list*">PROPAGATION_SUPPORTS,readOnly</prop>
 				<prop key="find*">PROPAGATION_SUPPORTS,readOnly</prop>
@@ -181,7 +184,8 @@
  
 	<bean id="ServiceAutoProxyCreator"
 		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-		<property name="proxyTargetClass" value="true"></property>	<!-- CGLIB -->
+		<property name="proxyTargetClass" value="true"></property>	<!-- CGLIB -->	
+		<property name="exposeProxy" value="true"></property>	
 		<property name="beanNames">
 			<list>
 				<value>*Service</value>
@@ -196,6 +200,22 @@
 			</list>
 		</property>
 	</bean>	
+	
+	<!-- 只对业务逻辑层实施事务 cglib
+	基于JDK动态代理 ，可以将@Transactional放置在接口和具体类上。
+	基于CGLIB类代理，只能将@Transactional放置在具体类上
+	<aop:config expose-proxy="true">		
+        <aop:pointcut id="txPointcut" expression="execution(* ..*Service.*(..))" />  
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>  
+	</aop:config>
+	
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/> 
+	 -->
+	
+	<!-- 事务模板工具，用于实现编程式事务 --> 
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager"/> 
+	</bean>
 	 
 	<!-- Base class of hibernate DAO -->
 	<bean id="hibernateDao" class="com.litt.core.dao.BaseHibernateDao">
@@ -236,5 +256,44 @@
       </property>
   	</bean>   
 	 -->
+	 
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	 	<property name="host" value="${smtp.host}"/>
+	 	<property name="port" value="${smtp.port}"/>	 	
+	 	<property name="username" value="${smtp.username}"/>
+	 	<property name="password" value="${smtp.password}"/>
+	 	<property name="defaultEncoding" value="UTF-8"></property> 	 	
+	 	<property name="javaMailProperties">
+	        <props>
+	        	<prop key="mail.debug">true</prop> 
+	            <prop key="mail.smtps.auth">true</prop>	   	           
+	        </props>
+    	</property>
+	 	<!-- SSL
+	 	<property name="protocol" value="smtps" />	 	 
+	 	<property name="javaMailProperties">
+	        <props>
+	        	<prop key="mail.debug">true</prop> 
+	            <prop key="mail.smtps.auth">true</prop>
+	            <prop key="mail.smtp.ssl.enable">true</prop>
+	            <prop key="mail.transport.protocol">smtps</prop>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+            	<prop key="mail.smtp.starttls.required">true</prop>
+	        </props>
+    	</property>
+    	 -->
+	 </bean>
+	 
+	 <!-- Email Service -->
+	 <bean id="emailService" class="com.litt.saap.common.service.impl.EmailServiceImpl">
+	 	<property name="from" value="${smtp.from}"/>	
+	 </bean>
+	 
+	 <!-- Gen content from template -->
+	 <bean id="templateService" class="com.litt.saap.common.service.impl.TemplateServiceImpl" init-method="init">
+	 	<property name="templatePath" value="${template.path}"/>	 	
+	 </bean>
+	 
+	 
 </beans>
 

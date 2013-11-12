@@ -43,11 +43,14 @@ public class SystemInfoVo implements Serializable {
 	/** 系统数据保存路径. */
 	private String homePath;
 	
+	/** 基础路径. */
+	private String baseUrl;
+	
 	/**
 	 * 证书文件路径.
 	 */
 	private String licenseFilePath;
-	
+		
 	/**
 	 * 获得版本信息.
 	 * 
@@ -328,6 +331,20 @@ public class SystemInfoVo implements Serializable {
 	public void setLicenseFilePath(String licenseFilePath)
 	{
 		this.licenseFilePath = licenseFilePath;
+	}
+
+	/**
+	 * @return the baseUrl
+	 */
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+
+	/**
+	 * @param baseUrl the baseUrl to set
+	 */
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
 	}
 
 }

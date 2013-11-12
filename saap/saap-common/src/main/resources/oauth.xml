@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oauth>
+	<google oauthVersion="2.0">
+		<url>https://accounts.google.com/o/oauth2/auth</url>
+		<clientID>818787327949.apps.googleusercontent.com</clientID>
+		<email>818787327949@developer.gserviceaccount.com</email>
+		<privateKey></privateKey>
+		<publicKey>076a9fddb3d21b9ee3107b84c0f70930a2a20911</publicKey>
+	</google>
+
+</oauth>

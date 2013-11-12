@@ -2,10 +2,15 @@ package com.litt.saap.system.biz;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+
+import org.springframework.ui.context.Theme;
 
 import com.litt.core.exception.BusiException;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
+import com.litt.saap.system.po.ActivationCode;
+import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * .
@@ -23,6 +28,52 @@ import com.litt.saap.common.vo.TenantUserVo;
  * @version 1.0
  */
 public interface IUserBizService {
+	
+	/**
+	 * 用户注册.
+	 *
+	 * @param loginId the login id
+	 * @param password the password
+	 * @param email the email
+	 * @param loginIp the login ip
+	 * @param locale the locale
+	 * @param timeZone the time zone
+	 * @param theme the theme
+	 */
+	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
+	
+	/**
+	 * 用户账号激活.
+	 *
+	 * @param code the code
+	 */
+	public LoginUserVo doActivate(String code, String loginIp);
+	
+	/**
+	 * 启用新事务删除用户.
+	 *
+	 * @param userId the user id
+	 */
+	public void newTranDeleteUser(ActivationCode activationCode);
+	
+	/**
+	 * 找回密码.
+	 *
+	 * @param email the email
+	 * @param loginIp the login ip
+	 * @param locale the locale
+	 */
+	public void doForgetPassword(String email, String loginIp, Locale locale);
+	
+	/**
+	 * 重置密码.
+	 *
+	 * @param id the id
+	 * @param password 新密码
+	 * @param loginIp 客户端IP
+	 * @param locale the locale
+	 */
+	public void doResetPassword(String id, String password, String loginIp, Locale locale);
 	
 	/**
 	 * Do login.

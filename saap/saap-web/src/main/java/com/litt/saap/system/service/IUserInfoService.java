@@ -7,8 +7,10 @@ import org.springframework.ui.context.Theme;
 
 import com.litt.core.exception.BusiException;
 import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.system.po.ForgetPassword;
+import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.po.UserState;
+import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * .
@@ -41,6 +43,21 @@ public interface IUserInfoService {
 	 * @param userInfo the user info
 	 */
 	public void update(UserInfo userInfo);
+	
+	/**
+	 * 物理删除.
+	 * 1、用户注册超时未激活.
+	 *
+	 * @param userInfo the user info
+	 */
+	public void delete(UserInfo userInfo);
+	
+	/**
+	 * Delete logic.
+	 *
+	 * @param userId the user id
+	 */
+	public void delete(Integer userId);
 
 	/**
 	 * Delete logic.
@@ -54,7 +71,7 @@ public interface IUserInfoService {
 	 *
 	 * @param userId the user id
 	 */
-	public void doResume(Integer userId, Locale locale);
+	public void doResume(Integer userId);
 	
 	/**
 	 * 用户注册.
@@ -66,30 +83,15 @@ public interface IUserInfoService {
 	 * @param locale 语言
 	 * @param timeZone 时区
 	 * @param theme 主题
+	 * @return the user info vo
 	 */
-	public void doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
+	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
 	
-	/**
-	 * 找回密码.
-	 *
-	 * @param email the email
-	 * @param loginIp the login ip
-	 * @param locale the locale
-	 */
-	public void doForgetPassword(String email, String loginIp, Locale locale);
-	
-	/**
-	 * 重置密码.
-	 *
-	 * @param id the id
-	 * @param password 新密码
-	 * @param loginIp 客户端IP
-	 * @param locale the locale
-	 */
-	public void doResetPassword(String id, String password, String loginIp, Locale locale);
 
 	public LoginUserVo doLogin(String loginId, String password, String loginIp,
 			boolean isAutoLogin, Locale locale) throws BusiException;
+	
+	public LoginUserVo doLogin(UserInfo userInfo, UserState userState, String loginIp, boolean isAutoLogin, Locale locale) throws BusiException;
 	
 	/**
 	 * 自动登录.
@@ -141,6 +143,6 @@ public interface IUserInfoService {
 	 * @param locale the locale
 	 * @return the forget password
 	 */
-	public ForgetPassword loadForgetPassword(String token, Locale locale);
+	public ActivationCode loadForgetPassword(String token, Locale locale);
 
 }

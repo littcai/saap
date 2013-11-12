@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-import com.litt.core.exception.BusiException;
-import com.litt.core.exception.ErrorCode;
+import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.service.BaseService;
 import com.litt.core.shield.vo.ILoginVo;
@@ -117,7 +116,7 @@ public class TodoServiceImpl extends BaseService implements ITodoService
 		
 		if(todo.getCreateUserId()!=loginVo.getOpId().intValue())
 		{
-			throw new BusiException(new ErrorCode("error.biz.permissionDenied", loginVo.toLocale()));
+			throw new BusiCodeException("error.biz.permissionDenied", loginVo.toLocale());
 		}
 	}		
 	

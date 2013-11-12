@@ -1,8 +1,7 @@
 package com.litt.saap.system.po;
 
-import java.util.Date;
-
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 找回密码<br>
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2013-9-24 15:35:34
  */
-public class ForgetPassword implements Serializable {
+public class ActivationCode implements Serializable {
 	/**
 	 * UID
 	 */
@@ -36,15 +35,20 @@ public class ForgetPassword implements Serializable {
 	 */
 	private Date expiredDatetime;
 
-	public ForgetPassword() {
+	public ActivationCode() {
 	}
 
-	public ForgetPassword(String id, int userId, String securityKey,
+	public ActivationCode(String id, int userId, String securityKey,
 			Date expiredDatetime) {
 		this.id = id;
 		this.userId = userId;
 		this.securityKey = securityKey;
 		this.expiredDatetime = expiredDatetime;
+	}
+	
+	public boolean isExpired()
+	{
+		return new Date().after(expiredDatetime);
 	}
 
 	/**  

@@ -34,6 +34,9 @@ public class SaapConstants {
     /** SESSION中存放的验证码图片KEY. */
     public static final String SESSION_CAPTCHA = "SESSION_CAPTCHA";	
     
+    /** 默认激活码有效时间(30分钟). */
+    public static final long DEFAULT_ACTIVATION_CODE_VALID_TIME = 30 * 60 * 1000;	
+    
     /** 自营系统APP ID. */
     public static final int PLATFORM_APP_ID = 1;	
     

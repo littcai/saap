@@ -26,7 +26,7 @@ import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.IUserBizService;
-import com.litt.saap.system.po.ForgetPassword;
+import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IUserInfoService;
@@ -202,9 +202,31 @@ public class LoginController {
 		TimeZone timeZone = TimeZone.getDefault();
 		Theme theme = LoginUtils.getTheme(request);
 		//从请求中获取查询条件	
-		userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);		
+		userBizService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);		
 		
 		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * 用户注册.
+	 *
+	 * @param email the email
+	 * @param code the code
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="activate.do")
+	public ModelAndView activate(@RequestParam String code
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		//从请求中获取查询条件	
+		userBizService.doActivate(code, loginIp);	
+		
+		return new ModelAndView("activated");
 	}
 	
 	/**
@@ -224,7 +246,7 @@ public class LoginController {
 		
 		Locale locale = LoginUtils.getLocale(request);
 		//从请求中获取查询条件	
-		userInfoService.doForgetPassword(email, loginIp, locale);
+		userBizService.doForgetPassword(email, loginIp, locale);
 		
 		return new ModelAndView("jsonView");
 	}
@@ -246,7 +268,7 @@ public class LoginController {
 		Theme theme = LoginUtils.getTheme(request);
 		
 		Locale locale = LoginUtils.getLocale(request);
-		ForgetPassword forgetPassword = userInfoService.loadForgetPassword(token, locale);			
+		ActivationCode forgetPassword = userInfoService.loadForgetPassword(token, locale);			
 		UserInfo userInfo = userInfoService.load(forgetPassword.getUserId());
 		
 		return new ModelAndView("/theme/"+theme.getName()+"/resetPassword").addObject("token", token).addObject("userInfo", userInfo);
@@ -270,7 +292,7 @@ public class LoginController {
 		
 		Locale locale = LoginUtils.getLocale(request);
 		//从请求中获取查询条件	
-		userInfoService.doResetPassword(id, password, loginIp, locale);
+		userBizService.doResetPassword(id, password, loginIp, locale);
 		
 		return new ModelAndView("jsonView");
 	}
