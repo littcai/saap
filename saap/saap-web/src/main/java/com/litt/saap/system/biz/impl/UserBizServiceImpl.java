@@ -44,6 +44,7 @@ import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.service.IUserInfoService;
@@ -138,9 +139,9 @@ public class UserBizServiceImpl implements IUserBizService {
 		//String content = templateService.genString("register", propMap);
 				
 		try {
-			String content = BeanManager.getMessage("email.register.content", new Object[]{email, activationCode.getId(), systemInfo.getBaseUrl(), systemInfo.getSystemName()}, locale);
+			String content = BeanManager.getMessage("register.email.content", new Object[]{email, activationCode.getId(), systemInfo.getBaseUrl(), systemInfo.getSystemName()}, locale);
 			
-			emailService.sendMime(email, BeanManager.getMessage("email.register.subject", new Object[]{systemInfo.getSystemName()}, locale), content, content);
+			emailService.sendMime(email, BeanManager.getMessage("register.email.subject", new Object[]{systemInfo.getSystemName()}, locale), content, content);
 		} catch (MessagingException e) {
 			logger.error("User register email sent failed.", e);
 		}
@@ -163,7 +164,7 @@ public class UserBizServiceImpl implements IUserBizService {
 			throw new BusiCodeException("activate.error.codeNotExist");
 		if(activationCode.isExpired())	//激活码已过期，删除用户账号，由用户重新注册
 		{
-			System.out.println(AopUtils.isAopProxy(this));
+			//*** 这里需要获取代理类，以实现嵌套事务
 			IUserBizService proxyService = (IUserBizService)AopContext.currentProxy();
 			//删除用户账号，已保证用户可以重新注册
 			proxyService.newTranDeleteUser(activationCode);			
@@ -178,13 +179,20 @@ public class UserBizServiceImpl implements IUserBizService {
 				userInfoService.update(userInfo);
 				
 				//删除激活码
-				activationCodeDao.delete(activationCode);				
+				//activationCodeDao.delete(activationCode);				
 				
 				//进行登录
 				UserState userState = userStateDao.load(userInfo.getId());
 				
-				LoginUserVo loginUserVo = userInfoService.doLogin(userInfo, userState, loginIp, false, LocaleUtils.toLocale(userInfo.getLocale()));
-				return loginUserVo;
+				LoginUserVo loginUser = userInfoService.doLogin(userInfo, userState, loginIp, false, LocaleUtils.toLocale(userInfo.getLocale()));
+				//添加默认的个人事务角色（自动赋予权限）
+				UserRole userRole = new UserRole(0, loginUser.getOpId().intValue(), SaapConstants.DEFAULT_ROLE_ID);
+				userRoleDao.save(userRole);
+				
+				//初始化登录用户的默认权限
+				initDefaultPermission(loginUser);				
+				
+				return loginUser;
 				
 			}
 			else 
@@ -278,9 +286,20 @@ public class UserBizServiceImpl implements IUserBizService {
 	public LoginUserVo doLogin(String loginId, String password, String loginIp, boolean isAutoLogin, Locale locale) throws BusiException
 	{
 		LoginUserVo loginUser = userInfoService.doLogin(loginId, password, loginIp, isAutoLogin, locale);
+		//初始化全局权限
+		initDefaultPermission(loginUser);
+		//初始化租户相关
 		initLoginUserTenant(loginUser);		
 		
 		return loginUser;
+	}
+
+	/**
+	 * @param loginUser
+	 */
+	private void initDefaultPermission(LoginUserVo loginUser) {
+		String[] permissionCodes = this.getUserDefaultPermission(loginUser.getOpId().intValue());
+		loginUser.initPermission(permissionCodes);
 	}
 
 	/**
@@ -295,7 +314,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		{
 			Tenant tenant = tenantDao.load(tenantMember.getTenantId());
 		
-			TenantVo tenantVo = new TenantVo(tenant.getId());
+			TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenantMember.getIsAdmin(), tenant.getExpiredDate());
 			tenantVo.setExpiredDate(tenant.getExpiredDate());
 			
 			loginUser.setTenant(tenantVo);		
@@ -304,7 +323,7 @@ public class UserBizServiceImpl implements IUserBizService {
 			//List<UserRole> userRoleList = userRoleDao.listByUserTenant(loginUser.getOpId().intValue(), tenantMember.getTenantId());
 			
 			String[] permissionCodes = this.getUserTenantPermission(loginUser.getOpId().intValue(), tenantMember.getTenantId());
-			loginUser.initPermission(permissionCodes);
+			loginUser.addPermissions(permissionCodes);
 		}
 	}
 	
@@ -325,6 +344,26 @@ public class UserBizServiceImpl implements IUserBizService {
 	}
 	
 	/**
+	 * 获得用户默认权限.
+	 *
+	 * @param userId the user id
+	 * @return the user tenant permission
+	 */
+	private String[] getUserDefaultPermission(int userId)
+	{
+		//获取用户直接角色的权限
+		String listHql = "select rfp from UserRole ur, RoleFuncPermission rfp where ur.tenantId=? and ur.userId=? and ur.roleId=rfp.roleId and rfp.tenantId=ur.tenantId";
+		List<RoleFuncPermission> roleFuncPermissionList = userRoleDao.listAll(listHql, new Object[]{0, userId});		
+		String[] permissionCodes = new String[roleFuncPermissionList.size()];
+		for (int i=0; i<roleFuncPermissionList.size(); i++ ) {
+			RoleFuncPermission roleFuncPermission = roleFuncPermissionList.get(i);
+			permissionCodes[i] = roleFuncPermission.getPermissionCode();
+		}		
+		
+		return permissionCodes;
+	}
+	
+	/**
 	 * 获得用户所在租赁区的权限.
 	 *
 	 * @param userId the user id
@@ -335,7 +374,7 @@ public class UserBizServiceImpl implements IUserBizService {
 	{
 		//获取用户直接角色的权限
 		String listHql = "select rfp from UserRole ur, RoleFuncPermission rfp where ur.tenantId=? and ur.userId=? and ur.roleId=rfp.roleId and rfp.tenantId=ur.tenantId";
-		List<RoleFuncPermission> roleFuncPermissionList = userRoleDao.listAll(listHql, new Object[]{userId, tenantId});		
+		List<RoleFuncPermission> roleFuncPermissionList = userRoleDao.listAll(listHql, new Object[]{tenantId, userId});		
 		String[] permissionCodesA = new String[roleFuncPermissionList.size()];
 		for (int i=0; i<roleFuncPermissionList.size(); i++ ) {
 			RoleFuncPermission roleFuncPermission = roleFuncPermissionList.get(i);
@@ -344,7 +383,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		
 		//获取用户所在组角色的权限
 		listHql = "select rfp from UserGroupMember ugm, UserGroup ug, UserGroupRole ugr, RoleFuncPermission rfp where ugm.tenantId=? and ugm.userId=? and ugm.tenantId=ug.tenantId and ugm.groupId=ug.id and ug.id=ugr.groupId and ug.tenantId=ugr.tenantId and ugr.roleId=rfp.roleId and rfp.tenantId=ugr.tenantId";
-		roleFuncPermissionList = userRoleDao.listAll(listHql, new Object[]{userId, tenantId});
+		roleFuncPermissionList = userRoleDao.listAll(listHql, new Object[]{tenantId, userId});
 		String[] permissionCodesB = new String[roleFuncPermissionList.size()];
 		for (int i=0; i<roleFuncPermissionList.size(); i++ ) {
 			RoleFuncPermission roleFuncPermission = roleFuncPermissionList.get(i);

@@ -25,7 +25,9 @@ import com.litt.core.web.servlet.LoginCaptchaServlet;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
+import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IMenuService;
@@ -59,6 +61,9 @@ public class LoginController {
 	private IUserBizService userBizService;
 	
 	@Resource
+	private ITenantBizService tenantBizService;
+	
+	@Resource
 	private IMenuService menuService;	
 	
 	@Resource
@@ -89,7 +94,7 @@ public class LoginController {
 			Locale locale = LoginUtils.getLocale(request);				
 			LoginUtils.changeLocale(locale, request, response);
 			Theme theme = LoginUtils.getTheme(request);
-			return new ModelAndView("/theme/"+theme.getName()+"/login").addObject("locale", locale).addObject("timeout", timeout);
+			return new ModelAndView("/common/login").addObject("locale", locale).addObject("timeout", timeout);
 		}
 	}
 
@@ -208,7 +213,7 @@ public class LoginController {
 	}
 	
 	/**
-	 * 用户注册.
+	 * 用户激活.
 	 *
 	 * @param email the email
 	 * @param code the code
@@ -223,10 +228,19 @@ public class LoginController {
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
 		
-		//从请求中获取查询条件	
-		userBizService.doActivate(code, loginIp);	
+		Locale locale = LoginUtils.getLocale(request);
 		
-		return new ModelAndView("activated");
+		//从请求中获取查询条件	
+		LoginUserVo loginUser = userBizService.doActivate(code, loginIp);	
+				
+		//进行自动登录
+		HttpSession session = request.getSession();
+		LoginUtils.setLoginSession(session, loginUser);
+		//跳转到消息页面，显示激活成功的信息
+		String message = messageSource.getMessage("activate.success", null, locale);
+		String redirectUrl = "index";	//跳转到首页
+		
+		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
 	}
 	
 	/**
@@ -271,7 +285,7 @@ public class LoginController {
 		ActivationCode forgetPassword = userInfoService.loadForgetPassword(token, locale);			
 		UserInfo userInfo = userInfoService.load(forgetPassword.getUserId());
 		
-		return new ModelAndView("/theme/"+theme.getName()+"/resetPassword").addObject("token", token).addObject("userInfo", userInfo);
+		return new ModelAndView("/common/resetPassword").addObject("token", token).addObject("userInfo", userInfo);
 	}
 	
 	/**
@@ -296,6 +310,47 @@ public class LoginController {
 		
 		return new ModelAndView("jsonView");
 	}
+	
+	/**
+	 * 开通租户.
+	 * 根据订单开通相应的租户
+	 * TODO 该方法仅做测试使用
+	 *
+	 * @param orderNo the order no
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="activateTenant.do")
+	public ModelAndView activateTenant(@RequestParam String orderNo, @RequestParam Integer userId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+				
+		//激活租户	
+		TenantActiveBo tenantActiveBo = tenantBizService.doActivate(orderNo, userId);		
+		
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
+		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，必须再重新登录
+		if(loginUser.getOpId().equals(userId))
+		{
+			loginUser.setTenant(tenantActiveBo.getTenant());
+			loginUser.addRoleId(tenantActiveBo.getRoleId());
+			loginUser.addPermissions(tenantActiveBo.getPermissionCodes());
+		}
+		
+		//HttpSession session = request.getSession();
+		//LoginUtils.setLoginSession(session, loginUser);
+		//跳转到消息页面，显示激活成功的信息
+		String message = messageSource.getMessage("activate.success", null, locale);
+		String redirectUrl = "index";	//跳转到首页
+		
+		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+	}
+	
 	
 	/**
 	 * 获得登录用户的授权菜单.

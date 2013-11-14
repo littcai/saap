@@ -5,3 +5,4 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="theme" value="theme/default"/>

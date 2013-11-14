@@ -42,6 +42,9 @@ public class SaapConstants {
     
     /** 自营系统APP CODE. */
     public static final String PLATFORM_APP_CODE = "PLAT-001";	
+    
+    /** 个人事务默认角色. */
+    public static final int DEFAULT_ROLE_ID = 1;	
 	
 	/**
 	 * 用户类型.
@@ -75,6 +78,26 @@ public class SaapConstants {
 		public static final int LOGIC_DELETED = 2;
 		public static final int DELETED = 3;		
 		public static final int LOCKED = 4;	
+		
+	}
+	
+	public interface TenantStatus{
+		
+		public static final int EXPIRED = -3;		//到期
+		public static final int DISABLED = -2;	//禁用
+		public static final int DELETED = -1;		//删除
+		public static final int UNAUTHERIZED = 0;//尚未激活
+		public static final int NORMAL = 1;		//启用
+		
+	}
+	
+	public interface TenantMemberStatus{
+		
+		public static final int EXPIRED = -3;		//到期
+		public static final int DISABLED = -2;	//禁用
+		public static final int DELETED = -1;		//删除
+		public static final int UNAUTHERIZED = 0;//尚未激活
+		public static final int NORMAL = 1;		//启用
 		
 	}
 	

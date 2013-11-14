@@ -9,31 +9,13 @@
   <form id="theform" action="show.do" method="post" class="form-horizontal">
   	<input type="hidden" name="id" value="${custContacts.id}" />
 				<fieldset>
-					<legend><s:message code="custContacts.ui.fieldset.base" /></legend>
+					<legend><s:message code="custContacts.ui.fieldset.base" /></legend>					
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custContacts.id"><s:message code="custContacts.id" /></label>
+								<label class="control-label" for="custContacts.customerId"><s:message code="custContacts.customer" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.id" />									
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.tenantId"><s:message code="custContacts.tenantId" /></label>
-								<div class="controls">
-									<c:out value="${custContacts.tenantId" />									
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.customerId"><s:message code="custContacts.customerId" /></label>
-								<div class="controls">
-									<c:out value="${custContacts.customerId" />									
+									<c:out value="${customer.name}" />									
 								</div>
 							</div>
 						</div>								
@@ -41,7 +23,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.name"><s:message code="custContacts.name" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.name" />									
+									<c:out value="${custContacts.name}" />									
 								</div>
 							</div>
 						</div>								
@@ -51,7 +33,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.gender"><s:message code="custContacts.gender" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.gender" />									
+									${li:genDictContent("0001", custContacts.gender)}	
 								</div>
 							</div>
 						</div>								
@@ -59,7 +41,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.mobile"><s:message code="custContacts.mobile" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.mobile" />									
+									<c:out value="${custContacts.mobile}" />								
 								</div>
 							</div>
 						</div>								
@@ -69,7 +51,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.email"><s:message code="custContacts.email" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.email" />									
+									<a href="mailto:<c:out value="${custContacts.email}" />"><c:out value="${custContacts.email}" /></a>										
 								</div>
 							</div>
 						</div>								
@@ -77,7 +59,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.phone"><s:message code="custContacts.phone" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.phone" />									
+									<c:out value="${custContacts.phone}" />									
 								</div>
 							</div>
 						</div>								
@@ -87,7 +69,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.fax"><s:message code="custContacts.fax" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.fax" />									
+									<c:out value="${custContacts.fax}" />									
 								</div>
 							</div>
 						</div>								
@@ -95,7 +77,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.address"><s:message code="custContacts.address" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.address" />									
+									<c:out value="${custContacts.address}" />									
 								</div>
 							</div>
 						</div>								
@@ -105,25 +87,17 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.zipCode"><s:message code="custContacts.zipCode" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.zipCode" />									
+									<c:out value="${custContacts.zipCode}" />									
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.createUserId"><s:message code="custContacts.createUserId" /></label>
-								<div class="controls">
-									<c:out value="${custContacts.createUserId" />									
-								</div>
-							</div>
-						</div>								
+						</div>					
 					</div>
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custContacts.createDatetime"><s:message code="custContacts.createDatetime" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.createDatetime" />									
+									${li:formatDateTime(custContacts.createDatetime)}									
 								</div>
 							</div>
 						</div>								
@@ -131,7 +105,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.updateDatetime"><s:message code="custContacts.updateDatetime" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.updateDatetime" />									
+									${li:formatDateTime(custContacts.updateDatetime)}							
 								</div>
 							</div>
 						</div>								
@@ -141,7 +115,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.remark"><s:message code="custContacts.remark" /></label>
 								<div class="controls">
-									<c:out value="${custContacts.remark" />									
+									${li:escapeTextarea(custContacts.remark)}								
 								</div>
 							</div>
 						</div>								

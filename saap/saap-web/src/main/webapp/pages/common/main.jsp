@@ -4,9 +4,8 @@
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
 	<head>
-		<title>Page</title>		
-		<meta name="decorator" content="main_with_side" />
 	</head>
-	<body>					
+	<body>	
+		<a href="${contextPath }/login/activateTenant.do?orderNo=123456&userId=${SESSION_USER.opId}" target="_blank">开通Basic</a>
 	</body>
 </html>

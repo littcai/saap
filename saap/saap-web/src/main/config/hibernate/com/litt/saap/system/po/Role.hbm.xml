@@ -19,7 +19,7 @@
                 <comment>名称</comment>
             </column>
         </property>
-        <property name="status" type="byte">
+        <property name="status" type="int">
             <column name="STATUS" not-null="true">
                 <comment>状态</comment>
             </column>

@@ -238,8 +238,7 @@
 			 jQuery('.widget-box.visible').removeClass('visible');
 			 jQuery('#'+id).addClass('visible');
 			}
-		</script>
-		<%@ include file="include/include_foot.inc"%>	
+		</script>	
 		<!--page specific plugin scripts-->
 		
 		<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>

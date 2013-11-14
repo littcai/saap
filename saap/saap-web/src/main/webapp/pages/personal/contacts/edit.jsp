@@ -4,8 +4,7 @@
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
   <head>
-	<meta name="decorator" content="main_with_bar" />		
-	<%@ include file="/common/include_form.inc"%>
+	<meta name="decorator" content="main_with_bar" />	
 	</head>
 	<body> 			
 			<div id="formMessage" class="alert alert-error hide">

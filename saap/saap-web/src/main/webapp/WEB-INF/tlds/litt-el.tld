@@ -82,6 +82,13 @@
   <example>${li:escapeHTML("HTML内容")}</example>
  </function>
  <function>
+  <description>将textarea内容转成html显示友好</description>
+  <name>escapeTextarea</name>
+  <function-class>com.litt.core.web.tag.el.FormatEL</function-class>
+  <function-signature>java.lang.String escapeTextarea(java.lang.String)</function-signature>
+  <example>${li:escapeTextarea("textarea内容")}</example>
+ </function> 
+ <function>
   <description>按条件输出</description>
   <name>switchOut</name>
   <function-class>com.litt.core.web.tag.el.FormatEL</function-class>

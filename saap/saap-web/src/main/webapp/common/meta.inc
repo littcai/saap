@@ -7,12 +7,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!--basic styles-->
 
-	<link href="${contextPath}/<s:theme code='path'/>/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="${contextPath}/<s:theme code='path'/>/css/bootstrap-responsive.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="${contextPath}/<s:theme code='path'/>/css/font-awesome.min.css" />
-	<link rel="stylesheet" href="${contextPath}/<s:theme code='path'/>/css/cus-icons.css" />
+	<link href="${contextPath}/${theme}/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="${contextPath}/${theme}/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${contextPath}/${theme}/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="${contextPath}/${theme}/css/cus-icons.css" />
 	<!--[if IE 7]>
-	  <link rel="stylesheet" href="${contextPath}/<s:theme code='path'/>/css/font-awesome-ie7.min.css" />
+	  <link rel="stylesheet" href="${contextPath}/${theme}/css/font-awesome-ie7.min.css" />
 	<![endif]-->
 	
 	<!--[if lt IE 9]>
@@ -25,7 +25,7 @@
 		
 	
 	<!--inline styles related to this page-->
-	<link href="${contextPath}/<s:theme code='path'/>/css/main.css" rel="stylesheet" />
+	<link href="${contextPath}/${theme}/css/main.css" rel="stylesheet" />
 	
 <!--basic scripts-->
 
@@ -42,21 +42,21 @@
 		<!--[if !IE]>-->
 
 		<script type="text/javascript">
-			window.jQuery || document.write("<script src='${contextPath}/<s:theme code='path'/>/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='${contextPath}/${theme}/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
 		</script>
 
 		<!--<![endif]-->
 
 		<!--[if IE]>
 		<script type="text/javascript">
-		 window.jQuery || document.write("<script src='${contextPath}/<s:theme code='path'/>/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		 window.jQuery || document.write("<script src='${contextPath}/${theme}/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 		</script>
 		<![endif]-->
 
 		<script type="text/javascript">
-			if("ontouchend" in document) document.write("<script src='${contextPath}/<s:theme code='path'/>/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if("ontouchend" in document) document.write("<script src='${contextPath}/${theme}/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="${contextPath}/<s:theme code='path'/>/js/bootstrap.min.js"></script>
+		<script src="${contextPath}/${theme}/js/bootstrap.min.js"></script>
 
 		<!-- common plugin scripts-->		
 		<!-- jquery bootbox -->
@@ -77,5 +77,5 @@
 <link href="${contextPath}/widgets/jquery-select2/css/select2.css" rel="stylesheet" />
 <script src="${contextPath }/widgets/jquery-select2/js/select2.min.js"></script>
 		
-		<script src="${contextPath}/<s:theme code='path'/>/js/common.js"></script>
-		<script src="${contextPath}/<s:theme code='path'/>/js/i18n/messages_zh_CN.js"></script>		
+		<script src="${contextPath}/${theme}/js/common.js"></script>
+		<script src="${contextPath}/${theme}/js/i18n/messages_zh_CN.js"></script>		

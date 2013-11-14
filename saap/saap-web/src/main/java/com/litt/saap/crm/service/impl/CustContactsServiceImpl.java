@@ -1,5 +1,7 @@
 package com.litt.saap.crm.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -38,6 +40,11 @@ public class CustContactsServiceImpl implements ICustContactsService
 	 */
 	public Integer save(CustContacts custContacts)
 	{
+		custContacts.setTenantId(LoginUtils.getTenantId());
+		custContacts.setCreateDatetime(new Date());
+		custContacts.setCreateUserId(LoginUtils.getLoginOpId().intValue());
+		custContacts.setUpdateDatetime(custContacts.getCreateDatetime());
+		
 		return custContactsDao.save(custContacts);
 	}
 	
@@ -50,6 +57,7 @@ public class CustContactsServiceImpl implements ICustContactsService
 		//校验租户权限
 		LoginUtils.validateTenant(custContacts.getTenantId());
 		
+		custContacts.setUpdateDatetime(new Date());
 		custContactsDao.update(custContacts);
 	}			
    

@@ -32,7 +32,7 @@ public class Role implements Serializable {
 	/**
 	 * 状态.
 	 */
-	private byte status;
+	private int status;
 
 	/**
 	 * 备注.
@@ -107,7 +107,7 @@ public class Role implements Serializable {
 	 * 取得 状态.
 	 * @return 状态
 	 */
-	public byte getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
@@ -115,7 +115,7 @@ public class Role implements Serializable {
 	 * 设置 状态.
 	 * @param status 状态
 	 */
-	public void setStatus(byte status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

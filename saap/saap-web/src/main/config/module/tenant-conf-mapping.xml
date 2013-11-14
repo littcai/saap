@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+<mapping>
+  <class name="com.litt.saap.core.module.tenant.config.TenantConfig">
+  	<map-to xml="tenant-config" />
+    <field name="tenantDefMap" type="com.litt.saap.core.module.tenant.config.TenantDefConfig" collection="map">
+    	<bind-xml name="tenant"></bind-xml>
+    </field> 
+  </class>
+  
+  <class name="com.litt.saap.core.module.tenant.config.TenantDefConfig" identity="Code">
+  	<map-to xml="tenant" />
+  	<field name="Code" type="java.lang.String" required="true">
+    	<bind-xml name="code" node="attribute" />
+    </field>
+    <field name="MaxMembers" type="int" required="true">
+    	<bind-xml name="maxMembers" node="element" />
+    </field>
+    <field name="Permissions" collection="array" type="string">
+    	<bind-xml name="code" node="element" location="permissions" />
+    </field>
+  </class>
+  
+  
+   
+</mapping>

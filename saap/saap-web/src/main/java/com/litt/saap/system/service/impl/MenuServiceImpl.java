@@ -14,12 +14,8 @@ import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.BeanCopier;
 import com.litt.core.util.StringUtils;
 import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.system.dao.FuncDao;
 import com.litt.saap.system.dao.MenuDao;
-import com.litt.saap.system.dao.ModuleDao;
-import com.litt.saap.system.po.Func;
 import com.litt.saap.system.po.Menu;
-import com.litt.saap.system.po.Module;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
 import com.litt.saap.system.vo.NavMenuVo;
@@ -118,17 +114,10 @@ public class MenuServiceImpl implements IMenuService
 		String listHql = "select a from Menu a";			
 		listHql += " order by parentId, position, menuCode";
 		
-		if(loginVo.getTenant().getIsAdmin())
-		{			
-			return menuDao.listAll(listHql);
-		}
-		else
-		{		
-			List<Menu> menuList = menuDao.listAll(listHql);
-			//检查登录用户是否有菜单权限，
-			List<Menu> retList = this.getPermittedMenus(loginVo, menuList);			
-			return retList;
-		}	
+		List<Menu> menuList = menuDao.listAll(listHql);
+		//检查登录用户是否有菜单权限，
+		List<Menu> retList = this.getPermittedMenus(loginVo, menuList);			
+		return retList;
 	}	
 	
 	/* (non-Javadoc)

@@ -9,31 +9,17 @@
   <form id="theform" action="update.json" method="post" class="form-horizontal">
   	<input type="hidden" name="id" value="${custContacts.id}" />
 				<fieldset>
-					<legend><s:message code="custContacts.ui.fieldset.base" /></legend>
+					<legend><s:message code="custContacts.ui.fieldset.base" /></legend>					
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custContacts.id"><s:message code="custContacts.id" /></label>
+								<label class="control-label" for="custContacts.customerId"><s:message code="custContacts.customer" /></label>
 								<div class="controls">
-									<input id="id" name="id" placeholder="" type="text" value="${custContacts.id}" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.tenantId"><s:message code="custContacts.tenantId" /></label>
-								<div class="controls">
-									<input id="tenantId" name="tenantId" placeholder="" type="text" value="${custContacts.tenantId}" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.customerId"><s:message code="custContacts.customerId" /></label>
-								<div class="controls">
-									<input id="customerId" name="customerId" placeholder="" type="text" value="${custContacts.customerId}" />
+									<select id="customerId" name="customerId">
+										<li:optionsCollection collection="${customerList }" var="customer" value="${custContacts.customerId}">	
+											<li:option property="${customer.id }">${customer.name }</li:option>			
+										</li:optionsCollection>
+									</select>	
 								</div>
 							</div>
 						</div>								
@@ -51,7 +37,9 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.gender"><s:message code="custContacts.gender" /></label>
 								<div class="controls">
-									<input id="gender" name="gender" placeholder="" type="text" value="${custContacts.gender}" />
+									<select id="gender" name="gender">
+										<li:dictOptions dictType="0002" dictValue="${custContacts.gender}"/>
+									</select>										
 								</div>
 							</div>
 						</div>								
@@ -108,22 +96,14 @@
 									<input id="zipCode" name="zipCode" placeholder="" type="text" value="${custContacts.zipCode}" />
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.createUserId"><s:message code="custContacts.createUserId" /></label>
-								<div class="controls">
-									<input id="createUserId" name="createUserId" placeholder="" type="text" value="${custContacts.createUserId}" />
-								</div>
-							</div>
-						</div>								
+						</div>					
 					</div>
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custContacts.createDatetime"><s:message code="custContacts.createDatetime" /></label>
 								<div class="controls">
-									<input id="createDatetime" name="createDatetime" placeholder="" type="text" value="${custContacts.createDatetime}" />
+									<c:out value="${custContacts.createDatetime}"></c:out>
 								</div>
 							</div>
 						</div>								
@@ -131,7 +111,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.updateDatetime"><s:message code="custContacts.updateDatetime" /></label>
 								<div class="controls">
-									<input id="updateDatetime" name="updateDatetime" placeholder="" type="text" value="${custContacts.updateDatetime}" />
+									<c:out value="${custContacts.updateDatetime}"></c:out>
 								</div>
 							</div>
 						</div>								
@@ -141,7 +121,7 @@
 							<div class="control-group">
 								<label class="control-label" for="custContacts.remark"><s:message code="custContacts.remark" /></label>
 								<div class="controls">
-									<input id="remark" name="remark" placeholder="" type="text" value="${custContacts.remark}" />
+									<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited"><c:out value="${custContacts.remark }" /></textarea>
 								</div>
 							</div>
 						</div>								
@@ -158,10 +138,34 @@
 		<script type="text/javascript">
 		$(document).ready(function(){	
 			
+			$("#customerId").select2();	
+			
 			$('#theform').littFormSubmit({
 				rules : {
 					name : {
 						required : true
+					},
+					gender : {
+						required : true
+					},
+					mobile : {
+						required : true
+					},
+					email : {
+						required : true,
+						email : true
+					},
+					phone : {
+						maxlength : 50
+					},
+					fax : {
+						maxlength : 50
+					},
+					address : {
+						maxlength : 200
+					},
+					zipCode : {
+						maxlength : 50
 					}
 				},			
 				success: function(reply){

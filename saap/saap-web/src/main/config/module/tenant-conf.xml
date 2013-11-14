@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tenant-config>
+	<tenant code="basic" descr="基础租户，仅包含基本功能">
+		<maxMembers>5</maxMembers>
+		<!-- 对应功能权限 -->
+		<permissions>
+		
+			<!-- crm -->
+			<code>11</code>
+			<code>1101</code>
+			<code>110101</code>
+			<code>110102</code>
+			<code>110103</code>
+			<code>110104</code>
+			<code>1102</code>
+			<code>110201</code>
+			<code>110202</code>
+			<code>110203</code>
+			<code>110204</code>
+		</permissions>
+	</tenant>
+	<tenant code="standard" descr="标准用户，包含常规功能">
+		<maxMembers>10</maxMembers>
+		<permissions>
+		</permissions>
+	</tenant>
+	<tenant code="business" descr="商业用户，包含所有功能，但有数据容量和成员数限制">
+		<maxMembers>100</maxMembers>
+		<permissions>
+		</permissions>
+	</tenant>
+	<tenant code="ultimate" descr="终极用户，包含所有功能，且数据容量和成员数无限制">
+		<maxMembers>-1</maxMembers>	
+		<permissions>
+		</permissions>
+	</tenant>
+
+</tenant-config>

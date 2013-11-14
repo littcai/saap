@@ -61,7 +61,7 @@
     </init-param>
     <init-param>
       <param-name>excludeUrlPattern</param-name>
-      <param-value>/index,/login</param-value>
+      <param-value>/index,/login,/message</param-value>
     </init-param>
     <init-param>
       <param-name>failRedirect</param-name>

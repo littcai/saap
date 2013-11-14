@@ -61,7 +61,13 @@ public class CommonController {
 	public ModelAndView main(HttpServletRequest request)
 	{
 		Theme theme = LoginUtils.getTheme(request);
-		return new ModelAndView("/theme/"+theme.getName()+"/main");
+		return new ModelAndView("/common/main");
+	}
+	
+	@RequestMapping(value="message.do")
+	public ModelAndView message(HttpServletRequest request)
+	{
+		return new ModelAndView("/common/message");
 	}
 	
 	@RequestMapping(value="menu.do")

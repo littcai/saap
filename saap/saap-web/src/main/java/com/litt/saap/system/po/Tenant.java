@@ -20,6 +20,11 @@ public class Tenant implements Serializable {
 	 * 序号.
 	 */
 	private Integer id;
+	
+	/**
+	 * 编号.
+	 */
+	private String code;
 
 	/**
 	 * 应用编号.
@@ -87,10 +92,11 @@ public class Tenant implements Serializable {
 	public Tenant() {
 	}
 
-	public Tenant(String appCode, String appAlias, int isolatedMode,
+	public Tenant(String code, String appCode, String appAlias, int isolatedMode,
 			int status, int createUserId, Date createDatetime,
 			Date updateDatetime, int maxMembers, int trialDays,
 			Date expiredDate, int price) {
+		this.code = code;
 		this.appCode = appCode;
 		this.appAlias = appAlias;
 		this.isolatedMode = isolatedMode;
@@ -118,6 +124,22 @@ public class Tenant implements Serializable {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	/**  
+	 * 取得 编号.
+	 * @return 编号
+	 */
+	public String getCode() {
+		return this.code;
+	}
+
+	/**
+	 * 设置 编号.
+	 * @param code 编号
+	 */
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	/**  

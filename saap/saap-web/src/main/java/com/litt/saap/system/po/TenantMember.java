@@ -167,7 +167,7 @@ public class TenantMember implements Serializable {
 	 * 取得 是否管理员.
 	 * @return 是否管理员
 	 */
-	public boolean isIsAdmin() {
+	public boolean getIsAdmin() {
 		return this.isAdmin;
 	}
 

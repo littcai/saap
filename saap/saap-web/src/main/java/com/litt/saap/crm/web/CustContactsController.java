@@ -1,5 +1,7 @@
 package com.litt.saap.crm.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -21,7 +23,9 @@ import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.crm.po.CustContacts;
+import com.litt.saap.crm.po.Customer;
 import com.litt.saap.crm.service.ICustContactsService;
+import com.litt.saap.crm.service.ICustomerService;
 
 /**
  * 
@@ -42,6 +46,9 @@ public class CustContactsController extends BaseController
 	@Resource
 	private ICustContactsService custContactsService;
 	
+	@Resource
+	private ICustomerService customerService;
+	
 	/**
 	 * default page.
 	 * 
@@ -57,14 +64,17 @@ public class CustContactsController extends BaseController
 		LoginUserVo loginUserVo = (LoginUserVo)super.getLoginVo();
 		
 		//get params from request		
-		String name = request.getParameter("name");
+		String customerName = request.getParameter("s_customerName");
+		
+		String name = request.getParameter("s_name");
 		Integer gender = Utility.parseInt(request.getParameter("gender"));
 		String mobile = request.getParameter("mobile");
 		String email = request.getParameter("email");
 				
 		//package the params
 		PageParam pageParam = WebUtils.getPageParam(request);
-		pageParam.addCond("tenantId", loginUserVo.getTenantId());			
+		pageParam.addCond("tenantId", loginUserVo.getTenantId());	
+		pageParam.addCond("customerName", customerName);	
 		pageParam.addCond("name", name);	
 		pageParam.addCond("gender", gender);
 		pageParam.addCond("mobile", mobile);
@@ -77,7 +87,10 @@ public class CustContactsController extends BaseController
 		modelMap.addAttribute("pageParam", pageParam);	
 		modelMap.addAttribute("pageList", pageList);	
 		
-    return new ModelAndView("/crm/custContacts/index");	
+		List<Customer> customerList = customerService.listAll();		
+		modelMap.addAttribute("customerList", customerList);	
+		
+		return new ModelAndView("/crm/custContacts/index");	
 	
 	} 	
 	
@@ -90,7 +103,8 @@ public class CustContactsController extends BaseController
 	@RequestMapping
 	public ModelAndView add() 
 	{        
-  	return new ModelAndView("/crm/custContacts/add");
+		List<Customer> customerList = customerService.listAll();	
+  	return new ModelAndView("/crm/custContacts/add").addObject("customerList", customerList);
   }
 	
 	/**
@@ -105,7 +119,8 @@ public class CustContactsController extends BaseController
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
 		CustContacts custContacts = custContactsService.load(id);		
-        return new ModelAndView("/crm/custContacts/edit").addObject("custContacts", custContacts);
+		List<Customer> customerList = customerService.listAll();	
+        return new ModelAndView("/crm/custContacts/edit").addObject("custContacts", custContacts).addObject("customerList", customerList);
     }	
     
 	/**
@@ -120,7 +135,9 @@ public class CustContactsController extends BaseController
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
 		CustContacts custContacts = custContactsService.load(id);		
-        return new ModelAndView("/crm/custContacts/show").addObject("custContacts", custContacts);
+		Customer customer = customerService.load(custContacts.getCustomerId());
+		
+        return new ModelAndView("/crm/custContacts/show").addObject("custContacts", custContacts).addObject("customer", customer);
     }   
     
     /**

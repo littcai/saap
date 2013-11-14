@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="com.litt.core.exception.BusiCodeException"%>
 <%@page import="com.litt.core.exception.NotLoginException"%>
 <%@ page contentType="text/html;charset=UTF-8" isErrorPage="true"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6,7 +7,6 @@
 <head>
 <title>500 <s:message code="error.500.title" /></title>
 <%@ include file="/common/meta.inc"%>
-<%@ include file="/common/include_form.inc"%>
 <script language="javascript">
 $(document).ready(function(){	
 	
@@ -50,7 +50,13 @@ $(document).ready(function(){
 	</h1>
   	<hr />
   	<h3 class="lighter smaller">
+  		<%if(exception.getCause()==null) {%>
+  		<%=exception.getMessage()%>
+  		<%}else if(exception.getCause() instanceof BusiCodeException){%>
+  		<s:message code="<%=((BusiCodeException)exception.getCause()).getErrorCode() %>" />
+  		<%}else {%>
 		<%=exception.getCause().getMessage()%>
+		<%} %>	
 	</h3>
   	<div class="space"></div>
   	<div>
@@ -73,7 +79,13 @@ $(document).ready(function(){
 			<form id="theform" action="${contextPath }/sendError.json" method="post">
 				<input type="hidden" id="errorCode" name="errorCode" value="500" />
 				<input type="hidden" id="url" name="url" value="<%=request.getHeader("Referer") %>" />
-				<input type="hidden" id="message" name="message" value="<%=exception.getCause().getMessage()%>" />
+				<%if(exception.getCause()==null) {%>
+				<input type="hidden" id="message" name="message" value="<%=exception.getMessage()%>" />				
+				<%}else if(exception.getCause() instanceof BusiCodeException){%>
+				<input type="hidden" id="message" name="message" value="<s:message code="<%=((BusiCodeException)exception.getCause()).getErrorCode() %>" />" />				
+				<%}else {%>
+				<input type="hidden" id="message" name="message" value="<%=exception.getCause().getMessage()%>" />				
+				<%} %>				
 				<textarea id="comment" name="comment" class="span6" rows="6" cols="80" required></textarea>
 				<div>
 				  <button type="submit" class="btn btn-primary"><s:message code="btn.submit" /></button>

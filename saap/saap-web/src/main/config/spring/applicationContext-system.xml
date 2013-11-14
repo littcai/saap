@@ -10,7 +10,9 @@
  		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
  		
  	<!-- 复合业务服务 -->
- 	<bean id="userBizService" class="com.litt.saap.system.biz.impl.UserBizServiceImpl"/>		
+ 	<bean id="userBizService" class="com.litt.saap.system.biz.impl.UserBizServiceImpl"/>
+ 	
+ 	<bean id="tenantBizService" class="com.litt.saap.system.biz.impl.TenantBizServiceImpl"/>			
 	
 	<!-- 系统信息及参数 -->
 	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
@@ -34,6 +36,8 @@
 	
 	<!-- 角色 -->
 	<bean id="roleDao" class="com.litt.saap.system.dao.RoleDao" parent="baseDao"/>
+	
+	<bean id="roleService" class="com.litt.saap.system.service.impl.RoleServiceImpl"/>
 	
 	<!-- 角色功能权限 -->
 	<bean id="roleFuncPermissionDao" class="com.litt.saap.system.dao.RoleFuncPermissionDao" parent="baseDao"/>

@@ -7,7 +7,7 @@
   <head>	
 	<decorator:head />	
 	</head>
-	<body>			
+	<body>
 	    <!-- 面板 -->	    
 	    <decorator:body  />	      
 	</body>
