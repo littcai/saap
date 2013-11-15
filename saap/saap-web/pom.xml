@@ -548,6 +548,11 @@
   </dependencies>
   
   <repositories>
+  		<repository>
+            <id>nexus</id>
+            <name>local private nexus</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>            
+        </repository> 
 		<repository>
 			<id>private-nexus</id>
 			<name>local nexus repository</name>
