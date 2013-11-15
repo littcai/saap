@@ -552,7 +552,7 @@
             <id>nexus</id>
             <name>local private nexus</name>
             <url>http://maven.oschina.net/content/groups/public/</url>            
-        </repository> 		
+        </repository>   		
 	</repositories>
 	
 	<distributionManagement>
