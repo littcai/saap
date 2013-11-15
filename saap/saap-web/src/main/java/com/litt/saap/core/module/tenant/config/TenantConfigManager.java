@@ -1,8 +1,5 @@
 package com.litt.saap.core.module.tenant.config;
 
-import org.beanio.internal.config.GroupConfig;
-import org.unitils.core.util.ResourceConfig;
-
 import com.litt.saap.core.util.ConfigUtils;
 
 /**
