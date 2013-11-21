@@ -339,7 +339,10 @@ $(document).ready(function(){
 				loading: "Processing...",
 				error: "System error",
 				success: "Success"
-			},	
+			},
+			errorMessages:{},
+			errorContainer: $([]),
+			errorLabelContainer: $([]),
 			beforeSerialize: null,
 			beforeSubmit: null,
 			success: null,
@@ -358,7 +361,10 @@ $(document).ready(function(){
 	  $this = $(this);
 	  var loading;  
 	  $this.validate({
-		  	rules : setting.rules,		
+		  	rules : setting.rules,	
+		  	messages: setting.errorMessages,
+		  	errorContainer: setting.errorContainer,
+			errorLabelContainer: setting.errorLabelContainer,
 			submitHandler: function(form) {  
 				$this.ajaxSubmit({ 							   
 			    	dataType:  'json',         

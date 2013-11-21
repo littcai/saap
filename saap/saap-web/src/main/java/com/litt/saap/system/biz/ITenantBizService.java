@@ -1,5 +1,7 @@
 package com.litt.saap.system.biz;
 
+import java.util.Locale;
+
 import com.litt.saap.system.bo.TenantActiveBo;
 
 /**
@@ -27,6 +29,6 @@ public interface ITenantBizService {
 	 * @param orderNo the order no
 	 * @param userId the user id
 	 */
-	public TenantActiveBo doActivate(String orderNo, Integer userId);
+	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale);
 
 }

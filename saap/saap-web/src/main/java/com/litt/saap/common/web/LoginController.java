@@ -1,5 +1,6 @@
 package com.litt.saap.common.web;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ThemeResolver;
 
 import com.litt.core.common.BeanManager;
+import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.BusiException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.vo.ILoginVo;
@@ -29,8 +31,10 @@ import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.po.ActivationCode;
+import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IMenuService;
+import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
 
@@ -56,6 +60,8 @@ public class LoginController {
 	
 	@Resource
 	private IUserInfoService userInfoService;
+	@Resource
+	private IRoleService roleService;
 	
 	@Resource
 	private IUserBizService userBizService;
@@ -198,9 +204,10 @@ public class LoginController {
 	 * @throws Exception the exception
 	 */
 	@RequestMapping(value="register.json")
-	public ModelAndView register(@RequestParam String loginId, @RequestParam String password, @RequestParam String email
+	public ModelAndView register(@RequestParam(required=false) String loginId, @RequestParam String password, @RequestParam String email
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
-	{				
+	{		
+		loginId = email;	//用邮箱地址当登录ID
 		String loginIp = WebUtils.getRemoteIp(request);
 		
 		Locale locale = LoginUtils.getLocale(request);		
@@ -261,6 +268,58 @@ public class LoginController {
 		Locale locale = LoginUtils.getLocale(request);
 		//从请求中获取查询条件	
 		userBizService.doForgetPassword(email, loginIp, locale);
+		
+		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * 邀请用户.
+	 *
+	 * @param id 找回密码ID
+	 * @param password 新密码
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="invite.do")
+	public ModelAndView toInvite(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{			
+		int tenantId = LoginUtils.getTenantId();		
+		List<Role> roleList = roleService.listByTenant(tenantId);
+		
+		return new ModelAndView("/common/invite").addObject("roleList", roleList);
+	}
+	
+	/**
+	 * Forget password.
+	 *
+	 * @param email the email
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="invite.json")
+	public ModelAndView invite(@RequestParam(required=false) String[] emails, @RequestParam(required=false) Integer[] roleIds
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		Integer inviterUserId = LoginUtils.getLoginOpId().intValue();		
+		
+		Locale locale = LoginUtils.getLocale(request);
+		TimeZone timeZone = TimeZone.getDefault();
+		Theme theme = LoginUtils.getTheme(request);
+		//从请求中获取查询条件	
+		if(emails==null || roleIds==null)
+		{
+			throw new BusiCodeException("invite.error.inputEmpty");
+		}
+		for (int i=0; i< emails.length; i++) {
+			String email = emails[i];
+			Integer targetRoleId = roleIds[i];
+			userBizService.doInvite(inviterUserId, targetRoleId, email, locale, timeZone, theme);
+		}
 		
 		return new ModelAndView("jsonView");
 	}
@@ -331,7 +390,7 @@ public class LoginController {
 		Locale locale = LoginUtils.getLocale(request);
 				
 		//激活租户	
-		TenantActiveBo tenantActiveBo = tenantBizService.doActivate(orderNo, userId);		
+		TenantActiveBo tenantActiveBo = tenantBizService.doActivate(orderNo, userId, locale);		
 		
 		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
 		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，必须再重新登录

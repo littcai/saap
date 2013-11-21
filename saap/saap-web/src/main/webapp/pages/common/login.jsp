@@ -114,6 +114,7 @@
 			<form id="register-form" class="form-vertical register-form" action="register.json" >
 				<h3 class=""><s:message code="login.ui.registerForm" /></h3>
 				<p><s:message code="login.ui.registerForm.tip" /></p>
+				<!-- use email as loginId
 				<div class="control-group">
 					<label class="control-label visible-ie8 visible-ie9"><s:message code="login.loginId" /></label>
 					<div class="controls">
@@ -122,6 +123,18 @@
 							<input class="" type="text" placeholder="<s:message code='login.loginId.tip' />" name="loginId"/>							
 						</div>
 						<span class="help-block visible-ie8 visible-ie9 hide"><s:message code='register.loginId.help' /></span>
+					</div>
+				</div>
+				 -->
+				<div class="control-group">
+					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+					<label class="control-label visible-ie8 visible-ie9"><s:message code='login.email' /></label>
+					<div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-envelope"></i></span>
+							<input class="" type="text" placeholder="<s:message code='login.email.tip' />" name="email"/>							
+						</div>
+						<span class="help-block visible-ie8 visible-ie9 hide"><s:message code='register.email.help' /></span>
 					</div>
 				</div>
 				<div class="control-group">
@@ -143,18 +156,7 @@
 						</div>
 						<span class="help-block visible-ie8 visible-ie9 hide"><s:message code='login.rpassword.help' /></span>
 					</div>
-				</div>
-				<div class="control-group">
-					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-					<label class="control-label visible-ie8 visible-ie9"><s:message code='login.email' /></label>
-					<div class="controls">
-						<div class="input-prepend">
-							<span class="add-on"><i class="icon-envelope"></i></span>
-							<input class="" type="text" placeholder="<s:message code='login.email.tip' />" name="email"/>							
-						</div>
-						<span class="help-block visible-ie8 visible-ie9 hide"><s:message code='register.email.help' /></span>
-					</div>
-				</div>
+				</div>				
 				<div class="control-group">
 					<div class="controls">
 						<label class="checkbox">

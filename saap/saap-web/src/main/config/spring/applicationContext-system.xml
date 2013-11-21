@@ -12,13 +12,16 @@
  	<!-- 复合业务服务 -->
  	<bean id="userBizService" class="com.litt.saap.system.biz.impl.UserBizServiceImpl"/>
  	
- 	<bean id="tenantBizService" class="com.litt.saap.system.biz.impl.TenantBizServiceImpl"/>			
+ 	<bean id="tenantBizService" class="com.litt.saap.system.biz.impl.TenantBizServiceImpl"/>	
+ 	
+ 	<bean id="userMessageBizService" class="com.litt.saap.system.biz.impl.UserMessageBizServiceImpl"/>		
 	
 	<!-- 系统信息及参数 -->
 	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
 	
 	<!-- 激活码 -->
 	<bean id="activationCodeDao" class="com.litt.saap.system.dao.ActivationCodeDao" parent="baseDao"/>	
+	<bean id="activationCodeService" class="com.litt.saap.system.service.impl.ActivationCodeServiceImpl"/>	
 		
 	<!-- 用户 -->	
 	<bean id="userInfoDao" class="com.litt.saap.system.dao.UserInfoDao" parent="baseDao"/>	
@@ -60,8 +63,17 @@
 	
 	<!-- 租户 -->
 	<bean id="tenantDao" class="com.litt.saap.system.dao.TenantDao" parent="baseDao"/>
+	<bean id="tenantService" class="com.litt.saap.system.service.impl.TenantServiceImpl"/>
 
 	<!-- 租户成员 -->
 	<bean id="tenantMemberDao" class="com.litt.saap.system.dao.TenantMemberDao" parent="baseDao"/>
+	
+	<!-- 用户评论 -->
+	<bean id="userCommentDao" class="com.litt.saap.system.dao.UserCommentDao" parent="baseDao"/>
+	<bean id="userCommentService" class="com.litt.saap.system.service.impl.UserCommentServiceImpl"/>
+	
+	<!-- 用户消息 -->
+	<bean id="userMessageDao" class="com.litt.saap.system.dao.UserMessageDao" parent="baseDao"/>
+	<bean id="userMessageService" class="com.litt.saap.system.service.impl.UserMessageServiceImpl"/>
 
 </beans>

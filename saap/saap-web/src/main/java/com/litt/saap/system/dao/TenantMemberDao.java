@@ -21,6 +21,43 @@ import com.litt.saap.system.po.TenantMember;
 public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> {
 	
 	/**
+	 * 检查用户是否已是某个租户的成员.
+	 *
+	 * @param userId the user id
+	 * @return true, if is tenant member
+	 */
+	public boolean isTenantMember(int userId)
+	{
+		String countHql = "select count(o) from TenantMember o where o.userId=?";
+		return super.count(countHql, new Object[]{userId})>0;
+	}
+	
+	/**
+	 * Count by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the int
+	 */
+	public int countByTenant(int tenantId)
+	{
+		String countHql = "select count(o) from TenantMember o where o.tenantId=?";
+		return super.count(countHql, new Object[]{tenantId});
+	}
+	
+	/**
+	 * Load.
+	 *
+	 * @param appId the app id
+	 * @param userId the user id
+	 * @return the tenant member
+	 */
+	public TenantMember loadByUserAndTenant(int userId, int tenantId)
+	{
+		String hql = "from TenantMember where userId=? and tenantId=?";
+		return super.uniqueResult(hql, new Object[]{userId, tenantId}, TenantMember.class);
+	}
+	
+	/**
 	 * Load.
 	 *
 	 * @param appId the app id
@@ -29,8 +66,9 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	 */
 	public TenantMember load(int userId, int appId)
 	{
-		String hql = "from TenantMember where userId=? and appId=?";
-		return super.uniqueResult(hql, new Object[]{userId, appId}, TenantMember.class);
+		//TODO 暂时只有一个应用，忽略所有的app属性
+		String hql = "from TenantMember where userId=?";
+		return super.uniqueResult(hql, new Object[]{userId}, TenantMember.class);
 	}
 
 }

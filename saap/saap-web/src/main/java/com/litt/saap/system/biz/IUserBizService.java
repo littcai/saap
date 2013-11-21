@@ -43,6 +43,27 @@ public interface IUserBizService {
 	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
 	
 	/**
+	 * 邀请用户加入.
+	 *
+	 * @param userId 发起用户
+	 * @param email the email 目标抵制
+	 * @param locale the locale
+	 * @param timeZone the time zone
+	 * @param theme the theme
+	 */
+	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, Locale locale, TimeZone timeZone, Theme theme);
+	
+	/**
+	 * 加入.
+	 *
+	 * @param code the code 激活码
+	 * @param source the source 发起用户邮件地址
+	 * @param account the account 目标用户邮件地址
+	 * @return the login user vo
+	 */
+	public LoginUserVo doJoin(String loginId, String password, String email, String loginIp, String code, Locale locale, TimeZone timeZone, Theme theme);
+	
+	/**
 	 * 用户账号激活.
 	 *
 	 * @param code the code

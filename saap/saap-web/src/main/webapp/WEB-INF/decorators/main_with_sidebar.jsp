@@ -69,6 +69,7 @@
 	            <ul class="pull-right nav">
 	            	<li ><a href="${contextPath }/personal/shortMessage/index.do"><i class="cus-phone"></i>站内信</a></li>
 	            	<li ><a href="profile.do"><i class="cus-cog"></i>&nbsp;个人设置</a></li>
+	            	<li ><a href="${contextPath }/login/invite.do"><i class="cus-cog"></i>&nbsp;邀请用户</a></li>
 					<li ><a href="${contextPath }/login/logout.do"><i class="icon-off"></i>&nbsp;退出</a></li>
 					<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;帮助</a></li>
 	            </ul>
@@ -77,67 +78,75 @@
 	      </div>
 	    </div>		
 		<div class="container-fluid" style="margin-top: 15px;">
-	      <div class="row-fluid">
-	      	<c:forEach items="${menuTree }" var="menu">	
-		       <c:if test="${fn:startsWith(__moduleCode, menu.menuCode) }">
-			        <div class="span2">
-			          <div class="accordion" id="accordion2">
-				            <div class="accordion-group">		            	
-		            			<div class="accordion-heading">
-				                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-				                        ${menu.menuName }
-				                    </a>
-				                </div>
-				                <div id="collapseOne" class="accordion-body collapse" style="height: auto;">
-				                    <div class="accordion-inner">
-						  				<ul class="nav nav-list">	
-						  				<c:forEach items="${menu.subList }" var="subMenu">	              		  		
-							              	<c:choose>
-							              		<c:when test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">
-							              			<c:set var="subActiveCss" value="active"></c:set>
-							              		</c:when>
-							              		<c:otherwise>
-							              			<c:set var="subActiveCss" value=""></c:set>
-							              		</c:otherwise>
-							              	</c:choose>	
-						  				
-						  					<li class="${subActiveCss }">
-												<a href="${contextPath}/menu.do?menuCode=${subMenu.menuCode}">
-													<i class="${subMenu.iconUrl }"></i> ${subMenu.menuName }
-												</a>
-											</li>
-										</c:forEach>	
-				                		</ul>
-				                	</div>
-				                </div>		            		
-				            </div>		            
-				        </div>
-			        </div><!--/span-->
-				</c:if>
-		    </c:forEach>		            
-	        <div <c:if test="${not empty __moduleCode }">class="span10"</c:if> >
-	        	<!-- 面包屑导航 -->
-	        	<div>				
-					<ul class="breadcrumb">
-					  <li><a href="${contextPath }/">首页</a></li>
-					  <c:forEach items="${menuTree }" var="menu">	
-		       			<c:if test="${fn:startsWith(__moduleCode, menu.menuCode) }">
-					  		<li> <span class="divider">/</span> ${menu.menuName }</li>					  	
-					  		<c:forEach items="${menu.subList }" var="subMenu">	   	
-					  			<c:if test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">					  
-					  				<li class="active"> <span class="divider">/</span> ${subMenu.menuName }</li>
-					  			</c:if>
-					  		</c:forEach>
-					  	</c:if>
-					  </c:forEach>				
-					</ul>
+		  <c:if test="${not empty menuTree }">
+		      <div class="row-fluid">
+		      	<c:forEach items="${menuTree }" var="menu">	
+			       <c:if test="${fn:startsWith(__moduleCode, menu.menuCode) }">
+				        <div class="span2">
+				          <div class="accordion" id="accordion2">
+					            <div class="accordion-group">		            	
+			            			<div class="accordion-heading">
+					                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					                        ${menu.menuName }
+					                    </a>
+					                </div>
+					                <div id="collapseOne" class="accordion-body collapse" style="height: auto;">
+					                    <div class="accordion-inner">
+							  				<ul class="nav nav-list">	
+							  				<c:forEach items="${menu.subList }" var="subMenu">	              		  		
+								              	<c:choose>
+								              		<c:when test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">
+								              			<c:set var="subActiveCss" value="active"></c:set>
+								              		</c:when>
+								              		<c:otherwise>
+								              			<c:set var="subActiveCss" value=""></c:set>
+								              		</c:otherwise>
+								              	</c:choose>	
+							  				
+							  					<li class="${subActiveCss }">
+													<a href="${contextPath}/menu.do?menuCode=${subMenu.menuCode}">
+														<i class="${subMenu.iconUrl }"></i> ${subMenu.menuName }
+													</a>
+												</li>
+											</c:forEach>	
+					                		</ul>
+					                	</div>
+					                </div>		            		
+					            </div>		            
+					        </div>
+				        </div><!--/span-->
+					</c:if>
+			    </c:forEach>		            
+		        <div <c:if test="${not empty __moduleCode }">class="span10"</c:if> >
+		        	<!-- 面包屑导航 -->
+		        	<div>				
+						<ul class="breadcrumb">
+						  <li><a href="${contextPath }/">首页</a></li>
+						  <c:forEach items="${menuTree }" var="menu">	
+			       			<c:if test="${fn:startsWith(__moduleCode, menu.menuCode) }">
+						  		<li> <span class="divider">/</span> ${menu.menuName }</li>					  	
+						  		<c:forEach items="${menu.subList }" var="subMenu">	   	
+						  			<c:if test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">					  
+						  				<li class="active"> <span class="divider">/</span> ${subMenu.menuName }</li>
+						  			</c:if>
+						  		</c:forEach>
+						  	</c:if>
+						  </c:forEach>				
+						</ul>
+					</div>
+					<div class="row-fluid">
+						 <!-- 内容区 -->
+		    			 <decorator:body />	 
+					</div>
 				</div>
-				<div class="row-fluid">
-					 <!-- 内容区 -->
-	    			 <decorator:body />	 
-				</div>
+			  </div>
+		  </c:if>
+		  <c:if test="${empty menuTree }">
+		  	<div class="row-fluid">
+				<!-- 内容区 -->
+		    	<decorator:body />	 
 			</div>
-		  </div>
+		  </c:if>
 		</div>
 	</body>
 </html>

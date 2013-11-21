@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-11-19 15:15:42 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.UserComment" dynamic-insert="true" dynamic-update="true" table="user_comment">
+        <comment>用户注释</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="moduleCode" type="string">
+            <column name="MODULE_CODE" length="50" not-null="true">
+                <comment>模块编号</comment>
+            </column>
+        </property>
+        <property name="dataId" type="int">
+            <column name="DATA_ID" not-null="true">
+                <comment>数据ID</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="2000" not-null="true">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="createUserId" type="int">
+            <column name="CREATE_USER_ID" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -28,6 +28,9 @@ public class TenantDefConfig {
 	/** 拥有功能模块权限. */
 	private String[] permissions;
 	
+	/** 默认角色及其对应权限. */
+	private TenantRoleConfig[] roles;
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -37,6 +40,7 @@ public class TenantDefConfig {
 		builder.append("TenantDefConfig [code=").append(code)
 				.append(", maxMembers=").append(maxMembers)
 				.append(", permissions=").append(Arrays.toString(permissions))
+				.append(", roles=").append(Arrays.toString(roles))
 				.append("]");
 		return builder.toString();
 	}
@@ -81,6 +85,20 @@ public class TenantDefConfig {
 	 */
 	public void setPermissions(String[] permissions) {
 		this.permissions = permissions;
+	}
+
+	/**
+	 * @return the roles
+	 */
+	public TenantRoleConfig[] getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(TenantRoleConfig[] roles) {
+		this.roles = roles;
 	}
 
 	

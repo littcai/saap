@@ -1,9 +1,12 @@
 package com.litt.saap.system.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import com.litt.saap.system.dao.RoleDao;
 import com.litt.saap.system.po.Role;
+import com.litt.saap.system.service.IRoleService;
 
 /**
  * .
@@ -44,5 +47,18 @@ public class RoleServiceImpl implements IRoleService {
 	{
 		return roleDao.load(roleId);
 	}
+	
+	/**
+	 * List by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<Role> listByTenant(int tenantId)
+	{
+		String listHql = "from Role where tenantId=?";
+		return roleDao.listAll(listHql, new Object[]{tenantId});
+	}
+	
 
 }

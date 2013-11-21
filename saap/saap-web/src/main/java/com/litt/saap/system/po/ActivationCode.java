@@ -1,14 +1,15 @@
 package com.litt.saap.system.po;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import java.io.Serializable;
+
 /**
- * 找回密码<br>
- * 表名：forget_password<br>
+ * 激活码<br>
+ * 表名：activation_code<br>
  * @author Hibernate Tools 3.2.4.GA
  * @version 1.0
- * @since 2013-9-24 15:35:34
+ * @since 2013-11-20 10:24:11
  */
 public class ActivationCode implements Serializable {
 	/**
@@ -26,6 +27,16 @@ public class ActivationCode implements Serializable {
 	private int userId;
 
 	/**
+	 * 模块编号.
+	 */
+	private String moduleCode;
+
+	/**
+	 * 参数.
+	 */
+	private String params;
+
+	/**
 	 * 安全密钥.
 	 */
 	private String securityKey;
@@ -38,10 +49,12 @@ public class ActivationCode implements Serializable {
 	public ActivationCode() {
 	}
 
-	public ActivationCode(String id, int userId, String securityKey,
-			Date expiredDatetime) {
+	public ActivationCode(String id, int userId, String moduleCode,
+			String params, String securityKey, Date expiredDatetime) {
 		this.id = id;
 		this.userId = userId;
+		this.moduleCode = moduleCode;
+		this.params = params;
 		this.securityKey = securityKey;
 		this.expiredDatetime = expiredDatetime;
 	}
@@ -81,6 +94,38 @@ public class ActivationCode implements Serializable {
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	/**  
+	 * 取得 模块编号.
+	 * @return 模块编号
+	 */
+	public String getModuleCode() {
+		return this.moduleCode;
+	}
+
+	/**
+	 * 设置 模块编号.
+	 * @param moduleCode 模块编号
+	 */
+	public void setModuleCode(String moduleCode) {
+		this.moduleCode = moduleCode;
+	}
+
+	/**  
+	 * 取得 参数.
+	 * @return 参数
+	 */
+	public String getParams() {
+		return this.params;
+	}
+
+	/**
+	 * 设置 参数.
+	 * @param params 参数
+	 */
+	public void setParams(String params) {
+		this.params = params;
 	}
 
 	/**  

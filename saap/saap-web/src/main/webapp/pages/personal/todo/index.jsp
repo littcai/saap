@@ -4,15 +4,7 @@
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
   <head>
-	<meta name="decorator" content="main_with_bar" />
-	
-	<!-- jquery form and validate -->
-	<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>
-	<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
-	<c:if test="${!empty locale && !fn:startsWith(locale, 'en') }">
-		<script src="${contextPath }/widgets/jquery-validate/i18n/message_${locale}.js"></script>
-	</c:if>
-	<script src="${contextPath }/widgets/jquery-form/jquery.form.min.js"></script>
+	<meta name="decorator" content="main_with_bar" />	
 	<!-- jquery inline editor -->
 	<link href="${contextPath}/widgets/x-editable/css/bootstrap-editable.css" rel="stylesheet" />	
 	<script src="${contextPath }/widgets/x-editable/js/bootstrap-editable.min.js"></script>	

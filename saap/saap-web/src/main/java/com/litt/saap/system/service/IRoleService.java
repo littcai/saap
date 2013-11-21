@@ -1,4 +1,6 @@
-package com.litt.saap.system.service.impl;
+package com.litt.saap.system.service;
+
+import java.util.List;
 
 import com.litt.saap.system.po.Role;
 
@@ -28,5 +30,13 @@ public interface IRoleService {
 	 * @return the role
 	 */
 	public Role load(int roleId);
+	
+	/**
+	 * List by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<Role> listByTenant(int tenantId);
 
 }

@@ -20,8 +20,19 @@
     <field name="Permissions" collection="array" type="string">
     	<bind-xml name="code" node="element" location="permissions" />
     </field>
+    <field name="Roles" collection="array" type="com.litt.saap.core.module.tenant.config.TenantRoleConfig">
+    	<bind-xml name="role" node="element"/>
+    </field>
   </class>
   
-  
+  <class name="com.litt.saap.core.module.tenant.config.TenantRoleConfig" identity="Code">
+  	<map-to xml="role" />
+  	<field name="Code" type="java.lang.String" required="true">
+    	<bind-xml name="code" node="attribute" />
+    </field>    
+    <field name="Permissions" collection="array" type="string">
+    	<bind-xml name="code" node="element" location="permissions" />
+    </field>    
+  </class>
    
 </mapping>

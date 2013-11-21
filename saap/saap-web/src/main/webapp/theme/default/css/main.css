@@ -28,6 +28,10 @@
 
 
 /* form-validate custom style */
+.form-error-container {
+	color:#dd5a43!important
+}
+
 label.valid {
   width: 24px;
   height: 24px;
