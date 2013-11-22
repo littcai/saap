@@ -57,14 +57,19 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
 $(document).ready(function(){	
+	$('[name^="emails"]').each(function() {
+	    $('#theform').rules('add', {
+	        required:true,
+	        email: true,
+	        messages: {
+	            required: "Custom message."
+	        }
+	    });
+	});
+	
 	
 	$('#theform').littFormSubmit({
-		rules : {
-			emails : {
-				required : true,
-				email : true
-				
-			},						
+		rules : {								
 			comment : {				
 				maxlength : 500
 			}
@@ -81,6 +86,11 @@ $(document).ready(function(){
 		}
 	});	
 });		
+
+function addMember()
+{
+	
+}
 </script>
 </body>
 </html>
