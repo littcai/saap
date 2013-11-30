@@ -136,13 +136,4 @@ public interface IUserInfoService {
 	 */
 	public UserInfo loadByEmail(String email);
 	
-	/**
-	 * Load forget password.
-	 *
-	 * @param token the token
-	 * @param locale the locale
-	 * @return the forget password
-	 */
-	public ActivationCode loadForgetPassword(String token, Locale locale);
-
 }

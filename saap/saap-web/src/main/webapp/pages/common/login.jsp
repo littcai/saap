@@ -91,6 +91,7 @@
 			<!-- BEGIN FORGOT PASSWORD FORM -->
 			<form id="forget-form" class="form-vertical forget-form" action="forgetPassword.json">
 				<h3 class=""><s:message code="login.ui.forgetForm" /></h3>
+				<div id="forget-form-message-container" class="hide"></div>
 				<p><s:message code="login.ui.forgetForm.tip" /></p>
 				<div class="control-group">
 					<div class="controls">
@@ -192,7 +193,8 @@
 </div> <!-- /login-wrapper -->
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
-		$(document).ready(function(){			
+		$(document).ready(function(){				
+			
 			$("#login-form").validate({  				 
 				 success: function (element) {
 	            	element.closest('.control-group').removeClass('error');
@@ -204,8 +206,12 @@
 					    	success:   function(response, textStatus, xhr, form){
 					    		location.href = "${contextPath}/main.do";					    		
 					    	}, 
-					 		error : function (XMLHttpRequest, textStatus, errorThrown) {  		
-								showAlert("login-form-message-summary", "error", eval("(" + XMLHttpRequest.responseText +  ")").exception);				
+					 		error : function (XMLHttpRequest, textStatus, errorThrown) {  	
+					 			$.webtools.alert({
+					 				containerId: "login-form-message-summary",
+					 				type: "error",
+					 				message: eval("(" + XMLHttpRequest.responseText +  ")").exception			
+					 			}); 					 						
 								$("#captcha").val("");
 								$("#captchaImg").attr("src", "<%=contextPath%>/opCaptcha?radom="+Math.random());   
 							},
@@ -220,18 +226,22 @@
 				 } 
 			}); 
 			
-			$("#forget-form").validate({  
-				 submitHandler: function(form) {  
-					 $(form).ajaxSubmit({ 
-							   
-					    	dataType:  'json',         
-					    	success:   function(){
-					    		location.href = "${contextPath}/main.do";
-					    	} 
-					  });     	
-					  return false;						    
-				 }
-			}); 
+			$('#forget-form').littFormSubmit({		
+				rules : {			
+					email : {
+						required : true,
+						email : true
+					}
+				},	
+				success: function(reply){
+					$.webtools.alert({
+		    			containerId: "forget-form-message-container",
+						type: "info",
+						message: "<s:message code='forgetPassword.success.message' />"			
+			 		}); 					
+				}
+			});	
+			
 			
 			$('.register-form').validate({          
 	            focusInvalid: false, // do not focus the last invalid input	           
@@ -244,6 +254,7 @@
 	                    required: true
 	                },
 	                rpassword: {
+	                	required: true,
 	                    equalTo: "#register_password"
 	                },
 	                email: {

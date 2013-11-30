@@ -157,13 +157,15 @@ public class UserBizServiceImpl implements IUserBizService {
 	/**
 	 * 邀请用户加入.
 	 *
-	 * @param userId 发起用户
-	 * @param email the email 目标抵制
+	 * @param inviterUserId the inviter user id
+	 * @param targetRoleId the target role id
+	 * @param email the email
+	 * @param comment 用户注释
 	 * @param locale the locale
 	 * @param timeZone the time zone
 	 * @param theme the theme
 	 */
-	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, Locale locale, TimeZone timeZone, Theme theme)
+	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, String comment, Locale locale, TimeZone timeZone, Theme theme)
 	{		
 		UserInfo userInfo = userInfoService.load(inviterUserId);	//发起邀请用户
 		TenantMember tenantMember = tenantMemberDao.load(inviterUserId, SaapConstants.PLATFORM_APP_ID);	//发起用户所在的租户
@@ -182,7 +184,8 @@ public class UserBizServiceImpl implements IUserBizService {
 		paramMap.put("inviterUserId", inviterUserId);
 		paramMap.put("tenantId", tenant.getId());
 		paramMap.put("roleId", targetRoleId);
-		ActivationCode activationCode = activationCodeService.gen(inviterUserId, 30 * 24 * 60 * 60 * 1000, paramMap);	//超时时间30天
+		paramMap.put("email", email);
+		ActivationCode activationCode = activationCodeService.gen(inviterUserId, 30L * 24 * 60 * 60 * 1000, paramMap);	//超时时间30天
 		
 		UserInfo targetUserInfo = userInfoService.loadByEmail(email);
 		if(targetUserInfo!=null)	//注册用户，额外发送一条消息，方便站内激活
@@ -192,12 +195,13 @@ public class UserBizServiceImpl implements IUserBizService {
 		//发送激活邮件
 		try {
 			Map<String, Object> propMap = new HashMap<String, Object>();
-			propMap.put("activationCode", activationCode);
+			propMap.put("activationCode", activationCode.getId());
 			propMap.put("email", email);
 			propMap.put("tenantName", tenant.getAppAlias());
 			propMap.put("sourceUser", userInfo);
 			propMap.put("url", systemInfo.getBaseUrl());
 			propMap.put("systemName", systemInfo.getSystemName());
+			propMap.put("comment", comment);
 			
 			String content = templateService.genString("invite", propMap);			
 			emailService.sendMime(email, BeanManager.getMessage("invite.email.subject", new Object[]{systemInfo.getSystemName(), userInfo.getUserName()}, locale), content, content);
@@ -232,7 +236,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		}		
 		
 		Integer inviterUserId = Utility.parseInt(paramMap.get("inviterUserId").toString());
-		Integer targetRoleId = Utility.parseInt(paramMap.get("targetRoleId").toString());
+		Integer targetRoleId = Utility.parseInt(paramMap.get("roleId").toString());
 		Integer tenantId = Utility.parseInt(paramMap.get("tenantId").toString());
 		
 	
@@ -354,7 +358,32 @@ public class UserBizServiceImpl implements IUserBizService {
 			throw new BusiCodeException("forgetPassword.error.emailNotExist", locale);
 		}
 		//发送找回密码邮件给该用户
+		//获得系统信息
+		SystemInfoVo systemInfo = systemInfoService.getSystemInfo();		
+				
+		//生成激活码
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		ActivationCode activationCode = activationCodeService.gen(userInfo.getId(), 30L * 24 * 60 * 60 * 1000, paramMap);	//超时时间30天
+				
+		UserInfo targetUserInfo = userInfoService.loadByEmail(email);
+		if(targetUserInfo!=null)	//注册用户，额外发送一条消息，方便站内激活
+		{
+				
+		}
+		//发送激活邮件
+		try {
+			Map<String, Object> propMap = new HashMap<String, Object>();
+			propMap.put("activationCode", activationCode.getId());
+			propMap.put("email", email);					
+			propMap.put("user", userInfo);
+			propMap.put("url", systemInfo.getBaseUrl());
+			propMap.put("systemName", systemInfo.getSystemName());
 		
+			String content = templateService.genString("forgetPassword", propMap);			
+			emailService.sendMime(email, BeanManager.getMessage("forgetPassword.email.subject", new Object[]{systemInfo.getSystemName()}, locale), content, content);
+		} catch (MessagingException e) {
+			logger.error("User Resetpassword email sent failed.", e);
+		}
 	}
 	
 	/**
@@ -365,28 +394,33 @@ public class UserBizServiceImpl implements IUserBizService {
 	 * @param loginIp 客户端IP
 	 * @param locale the locale
 	 */
-	public void doResetPassword(String id, String password, String loginIp, Locale locale)
+	public void doResetPassword(String code, String password, String loginIp, Locale locale)
 	{		
-		ActivationCode forgetPassword = userInfoService.loadForgetPassword(id, locale);
+		ActivationCode activationCode = activationCodeService.loadAndDelete(code);
+		if(activationCode==null)
+			throw new BusiCodeException("activate.error.codeNotExist");
+		if(activationCode.isExpired())	//激活码已过期，删除用户账号，由用户重新注册
+		{			
+			throw new BusiCodeException("activate.error.expired");
+		}
+		
 				
-		UserInfo userInfo = userInfoService.load(forgetPassword.getUserId());
+		UserInfo userInfo = userInfoService.load(activationCode.getUserId());
 		if(userInfo==null)
 		{
 			throw new BusiCodeException("error.UserInfo.deleted");	
 		}
 		//设置新密码
-		//MD5加密密码
-		String encryptPassowrd = userInfo.getPassword();
 		try
 		{
-			encryptPassowrd = MessageDigestTool.encryptMD5(encryptPassowrd);
+			String encryptPassowrd = MessageDigestTool.encryptMD5(password);
 			userInfo.setPassword(encryptPassowrd);
-			
+			userInfoService.update(userInfo);
 			logger.info("User:{} reset password from {}.", new Object[]{userInfo.getEmail(), loginIp});
 		}
 		catch (EncryptFailedException e)
 		{
-			throw new BusiCodeException("forgetPassword.error.resetFailed", LocaleUtils.toLocale(userInfo.getLocale()), e);
+			throw new BusiCodeException("resetPassword.error.resetFailed", LocaleUtils.toLocale(userInfo.getLocale()), e);
 		}	
 	}
 	

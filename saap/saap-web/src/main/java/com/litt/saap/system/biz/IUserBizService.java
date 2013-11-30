@@ -46,12 +46,12 @@ public interface IUserBizService {
 	 * 邀请用户加入.
 	 *
 	 * @param userId 发起用户
-	 * @param email the email 目标抵制
+	 * @param email the email
 	 * @param locale the locale
 	 * @param timeZone the time zone
 	 * @param theme the theme
 	 */
-	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, Locale locale, TimeZone timeZone, Theme theme);
+	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, String comment, Locale locale, TimeZone timeZone, Theme theme);
 	
 	/**
 	 * 加入.

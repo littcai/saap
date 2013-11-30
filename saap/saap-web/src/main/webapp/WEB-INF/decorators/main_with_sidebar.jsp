@@ -14,7 +14,23 @@
 	});	
 	</script>		
 	</head>
-	<body>				
+	<body>	
+<header id="header">
+    <!--[if lte IE 9]>
+    <div id="warning_info" class="text-warning fade in mb_0">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <strong>您正在使用低版本浏览器，</strong> 在本页面的显示效果可能有差异。
+        建议您升级到
+        <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a>
+        或以下浏览器：
+        <a href="www.mozilla.org/en-US/firefox/‎" target="_blank">Firefox</a> /
+        <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> /
+        <a href="http://www.opera.com/" target="_blank">Opera</a> /
+        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">
+            Internet Explorer 10</a>
+    </div>
+    <![endif]-->
+</header>			
 		<!-- Common -->
 		<div class="navbar navbar-static-top">
 		  <div class="navbar-inner">
@@ -29,7 +45,7 @@
 	          <!-- Everything you want hidden at 940px or less, place within here -->
 	          <div class="nav-collapse collapse" id="topMenu">	            
 	            <ul class="nav nav-pills">
-	              <li <c:if test="${empty __moduleCode }">class="active"</c:if> ><a href="#"><i class="icon-home"></i><s:message code="main.ui.nav.home" /></a></li>	
+	              <li <c:if test="${empty __moduleCode }">class="active"</c:if> ><a href="#"><i class="icon-home"></i> <s:message code="main.ui.nav.home" /></a></li>	
 	              <c:set var="menuTree" value="${li:getMenuTree(SESSION_USER)}"></c:set>
 	              <c:forEach items="${menuTree }" var="menu">	              	
 	              		<c:choose>
@@ -67,11 +83,23 @@
 	              </c:forEach>	              
 	            </ul>
 	            <ul class="pull-right nav">
-	            	<li ><a href="${contextPath }/personal/shortMessage/index.do"><i class="cus-phone"></i>站内信</a></li>
-	            	<li ><a href="profile.do"><i class="cus-cog"></i>&nbsp;个人设置</a></li>
-	            	<li ><a href="${contextPath }/login/invite.do"><i class="cus-cog"></i>&nbsp;邀请用户</a></li>
-					<li ><a href="${contextPath }/login/logout.do"><i class="icon-off"></i>&nbsp;退出</a></li>
-					<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;帮助</a></li>
+	            	<li ><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> 站内信</a></li>
+	            	<li class="dropdown">
+					      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">	
+					      	蔡源1				       
+					        <b class="caret"></b>
+					      </a>
+	              		  <ul class="dropdown-menu"> 
+	              		  	<li ><a href="profile.do"><i class="icon-user"></i>&nbsp;个人设置</a></li>
+			            	<li ><a href="${contextPath }/login/invite.do"><i class="icon-group"></i>&nbsp;邀请用户</a></li>
+			            	<li ><a href="setting.do"><i class="icon-settings"></i>&nbsp;系统设置</a></li>
+			            	<li ><a href="${contextPath }/login/logout.do"><i class="icon-off"></i>&nbsp;退出</a></li>
+							<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;帮助</a></li>
+	            		  </ul>
+	            	</li>	  
+	            	
+	            	
+					
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>

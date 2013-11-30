@@ -9,11 +9,12 @@
 
 	<link href="${contextPath}/${theme}/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="${contextPath}/${theme}/css/bootstrap-responsive.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="${contextPath}/${theme}/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="${contextPath}/${theme}/css/glyphicons.css" />	
 	<link rel="stylesheet" href="${contextPath}/${theme}/css/cus-icons.css" />
 	<!--[if IE 7]>
 	  <link rel="stylesheet" href="${contextPath}/${theme}/css/font-awesome-ie7.min.css" />
 	<![endif]-->
+	<link rel="stylesheet" href="${contextPath}/${theme}/css/font-awesome.min.css" />
 	
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
