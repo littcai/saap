@@ -96,8 +96,8 @@ $(document).ready(function(){
 	</div>
   	<hr />
 	<div class="space"></div>
-	<div class="text-center">
-			<% if(exception instanceof NotLoginException) {%>
+	<div class="text-center">			
+			<% if(exception instanceof NotLoginException || exception.getCause() instanceof NotLoginException) {%>
 				<a href="${contextPath }/" class="btn btn-grey">
 					<i class="icon-user"></i>
 					<s:message code="error.500.func.relogin" />		

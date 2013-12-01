@@ -2,6 +2,7 @@ package com.litt.saap.common.web;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.BusiException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.JsonUtils;
 import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.servlet.LoginCaptchaServlet;
 import com.litt.core.web.util.WebUtils;
@@ -36,6 +38,7 @@ import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.IUserInfoService;
+import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
 
 /** 
@@ -68,6 +71,9 @@ public class LoginController {
 	
 	@Resource
 	private ITenantBizService tenantBizService;
+	
+	@Resource
+	private IActivationCodeService activationCodeService;
 	
 	@Resource
 	private IMenuService menuService;	
@@ -249,29 +255,7 @@ public class LoginController {
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
 	}
-	
-	/**
-	 * Forget password.
-	 *
-	 * @param email the email
-	 * @param request the request
-	 * @param response the response
-	 * @return the model and view
-	 * @throws Exception the exception
-	 */
-	@RequestMapping(value="forgetPassword.json")
-	public ModelAndView forgetPassword(@RequestParam String email
-			, HttpServletRequest request, HttpServletResponse response) throws Exception
-	{				
-		String loginIp = WebUtils.getRemoteIp(request);
 		
-		Locale locale = LoginUtils.getLocale(request);
-		//从请求中获取查询条件	
-		userBizService.doForgetPassword(email, loginIp, locale);
-		
-		return new ModelAndView("jsonView");
-	}
-	
 	/**
 	 * 邀请用户.
 	 *
@@ -302,6 +286,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value="invite.json")
 	public ModelAndView invite(@RequestParam(required=false) String[] emails, @RequestParam(required=false) Integer[] roleIds
+			, @RequestParam(required=false) String comment
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
@@ -318,8 +303,88 @@ public class LoginController {
 		for (int i=0; i< emails.length; i++) {
 			String email = emails[i];
 			Integer targetRoleId = roleIds[i];
-			userBizService.doInvite(inviterUserId, targetRoleId, email, locale, timeZone, theme);
+			if(!ValidateUtils.isEmpty(email))
+				userBizService.doInvite(inviterUserId, targetRoleId, email, comment, locale, timeZone, theme);
 		}
+		
+		return new ModelAndView("jsonView");
+	}
+	
+	/**
+	 * 加入邀请.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="join.do")
+	public ModelAndView toJoin(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{			
+		Locale locale = LoginUtils.getLocale(request);
+		
+		String code = request.getParameter("code");
+		ActivationCode activationCode = activationCodeService.load(code);
+		if(activationCode==null)	//邀请码不存在，跳转到信息提示页面
+		{
+			//跳转到消息页面
+			String message = messageSource.getMessage("activate.error.codeNotExist", null, locale);
+			String redirectUrl = "index";	//跳转到首页
+			
+			return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+		}
+		else {
+			//检查目标邮件用户是否已注册
+			Map<String, Object> paramMap = JsonUtils.toObject(activationCode.getParams(), Map.class);
+			String email = paramMap.get("email").toString();
+			return new ModelAndView("/common/join").addObject("email", email).addObject("code", code);
+		}		
+	}
+	
+	/**
+	 * Forget password.
+	 *
+	 * @param email the email
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="join.json")
+	public ModelAndView join(@RequestParam String email, @RequestParam String password, @RequestParam String code
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{			
+		String loginId = email;
+		String loginIp = WebUtils.getRemoteIp(request);
+				
+		Locale locale = LoginUtils.getLocale(request);
+		TimeZone timeZone = TimeZone.getDefault();
+		Theme theme = LoginUtils.getTheme(request);
+		
+		userBizService.doJoin(loginId, password, email, loginIp, code, locale, timeZone, theme);
+		
+		return new ModelAndView("jsonView");
+	}
+	
+
+	/**
+	 * Forget password.
+	 *
+	 * @param email the email
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="forgetPassword.json")
+	public ModelAndView forgetPassword(@RequestParam String email
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+		//从请求中获取查询条件	
+		userBizService.doForgetPassword(email, loginIp, locale);
 		
 		return new ModelAndView("jsonView");
 	}
@@ -336,15 +401,22 @@ public class LoginController {
 	 */
 	@RequestMapping(value="resetPassword.do")
 	public ModelAndView toResetPassword(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{				
-		String token = request.getParameter("token");
-		Theme theme = LoginUtils.getTheme(request);
+	{	
 		
-		Locale locale = LoginUtils.getLocale(request);
-		ActivationCode forgetPassword = userInfoService.loadForgetPassword(token, locale);			
-		UserInfo userInfo = userInfoService.load(forgetPassword.getUserId());
-		
-		return new ModelAndView("/common/resetPassword").addObject("token", token).addObject("userInfo", userInfo);
+		Locale locale = LoginUtils.getLocale(request);			
+		String code = request.getParameter("code");
+		ActivationCode activationCode = activationCodeService.load(code);
+		if(activationCode==null)	//邀请码不存在，跳转到信息提示页面
+		{
+			//跳转到消息页面
+			String message = messageSource.getMessage("activate.error.codeNotExist", null, locale);
+			String redirectUrl = "index";	//跳转到首页
+			
+			return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+		}
+		else {		
+			return new ModelAndView("/common/resetPassword").addObject("code", code);
+		}
 	}
 	
 	/**
@@ -358,14 +430,14 @@ public class LoginController {
 	 * @throws Exception the exception
 	 */
 	@RequestMapping(value="resetPassword.json")
-	public ModelAndView resetPassword(@RequestParam String id, @RequestParam String password
+	public ModelAndView resetPassword(@RequestParam String code, @RequestParam String password
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
 		
 		Locale locale = LoginUtils.getLocale(request);
 		//从请求中获取查询条件	
-		userBizService.doResetPassword(id, password, loginIp, locale);
+		userBizService.doResetPassword(code, password, loginIp, locale);
 		
 		return new ModelAndView("jsonView");
 	}

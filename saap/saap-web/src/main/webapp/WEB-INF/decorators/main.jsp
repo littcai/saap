@@ -5,55 +5,41 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <html lang="en">
   <head>	
-	<decorator:head />
-	<style type="text/css">
-	body {
-		padding-top: 60px;
-	}
-	</style>	
+  	<%@ include file="/common/meta.inc"%> 	
+	<decorator:head />	
 	</head>
-	<body>			
+	<body>	
+<header id="header">
+    <!--[if lte IE 9]>
+    <div id="warning_info" class="text-warning fade in mb_0">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <strong>您正在使用低版本浏览器，</strong> 在本页面的显示效果可能有差异。
+        建议您升级到
+        <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a>
+        或以下浏览器：
+        <a href="www.mozilla.org/en-US/firefox/‎" target="_blank">Firefox</a> /
+        <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> /
+        <a href="http://www.opera.com/" target="_blank">Opera</a> /
+        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">
+            Internet Explorer 10</a>
+    </div>
+    <![endif]-->
+</header>			
 		<!-- Common -->
-		<div class="navbar navbar-fixed-top">
+		<div class="navbar navbar-static-top">
 		  <div class="navbar-inner">
 	        <div class="container-fluid">
-	        	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-			    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			      <span class="icon-bar"></span>
-			      <span class="icon-bar"></span>
-			      <span class="icon-bar"></span>
-			    </a>	                 
-	          <a class="brand" href="#">Saap</a>
-	          <div class="nav-collapse collapse">	            
-	            <ul class="nav nav-pills">
-	              <li class="active"><a href="#"><i class="icon-home"></i><s:message code="main.ui.nav.home" /></a></li>
-	              <li class="dropdown">
-				    <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">
-				        Personal
-				        <b class="caret"></b>
-				      </a>
-				    <ul class="dropdown-menu">
-				      	<li ><a tabindex="-1" href="http://google.com">Action</a></li>
-                        <li ><a tabindex="-1" href="#anotherAction">Another action</a></li>
-                        <li ><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-				    </ul>
-				  </li>
-	              <li><a href="">Customer</a></li>
-	              <li><a href="#contact">Product</a></li>
-	            </ul>
-	            <ul class="pull-right nav">
-	            	<li ><a href="shortMessage.do"><i class="cus-phone"></i>手机短信</a></li>
-	            	<li ><a href="profile.do"><i class="cus-cog"></i>&nbsp;个人设置</a></li>
-					<li ><a href="logout.do"><i class="icon-off"></i>&nbsp;退出</a></li>
-					<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;帮助</a></li>
-	            </ul>
+	        	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->			    
+	          <a class="brand" href="#">Saap</a>	            
 	          </div><!--/.nav-collapse -->
 	        </div>
 	      </div>
 	    </div>		
-	    <!-- 内容区 -->
-	    <decorator:body />	 	    
+		<div class="container-fluid" style="margin-top: 15px;">		  
+		  	<div class="row-fluid">
+				<!-- 内容区 -->
+		    	<decorator:body />	 
+			</div>		 
+		</div>
 	</body>
 </html>

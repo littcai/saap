@@ -47,5 +47,13 @@ public interface IActivationCodeService {
 	 * @return the activation code
 	 */
 	public ActivationCode loadAndDelete(String code);
+	
+	/**
+	 * Load.
+	 *
+	 * @param code the code
+	 * @return the activation code
+	 */
+	public ActivationCode load(String code);
 
 }

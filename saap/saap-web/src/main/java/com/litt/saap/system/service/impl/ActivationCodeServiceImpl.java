@@ -64,4 +64,12 @@ public class ActivationCodeServiceImpl implements IActivationCodeService {
 		return entity;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.litt.saap.system.service.impl.IActivationCodeService#load(java.lang.String)
+	 */
+	public ActivationCode load(String code)
+	{
+		return activationCodeDao.load(code);
+	}
+	
 }

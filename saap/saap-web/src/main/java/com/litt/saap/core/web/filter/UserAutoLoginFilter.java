@@ -102,7 +102,7 @@ public class UserAutoLoginFilter extends OncePerRequestFilter implements Filter 
 					//FIXME 自动登录无法处理Locale，因为这个时候还没有被spring接管
 					//LoginUtils.changeLocale(lang.getValue(), request, response);
 				}
-				catch (BusiException e)
+				catch (Exception e)
 				{
 					logger.error("Auto login failed.", e);
 					LoginUtils.removeAutoLoginCookie(response);	//清理COOKIE					

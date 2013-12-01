@@ -65,9 +65,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	@Resource
 	private UserStateDao userStateDao;
 	
-	@Resource
-	private ActivationCodeDao forgetPasswordDao;
-	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.service.impl.IUserInfoService#save(com.litt.saap.system.po.UserInfo)
 	 */
@@ -259,6 +256,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	 */
 	public LoginUserVo doAutoLogin(String token, String loginIp, Locale locale)
 	{
+		logger.debug("User try to login with token:{}", new Object[]{token});
 		AutoLoginToken autoLoginToken = AutoLoginToken.fromString(token);
 		//默认不启动
 //		if(!autoLoginToken.getAutoLoginIp().equals(loginIp))
@@ -391,27 +389,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	public UserInfo loadByEmail(String email)
 	{
 		return userInfoDao.load(UserInfo.class, "email", email);
-	}
-	
-	/**
-	 * Load forget password.
-	 *
-	 * @param token the token
-	 * @param locale the locale
-	 * @return the forget password
-	 */
-	public ActivationCode loadForgetPassword(String token, Locale locale)
-	{
-		ActivationCode forgetPassword = forgetPasswordDao.load(token);
-		if(forgetPassword == null)
-		{
-			throw new BusiCodeException("forgetPassword.error.invalid");
-		}
-		if(forgetPassword.getExpiredDatetime().before(new Date()))
-		{
-			throw new BusiCodeException("forgetPassword.error.expired");			
-		}
-		return forgetPassword;
 	}
 	
 	

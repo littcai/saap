@@ -12,7 +12,7 @@ $(document).ready(function(){
 	    var btn = $(this).button('loading');
 	    setTimeout(function () {
 	        btn.button('reset');
-	    }, 3000);
+	    }, 1500);
 	});
 	
 	$.ajaxSetup({
@@ -128,6 +128,29 @@ $(document).ready(function(){
  *			type: "info",
  *			message: "I'm superman."			
  *		 }); 
+ * ----------------------------------------------
+ * 
+ * ----------------------------------------------
+ * inner信息提示
+ * 嵌入式信息提示，代替默认的alert
+ * 
+ * Function：alert
+ * Descr: alert and info enhancement
+ * Dependencies: bootstrap
+ * Options：
+ * 	    containerId: the container for messages
+ * 		title: the subject of the popup
+ * 		message: the content of the popup
+ * 		type: notice, info, error, success
+ * 		hide: if the popup will be hide automatically
+ * 		closeable: if the popup can be closed by click	
+ * 		overwrite: if overwrite previous messages
+ * Example：$.webtools.alert({
+ * 			containerId: "id",
+ *			type: "info",
+ *			message: "I'm superman."			
+ *		 }); 
+ * 
  * 
  */
 //创建一个闭包    
@@ -259,17 +282,13 @@ $(document).ready(function(){
 						
 			var setting = $.extend({}, defaults, options);	
 			
-			alert(setting);
 			//绑定全选和单选对象
 			$('#'+ this.setting.checkAllId).bind("click", function(){
-				alert("123");
 				$("INPUT[name='"+ this.setting.checkOneName +"']").attr("checked", $(this).attr("checked"));				
 			});
 			
 			$("INPUT[name='"+ this.setting.checkOneName +"']").each(function(){
-				alert("123");
 				$(this).bind("click", function(){
-					alert("123");
 					if ($("input[name='"+ this.setting.checkOneName +"']:checked").length == $("input[name='"+ this.setting.checkOneName +"']").length) 
 					{
 						$('#'+ this.setting.checkAllId).attr("checked", true);
@@ -315,7 +334,28 @@ $(document).ready(function(){
 		}		
 	});
 	
-	
+	/*
+	 * alert组件
+	 */
+	$.extend($.webtools, {
+		alert: function(options)
+		{
+			var defaults = {
+					containerId: null,
+					message: "",
+					type: 'info',		//类型：error,success,info 
+					hide: false,		//是否自动隐藏
+					closeable: true,	//是否支持手工关闭
+					overwrite: true		//是否覆盖前面的消息
+			};			
+			var setting = $.extend({}, defaults, options || {}); 
+			if(setting.containerId==null)
+				alert("Message Container is not defined!");
+			if(setting.overwrite)
+				$("#"+setting.containerId).empty();
+			$("#"+setting.containerId).show().append($("<div class='alert-message alert alert-" + setting.type + " fade in'><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" + setting.message + "</div>"));		
+		}
+	});
 	
 	// 闭包结束    
 })(jQuery);  
@@ -334,6 +374,7 @@ $(document).ready(function(){
 (function($) {   
 	var defaults = {
 			type: 'ajax',
+			enableValidator: true,	//是否启用表单校验
 			rules: {},	//检验规则
 			messages: {
 				loading: "Processing...",
@@ -342,7 +383,7 @@ $(document).ready(function(){
 			},
 			errorMessages:{},
 			errorContainer: $([]),
-			errorLabelContainer: $([]),
+			errorLabelContainer: $([]),					
 			beforeSerialize: null,
 			beforeSubmit: null,
 			success: null,
@@ -385,12 +426,17 @@ $(document).ready(function(){
 			    	},
 			    	beforeSerialize: function() {
 			    		var callback = setting.beforeSerialize;	    	    			
-    	    			(callback && typeof(callback) === "function") && callback();
+			    		var valid = (callback && typeof(callback) === "function") && callback();
+			    		
+			    		if(valid!=null && !valid)
+    	    				return valid;
 			    	},
 			    	beforeSubmit: function(arr) { 
 			    		var callback = setting.beforeSubmit;	    	    			
-    	    			(callback && typeof(callback) === "function") && callback(arr);
-			    		
+    	    			var valid = (callback && typeof(callback) === "function") && callback(arr);    	
+    	    			
+    	    			if(valid!=null && !valid)
+    	    				return valid;
 			    		//processing...					    		
 						loading = $.pnotify({
 							    title: setting.messages.loading,
@@ -502,18 +548,6 @@ $(document).ready(function(){
 	
 	// 闭包结束    
 })(jQuery);  
-
-/**
- * 
- * @param containerId
- * @param type error,success,info 
- * @param message
- */
-function showAlert(containerId, type, message) 
-{
-    $("#"+containerId).append($("<div class='alert-message alert alert-" + type + " fade in'><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" + message + "</div>"));
-    //$("#"+containerId+" .alert-message").delay(2000).fadeOut("slow", function () { $(this).remove(); });
-}
 
 /************************************
 String类扩展 START

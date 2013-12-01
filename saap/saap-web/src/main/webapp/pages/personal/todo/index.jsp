@@ -28,11 +28,16 @@
 		<!-- todo list -->
 		<div>
 			<form action="save.json" method="post" name="theform" id="theform">
-				<div id="create-todo" class="well">					
-					<div class="input">
-			           	<input id="new-todo" name="content" placeholder="<s:message code='todo.ui.content.placeholder' />" type="text" class="span8" required />	            	
-			            <span class="ui-tooltip-top help-inline" ><s:message code="todo.ui.content.tooltip" /></span>
-		            </div>	               
+				<div id="create-todo" class="well">	
+				   <div class="control-group">
+						<div class="controls">
+							<div class="input-append span12">
+								<input id="new-todo" class="span8" type="text" placeholder="<s:message code='todo.ui.content.placeholder' />" name="content" required/>							
+								<button class="btn" type="submit"><i class="icon-ok"></i> <s:message code="btn.save"></s:message></button>					
+							</div>
+							<span class="help-block visible-ie8 visible-ie9"><s:message code="todo.ui.content.tooltip" /></span>
+						</div>	
+					</div>	          
 	            </div>
              </form>
 			<ul id="todos" class="item-list unstyled">				
