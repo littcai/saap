@@ -24,11 +24,15 @@ import com.litt.saap.system.po.UserRole;
 public class UserRoleDao extends GenericHibernateDao<UserRole, Integer> {
 	
 	
-	public List<UserRole> listByUserTenant(int userId, int tenantId)
+	public List<UserRole> listByTenantUser(int tenantId, int userId)
 	{
-		String listHql = "from UserRole where userId=? and tenantId=?";
-		return super.listAll(listHql, new Object[]{userId, tenantId});
+		String listHql = "from UserRole where tenantId=? and userId=?";
+		return super.listAll(listHql, new Object[]{tenantId, userId});
 	}
 	
+	public void deleteByTenantUser(int tenantId, int userId)
+	{
+		super.execute("delete from UserRole where tenantId=? and userId=?", new Object[]{tenantId, userId});
+	}
 
 }

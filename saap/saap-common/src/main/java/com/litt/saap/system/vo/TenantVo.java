@@ -29,6 +29,9 @@ public class TenantVo implements Serializable {
 	
 	private String appCode;
 	
+	/** 别名. */
+	private String appAlias;
+	
 	/** 是否租户管理员. */
 	private boolean isAdmin;
 	
@@ -48,11 +51,12 @@ public class TenantVo implements Serializable {
 	 * @param isAdmin
 	 * @param expiredDate
 	 */
-	public TenantVo(Integer id, String code, String appCode, boolean isAdmin,
+	public TenantVo(Integer id, String code, String appCode, String appAlias, boolean isAdmin,
 			Date expiredDate) {
 		this.id = id;
 		this.code = code;
 		this.appCode = appCode;
+		this.appAlias = appAlias;
 		this.isAdmin = isAdmin;
 		this.expiredDate = expiredDate;
 	}
@@ -125,6 +129,20 @@ public class TenantVo implements Serializable {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	/**
+	 * @return the appAlias
+	 */
+	public String getAppAlias() {
+		return appAlias;
+	}
+
+	/**
+	 * @param appAlias the appAlias to set
+	 */
+	public void setAppAlias(String appAlias) {
+		this.appAlias = appAlias;
 	}
 	
 }

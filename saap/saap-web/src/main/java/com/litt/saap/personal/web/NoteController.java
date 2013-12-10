@@ -42,6 +42,7 @@ public class NoteController extends BaseController {
 	@Resource
 	private INoteService noteService;
 	
+	@Func(funcCode="04",moduleCode="0301", enableLog=false)
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
 	{

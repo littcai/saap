@@ -45,7 +45,7 @@
 	          <!-- Everything you want hidden at 940px or less, place within here -->
 	          <div class="nav-collapse collapse" id="topMenu">	            
 	            <ul class="nav nav-pills">
-	              <li <c:if test="${empty __moduleCode }">class="active"</c:if> ><a href="#"><i class="icon-home"></i> <s:message code="main.ui.nav.home" /></a></li>	
+	              <li <c:if test="${empty __moduleCode }">class="active"</c:if> ><a href="${contextPath }/main.do"><i class="icon-home"></i> <s:message code="main.ui.nav.home" /></a></li>	
 	              <c:set var="menuTree" value="${li:getMenuTree(SESSION_USER)}"></c:set>
 	              <c:forEach items="${menuTree }" var="menu">	              	
 	              		<c:choose>

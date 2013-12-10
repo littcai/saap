@@ -4,7 +4,7 @@
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
   <head>
-	<meta name="decorator" content="main_with_bar" />	
+	<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>		
 	<!-- jquery inline editor -->
 	<link href="${contextPath}/widgets/x-editable/css/bootstrap-editable.css" rel="stylesheet" />	
 	<script src="${contextPath }/widgets/x-editable/js/bootstrap-editable.min.js"></script>	

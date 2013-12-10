@@ -1,12 +1,16 @@
 package com.litt.saap.system.biz.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import org.databene.jdbacl.sql.parser.SQLParser.null_comparison_return;
+
 import com.litt.core.common.BeanManager;
 import com.litt.core.exception.BusiCodeException;
+import com.litt.core.util.BeanCopier;
 import com.litt.core.util.DateUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
@@ -16,6 +20,7 @@ import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.bo.TenantActiveBo;
+import com.litt.saap.system.bo.TenantQuitBo;
 import com.litt.saap.system.dao.RoleFuncPermissionDao;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
@@ -26,6 +31,7 @@ import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.service.IRoleService;
+import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.vo.TenantVo;
 
 /**
@@ -45,6 +51,8 @@ import com.litt.saap.system.vo.TenantVo;
  */
 public class TenantBizServiceImpl implements ITenantBizService {
 	
+	@Resource
+	private ITenantService tenantService;	
 	@Resource
 	private TenantDao tenantDao;
 	@Resource
@@ -123,10 +131,99 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		UserRole userRole = new UserRole(tenantId, userId, adminRoleId);
 		userRoleDao.save(userRole);
 		
-		TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), true, tenant.getExpiredDate());
+		TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenant.getAppAlias(), true, tenant.getExpiredDate());
 		TenantActiveBo ret = new TenantActiveBo(tenantVo, adminRoleId, adminPermissions);
 		
 		return ret;
 	}
+	
+	/**
+	 * 注销租户空间.
+	 *
+	 * @param userId 用户ID
+	 * @param tenantId 租户ID
+	 * @return the tenant quit bo
+	 */
+	public TenantQuitBo doDeactivate(Integer userId, Integer tenantId)
+	{		
+		Tenant tenant = tenantDao.load(tenantId);
+		if(tenant==null || tenant.getCreateUserId()!=userId)	
+		{
+			throw new BusiCodeException("tenant.action.deactivate.error.notCreator");
+		}
+		//退出用户是租户创建人，则允许是解散租户
+		TenantVo tenantVo = BeanCopier.copy(tenant, TenantVo.class);
+		TenantQuitBo tenantQuit = getTenantQuitBo(userId, tenantVo);		
+		
+		//TODO 需要通知已经在线的租户成员空间被注销，并删除他们的权限
+		List<TenantMember> tenantMemberList = tenantMemberDao.listByTenant(tenantId);
+		for (TenantMember tenantMember : tenantMemberList) {
+			//if(!tenantMember.getUserId().equals(tenant.getCreateUserId()))	//保留创建人，其他成员均删除
+			{
+				//删除用户角色
+				userRoleDao.deleteByTenantUser(tenantId, tenantMember.getUserId());
+				//删除成员信息
+				tenantMemberDao.delete(tenantMember);
+			}
+		}		
+		//最终设置租户状态为删除
+		tenant.setStatus(TenantStatus.CANCELED);
+		tenantService.update(tenant);
+		
+		return tenantQuit;
+	}
+	
+	public TenantQuitBo doQuit(int tenantId, int userId)
+	{		
+		TenantVo tenantVo = tenantService.findById(tenantId);
+		TenantMember tenantMember = tenantMemberDao.loadByUserAndTenant(userId, tenantId);
+		if(tenantMember==null)	//如果不是该租户成员，则直接返回
+			return null;
+		//退出用户是租户创建人，则是解散租户
+		if(tenantMember.getCreateUserId()==userId)	
+		{
+			
+		}
+		//检查是否还剩其他管理员存在，没有的话禁止退出，否则无法对租户进行管理		
+		if(tenantMember.getIsAdmin())
+		{
+			int adminCount = tenantMemberDao.countAdminByTenant(tenantId);
+			if(adminCount==1)
+				throw new BusiCodeException("tenant.error.lastAdmin");
+		}
+		//执行退出操作
+		tenantMemberDao.delete(tenantMember);
+		//读取该用户在该租户空间下的权限，需要删除
+		TenantQuitBo tenantQuit = getTenantQuitBo(userId, tenantVo);
+		
+		//删除用户角色
+		userRoleDao.deleteByTenantUser(tenantId, userId);
+		return tenantQuit;
+	}
+
+	/**
+	 * @param tenantId
+	 * @param userId
+	 * @param tenantVo
+	 * @return
+	 */
+	private TenantQuitBo getTenantQuitBo(int userId, TenantVo tenantVo) {
+		int tenantId = tenantVo.getId();
+		List<UserRole> userRoleList = userRoleDao.listByTenantUser(tenantId, userId);
+		Integer[] roleIds = new Integer[userRoleList.size()];
+		int index = 0;
+		for (UserRole userRole : userRoleList) {
+			roleIds[index] = userRole.getRoleId();
+			index++;
+		}				
+		
+		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig("basic");
+		String[] permissions = tenantDefConfig.getPermissions();
+				
+		TenantQuitBo tenantQuit = new TenantQuitBo(tenantVo, roleIds, permissions);
+		return tenantQuit;
+	}
+	
+	
 
 }

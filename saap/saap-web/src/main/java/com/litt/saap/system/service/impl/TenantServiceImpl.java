@@ -1,8 +1,11 @@
 package com.litt.saap.system.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import com.litt.core.exception.BusiCodeException;
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
 import com.litt.saap.system.dao.RoleDao;
@@ -14,6 +17,7 @@ import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.service.ITenantService;
+import com.litt.saap.system.vo.TenantVo;
 
 /**
  * .
@@ -43,6 +47,17 @@ public class TenantServiceImpl implements ITenantService {
 	
 	@Resource
 	private RoleDao roleDao;
+	
+	/**
+	 * Update.
+	 *
+	 * @param tenant the tenant
+	 */
+	public void update(Tenant tenant)
+	{
+		tenant.setUpdateDatetime(new Date());
+		tenantDao.update(tenant);
+	}
 	
 	
 	/* (non-Javadoc)
@@ -93,6 +108,16 @@ public class TenantServiceImpl implements ITenantService {
 	public boolean isTenantMember(int userId)
 	{
 		return tenantMemberDao.isTenantMember(userId);
+	}
+	
+	public TenantVo findById(Integer tenantId)
+	{
+		Tenant po = tenantDao.load(tenantId);
+		if(po==null)
+			return null;
+		else {
+			return BeanCopier.copy(po, TenantVo.class);
+		}
 	}
 
 }

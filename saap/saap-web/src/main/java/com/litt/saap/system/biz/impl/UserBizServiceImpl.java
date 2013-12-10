@@ -32,6 +32,7 @@ import com.litt.saap.common.service.ITemplateService;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.common.SaapConstants;
+import com.litt.saap.core.common.SaapConstants.TenantStatus;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
@@ -282,6 +283,14 @@ public class UserBizServiceImpl implements IUserBizService {
 	}
 	
 	/**
+	 * 退出租户
+	 */
+	public void doQuit(Integer userId, Integer tenantId)
+	{
+		
+	}
+	
+	/**
 	 * 用户账号激活.
 	 * @param email
 	 * @param code
@@ -486,13 +495,22 @@ public class UserBizServiceImpl implements IUserBizService {
 		TenantMember tenantMember = tenantMemberDao.load(loginUser.getOpId().intValue(), SaapConstants.PLATFORM_APP_ID);
 		if(tenantMember!=null)
 		{
-			Tenant tenant = tenantDao.load(tenantMember.getTenantId());
+			Tenant tenant = tenantDao.load(tenantMember.getTenantId());			
 		
-			TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenantMember.getIsAdmin(), tenant.getExpiredDate());
+			TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenant.getAppAlias(), tenantMember.getIsAdmin(), tenant.getExpiredDate());
 			tenantVo.setExpiredDate(tenant.getExpiredDate());
 			
 			loginUser.setTenant(tenantVo);		
 			
+			//租户空间状态不正常时，不加载功能模块权限
+			switch(tenant.getStatus())
+			{
+				case TenantStatus.CANCELED:
+				case TenantStatus.DELETED:
+				case TenantStatus.DISABLED:
+				case TenantStatus.UNAUTHERIZED:
+					return;
+			}
 			//获取租户权限
 			//List<UserRole> userRoleList = userRoleDao.listByUserTenant(loginUser.getOpId().intValue(), tenantMember.getTenantId());
 			

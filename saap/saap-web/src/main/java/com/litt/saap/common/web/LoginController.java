@@ -32,14 +32,15 @@ import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.bo.TenantActiveBo;
+import com.litt.saap.system.bo.TenantQuitBo;
 import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.Role;
-import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
+import com.litt.saap.system.vo.TenantVo;
 
 /** 
  * 
@@ -465,8 +466,8 @@ public class LoginController {
 		TenantActiveBo tenantActiveBo = tenantBizService.doActivate(orderNo, userId, locale);		
 		
 		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
-		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，必须再重新登录
-		if(loginUser.getOpId().equals(userId))
+		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，不必再重新登录
+		if(loginUser.getOpId().intValue()==userId)
 		{
 			loginUser.setTenant(tenantActiveBo.getTenant());
 			loginUser.addRoleId(tenantActiveBo.getRoleId());
@@ -476,7 +477,83 @@ public class LoginController {
 		//HttpSession session = request.getSession();
 		//LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
-		String message = messageSource.getMessage("activate.success", null, locale);
+		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getAppAlias()}, locale);
+		String redirectUrl = "index";	//跳转到首页
+		
+		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+	}
+	
+	/**
+	 * 注销租户.
+	 * 根据订单开通相应的租户
+	 * TODO 该方法仅做测试使用
+	 *
+	 * @param orderNo the order no
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="deactivateTenant.do")
+	public ModelAndView deactivateTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		Locale locale = LoginUtils.getLocale(request);
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
+		TenantQuitBo tenantQuitBo = tenantBizService.doDeactivate(loginUser.getOpId().intValue(), loginUser.getTenantId());
+				
+		//清空当前登录用户的租户信息和租户权限
+		loginUser.setTenant(null);
+		Integer[] roleIds = tenantQuitBo.getRoleIds();
+		for (Integer roleId : roleIds) {
+			loginUser.removeRoleId(roleId);
+		}		
+		loginUser.removePermissions(tenantQuitBo.getPermissionCodes());
+		
+		String message = messageSource.getMessage("tenant.action.deactivate.success", new Object[]{tenantQuitBo.getTenant().getAppAlias()}, locale);
+		String redirectUrl = "index";	//跳转到首页
+		
+		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+	}
+	
+	/**
+	 * 退出租户.
+	 * 根据订单开通相应的租户
+	 * TODO 该方法仅做测试使用
+	 *
+	 * @param orderNo the order no
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="quitTenant.do")
+	public ModelAndView quitTenant(@RequestParam Integer userId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);
+		
+		Locale locale = LoginUtils.getLocale(request);
+		
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
+				
+		//退出租户	
+		TenantQuitBo tenantQuitBo = tenantBizService.doQuit(loginUser.getTenantId(), userId);
+		
+		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，必须再重新登录
+		if(loginUser.getOpId().equals(userId))
+		{
+			loginUser.setTenant(null);
+			Integer[] roleIds = tenantQuitBo.getRoleIds();
+			for (Integer roleId : roleIds) {
+				loginUser.removeRoleId(roleId);
+			}
+			loginUser.removePermissions(tenantQuitBo.getPermissionCodes());
+		}
+		
+		//HttpSession session = request.getSession();
+		//LoginUtils.setLoginSession(session, loginUser);
+		//跳转到消息页面，显示激活成功的信息
+		String message = messageSource.getMessage("tenant.action.quit.success", new Object[]{tenantQuitBo.getTenant().getAppAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);

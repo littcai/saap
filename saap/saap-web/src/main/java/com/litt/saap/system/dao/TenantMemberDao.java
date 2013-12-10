@@ -1,5 +1,7 @@
 package com.litt.saap.system.dao;
 
+import java.util.List;
+
 import com.litt.core.dao.GenericHibernateDao;
 import com.litt.saap.system.po.TenantMember;
 
@@ -45,6 +47,18 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	}
 	
 	/**
+	 * Count by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the int
+	 */
+	public int countAdminByTenant(int tenantId)
+	{
+		String countHql = "select count(o) from TenantMember o where o.tenantId=? and isAdmin=1";
+		return super.count(countHql, new Object[]{tenantId});
+	}
+	
+	/**
 	 * Load.
 	 *
 	 * @param appId the app id
@@ -69,6 +83,17 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 		//TODO 暂时只有一个应用，忽略所有的app属性
 		String hql = "from TenantMember where userId=?";
 		return super.uniqueResult(hql, new Object[]{userId}, TenantMember.class);
+	}
+	
+	/**
+	 * List by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<TenantMember> listByTenant(int tenantId)
+	{
+		return super.listAll("from TenantMember where tenantId=?", new Object[]{tenantId});
 	}
 
 }

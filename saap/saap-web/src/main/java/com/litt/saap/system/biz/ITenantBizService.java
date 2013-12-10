@@ -3,6 +3,7 @@ package com.litt.saap.system.biz;
 import java.util.Locale;
 
 import com.litt.saap.system.bo.TenantActiveBo;
+import com.litt.saap.system.bo.TenantQuitBo;
 
 /**
  * .
@@ -30,5 +31,22 @@ public interface ITenantBizService {
 	 * @param userId the user id
 	 */
 	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale);
+	
+	/**
+	 * 注销租户空间.
+	 *
+	 * @param userId 用户ID
+	 * @param tenantId 租户ID
+	 */
+	public TenantQuitBo doDeactivate(Integer userId, Integer tenantId);
+	
+	/**
+	 * Do quit.
+	 *
+	 * @param tenantId the tenant id
+	 * @param userId the user id
+	 * @return the tenant quit bo
+	 */
+	public TenantQuitBo doQuit(int tenantId, int userId);
 
 }

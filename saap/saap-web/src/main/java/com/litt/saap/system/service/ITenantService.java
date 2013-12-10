@@ -1,5 +1,8 @@
 package com.litt.saap.system.service;
 
+import com.litt.saap.system.po.Tenant;
+import com.litt.saap.system.vo.TenantVo;
+
 /**
  * .
  * 
@@ -16,6 +19,13 @@ package com.litt.saap.system.service;
  * @version 1.0
  */
 public interface ITenantService {
+	
+	/**
+	 * Update.
+	 *
+	 * @param tenant the tenant
+	 */
+	public void update(Tenant tenant);
 
 	/**
 	 * 加入租户.
@@ -33,5 +43,7 @@ public interface ITenantService {
 	 * @return true, if is tenant member
 	 */
 	public boolean isTenantMember(int userId);
+	
+	public TenantVo findById(Integer tenantId);
 
 }

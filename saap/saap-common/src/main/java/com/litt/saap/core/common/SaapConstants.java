@@ -82,7 +82,7 @@ public class SaapConstants {
 	}
 	
 	public interface TenantStatus{
-		
+		public static final int CANCELED = -4;	//注销（主动）
 		public static final int EXPIRED = -3;		//到期
 		public static final int DISABLED = -2;	//禁用
 		public static final int DELETED = -1;		//删除
