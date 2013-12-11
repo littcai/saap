@@ -530,6 +530,10 @@ public class UserBizServiceImpl implements IUserBizService {
 	public LoginUserVo doAutoLogin(String token, String loginIp, Locale locale)
 	{
 		LoginUserVo loginUser = userInfoService.doAutoLogin(token, loginIp, locale);
+		//初始化默认权限
+		this.initDefaultPermission(loginUser);
+		
+		//初始化租户权限
 		initLoginUserTenant(loginUser);		
 		
 		return loginUser;

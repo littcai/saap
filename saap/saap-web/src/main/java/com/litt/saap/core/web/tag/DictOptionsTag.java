@@ -9,7 +9,10 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.commons.lang.LocaleUtils;
+
 import com.litt.core.common.BeanManager;
+import com.litt.core.web.util.WebUtils;
 import com.litt.saap.system.service.IDictParamService;
 import com.litt.saap.system.util.DictParamHelper;
 import com.litt.saap.system.vo.DictParamVo;
@@ -55,7 +58,7 @@ public class DictOptionsTag extends SimpleTagSupport
 	{		
 		super.doTag();
 		//2013-07-22 增加获取国际化语言的支持
-		PageContext pageContext = (PageContext)super.getJspContext();
+		PageContext pageContext = (PageContext)super.getJspContext();		
 		Locale locale = (Locale)pageContext.findAttribute("org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE");		
 		
 		JspWriter out = getJspContext().getOut();   

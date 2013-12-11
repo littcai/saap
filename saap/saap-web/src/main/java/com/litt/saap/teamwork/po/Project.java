@@ -25,6 +25,9 @@ public class Project implements Serializable {
 	 * 租户ID.
 	 */
 	private int tenantId;
+	
+	/** The code. */
+	private String code;
 
 	/**
 	 * 名称.
@@ -69,10 +72,11 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public Project(int tenantId, String name, int status, String tags,
+	public Project(int tenantId, String code, String name, int status, String tags,
 			int createUserId, Date createDatetime, int updateUserId,
 			Date updateDatetime) {
 		this.tenantId = tenantId;
+		this.code = code;
 		this.name = name;
 		this.status = status;
 		this.tags = tags;
@@ -82,10 +86,11 @@ public class Project implements Serializable {
 		this.updateDatetime = updateDatetime;
 	}
 
-	public Project(int tenantId, String name, String descr, int status,
+	public Project(int tenantId, String code, String name, String descr, int status,
 			String tags, int createUserId, Date createDatetime,
 			int updateUserId, Date updateDatetime) {
 		this.tenantId = tenantId;
+		this.code = code;
 		this.name = name;
 		this.descr = descr;
 		this.status = status;
@@ -254,6 +259,20 @@ public class Project implements Serializable {
 	 */
 	public void setUpdateDatetime(Date updateDatetime) {
 		this.updateDatetime = updateDatetime;
+	}
+
+	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

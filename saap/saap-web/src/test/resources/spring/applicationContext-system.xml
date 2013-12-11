@@ -9,15 +9,27 @@
  		http://www.springframework.org/schema/context 
  		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
 	
+	<!-- 复合业务服务 -->
+ 	<bean id="userBizService" class="com.litt.saap.system.biz.impl.UserBizServiceImpl"/>
+ 	
+ 	<bean id="tenantBizService" class="com.litt.saap.system.biz.impl.TenantBizServiceImpl"/>	
+ 	
+ 	<bean id="userMessageBizService" class="com.litt.saap.system.biz.impl.UserMessageBizServiceImpl"/>		
+	
 	<!-- 系统信息及参数 -->
 	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
+	
+	<!-- 激活码 -->
+	<bean id="activationCodeDao" class="com.litt.saap.system.dao.ActivationCodeDao" parent="baseDao"/>	
+	<bean id="activationCodeService" class="com.litt.saap.system.service.impl.ActivationCodeServiceImpl"/>	
 		
 	<!-- 用户 -->	
 	<bean id="userInfoDao" class="com.litt.saap.system.dao.UserInfoDao" parent="baseDao"/>	
 	<bean id="userExtDao" class="com.litt.saap.system.dao.UserExtDao" parent="baseDao"/>	
 	<bean id="userStateDao" class="com.litt.saap.system.dao.UserStateDao" parent="baseDao"/>	
 	
-	<bean id="userService" class="com.litt.saap.system.service.impl.UserInfoServiceImpl"/>	
+	<bean id="userInfoService" class="com.litt.saap.system.service.impl.UserInfoServiceImpl"/>	
+	
 	
 	<!-- 用户组 -->
 	<bean id="userGroupDao" class="com.litt.saap.system.dao.UserGroupDao" parent="baseDao"/>
@@ -25,6 +37,44 @@
 		
 	<bean id="userGroupService" class="com.litt.saap.system.service.impl.UserGroupServiceImpl"/>
 	
+	<!-- 角色 -->
+	<bean id="roleDao" class="com.litt.saap.system.dao.RoleDao" parent="baseDao"/>
+	
+	<bean id="roleService" class="com.litt.saap.system.service.impl.RoleServiceImpl"/>
+	
+	<!-- 角色功能权限 -->
+	<bean id="roleFuncPermissionDao" class="com.litt.saap.system.dao.RoleFuncPermissionDao" parent="baseDao"/>
+	
+	<!-- 用户角色 -->
+	<bean id="userRoleDao" class="com.litt.saap.system.dao.UserRoleDao" parent="baseDao"/>
+	
+	<!-- 用户组角色 -->
+	<bean id="userGroupRoleDao" class="com.litt.saap.system.dao.UserGroupRoleDao" parent="baseDao"/>
+	
+	<!-- 菜单 -->
+	<bean id="menuDao" class="com.litt.saap.system.dao.MenuDao" parent="baseDao"/>
+	
+	<bean id="menuService" class="com.litt.saap.system.service.impl.MenuServiceImpl"/>
+	
+	<!-- 参数字典 -->
+	<bean id="dictParamDao" class="com.litt.saap.system.dao.DictParamDao" parent="baseDao"/>	
+		
+	<bean id="dictParamService" class="com.litt.saap.system.service.impl.DictParamServiceImpl"/>
+	
+	<!-- 租户 -->
+	<bean id="tenantDao" class="com.litt.saap.system.dao.TenantDao" parent="baseDao"/>
+	<bean id="tenantService" class="com.litt.saap.system.service.impl.TenantServiceImpl"/>
+
+	<!-- 租户成员 -->
+	<bean id="tenantMemberDao" class="com.litt.saap.system.dao.TenantMemberDao" parent="baseDao"/>
+	
+	<!-- 用户评论 -->
+	<bean id="userCommentDao" class="com.litt.saap.system.dao.UserCommentDao" parent="baseDao"/>
+	<bean id="userCommentService" class="com.litt.saap.system.service.impl.UserCommentServiceImpl"/>
+	
+	<!-- 用户消息 -->
+	<bean id="userMessageDao" class="com.litt.saap.system.dao.UserMessageDao" parent="baseDao"/>
+	<bean id="userMessageService" class="com.litt.saap.system.service.impl.UserMessageServiceImpl"/>
 	
 	
 </beans>

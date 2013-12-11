@@ -57,15 +57,10 @@
 				<thead>
 					<tr>			
 						<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>	
-						<th><s:message code="project.id" /></th>
-						<th><s:message code="project.tenantId" /></th>
+						<th><s:message code="project.code" /></th>
 						<th><s:message code="project.name" /></th>
-						<th><s:message code="project.descr" /></th>
 						<th><s:message code="project.status" /></th>
-						<th><s:message code="project.tags" /></th>
-						<th><s:message code="project.createUserId" /></th>
 						<th><s:message code="project.createDatetime" /></th>
-						<th><s:message code="project.updateUserId" /></th>
 						<th><s:message code="project.updateDatetime" /></th>
 						<th><s:message code="common.action" /></th>
 					</tr>
@@ -74,16 +69,11 @@
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
 						<td class="checkCol"><input type="checkbox" name="projectIds" value="${row.id }" /></td>
-						<td><c:out value="${row.id }"></c:out></td>
-						<td><c:out value="${row.tenantId }"></c:out></td>
+						<td><c:out value="${row.code }"></c:out></td>
 						<td><c:out value="${row.name }"></c:out></td>
-						<td><c:out value="${row.descr }"></c:out></td>
-						<td><c:out value="${row.status }"></c:out></td>
-						<td><c:out value="${row.tags }"></c:out></td>
-						<td><c:out value="${row.createUserId }"></c:out></td>
-						<td><c:out value="${row.createDatetime }"></c:out></td>
-						<td><c:out value="${row.updateUserId }"></c:out></td>
-						<td><c:out value="${row.updateDatetime }"></c:out></td>
+						<td>${li:genDictContent("4001", row.status )}</td>
+						<td>${li:formatDateTime(row.createDatetime) }</td>
+						<td>${li:formatDateTime(row.updateDatetime) }</td>
 						<td class="action-buttons">
 							<div class="action-buttons">
 							<a href="edit.do?id=${row.id }" class="blue" >

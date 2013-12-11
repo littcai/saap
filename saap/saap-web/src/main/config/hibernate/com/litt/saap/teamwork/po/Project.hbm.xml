@@ -14,6 +14,11 @@
                 <comment>租户ID</comment>
             </column>
         </property>
+        <property name="code" type="string">
+            <column name="CODE" length="100" not-null="true">
+                <comment>编号</comment>
+            </column>
+        </property>
         <property name="name" type="string">
             <column name="NAME" length="200" not-null="true">
                 <comment>名称</comment>

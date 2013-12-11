@@ -3,9 +3,8 @@
 <%@ include file="/common/common.inc"%>
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
-  <head>
-	<meta name="decorator" content="main_with_bar" />	
-	</head>
+  <head>	
+  </head>
 	<body> 			
 		<form id="theform" action="save.json" method="post" class="form-horizontal">
 			<input id="parentId" name="parentId" type="hidden">

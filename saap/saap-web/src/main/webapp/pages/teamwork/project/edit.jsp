@@ -10,96 +10,56 @@
   	<input type="hidden" name="id" value="${project.id}" />
 				<fieldset>
 					<legend><s:message code="project.ui.fieldset.base" /></legend>
-					<div class="row-fluid">
+					<div class="row-fluid">											
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="project.id"><s:message code="project.id" /></label>
+								<label class="control-label" for="project.code"><s:message code="project.code" /></label>
 								<div class="controls">
-									<input id="id" name="id" placeholder="" type="text" value="${project.id}" />
+									<input id="project.code" name="code" placeholder="" type="text" value="${project.code}" />
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.tenantId"><s:message code="project.tenantId" /></label>
-								<div class="controls">
-									<input id="tenantId" name="tenantId" placeholder="" type="text" value="${project.tenantId}" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
+						</div>	
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="project.name"><s:message code="project.name" /></label>
 								<div class="controls">
-									<input id="name" name="name" placeholder="" type="text" value="${project.name}" />
+									<input id="project.name" name="name" placeholder="" type="text" value="${project.name}" />
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.descr"><s:message code="project.descr" /></label>
-								<div class="controls">
-									<input id="descr" name="descr" placeholder="" type="text" value="${project.descr}" />
-								</div>
-							</div>
-						</div>								
-					</div>
+						</div>									
+					</div>					
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="project.status"><s:message code="project.status" /></label>
 								<div class="controls">
-									<input id="status" name="status" placeholder="" type="text" value="${project.status}" />
+									<select id="project.status" name="status">
+										<li:dictOptions dictType="4001" dictValue="${project.status}"/>
+									</select>
+								</div>
+							</div>
+						</div>						
+					</div>
+					<div class="row-fluid">												
+						<div class="span12">
+							<div class="control-group">
+								<label class="control-label" for="project.descr"><s:message code="project.descr" /></label>
+								<div class="controls">
+									<textarea rows="3" cols="8" id="project.descr" name="descr" class="input-block-level limited"><c:out value="${project.descr}" /></textarea>
 								</div>
 							</div>
 						</div>								
-						<div class="span6">
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
 							<div class="control-group">
 								<label class="control-label" for="project.tags"><s:message code="project.tags" /></label>
 								<div class="controls">
-									<input id="tags" name="tags" placeholder="" type="text" value="${project.tags}" />
+									<input id="project.tags" name="tags" placeholder="" type="text" value="${project.tags}"  class="input-block-level limited" />
 								</div>
 							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.createUserId"><s:message code="project.createUserId" /></label>
-								<div class="controls">
-									<input id="createUserId" name="createUserId" placeholder="" type="text" value="${project.createUserId}" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.createDatetime"><s:message code="project.createDatetime" /></label>
-								<div class="controls">
-									<input id="createDatetime" name="createDatetime" placeholder="" type="text" value="${project.createDatetime}" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.updateUserId"><s:message code="project.updateUserId" /></label>
-								<div class="controls">
-									<input id="updateUserId" name="updateUserId" placeholder="" type="text" value="${project.updateUserId}" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="project.updateDatetime"><s:message code="project.updateDatetime" /></label>
-								<div class="controls">
-									<input id="updateDatetime" name="updateDatetime" placeholder="" type="text" value="${project.updateDatetime}" />
-								</div>
-							</div>
-						</div>								
-					</div>
+						</div>						
+					</div>					
 				</fieldset>					
 						
 				<div class="form-actions">
@@ -114,7 +74,10 @@
 			
 			$('#theform').littFormSubmit({
 				rules : {
-					name : {
+					code : {
+						required : true
+					}
+					, name : {
 						required : true
 					}
 				},			

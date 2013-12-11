@@ -37,6 +37,7 @@
 	 			<value>WEB-INF/messages/assistant</value>
 	 			<value>WEB-INF/messages/personal</value>
 	 			<value>WEB-INF/messages/report</value>
+	 			<value>WEB-INF/messages/teamwork</value>
 	 			<value>WEB-INF/messages/crm</value>
 	 		</list>
 	 	</property>

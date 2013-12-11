@@ -1,5 +1,7 @@
 package com.litt.saap.teamwork.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.service.BaseService;
+import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.teamwork.dao.ProjectDao;
 import com.litt.saap.teamwork.po.Project;
 import com.litt.saap.teamwork.service.IProjectService;
@@ -38,6 +42,11 @@ public class ProjectServiceImpl implements IProjectService
 	 */
 	public Integer save(Project project)
 	{
+		project.setTenantId(LoginUtils.getTenantId());
+		project.setCreateDatetime(new Date());
+		project.setCreateUserId(LoginUtils.getLoginOpId().intValue());
+		project.setUpdateDatetime(project.getCreateDatetime());
+		
 		return projectDao.save(project);
 	}
 	
@@ -47,6 +56,8 @@ public class ProjectServiceImpl implements IProjectService
 	 */
 	public void update(Project project)
 	{
+		project.setUpdateUserId(LoginUtils.getLoginOpId().intValue());
+		project.setUpdateDatetime(new Date());
 		projectDao.update(project);
 	}			
    
@@ -56,6 +67,8 @@ public class ProjectServiceImpl implements IProjectService
 	 */
 	public void delete(Integer id)
 	{
+		Project project = this.load(id);	
+		
 		projectDao.delete(Project.class, "id", id);
 	}
 	
@@ -65,6 +78,9 @@ public class ProjectServiceImpl implements IProjectService
 	 */
 	public void delete(Project project)
 	{
+		//校验租户权限
+		LoginUtils.validateTenant(project.getTenantId());
+		
 		projectDao.delete(project);
 	}
 	
@@ -75,7 +91,10 @@ public class ProjectServiceImpl implements IProjectService
 	 */
 	public Project load(Integer id)
 	{
-		return projectDao.load(Project.class, id);
+		Project project = projectDao.load(Project.class, id);
+		//校验租户权限
+		LoginUtils.validateTenant(project.getTenantId());
+		return project;
 	}
 	
 	/**
@@ -87,7 +106,10 @@ public class ProjectServiceImpl implements IProjectService
 	public IPageList listPage(PageParam pageParam)
 	{
 		String listHql = "select obj from Project obj"
-			+ "-- and obj.name={name}"
+			+ "-- and obj.tenantId={tenantId}"	
+			+ "-- and obj.status={status}"		
+			+ "-- and obj.code like {code%}"	
+			+ "-- and obj.name like {name%}"
 			;	
 		return projectDao.listPage(listHql, pageParam);
 	}
