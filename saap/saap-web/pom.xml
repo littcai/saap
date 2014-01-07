@@ -545,14 +545,25 @@
 		<artifactId>cglib</artifactId>
 		<version>2.2</version>
 	</dependency>
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>1.0.1</version>
+	</dependency>
   </dependencies>
   
   <repositories>
   		<repository>
+			<id>private-nexus</id>
+			<name>local nexus repository</name>
+			<url>http://172.16.10.57:8081/nexus/content/groups/public</url>
+		</repository>
+  		<repository>
             <id>nexus</id>
             <name>local private nexus</name>
             <url>http://maven.oschina.net/content/groups/public/</url>            
-        </repository>   		
+        </repository> 
+        		
 	</repositories>
 	
 	<distributionManagement>

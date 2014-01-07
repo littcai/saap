@@ -17,4 +17,16 @@
 	<bean id="taskDao" class="com.litt.saap.teamwork.dao.TaskDao" parent="baseDao"/>	
 	<bean id="taskService" class="com.litt.saap.teamwork.service.impl.TaskServiceImpl"/>	
 	
+	<!-- Topic -->	
+	<bean id="topicDao" class="com.litt.saap.teamwork.dao.TopicDao" parent="baseDao"/>	
+	<bean id="topicService" class="com.litt.saap.teamwork.service.impl.TopicServiceImpl"/>	
+	
+	<!-- KnowledgeSpace -->	
+	<bean id="knowledgeSpaceDao" class="com.litt.saap.teamwork.dao.KnowledgeSpaceDao" parent="baseDao"/>	
+	<bean id="knowledgeSpaceService" class="com.litt.saap.teamwork.service.impl.KnowledgeSpaceServiceImpl"/>	
+	
+	<!-- KnowledgePage -->	
+	<bean id="knowledgePageDao" class="com.litt.saap.teamwork.dao.KnowledgePageDao" parent="baseDao"/>	
+	<bean id="knowledgePageService" class="com.litt.saap.teamwork.service.impl.KnowledgePageServiceImpl"/>
+	
 </beans>

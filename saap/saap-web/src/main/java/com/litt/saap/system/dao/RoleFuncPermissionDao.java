@@ -1,5 +1,7 @@
 package com.litt.saap.system.dao;
 
+import java.util.List;
+
 import com.litt.core.dao.GenericHibernateDao;
 import com.litt.saap.system.po.RoleFuncPermission;
 
@@ -19,5 +21,12 @@ import com.litt.saap.system.po.RoleFuncPermission;
  * @version 1.0
  */
 public class RoleFuncPermissionDao extends GenericHibernateDao<RoleFuncPermission, Integer> {
+	
+	public List<RoleFuncPermission> listByTenantAndRole(Integer tenantId, Integer roleId)
+	{
+		String listHql = "from RoleFuncPermission where tenantId=? and roleId=?";
+		return super.listAll(listHql, new Object[]{tenantId, roleId});
+	}
+	
 
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-1-3 11:41:42 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.litt.saap.teamwork.po.KnowledgeSpace" dynamic-insert="true" dynamic-update="true" table="knowledge_space">
+        <comment>知识库空间</comment>
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" length="100" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="100" not-null="true" />
+        </property>
+        <property name="descr" type="string">
+            <column name="DESCR" length="2000" />
+        </property>
+        <property name="createUserId" type="int">
+            <column name="CREATE_USER_ID" not-null="true" />
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true" />
+        </property>
+        <property name="updateUserId" type="int">
+            <column name="UPDATE_USER_ID" not-null="true" />
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

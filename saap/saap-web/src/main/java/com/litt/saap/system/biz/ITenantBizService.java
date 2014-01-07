@@ -2,6 +2,8 @@ package com.litt.saap.system.biz;
 
 import java.util.Locale;
 
+import com.litt.saap.core.module.tenant.config.TenantConfig;
+import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
 
@@ -31,6 +33,16 @@ public interface ITenantBizService {
 	 * @param userId the user id
 	 */
 	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale);
+	
+	/**
+	 * 升级用户权限.
+	 * 
+	 * 系统升级后，可能增加或移除的一些功能，需要对现有用户的权限做相应的升级操作。
+	 *
+	 * @param tenantConfig the tenant config
+	 * @return the tenant active bo
+	 */
+	public void doUpgradePermission(TenantConfig tenantConfig);
 	
 	/**
 	 * 注销租户空间.

@@ -1,5 +1,7 @@
 package com.litt.saap.teamwork.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.service.BaseService;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.teamwork.dao.TaskDao;
 import com.litt.saap.teamwork.po.Task;
 import com.litt.saap.teamwork.service.ITaskService;
@@ -38,6 +41,11 @@ public class TaskServiceImpl implements ITaskService
 	 */
 	public Integer save(Task task)
 	{
+		task.setTenantId(LoginUtils.getTenantId());
+		task.setCreateUserId(LoginUtils.getLoginOpId().intValue());
+		task.setCreateDatetime(new Date());		
+		task.setUpdateUserId(task.getCreateUserId());
+		task.setUpdateDatetime(task.getCreateDatetime());
 		return taskDao.save(task);
 	}
 	
@@ -47,6 +55,8 @@ public class TaskServiceImpl implements ITaskService
 	 */
 	public void update(Task task)
 	{
+		task.setUpdateUserId(LoginUtils.getLoginOpId().intValue());
+		task.setUpdateDatetime(new Date());
 		taskDao.update(task);
 	}			
    

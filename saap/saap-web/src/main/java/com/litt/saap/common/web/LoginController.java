@@ -28,6 +28,8 @@ import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.servlet.LoginCaptchaServlet;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.module.tenant.config.TenantConfigManager;
+import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
@@ -40,7 +42,6 @@ import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
-import com.litt.saap.system.vo.TenantVo;
 
 /** 
  * 
@@ -478,6 +479,33 @@ public class LoginController {
 		//LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
 		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getAppAlias()}, locale);
+		String redirectUrl = "index";	//跳转到首页
+		
+		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+	}
+	
+	/**
+	 * 升级租户权限.
+	 * 系统功能升级后，需要对现有用户的权限进行升级（增加新的，删除不再存在的）
+	 * 
+	 * TODO 该方法仅做测试使用
+	 *
+	 * @param orderNo the order no
+	 * @param request 请求对象
+	 * @param response 响应对象
+	 * @return 视图
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="upgradeTenantPermission.do")
+	public ModelAndView upgradeTenantPermission(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{				
+		String loginIp = WebUtils.getRemoteIp(request);		
+			
+		TenantConfigManager manager = new TenantConfigManager();	//重新加载配置，更新权限
+		
+		tenantBizService.doUpgradePermission(manager.getConfig());
+		
+		String message = "Upgrade success";
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);

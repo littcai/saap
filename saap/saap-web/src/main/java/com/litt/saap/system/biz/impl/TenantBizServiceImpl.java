@@ -1,20 +1,21 @@
 package com.litt.saap.system.biz.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.databene.jdbacl.sql.parser.SQLParser.null_comparison_return;
-
-import com.litt.core.common.BeanManager;
 import com.litt.core.exception.BusiCodeException;
+import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.BeanCopier;
 import com.litt.core.util.DateUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
+import com.litt.saap.core.module.tenant.config.TenantConfig;
 import com.litt.saap.core.module.tenant.config.TenantConfigManager;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
@@ -69,16 +70,19 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	 */
 	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale)
 	{
+		String bagCode = "basic";	//此处应该从订单中获得购买了哪个类型的产品包
+		
 		//有效性检查，如果一个用户已经属于一个租户，则无法再激活第二个
 		boolean isTenantMember = tenantMemberDao.isTenantMember(userId);
 		if(isTenantMember)
 			throw new BusiCodeException("tenant.error.isTenantMember");
-		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig("basic");
+		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig(bagCode);
 				
 		Tenant tenant = new Tenant();
 		tenant.setCode(orderNo);
 		tenant.setAppCode(SaapConstants.PLATFORM_APP_CODE);
 		tenant.setAppAlias("默认别名");	//FIXME	这个值后面由用户填入
+		tenant.setBagCode(bagCode);
 		tenant.setStatus(TenantStatus.NORMAL);	//直接激活		
 		tenant.setId(tenant.getCreateUserId());
 		tenant.setMaxMembers(tenantDefConfig.getMaxMembers());		
@@ -110,8 +114,8 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		for (TenantRoleConfig tenantRoleConfig : roleConfig) {
 			Role role = new Role();
 			role.setTenantId(tenantId);
-			role.setName(BeanManager.getMessage("tenant.config.role."+tenantRoleConfig.getCode(), locale));
-			role.setStatus(1);		
+			role.setName(tenantRoleConfig.getCode());	//BeanManager.getMessage("tenant.config.role."+tenantRoleConfig.getCode(), locale)
+			role.setStatus(9);		
 			roleService.save(role);
 			Integer roleId = role.getId();
 			//插入角色的权限
@@ -135,6 +139,74 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		TenantActiveBo ret = new TenantActiveBo(tenantVo, adminRoleId, adminPermissions);
 		
 		return ret;
+	}
+	
+	/**
+	 * 升级用户权限.
+	 * 
+	 * 系统升级后，可能增加或移除的一些功能，需要对现有用户的权限做相应的升级操作。
+	 *
+	 * @param tenantConfig the tenant config
+	 * @return the tenant active bo
+	 */
+	public void doUpgradePermission(TenantConfig tenantConfig)
+	{
+		List<Tenant> tenantList = tenantDao.listAll();
+		for (Tenant tenant : tenantList) {
+			Integer tenantId = tenant.getId();
+			List<Role> roleList = roleService.listByTenant(tenantId);
+			
+			TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig(tenant.getBagCode());
+			
+			for (Role role : roleList) {
+				Integer roleId = role.getId();			
+				//获取所有的Role及对应的permission
+				List<RoleFuncPermission> permissionList = roleFuncPermissionDao.listByTenantAndRole(tenantId, roleId);
+				
+				List<RoleFuncPermission> deleteList = new ArrayList<RoleFuncPermission>();
+				for (RoleFuncPermission roleFuncPermission : permissionList) 
+				{
+					if(!tenantDefConfig.containsPermission(roleFuncPermission.getPermissionCode()))
+					{
+						//该权限需删除
+						deleteList.add(roleFuncPermission);
+					}
+				}
+				//把新增的权限加到现有角色上
+				if(role.getStatus()==9)	//系统内置角色
+				{			
+					TenantDefConfig newTenantDefConfig = tenantConfig.getTenantDef(tenant.getBagCode());
+					
+					TenantRoleConfig oldRoleConfig = tenantDefConfig.getRoleByCode(role.getName());
+					TenantRoleConfig newRoleConfig = newTenantDefConfig.getRoleByCode(role.getName());
+					//对比两个配置，获得新的权限编号
+					List<String> addPermissionList = new ArrayList<String>();
+					String[] oldPermissions = oldRoleConfig.getPermissions();
+					String[] newPermissions = newRoleConfig.getPermissions();
+					for (String permissionCode : newPermissions) {
+						if(!ArrayUtils.contains(oldPermissions, permissionCode))
+						{
+							addPermissionList.add(permissionCode);
+						}
+					}
+					//保存新的			
+					if(!addPermissionList.isEmpty())
+					{
+						RoleFuncPermission[] newEntities = new RoleFuncPermission[addPermissionList.size()]; 
+						int i=0;
+						for (String permissionCode : addPermissionList) {
+							RoleFuncPermission entity = new RoleFuncPermission(tenantId, roleId, permissionCode);
+							newEntities[i] = entity;
+							i++;
+						}
+						roleFuncPermissionDao.saveBatch(newEntities);
+					}
+					
+				}
+			}					
+		}
+		//重新加载当前配置实例，变成最新的
+		TenantConfigManager.getInstance().reload();
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package com.litt.saap.core.module.tenant.config;
 
 import java.util.Arrays;
 
+import com.litt.core.util.ArrayUtils;
+
 /**
  * .
  * 
@@ -30,6 +32,26 @@ public class TenantDefConfig {
 	
 	/** 默认角色及其对应权限. */
 	private TenantRoleConfig[] roles;
+	
+	/**
+	 * 是否包含权限.
+	 *
+	 * @param permissionCode the permission code
+	 * @return true, if successful
+	 */
+	public boolean containsPermission(String permissionCode)
+	{
+		return ArrayUtils.contains(permissions, permissionCode);
+	}
+	
+	public TenantRoleConfig getRoleByCode(String code)
+	{
+		for (TenantRoleConfig role : roles) {
+			if(role.getCode().equals(code))
+				return role;
+		}
+		return null;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

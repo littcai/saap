@@ -35,6 +35,9 @@ public class Tenant implements Serializable {
 	 * 应用别名.
 	 */
 	private String appAlias;
+	
+	/** 功能包编号. */
+	private String bagCode;
 
 	/**
 	 * 租用类型
@@ -92,13 +95,14 @@ public class Tenant implements Serializable {
 	public Tenant() {
 	}
 
-	public Tenant(String code, String appCode, String appAlias, int isolatedMode,
+	public Tenant(String code, String appCode, String appAlias, String bagCode, int isolatedMode,
 			int status, int createUserId, Date createDatetime,
 			Date updateDatetime, int maxMembers, int trialDays,
 			Date expiredDate, int price) {
 		this.code = code;
 		this.appCode = appCode;
 		this.appAlias = appAlias;
+		this.bagCode = bagCode;
 		this.isolatedMode = isolatedMode;
 		this.status = status;
 		this.createUserId = createUserId;
@@ -348,6 +352,20 @@ public class Tenant implements Serializable {
 	 */
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	/**
+	 * @return the bagCode
+	 */
+	public String getBagCode() {
+		return bagCode;
+	}
+
+	/**
+	 * @param bagCode the bagCode to set
+	 */
+	public void setBagCode(String bagCode) {
+		this.bagCode = bagCode;
 	}
 
 }

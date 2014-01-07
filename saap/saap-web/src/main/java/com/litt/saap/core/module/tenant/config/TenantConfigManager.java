@@ -37,6 +37,7 @@ public class TenantConfigManager {
 	}	
 	
 	public void reload() {
+		
 		this.config = ConfigUtils.loadByCastor(TenantConfig.class, CONF_MAPPING_FILE_PATH, CONF_FILE_PATH);
 	} 
 	

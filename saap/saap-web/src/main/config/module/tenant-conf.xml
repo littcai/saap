@@ -28,6 +28,30 @@
 			<code>120202</code>
 			<code>120203</code>
 			<code>120204</code>
+			<!-- Discussion -->
+			<code>1203</code>
+			<code>120301</code>
+			<code>120302</code>
+			<code>120303</code>
+			<code>120304</code>
+			<!-- Files -->
+			<code>1204</code>
+			<code>120401</code>
+			<code>120402</code>
+			<code>120403</code>
+			<code>120404</code>
+			<!-- KnowledgeSpace -->
+			<code>1209</code>
+			<code>120901</code>
+			<code>120902</code>
+			<code>120903</code>
+			<code>120904</code>
+			<!-- KnowledgePage -->
+			<code>1210</code>
+			<code>121001</code>
+			<code>121002</code>
+			<code>121003</code>
+			<code>121004</code>
 		</permissions>
 		<!-- 默认角色及其对应的权限
 			注：role的code需要在国际化文件中有映射，以实现数据库存储的国际化
@@ -58,6 +82,30 @@
 				<code>120202</code>
 				<code>120203</code>
 				<code>120204</code>
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>
 			</permissions>
 		</role>
 		<role code="member">
@@ -79,7 +127,31 @@
 				<code>120201</code>
 				<code>120202</code>
 				<code>120203</code>
-				<code>120204</code>		
+				<code>120204</code>	
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>	
 			</permissions>
 		</role>
 	</tenant>
