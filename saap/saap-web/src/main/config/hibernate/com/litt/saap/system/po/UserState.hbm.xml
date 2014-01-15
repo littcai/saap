@@ -9,6 +9,11 @@
             <column name="ID" />
             <generator class="assigned" />
         </id>
+        <property name="currentTenantId" type="int">
+            <column name="CURRENT_TENANT_ID" not-null="true">
+                <comment>当前租户ID</comment>
+            </column>
+        </property>
         <property name="totalLoginTimes" type="int">
             <column name="TOTAL_LOGIN_TIMES" not-null="true">
                 <comment>总登录次数</comment>

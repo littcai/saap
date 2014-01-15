@@ -74,5 +74,10 @@
                 <comment>购买价格</comment>
             </column>
         </property>
+        <property name="logoUrl" type="string">
+            <column name="LOGO_URL" length="200">
+                <comment>图标路径</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

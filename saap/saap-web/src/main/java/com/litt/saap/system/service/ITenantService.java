@@ -1,5 +1,7 @@
 package com.litt.saap.system.service;
 
+import java.util.List;
+
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.vo.TenantVo;
 
@@ -42,8 +44,16 @@ public interface ITenantService {
 	 * @param userId the user id
 	 * @return true, if is tenant member
 	 */
-	public boolean isTenantMember(int userId);
+	public boolean isTenantMember(int tenantId, int userId);
 	
 	public TenantVo findById(Integer tenantId);
+	
+	/**
+	 * 查找用户是其成员的租户信息.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<TenantVo> findByMemberId(int userId);
 
 }

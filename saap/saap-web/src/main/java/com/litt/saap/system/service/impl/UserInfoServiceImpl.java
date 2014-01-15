@@ -93,7 +93,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		UserExt userExt = new UserExt(userId);
 		userExtDao.save(userExt);
 		
-		UserState userState = new UserState(userId, 0, 0, new Date(), "");
+		UserState userState = new UserState(userId, 0, 0, 0, new Date(), "");
 		userStateDao.save(userState);
 		
 		return userId;

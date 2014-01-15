@@ -120,6 +120,14 @@ public interface IUserBizService {
 	public LoginUserVo doAutoLogin(String token, String loginIp, Locale locale);
 	
 	/**
+	 * 切换用户当前首选的租户空间.
+	 *
+	 * @param loginUser the login user
+	 * @param tenantId the tenant id
+	 */
+	public void doSwitchCurrentTenant(LoginUserVo loginUser, int tenantId);
+	
+	/**
 	 * 发现租户下所有用户.
 	 *
 	 * @param tenantId the tenant id

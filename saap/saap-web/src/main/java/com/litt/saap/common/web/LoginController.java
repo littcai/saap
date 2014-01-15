@@ -29,7 +29,6 @@ import com.litt.core.web.servlet.LoginCaptchaServlet;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.module.tenant.config.TenantConfigManager;
-import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
@@ -39,9 +38,11 @@ import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IRoleService;
+import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
+import com.litt.saap.system.vo.TenantVo;
 
 /** 
  * 
@@ -70,6 +71,9 @@ public class LoginController {
 	
 	@Resource
 	private IUserBizService userBizService;
+	
+	@Resource
+	private ITenantService tenantService;
 	
 	@Resource
 	private ITenantBizService tenantBizService;
@@ -475,14 +479,14 @@ public class LoginController {
 			loginUser.addPermissions(tenantActiveBo.getPermissionCodes());
 		}
 		
-		//HttpSession session = request.getSession();
-		//LoginUtils.setLoginSession(session, loginUser);
+		HttpSession session = request.getSession();
+		LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
 		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getAppAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
-	}
+	}	
 	
 	/**
 	 * 升级租户权限.
@@ -585,6 +589,47 @@ public class LoginController {
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+	}
+	
+	/**
+	 * 切换租户空间.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="switchTenant.do")
+	public ModelAndView toSwitchTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{			
+		Locale locale = LoginUtils.getLocale(request);		
+		ILoginVo loginVo = LoginUtils.getLoginVo();		
+		List<TenantVo> tenantList = tenantService.findByMemberId(loginVo.getOpId().intValue()); 
+		
+		return new ModelAndView("/common/switchTenant").addObject("tenantList", tenantList);		
+	}
+	
+	/**
+	 * 切换租户空间.
+	 *
+	 * @param id 找回密码ID
+	 * @param password 新密码
+	 * @param request the request
+	 * @param response the response
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="switchTenant.json")
+	public ModelAndView switchTenant(@RequestParam Integer tenantId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{						
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
+		//从请求中获取查询条件
+		userBizService.doSwitchCurrentTenant(loginUser, tenantId);
+		
+		LoginUtils.setLoginSession(request.getSession(), loginUser);
+		
+		return new ModelAndView("jsonView");
 	}
 	
 	

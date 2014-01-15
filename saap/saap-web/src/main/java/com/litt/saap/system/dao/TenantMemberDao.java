@@ -28,10 +28,10 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	 * @param userId the user id
 	 * @return true, if is tenant member
 	 */
-	public boolean isTenantMember(int userId)
+	public boolean isTenantMember(int tenantId, int userId)
 	{
-		String countHql = "select count(o) from TenantMember o where o.userId=?";
-		return super.count(countHql, new Object[]{userId})>0;
+		String countHql = "select count(o) from TenantMember o where o.tenantId, o.userId=?";
+		return super.count(countHql, new Object[]{tenantId, userId})>0;
 	}
 	
 	/**
@@ -69,22 +69,8 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	{
 		String hql = "from TenantMember where userId=? and tenantId=?";
 		return super.uniqueResult(hql, new Object[]{userId, tenantId}, TenantMember.class);
-	}
-	
-	/**
-	 * Load.
-	 *
-	 * @param appId the app id
-	 * @param userId the user id
-	 * @return the tenant member
-	 */
-	public TenantMember load(int userId, int appId)
-	{
-		//TODO 暂时只有一个应用，忽略所有的app属性
-		String hql = "from TenantMember where userId=?";
-		return super.uniqueResult(hql, new Object[]{userId}, TenantMember.class);
-	}
-	
+	}	
+		
 	/**
 	 * List by tenant.
 	 *
@@ -94,6 +80,17 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	public List<TenantMember> listByTenant(int tenantId)
 	{
 		return super.listAll("from TenantMember where tenantId=?", new Object[]{tenantId});
+	}
+	
+	/**
+	 * List by MEMBER.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<TenantMember> listByMember(int userId)
+	{
+		return super.listAll("from TenantMember where userId=?", new Object[]{userId});
 	}
 
 }

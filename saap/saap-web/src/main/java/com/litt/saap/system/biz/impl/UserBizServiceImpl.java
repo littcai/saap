@@ -169,7 +169,8 @@ public class UserBizServiceImpl implements IUserBizService {
 	public void doInvite(Integer inviterUserId, Integer targetRoleId, String email, String comment, Locale locale, TimeZone timeZone, Theme theme)
 	{		
 		UserInfo userInfo = userInfoService.load(inviterUserId);	//发起邀请用户
-		TenantMember tenantMember = tenantMemberDao.load(inviterUserId, SaapConstants.PLATFORM_APP_ID);	//发起用户所在的租户
+		UserState userState = userStateDao.load(inviterUserId);
+		TenantMember tenantMember = tenantMemberDao.loadByUserAndTenant(inviterUserId, userState.getCurrentTenantId());	//发起用户所在的租户
 		
 		//检查激活码中的参数是否有效
 		Assert.notNull(inviterUserId, BeanManager.getMessage("invite.error.inviterIsNull", locale));
@@ -262,7 +263,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		else 
 		{
 			//检查目标用户是否已属于某个租户，是的话则不能加入
-			boolean isTenantMember = tenantService.isTenantMember(targetUser.getId());
+			boolean isTenantMember = tenantService.isTenantMember(tenantId, targetUser.getId());
 			if(isTenantMember)
 			{
 				throw new BusiCodeException("join.error.isTenantMember");
@@ -445,12 +446,13 @@ public class UserBizServiceImpl implements IUserBizService {
 	 * @throws BusiException the busi exception
 	 */
 	public LoginUserVo doLogin(String loginId, String password, String loginIp, boolean isAutoLogin, Locale locale) throws BusiException
-	{
+	{		
 		LoginUserVo loginUser = userInfoService.doLogin(loginId, password, loginIp, isAutoLogin, locale);
+		UserState userState = userStateDao.load(loginUser.getOpId().intValue());
 		//初始化全局权限
 		initDefaultPermission(loginUser);
 		//初始化租户相关
-		initLoginUserTenant(loginUser);		
+		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
 		
 		return loginUser;
 	}
@@ -472,7 +474,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		//初始化全局权限
 		initDefaultPermission(loginUser);
 		//初始化租户相关
-		initLoginUserTenant(loginUser);		
+		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
 		
 		return loginUser;
 	}
@@ -490,9 +492,9 @@ public class UserBizServiceImpl implements IUserBizService {
 	 *
 	 * @param loginUser the login user
 	 */
-	private void initLoginUserTenant(LoginUserVo loginUser) {
+	private void initLoginUserTenant(LoginUserVo loginUser, int currentTenantId) {
 		//获取该用户的租户信息		
-		TenantMember tenantMember = tenantMemberDao.load(loginUser.getOpId().intValue(), SaapConstants.PLATFORM_APP_ID);
+		TenantMember tenantMember = tenantMemberDao.loadByUserAndTenant(loginUser.getOpId().intValue(), currentTenantId);
 		if(tenantMember!=null)
 		{
 			Tenant tenant = tenantDao.load(tenantMember.getTenantId());			
@@ -530,13 +532,37 @@ public class UserBizServiceImpl implements IUserBizService {
 	public LoginUserVo doAutoLogin(String token, String loginIp, Locale locale)
 	{
 		LoginUserVo loginUser = userInfoService.doAutoLogin(token, loginIp, locale);
+		UserState userState = userStateDao.load(loginUser.getOpId().intValue());
 		//初始化默认权限
 		this.initDefaultPermission(loginUser);
 		
 		//初始化租户权限
-		initLoginUserTenant(loginUser);		
+		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
 		
 		return loginUser;
+	}
+	
+	/**
+	 * 切换用户当前首选的租户空间.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 */
+	public void doSwitchCurrentTenant(LoginUserVo loginUser, int tenantId)
+	{
+		int userId = loginUser.getOpId().intValue();
+		UserState userState = userStateDao.load(userId);
+		boolean isTenantMember = tenantMemberDao.isTenantMember(tenantId, userId);
+		if(!isTenantMember)
+			throw new BusiCodeException("tenant.error.isNotTenantMember");
+		userState.setCurrentTenantId(tenantId);
+		userStateDao.update(userState);
+		
+		//重新初始化当前用户权限
+		//初始化全局权限
+		initDefaultPermission(loginUser);
+		//初始化租户相关
+		initLoginUserTenant(loginUser, userState.getCurrentTenantId());	
 	}
 	
 	/**

@@ -72,10 +72,11 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	{
 		String bagCode = "basic";	//此处应该从订单中获得购买了哪个类型的产品包
 		
-		//有效性检查，如果一个用户已经属于一个租户，则无法再激活第二个
-		boolean isTenantMember = tenantMemberDao.isTenantMember(userId);
-		if(isTenantMember)
-			throw new BusiCodeException("tenant.error.isTenantMember");
+		//TODO有效性检查，如果订单已生效，则无法再次激活
+		boolean isOrderActivated = false;
+		if(isOrderActivated)
+			throw new BusiCodeException("order.error.isActivated", locale);
+		
 		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig(bagCode);
 				
 		Tenant tenant = new Tenant();

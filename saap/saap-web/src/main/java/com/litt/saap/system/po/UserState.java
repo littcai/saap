@@ -20,6 +20,9 @@ public class UserState implements Serializable {
 	 * 序号(同用户ID).
 	 */
 	private int id;
+	
+	/** 当前租户ID. */
+	private int currentTenantId;
 
 	/**
 	 * 总登录次数.
@@ -44,9 +47,10 @@ public class UserState implements Serializable {
 	public UserState() {
 	}
 
-	public UserState(int id, int totalLoginTimes, int loginRetryTimes,
+	public UserState(int id, int currentTenantId, int totalLoginTimes, int loginRetryTimes,
 			Date lastLoginDatetime, String lastLoginIp) {
 		this.id = id;
+		this.currentTenantId = currentTenantId;
 		this.totalLoginTimes = totalLoginTimes;
 		this.loginRetryTimes = loginRetryTimes;
 		this.lastLoginDatetime = lastLoginDatetime;
@@ -131,6 +135,20 @@ public class UserState implements Serializable {
 	 */
 	public void setLastLoginIp(String lastLoginIp) {
 		this.lastLoginIp = lastLoginIp;
+	}
+
+	/**
+	 * @return the currentTenantId
+	 */
+	public int getCurrentTenantId() {
+		return currentTenantId;
+	}
+
+	/**
+	 * @param currentTenantId the currentTenantId to set
+	 */
+	public void setCurrentTenantId(int currentTenantId) {
+		this.currentTenantId = currentTenantId;
 	}
 
 }

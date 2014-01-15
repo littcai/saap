@@ -238,30 +238,30 @@ public class LoginUtils
 		
 		request.getSession().setAttribute(SessionThemeResolver.THEME_SESSION_ATTRIBUTE_NAME, theme);
 	}
-	
-	/**
-	 * Adds the flush attribute.
-	 *
-	 * @param session the session
-	 */
-	public static void addFlushAttribute(HttpSession session, String key, Object value)
-	{
-		session.setAttribute(key, value);
-	}
-	
-	/**
-	 * Gets the flush attribute.
-	 *
-	 * @param session the session
-	 * @param key the key
-	 * @return the flush attribute
-	 */
-	public static Object getFlushAttribute(HttpSession session, String key)
-	{
-		Object value = session.getAttribute(key);
-		session.removeAttribute(key);
-		return value;
-	}
+//	
+//	/**
+//	 * Adds the flush attribute.
+//	 *
+//	 * @param session the session
+//	 */
+//	public static void addFlushAttribute(HttpSession session, String key, Object value)
+//	{
+//		session.setAttribute(key, value);
+//	}
+//	
+//	/**
+//	 * Gets the flush attribute.
+//	 *
+//	 * @param session the session
+//	 * @param key the key
+//	 * @return the flush attribute
+//	 */
+//	public static Object getFlushAttribute(HttpSession session, String key)
+//	{
+//		Object value = session.getAttribute(key);
+//		session.removeAttribute(key);
+//		return value;
+//	}
 	
 	/**
 	 * 获取登录操作员信息.

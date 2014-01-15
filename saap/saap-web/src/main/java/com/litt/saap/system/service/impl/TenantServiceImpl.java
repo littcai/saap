@@ -1,6 +1,8 @@
 package com.litt.saap.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -102,22 +104,49 @@ public class TenantServiceImpl implements ITenantService {
 	/**
 	 * 检查用户是否已是某个租户的成员.
 	 *
+	 * @param tenantId the tenant id
 	 * @param userId the user id
 	 * @return true, if is tenant member
 	 */
-	public boolean isTenantMember(int userId)
+	public boolean isTenantMember(int tenantId, int userId)
 	{
-		return tenantMemberDao.isTenantMember(userId);
+		return tenantMemberDao.isTenantMember(tenantId, userId);
 	}
 	
 	public TenantVo findById(Integer tenantId)
 	{
 		Tenant po = tenantDao.load(tenantId);
+		return convertVo(po);
+	}
+
+
+	/**
+	 * @param po
+	 * @return
+	 */
+	private TenantVo convertVo(Tenant po) {
 		if(po==null)
 			return null;
 		else {
 			return BeanCopier.copy(po, TenantVo.class);
 		}
+	}
+	
+	/**
+	 * 查找用户是其成员的租户信息.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<TenantVo> findByMemberId(int userId)
+	{
+		List<Tenant> tenantList = tenantDao.listByMember(userId);		
+		List<TenantVo> tenantVoList = new ArrayList<TenantVo>(tenantList.size());
+		for (Tenant tenant : tenantList) {
+			TenantVo vo = this.convertVo(tenant);
+			tenantVoList.add(vo);
+		}
+		return tenantVoList;
 	}
 
 }

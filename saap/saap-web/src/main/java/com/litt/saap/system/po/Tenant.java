@@ -91,6 +91,9 @@ public class Tenant implements Serializable {
 	 * 购买价格.
 	 */
 	private int price;
+	
+	/** The logo url. */
+	private String logoUrl;
 
 	public Tenant() {
 	}
@@ -366,6 +369,20 @@ public class Tenant implements Serializable {
 	 */
 	public void setBagCode(String bagCode) {
 		this.bagCode = bagCode;
+	}
+
+	/**
+	 * @return the logoUrl
+	 */
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	/**
+	 * @param logoUrl the logoUrl to set
+	 */
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 
 }
