@@ -136,4 +136,12 @@ public interface IUserInfoService {
 	 */
 	public UserInfo loadByEmail(String email);
 	
+	/**
+	 * Load user state.
+	 *
+	 * @param userId the user id
+	 * @return the user state
+	 */
+	public UserState loadUserState(Integer userId);
+	
 }

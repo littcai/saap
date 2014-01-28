@@ -13,6 +13,8 @@ import org.apache.commons.lang.LocaleUtils;
 
 import com.litt.core.common.BeanManager;
 import com.litt.core.web.util.WebUtils;
+import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.system.service.IDictParamService;
 import com.litt.saap.system.util.DictParamHelper;
 import com.litt.saap.system.vo.DictParamVo;
@@ -59,7 +61,13 @@ public class DictOptionsTag extends SimpleTagSupport
 		super.doTag();
 		//2013-07-22 增加获取国际化语言的支持
 		PageContext pageContext = (PageContext)super.getJspContext();		
-		Locale locale = (Locale)pageContext.findAttribute("org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE");		
+		Locale locale = (Locale)pageContext.findAttribute("org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE");	
+		//
+		LoginUserVo loginUser = (LoginUserVo)pageContext.findAttribute(SaapConstants.SESSION_USER);
+		if(loginUser!=null)
+		{
+			locale = LocaleUtils.toLocale(loginUser.getLocale());
+		}
 		
 		JspWriter out = getJspContext().getOut();   
 		

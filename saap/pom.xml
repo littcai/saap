@@ -106,7 +106,7 @@
 		           <autoVersionSubmodules>true</autoVersionSubmodules>
 		        </configuration> 		
 		    </plugin>
-		    <!-- 打包时同时打包源码 -->
+		    <!-- 打包时同时打包源�?-->
 		    <plugin>
 		    	<!-- This plugin MUST set into jar project -->
 				<groupId>org.apache.maven.plugins</groupId>

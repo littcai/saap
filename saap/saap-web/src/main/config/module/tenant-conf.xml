@@ -158,17 +158,309 @@
 	<tenant code="standard" descr="标准用户，包含常规功能">
 		<maxMembers>10</maxMembers>
 		<permissions>
+		
 		</permissions>
+		<role code="admin">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>
+				<code>1102</code>
+				<code>110201</code>
+				<code>110202</code>
+				<code>110203</code>
+				<code>110204</code>
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>
+			</permissions>
+		</role>
+		<role code="member">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>	
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>	
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>	
+			</permissions>
+		</role>
 	</tenant>
 	<tenant code="business" descr="商业用户，包含所有功能，但有数据容量和成员数限制">
 		<maxMembers>100</maxMembers>
 		<permissions>
 		</permissions>
+		<role code="admin">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>
+				<code>1102</code>
+				<code>110201</code>
+				<code>110202</code>
+				<code>110203</code>
+				<code>110204</code>
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>
+			</permissions>
+		</role>
+		<role code="member">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>	
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>	
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>	
+			</permissions>
+		</role>
 	</tenant>
 	<tenant code="ultimate" descr="终极用户，包含所有功能，且数据容量和成员数无限制">
 		<maxMembers>-1</maxMembers>	
 		<permissions>
 		</permissions>
+		<role code="admin">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>
+				<code>1102</code>
+				<code>110201</code>
+				<code>110202</code>
+				<code>110203</code>
+				<code>110204</code>
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>
+			</permissions>
+		</role>
+		<role code="member">
+			<permissions>
+				<code>11</code>
+				<code>1101</code>
+				<code>110101</code>
+				<code>110102</code>
+				<code>110103</code>
+				<code>110104</code>	
+				<!-- teamwork -->
+				<code>12</code>
+				<code>1201</code>
+				<code>120101</code>
+				<code>120102</code>
+				<code>120103</code>
+				<code>120104</code>
+				<code>1202</code>
+				<code>120201</code>
+				<code>120202</code>
+				<code>120203</code>
+				<code>120204</code>	
+				<!-- Discussion -->
+				<code>1203</code>
+				<code>120301</code>
+				<code>120302</code>
+				<code>120303</code>
+				<code>120304</code>
+				<!-- Files -->
+				<code>1204</code>
+				<code>120401</code>
+				<code>120402</code>
+				<code>120403</code>
+				<code>120404</code>
+				<!-- KnowledgeSpace -->
+				<code>1209</code>
+				<code>120901</code>
+				<code>120902</code>
+				<code>120903</code>
+				<code>120904</code>
+				<!-- KnowledgePage -->
+				<code>1210</code>
+				<code>121001</code>
+				<code>121002</code>
+				<code>121003</code>
+				<code>121004</code>	
+			</permissions>
+		</role>
 	</tenant>
 
 </tenant-config>

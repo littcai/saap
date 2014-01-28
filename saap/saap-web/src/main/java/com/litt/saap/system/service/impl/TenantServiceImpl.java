@@ -144,6 +144,10 @@ public class TenantServiceImpl implements ITenantService {
 		List<TenantVo> tenantVoList = new ArrayList<TenantVo>(tenantList.size());
 		for (Tenant tenant : tenantList) {
 			TenantVo vo = this.convertVo(tenant);
+			if(vo.getCreateUserId()==userId)
+			{
+				vo.setAdmin(true);
+			}
 			tenantVoList.add(vo);
 		}
 		return tenantVoList;

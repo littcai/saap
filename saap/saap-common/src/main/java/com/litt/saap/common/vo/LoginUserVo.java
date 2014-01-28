@@ -1,12 +1,10 @@
 package com.litt.saap.common.vo;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.litt.core.shield.vo.BaseLoginVo;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.saap.system.vo.TenantVo;
+import com.litt.saap.system.vo.UserInfoVo;
+import com.litt.saap.system.vo.UserStateVo;
 
 /**
  * 
@@ -32,6 +30,51 @@ public class LoginUserVo extends BaseLoginVo implements ILoginVo
 	 * The Constant serialVersionUID.
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 用户类型.
+	 */
+	private int userType;
+	
+	/**
+	 * 昵称.
+	 */
+	private String nickName;
+
+	/**
+	 * 性别
+	        0:Unknown
+	        1:Male
+	        2:Female.
+	 */
+	private int gender;
+
+	/**
+	 * 电子邮件.
+	 */
+	private String email;
+
+	/**
+	 * 手机号.
+	 */
+	private String mobile;
+
+	/**
+	 * 状态(1001)
+	        0：未审核
+	        1：正常
+	        2：注销
+	        3：删除
+	        4：锁定.
+	 */
+	private int status;
+	
+	/**
+	 * 头像地址.
+	 */
+	private String headImgUrl;
+	
+	private UserStateVo userState;
 
 	/** 租户信息. */
 	private TenantVo tenant;	
@@ -44,9 +87,21 @@ public class LoginUserVo extends BaseLoginVo implements ILoginVo
 	 * @param userName 操作员名称
 	 * @param loginIp 登录IP
 	 */
-	public LoginUserVo(Long userId, String loginId, String userName, String loginIp)
+	public LoginUserVo(UserInfoVo userInfo, UserStateVo userState, String loginIp)
 	{
-		super(userId, loginId, userName, loginIp);
+		super(userInfo.getId().longValue(), userInfo.getLoginId(), userInfo.getUserName(), loginIp);
+		super.setStatus(userInfo.getStatus());
+		super.setLocale(userInfo.getLocale());
+		super.setTimezone(userInfo.getTimezone());	
+		super.setTheme(userInfo.getTheme());
+		
+		this.userType = userInfo.getUserType();
+		this.nickName = userInfo.getNickName();
+		this.gender = userInfo.getGender();
+		this.email = userInfo.getNickName();
+		this.mobile = userInfo.getMobile();
+		this.headImgUrl = userInfo.getHeadImgUrl();
+		this.userState = userState;
 	}
 	
 	/**
@@ -72,4 +127,117 @@ public class LoginUserVo extends BaseLoginVo implements ILoginVo
 	public TenantVo getTenant() {
 		return tenant;
 	}
+
+	/**
+	 * @return the userState
+	 */
+	public UserStateVo getUserState() {
+		return userState;
+	}
+
+	/**
+	 * @param userState the userState to set
+	 */
+	public void setUserState(UserStateVo userState) {
+		this.userState = userState;
+	}
+
+	/**
+	 * @return the userType
+	 */
+	public int getUserType() {
+		return userType;
+	}
+
+	/**
+	 * @param userType the userType to set
+	 */
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+
+	/**
+	 * @return the nickName
+	 */
+	public String getNickName() {
+		return nickName;
+	}
+
+	/**
+	 * @param nickName the nickName to set
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public int getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the mobile
+	 */
+	public String getMobile() {
+		return mobile;
+	}
+
+	/**
+	 * @param mobile the mobile to set
+	 */
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the headImgUrl
+	 */
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	/**
+	 * @param headImgUrl the headImgUrl to set
+	 */
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
 }

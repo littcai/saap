@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.MessageSource;
+
 import com.litt.core.common.BeanManager;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ArrayUtils;
@@ -36,6 +38,9 @@ public class MenuServiceImpl implements IMenuService
 { 
 	@Resource
 	private MenuDao menuDao;
+	
+	@Resource
+	private MessageSource messageSource;
 	
    	/* (non-Javadoc)
 	 * @see com.litt.saap.system.service.impl.IMenuService#save(com.litt.saap.system.po.Menu)
@@ -125,12 +130,15 @@ public class MenuServiceImpl implements IMenuService
 	 */
 	public MenuTreeNodeVo findTreeByOpPermission(LoginUserVo loginVo)
 	{
+		Locale locale = loginVo.toLocale();
 		List<Menu> menuList = this.listByOpPermission(loginVo);
 		
 		Map<Integer, MenuTreeNodeVo> tempCache = new HashMap<Integer, MenuTreeNodeVo>();	//缓存，可通过menuCode快速取到menu对象
 		MenuTreeNodeVo treeNode = new MenuTreeNodeVo();
 		for (Menu menu : menuList) {
 			MenuTreeNodeVo node = BeanCopier.copy(menu, MenuTreeNodeVo.class);
+			node.setMenuName(BeanManager.getMessage("menu."+node.getMenuCode(), locale));	//国际化菜单
+			
 			tempCache.put(menu.getMenuId(), node);
 			if(menu.getParentId()!=0 && tempCache.containsKey(menu.getParentId()))
 			{
@@ -153,6 +161,7 @@ public class MenuServiceImpl implements IMenuService
 	 */
 	public MenuTreeNodeVo findDomainTreeByOpPermission(LoginUserVo loginVo, String moduleCode)
 	{
+		Locale locale = loginVo.toLocale();
 		String domainMenuCode = StringUtils.substring(moduleCode, 0, 2);	
 		
 		List<Menu> menuList = this.listByOpPermission(loginVo, domainMenuCode);
@@ -161,6 +170,8 @@ public class MenuServiceImpl implements IMenuService
 		MenuTreeNodeVo treeNode = new MenuTreeNodeVo();
 		for (Menu menu : menuList) {
 			MenuTreeNodeVo node = BeanCopier.copy(menu, MenuTreeNodeVo.class);
+			node.setMenuName(BeanManager.getMessage("menu."+node.getMenuCode(), locale));	//国际化菜单
+			
 			tempCache.put(menu.getMenuId(), node);
 			if(menu.getParentId()!=0 && tempCache.containsKey(menu.getParentId()))
 			{

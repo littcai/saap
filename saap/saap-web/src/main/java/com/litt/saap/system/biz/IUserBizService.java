@@ -94,7 +94,33 @@ public interface IUserBizService {
 	 * @param loginIp 客户端IP
 	 * @param locale the locale
 	 */
-	public void doResetPassword(String id, String password, String loginIp, Locale locale);
+	public void doResetPassword(String code, String password, String loginIp);
+	
+	/**
+	 * 修改密码.
+	 *
+	 * @param id the id
+	 * @param password 新密码
+	 * @param loginIp 客户端IP
+	 * @param locale the locale
+	 */
+	public void updatePassword(Integer userId, String password, String loginIp);
+	
+	/**
+	 * Update.
+	 *
+	 * @param userId the user id
+	 * @param userName the user name
+	 * @param nickName the nick name
+	 * @param gender the gender
+	 * @param email the email
+	 * @param mobile the mobile
+	 * @param locale the locale
+	 * @param timezone the timezone
+	 * @param theme the theme
+	 */
+	public void update(Integer userId, String userName, String nickName, int gender, String email, String mobile
+			, String locale, int timezone, String theme);
 	
 	/**
 	 * Do login.

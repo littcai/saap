@@ -32,12 +32,62 @@ public class TenantVo implements Serializable {
 	/** 别名. */
 	private String appAlias;
 	
-	/** 是否租户管理员. */
-	private boolean isAdmin;
+	/** 功能包编号. */
+	private String bagCode;
+
+	/**
+	 * 租用类型
+	        1：完全共享型
+	        2：独立Schema
+	        3：独立数据库.
+	 */
+	private int isolatedMode;
+
+	/**
+	 * 状态
+	        -3：到期
+	        -2：禁用
+	        -1：删除
+	        0：尚未激活
+	        1：启用.
+	 */
+	private int status;
+
+	/**
+	 * 创建用户ID.
+	 */
+	private int createUserId;
+
+	/**
+	 * 创建时间.
+	 */
+	private Date createDatetime;
+
+	/**
+	 * 更新时间.
+	 */
+	private Date updateDatetime;
+
+	/**
+	 * 最大成员数.
+	 */
+	private int maxMembers;	
 	
 	/** 租赁到期日. */
 	private Date expiredDate;
+	
+	/**
+	 * 购买价格.
+	 */
+	private int price;
+	
+	/** The logo url. */
+	private String logoUrl;
 
+	
+	/** 是否租户管理员. */
+	private boolean isAdmin;
+	
 	/**
 	 * 
 	 */
@@ -143,6 +193,139 @@ public class TenantVo implements Serializable {
 	 */
 	public void setAppAlias(String appAlias) {
 		this.appAlias = appAlias;
+	}
+
+	/**
+	 * @return the bagCode
+	 */
+	public String getBagCode() {
+		return bagCode;
+	}
+
+	/**
+	 * @param bagCode the bagCode to set
+	 */
+	public void setBagCode(String bagCode) {
+		this.bagCode = bagCode;
+	}
+
+	/**
+	 * @return the isolatedMode
+	 */
+	public int getIsolatedMode() {
+		return isolatedMode;
+	}
+
+	/**
+	 * @param isolatedMode the isolatedMode to set
+	 */
+	public void setIsolatedMode(int isolatedMode) {
+		this.isolatedMode = isolatedMode;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the createUserId
+	 */
+	public int getCreateUserId() {
+		return createUserId;
+	}
+
+	/**
+	 * @param createUserId the createUserId to set
+	 */
+	public void setCreateUserId(int createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	/**
+	 * @return the createDatetime
+	 */
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	/**
+	 * @param createDatetime the createDatetime to set
+	 */
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+
+	/**
+	 * @return the updateDatetime
+	 */
+	public Date getUpdateDatetime() {
+		return updateDatetime;
+	}
+
+	/**
+	 * @param updateDatetime the updateDatetime to set
+	 */
+	public void setUpdateDatetime(Date updateDatetime) {
+		this.updateDatetime = updateDatetime;
+	}
+
+	/**
+	 * @return the maxMembers
+	 */
+	public int getMaxMembers() {
+		return maxMembers;
+	}
+
+	/**
+	 * @param maxMembers the maxMembers to set
+	 */
+	public void setMaxMembers(int maxMembers) {
+		this.maxMembers = maxMembers;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public int getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	/**
+	 * @return the logoUrl
+	 */
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	/**
+	 * @param logoUrl the logoUrl to set
+	 */
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	/**
+	 * @param isAdmin the isAdmin to set
+	 */
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	
 }

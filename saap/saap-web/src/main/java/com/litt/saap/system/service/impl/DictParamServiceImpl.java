@@ -101,7 +101,7 @@ public class DictParamServiceImpl implements IDictParamService
 		List<DictParamVo> retList = new ArrayList<DictParamVo>(dictParamList.size());
 		for (DictParam dictParam : dictParamList)
 		{
-			DictParamVo vo = BeanCopier.copy(dictParam, DictParamVo.class);
+			DictParamVo vo = BeanCopier.copy(dictParam, DictParamVo.class);			
 			vo.setDictContent(messageSource.getMessage("dictparam."+vo.getDictType()+"."+dictParam.getDictValue(), null, locale));
 			retList.add(vo);
 		}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/common/common.inc"%>
+<%@ include file="/common/taglibs.inc"%>
+<html lang="en" ng-app>
+	<head>
+		<title><s:message code="login.ui.title" /></title>
+		<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>		
+	</head>
+	<body> 	
+
+<div class="container" style="margin: 20px auto 0;">	
+	<div class="row">
+	  <div class="span10 offset1">
+	  	<div class="widget-box">
+	  		<div class="widget-header header-color-blue">
+	        	<h5 class="bigger lighter"><s:message code="invite" /></h5>
+	        </div>
+	        <div class="widget-body">
+	        	<div class="widget-main">
+	        	   <div id="form-error-container" class="form-error-container alert alert-block hide">
+	        	   	 <i class="icon-warning-sign"></i> <strong><s:message code="form.error.invalid" />:</strong>	        	     
+	        	     <ul></ul>
+	        	   </div>
+			       <form id="theform" name="theform" action="invite.json" method="post" class="form-horizontal" novalidate>
+			       	<fieldset>
+			       		<legend><s:message code="invite.form.legend.base" /></legend>  
+			       		<c:forEach begin="0" end="2" step="1" varStatus="loopStatus">
+				       		<div id="memberBox${loopStatus.index }" style="margin-bottom: 10px">
+				       			<input name="emails" placeholder="<s:message code='invite.email' />" type="text" class="span6" 
+				       				/>&nbsp;
+				       			<select name="roleIds">			       				
+				       				<c:forEach items="${roleList }" var="role" varStatus="status">
+				       				<option value="${role.id }"><c:out value="${role.name }" /></option>
+				       				</c:forEach>
+				       			</select>				       		
+							</div>	
+						</c:forEach>
+						<!-- template -->
+						<div ng-controller="MemberBoxCtrl">							
+							<div ng-repeat="member in members" id="memberBox$index" style="margin-bottom: 10px" >
+							  <div class="control-group " ng-class="{error:innerForm.emails.$error.email, error:innerForm.emails.$error.minlength, success:innerForm.emails.$valid}">
+							  <ng-form name="innerForm">							  								
+								<input name="emails" id="email$index" placeholder="<s:message code='invite.email' />" type="text" class="span6"
+									ng-model="emails" ng-minlength="3" ng-maxlength="50" ng-required="value.length==0"
+									/>&nbsp;
+									<select name="roleIds">			       		 		
+										<c:forEach items="${roleList }" var="role" varStatus="status">
+										<option value="${role.id }"><c:out value="${role.name }" /></option>
+										</c:forEach>
+									</select>&nbsp;
+								<button type="button" class="btn" ng-click="removeMember($index);" ><s:message code="btn.delete"/></button>	
+								<div ng-show="innerForm.emails.$invalid">
+									<span class="help-inline" ng-show="innerForm.emails.$error.required">required</span>
+									<span class="help-inline" ng-show="innerForm.emails.$error.email">邮箱格式不对</span>
+									<span class="help-inline" ng-show="innerForm.emails.$error.minlength">不能少于3位</span>
+								</div>
+							  </ng-form>				       		
+							  </div>
+							</div>	
+							<button type="button" class="btn" ng-click="addMember()"><s:message code="invite.form.btn.addMore" /></button>
+						</div>
+					</fieldset>
+ 					<fieldset>
+			       		<legend><s:message code="invite.form.legend.comment" /></legend>
+			       		<div>
+			       			<textarea rows="5" cols="8" id="comment" name="comment" class="input-block-level limited"></textarea>
+			       		</div>
+			       	</fieldset>	
+			       	<div class="form-actions">
+						<button type="submit" class="btn btn-primary" data-loading-text="<s:message code='common.processing' />" ng-disabled="theform.$invalid"><i class="icon-ok"></i> <s:message code="invite.form.btn.sendInvite" /></button>
+						<button type="button" class="btn" onclick="history.back();"><s:message code="btn.cancel" /></button>
+					</div>	
+			       </form> 
+	        	</div>
+	        </div>
+	    </div>    
+      </div> 
+    </div>    
+</div>
+<form class="form-horizontal" name="loginform">
+
+    <div class="control-group " ng-class="{error:loginform.username.$error.required, error:loginform.username.$error.minlength, success:loginform.username.$valid}">
+        <label class="control-label" >Username</label>
+        <div class="controls">
+            <input type="text" name="username"  ng-model="user.name" required ng-minlength="3">
+            <br>
+            <span class="help-inline" ng-show="loginform.username.$error.required">不能为空</span>
+            <span class="help-inline" ng-show="loginform.username.$error.minlength">不能少于3位</span>
+            <br>
+            <span class="help-inline">校验成功：{{loginform.username.$valid } }</span>
+            <span class="help-inline">是否错误: {{loginform.username.$error } }</span>
+        </div>
+    </div>
+
+    <div class="control-group" ng-class="{error:loginform.useremail.$error.email, success:loginform.useremail.$valid}">
+        <label class="control-label" >Email</label>
+        <div class="controls">
+            <input type="email" placeholder="Email"  name="useremail" ng-model="user.email" required>
+            <span class="help-inline" ng-show="loginform.useremail.$error.email">邮箱格式不对</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn" >提交</button>
+        </div>
+    </div>
+
+</form>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+$(document).ready(function(){		
+	$('#theform').littFormSubmit({
+		rules : {	
+			emails: {
+				email:true
+			},
+			comment : {				
+				maxlength : 500
+			}
+		},	
+		errorMessages :{
+			emails : {
+				required : "<s:message code='invite.error.inputEmpty' />"
+			}
+		},
+		errorContainer: $("#form-error-container"),
+		errorLabelContainer: $("#form-error-container ul"), 
+		success: function(reply){
+			 location.href = "index.do";					
+		}
+	});	
+	
+	//$('[name^="emails"]').each(function() {
+	//    $(this).rules('add', {
+	//        email: true	        
+	//    });
+	//});
+	
+	angular.element(document).ready(function() {
+	
+		angular.bootstrap(document);
+	
+	
+	 
+	});
+	
+	
+	
+});	
+
+
+function MemberBoxCtrl($scope) {
+	  $scope.members = [];
+	  
+	  var i=0;
+	  $scope.addMember = function() {
+		    $scope.members.push({msg: "Another alert!"});
+		   
+		    //$('#email'+i).rules('add', {
+		    //	email: true	  
+		    //});
+	  };
+	  
+	  $scope.removeMember = function(index) {
+		    $scope.members.splice(index, 1);
+	  };
+	  
+	}
+	
+  
+
+function addMember()
+{
+	
+}
+</script>
+</body>
+</html>

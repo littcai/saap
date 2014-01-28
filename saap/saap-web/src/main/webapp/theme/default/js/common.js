@@ -139,12 +139,13 @@ $(document).ready(function(){
  * Dependencies: bootstrap
  * Options：
  * 	    containerId: the container for messages
- * 		title: the subject of the popup
- * 		message: the content of the popup
+ * 		title: the subject of the message
+ * 		message: the content of the message
  * 		type: notice, info, error, success
- * 		hide: if the popup will be hide automatically
+ * 		hide: if the message will be hide automatically
  * 		closeable: if the popup can be closed by click	
  * 		overwrite: if overwrite previous messages
+ * 		position: how to insert message to container.
  * Example：$.webtools.alert({
  * 			containerId: "id",
  *			type: "info",
@@ -250,7 +251,8 @@ $(document).ready(function(){
 					type: 'info',
 					hide: true,
 					sticker: false,
-					closeable: true
+					closeable: true,
+					position: 'top-right'	//top-left,top-center,top-right, center, bottom-left, bottom-center, bottm-right
 			};
 			
 			options = $.extend({}, defaults, options);
@@ -261,7 +263,18 @@ $(document).ready(function(){
 	  		    type: options.type,
 	  		    hide: options.hide,
 	  		    history: false,    		    
-	  		    sticker: options.sticker
+	  		    sticker: options.sticker,
+	  		    before_open: function(pnotify){
+	  		    	if("center"==options.position)
+	  		    	{
+		  		      pnotify.css({
+		  		        //"top": Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px",
+		  		    	//"left": Math.max(0, (($(document).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px"
+		  		    	"top": "100px",		  		       
+		  		    	"left": ($(window).width() / 2) - (pnotify.width() / 2)
+		  		      });
+	  		    	}  
+	  		    }
 	  		});				
 		}
 	});
@@ -346,14 +359,32 @@ $(document).ready(function(){
 					type: 'info',		//类型：error,success,info 
 					hide: false,		//是否自动隐藏
 					closeable: true,	//是否支持手工关闭
-					overwrite: true		//是否覆盖前面的消息
+					overwrite: true,	//是否覆盖前面的消息
+					position: 'append'	//插入位置：append：最后追加，prepend：最前追加
 			};			
 			var setting = $.extend({}, defaults, options || {}); 
 			if(setting.containerId==null)
 				alert("Message Container is not defined!");
 			if(setting.overwrite)
 				$("#"+setting.containerId).empty();
-			$("#"+setting.containerId).show().append($("<div class='alert-message alert alert-" + setting.type + " fade in'><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" + setting.message + "</div>"));		
+			
+//			setTimeout(function () {
+//		        btn.button('reset');
+//		    }, 1500);
+			
+			var content = $("<div class='alert-message alert alert-" + setting.type + " fade in'><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" + setting.message + "</div>");
+			if('prepend'==setting.position)
+			{
+				$("#"+setting.containerId).show().prepend(content);		
+			}
+			else
+			{
+				$("#"+setting.containerId).show().append(content);
+			}
+			if(setting.hide)
+			{
+				window.setTimeout(function() { content.alert('close'); }, 3000);
+			}
 		}
 	});
 	
@@ -399,15 +430,16 @@ $(document).ready(function(){
 	var setting = $.extend({}, defaults, options || {});    	
 	// iterate and reformat each matched element
 	return this.each(function() {    
-	  $this = $(this);
+	  $this = $(this);	
 	  var loading;  
 	  $this.validate({
 		  	rules : setting.rules,	
 		  	messages: setting.errorMessages,
 		  	errorContainer: setting.errorContainer,
 			errorLabelContainer: setting.errorLabelContainer,
-			submitHandler: function(form) {  
-				$this.ajaxSubmit({ 							   
+			submitHandler: function(form) { 			
+				
+				$(form).ajaxSubmit({ 							   
 			    	dataType:  'json',         
 			    	success:   function(data, textStatus){
 			    		var _opts = {

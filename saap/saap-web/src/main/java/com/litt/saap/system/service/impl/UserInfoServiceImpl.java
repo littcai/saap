@@ -34,6 +34,7 @@ import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.UserInfoVo;
+import com.litt.saap.system.vo.UserStateVo;
 
 /**
  * .
@@ -327,16 +328,22 @@ public class UserInfoServiceImpl implements IUserInfoService {
 			logger.debug("User:{} login success...UserName:{}", new Object[]{userInfo.getLoginId(), userInfo.getUserName()});
 		}
 		Integer userId = userInfo.getId();
-		String loginId = userInfo.getLoginId();			
-				
-		//更新用户状态
+		String loginId = userInfo.getLoginId();		
+		
+		UserInfoVo userInfoVo = BeanCopier.copy(userInfo, UserInfoVo.class);
+		
+		//用户状态统计也要放到登录信息中, 这里优先设置，界面上能看到上次登录时间和上次登录IP
+		UserStateVo userStateVo = new UserStateVo(userState.getCurrentTenantId()
+				, userState.getTotalLoginTimes(), userState.getLoginRetryTimes(), userState.getLastLoginDatetime(), userState.getLastLoginIp());
+		
+		//更新用户状态和统计
 		userState.setTotalLoginTimes(userState.getTotalLoginTimes()+1);
 		userState.setLastLoginDatetime(new Date());
 		userState.setLastLoginIp(loginIp);
 		userState.setLoginRetryTimes(0);	//登录成功后重置为0
 		userStateDao.update(userState);
 				
-		LoginUserVo loginVo = new LoginUserVo(userId.longValue(), loginId, userInfo.getUserName(), loginIp);		
+		LoginUserVo loginVo = new LoginUserVo(userInfoVo, userStateVo, loginIp);
 		
 		//初始化权限列表
 		//loginVo.initPermission(permissionCodeList);			
@@ -369,8 +376,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	public UserInfo load(Integer userId)
 	{
 		return userInfoDao.load(userId);
-	}
-	
+	}	
 	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.service.impl.IUserInfoService#loadByLoginId(java.lang.String)
@@ -391,5 +397,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		return userInfoDao.load(UserInfo.class, "email", email);
 	}
 	
-	
+	/**
+	 * Load user state.
+	 *
+	 * @param userId the user id
+	 * @return the user state
+	 */
+	public UserState loadUserState(Integer userId)
+	{
+		return userStateDao.load(userId);
+	}
 }

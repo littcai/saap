@@ -62,7 +62,7 @@ public class UserInfoVo implements Serializable {
 	 * 手机号.
 	 */
 	private String mobile;
-
+	
 	/**
 	 * 状态(1001)
 	        0：未审核
@@ -211,20 +211,6 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the status
-	 */
-	public int getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	/**
 	 * @return the locale
 	 */
 	public String getLocale() {
@@ -292,6 +278,20 @@ public class UserInfoVo implements Serializable {
 	 */
 	public void setCreateDatetime(Date createDatetime) {
 		this.createDatetime = createDatetime;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 

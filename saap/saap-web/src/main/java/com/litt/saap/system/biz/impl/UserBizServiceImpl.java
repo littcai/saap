@@ -2,6 +2,7 @@ package com.litt.saap.system.biz.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -399,12 +400,11 @@ public class UserBizServiceImpl implements IUserBizService {
 	/**
 	 * 重置密码.
 	 *
-	 * @param id the id
+	 * @param code the code
 	 * @param password 新密码
 	 * @param loginIp 客户端IP
-	 * @param locale the locale
 	 */
-	public void doResetPassword(String code, String password, String loginIp, Locale locale)
+	public void doResetPassword(String code, String password, String loginIp)
 	{		
 		ActivationCode activationCode = activationCodeService.loadAndDelete(code);
 		if(activationCode==null)
@@ -430,8 +430,63 @@ public class UserBizServiceImpl implements IUserBizService {
 		}
 		catch (EncryptFailedException e)
 		{
-			throw new BusiCodeException("resetPassword.error.resetFailed", LocaleUtils.toLocale(userInfo.getLocale()), e);
+			throw new BusiCodeException("resetPassword.error.encryptFailed", LocaleUtils.toLocale(userInfo.getLocale()), e);
 		}	
+	}
+	
+	/**
+	 * 修改密码.
+	 *
+	 * @param id the id
+	 * @param password 新密码
+	 * @param loginIp 客户端IP
+	 * @param locale the locale
+	 */
+	public void updatePassword(Integer id, String password, String loginIp)
+	{
+		UserInfo userInfo = userInfoService.load(id);
+		//设置新密码
+		try
+		{
+			String encryptPassowrd = MessageDigestTool.encryptMD5(password);
+			userInfo.setPassword(encryptPassowrd);
+			userInfoService.update(userInfo);
+			logger.info("User:{} update password from {}.", new Object[]{userInfo.getEmail(), loginIp});
+		}
+		catch (EncryptFailedException e)
+		{
+			throw new BusiCodeException("updatePassword.error.encryptFailed", LocaleUtils.toLocale(userInfo.getLocale()), e);
+		}	
+	}
+	
+	/**
+	 * Update.
+	 *
+	 * @param userId the user id
+	 * @param userName the user name
+	 * @param nickName the nick name
+	 * @param gender the gender
+	 * @param email the email
+	 * @param mobile the mobile
+	 * @param locale the locale
+	 * @param timezone the timezone
+	 * @param theme the theme
+	 */
+	public void update(Integer userId, String userName, String nickName, int gender, String email, String mobile
+			, String locale, int timezone, String theme)
+	{
+		UserInfo userInfo = userInfoService.load(userId);
+		userInfo.setUserName(userName);
+		userInfo.setNickName(nickName);
+		userInfo.setGender(gender);
+		userInfo.setEmail(email);
+		userInfo.setMobile(mobile);
+		userInfo.setLocale(locale);
+		userInfo.setTimezone(timezone);
+		userInfo.setTheme(theme);
+		
+		userInfoService.update(userInfo);
+		//发布更新消息
 	}
 	
 	/**
@@ -448,11 +503,11 @@ public class UserBizServiceImpl implements IUserBizService {
 	public LoginUserVo doLogin(String loginId, String password, String loginIp, boolean isAutoLogin, Locale locale) throws BusiException
 	{		
 		LoginUserVo loginUser = userInfoService.doLogin(loginId, password, loginIp, isAutoLogin, locale);
-		UserState userState = userStateDao.load(loginUser.getOpId().intValue());
+				
 		//初始化全局权限
 		initDefaultPermission(loginUser);
 		//初始化租户相关
-		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
+		initLoginUserTenant(loginUser);		
 		
 		return loginUser;
 	}
@@ -471,10 +526,11 @@ public class UserBizServiceImpl implements IUserBizService {
 	{
 		UserState userState = userStateDao.load(userInfo.getId());
 		LoginUserVo loginUser = userInfoService.doLogin(userInfo, userState, loginIp, isAutoLogin, locale);
+				
 		//初始化全局权限
 		initDefaultPermission(loginUser);
 		//初始化租户相关
-		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
+		initLoginUserTenant(loginUser);		
 		
 		return loginUser;
 	}
@@ -492,7 +548,9 @@ public class UserBizServiceImpl implements IUserBizService {
 	 *
 	 * @param loginUser the login user
 	 */
-	private void initLoginUserTenant(LoginUserVo loginUser, int currentTenantId) {
+	private void initLoginUserTenant(LoginUserVo loginUser) {
+		int currentTenantId = loginUser.getUserState().getCurrentTenantId();
+		
 		//获取该用户的租户信息		
 		TenantMember tenantMember = tenantMemberDao.loadByUserAndTenant(loginUser.getOpId().intValue(), currentTenantId);
 		if(tenantMember!=null)
@@ -532,12 +590,11 @@ public class UserBizServiceImpl implements IUserBizService {
 	public LoginUserVo doAutoLogin(String token, String loginIp, Locale locale)
 	{
 		LoginUserVo loginUser = userInfoService.doAutoLogin(token, loginIp, locale);
-		UserState userState = userStateDao.load(loginUser.getOpId().intValue());
 		//初始化默认权限
 		this.initDefaultPermission(loginUser);
 		
 		//初始化租户权限
-		initLoginUserTenant(loginUser, userState.getCurrentTenantId());		
+		initLoginUserTenant(loginUser);		
 		
 		return loginUser;
 	}
@@ -558,11 +615,12 @@ public class UserBizServiceImpl implements IUserBizService {
 		userState.setCurrentTenantId(tenantId);
 		userStateDao.update(userState);
 		
+		loginUser.getUserState().setCurrentTenantId(tenantId);		
 		//重新初始化当前用户权限
 		//初始化全局权限
 		initDefaultPermission(loginUser);
 		//初始化租户相关
-		initLoginUserTenant(loginUser, userState.getCurrentTenantId());	
+		initLoginUserTenant(loginUser);	
 	}
 	
 	/**
