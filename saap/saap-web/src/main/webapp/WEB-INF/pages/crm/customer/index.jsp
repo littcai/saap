@@ -59,7 +59,7 @@
 					</ul>
 				</div>
                 <!--<button class="btn btn-small btn-inverse" style="margin-top:2px;" onclick="javascript:quick_edit(this, 'quickedit', 'Accounts');return false;" >-->
-                  
+                <!--   
                 <button class="btn btn-small btn-success" style="margin-top:2px;" onclick="javascript:location.href='index.php?module=Accounts&action=Import&step=1&return_module=Accounts&return_action=index&parenttab=Customer'">
                   <i class="icon-download icon-white"></i> <s:message code="btn.import" /></button>
                 <button class="btn btn-small btn-success" style="margin-top:2px;" onclick="return selectedRecords('Accounts','Customer')" >
@@ -68,6 +68,7 @@
                   <i class="icon-envelope"></i> 发送邮件</button>
                  <button class="btn btn-small " style="margin-top:2px;" onclick="javascript:qunfa_sms(this, 'qunfasms', 'Accounts');return false;">
                   <i class="icon-comment"></i> 发送短信</button>
+                 -->  
               </div> 	 		  
 		</div>	
 		<div class="clear"></div> 	

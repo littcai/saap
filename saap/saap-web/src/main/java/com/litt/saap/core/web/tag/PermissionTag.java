@@ -31,6 +31,9 @@ public class PermissionTag extends BodyTagSupport
 	
 	/** 权限编号. */
 	private String code;
+	
+	/** 对象在会话中的键名. */
+	private String sessionKey = CoreConstants.SESSION_OPER;
 
 	/**
 	 * 在解析标签时判断权限.
@@ -42,7 +45,7 @@ public class PermissionTag extends BodyTagSupport
 	public int doStartTag() throws JspException
 	{		
 		super.doStartTag();
-		ILoginVo loginVo = (ILoginVo)this.pageContext.findAttribute(CoreConstants.SESSION_OPER);	//获取当前登录操作员信息
+		ILoginVo loginVo = (ILoginVo)this.pageContext.findAttribute(sessionKey);	//获取当前登录操作员信息
 		if(loginVo!=null)
 		{
 			boolean withPermission = loginVo.withPermission(code);
@@ -54,6 +57,14 @@ public class PermissionTag extends BodyTagSupport
 		return SKIP_BODY;
 	}
 	
+	public String getSessionKey() {
+		return sessionKey;
+	}
+
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
 	/**
 	 * @return the code
 	 */

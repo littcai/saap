@@ -70,8 +70,8 @@
 		<!-- jquery form and validate -->
 <script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>
 <script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
-<c:if test="${!empty locale && !fn:startsWith(locale, 'en') }">
-	<script src="${contextPath }/widgets/jquery-validate/i18n/message_${locale}.js"></script>
+<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSOION_USER.locale, 'en') }">
+	<script src="${contextPath }/widgets/jquery-validate/i18n/messages_${SESSION_USER.locale }.js"></script>
 </c:if>
 <script src="${contextPath }/widgets/jquery-form/jquery.form.min.js"></script>
 <!-- jquery select2 -->

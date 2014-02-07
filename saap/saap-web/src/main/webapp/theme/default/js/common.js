@@ -183,6 +183,7 @@ $(document).ready(function(){
 			var loading;			
 			
 			$.ajax({
+				
 				type: setting.type,
 				url: setting.url,
 				data: setting.params, 
@@ -289,35 +290,35 @@ $(document).ready(function(){
 		checkboxs: function(options)
 		{
 			var defaults = {
-				checkAllId: null,
-				checkOneName: null
+				checkAll: "#checkAll",
+				checkItem: ".checkItem"
 			};	
 						
 			var setting = $.extend({}, defaults, options);	
-			
+		
 			//绑定全选和单选对象
-			$('#'+ this.setting.checkAllId).bind("click", function(){
-				$("INPUT[name='"+ this.setting.checkOneName +"']").attr("checked", $(this).attr("checked"));				
+			$(setting.checkAll).bind("click", function(){
+				$(setting.checkItem).prop("checked", $(this).is(':checked'));				
 			});
 			
-			$("INPUT[name='"+ this.setting.checkOneName +"']").each(function(){
+			$(setting.checkItem).each(function(){
 				$(this).bind("click", function(){
-					if ($("input[name='"+ this.setting.checkOneName +"']:checked").length == $("input[name='"+ this.setting.checkOneName +"']").length) 
+					if ($(setting.checkItem+":checked").length == $(setting.checkItem).length) 
 					{
-						$('#'+ this.setting.checkAllId).attr("checked", true);
+						$(setting.checkAll).prop("checked", true);
 					}
 					else{
-						$('#'+ this.setting.checkAllId).attr("checked", false);
+						$(setting.checkAll).prop("checked", false);
 					}
 						
 				});
 				
 			});
 
-			
+			/*
 			validate = function(){
 				
-				if($("INPUT[name='"+ this.setting.checkOneName +"']:checked").length<=0)
+				if($("INPUT[name='"+ setting.checkOneName +"']:checked").length<=0)
 				{
 					$.webtools.notify({
 						type: "notice",
@@ -329,7 +330,7 @@ $(document).ready(function(){
 			//获得所有选中的值的数组
 			getValueArray = function(){
 				var values = new Array();
-				$("INPUT[name='"+ this.setting.checkOneName +"']:checked").each(function() {
+				$("INPUT[name='"+ setting.checkOneName +"']:checked").each(function() {
 					values.push($(this).val());
 				});
 				return values;
@@ -338,13 +339,46 @@ $(document).ready(function(){
 			//获得所有选中的值
 			getValues = function(){
 				var values = new Array();
-				$("INPUT[name='"+ this.setting.checkOneName +"']:checked").each(function() {
+				$("INPUT[name='"+ setting.checkOneName +"']:checked").each(function() {
 					values.push($(this).val());
 				});
 				
 				return values.join(',');
 			};
+			*/
 		}		
+	});
+	
+	/*
+	 * 数据表格多选处理
+	 * 
+	 * 获得复选框的值，用逗号分隔
+	 */
+	$.extend($.webtools, {				
+		getCheckValues: function(checkItem)
+		{			
+			var values = new Array();
+			$(checkItem+":checked").each(function() {
+				values.push($(this).val());
+			});			
+			return values.join(',');
+		}
+	});
+	
+	/*
+	 * 数据表格多选处理
+	 * 
+	 * 获得复选框的值，用逗号分隔
+	 */
+	$.extend($.webtools, {				
+		getCheckValuesArray: function(checkItem)
+		{			
+			var values = new Array();
+			$(checkItem+":checked").each(function() {
+				values.push($(this).val());
+			});			
+			return values;
+		}
 	});
 	
 	/*

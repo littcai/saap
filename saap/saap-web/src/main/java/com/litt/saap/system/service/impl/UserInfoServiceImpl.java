@@ -407,4 +407,21 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	{
 		return userStateDao.load(userId);
 	}
+	
+	/**
+	 * Find.
+	 *
+	 * @param userId the user id
+	 * @return the user info vo
+	 */
+	public UserInfoVo find(Integer userId)
+	{
+		UserInfo po = this.load(userId);
+		if(po==null)
+			throw new BusiCodeException("userInfo.error.notExist");
+		else {
+			UserInfoVo vo = BeanCopier.copy(po, UserInfoVo.class);
+			return vo;
+		}
+	}
 }

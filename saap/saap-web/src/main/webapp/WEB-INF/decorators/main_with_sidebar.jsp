@@ -195,10 +195,20 @@
 						  <c:forEach items="${menuTree }" var="menu">	
 			       			<c:if test="${fn:startsWith(__moduleCode, menu.menuCode) }">
 						  		<li> <span class="divider">/</span> ${menu.menuName }</li>					  	
-						  		<c:forEach items="${menu.subList }" var="subMenu">	   	
-						  			<c:if test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">					  
-						  				<li class="active"> <span class="divider">/</span> ${subMenu.menuName }</li>
-						  			</c:if>
+						  		<c:forEach items="${menu.subList }" var="subMenu">	
+						  			<c:if test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">		
+						  				<c:if test="${subMenu.isLeaf }">  
+							  				<li class="active"> <span class="divider">/</span> ${subMenu.menuName }</li>
+							  			</c:if>
+							  			<c:if test="${!subMenu.isLeaf }">
+							  			<li> <span class="divider">/</span> ${subMenu.menuName }</li>
+							  			<c:forEach items="${subMenu.subList }" var="subsubMenu">	      
+							  				<c:if test="${fn:startsWith(__moduleCode, subsubMenu.menuCode) }">		
+							  					<li class="active"> <span class="divider">/</span> ${subsubMenu.menuName }</li>
+							  				</c:if>
+							  			</c:forEach>		
+							  		</c:if>
+							  		</c:if>							  			
 						  		</c:forEach>
 						  	</c:if>
 						  </c:forEach>				

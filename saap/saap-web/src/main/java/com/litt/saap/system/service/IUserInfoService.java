@@ -144,4 +144,12 @@ public interface IUserInfoService {
 	 */
 	public UserState loadUserState(Integer userId);
 	
+	/**
+	 * Find.
+	 *
+	 * @param userId the user id
+	 * @return the user info vo
+	 */
+	public UserInfoVo find(Integer userId);
+	
 }

@@ -138,6 +138,13 @@
   <function-signature>com.litt.saap.system.vo.MenuTreeNodeVo getDomainMenuTree(com.litt.saap.common.vo.LoginUserVo, java.lang.String)</function-signature>
   <example>${li:getDomainMenuTree(loginUserVo, "01")}</example>
  </function>
+ <function>
+  <description>获得用户信息</description>
+  <name>getUser</name>
+  <function-class>com.litt.saap.core.web.tag.el.WebEL</function-class>
+  <function-signature>com.litt.saap.system.vo.UserInfoVo getUser(java.lang.Integer)</function-signature>
+  <example>${li:getUser(userId)}</example>
+ </function>
  <!-- 
  示例：<li:options collection="${roleList }" property="roleId" label="roleName" value="${roleId }" />
  
@@ -256,6 +263,12 @@
         <required>true</required>
         <rtexprvalue>false</rtexprvalue>
     </attribute>
+    <attribute>
+        <description>Session Key</description>
+        <name>sessionKey</name>
+        <required>false</required>
+        <rtexprvalue>false</rtexprvalue>
+    </attribute>
   </tag> 
   
   <tag>
@@ -275,6 +288,12 @@
         <description>func Code</description>
         <name>func</name>
         <required>true</required>
+        <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Session Key</description>
+        <name>sessionKey</name>
+        <required>false</required>
         <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>   

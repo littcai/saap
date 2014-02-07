@@ -172,6 +172,8 @@ public class LoginController {
 		ILoginVo loginVo = userBizService.doLogin(loginId, password, loginIp, isAutoLogin, LoginUtils.getLocale(request));		
 		HttpSession session = request.getSession();
 		LoginUtils.setLoginSession(session, loginVo);
+		if(!ValidateUtils.isEmpty(loginVo.getLocale()))
+			LoginUtils.changeLocale(loginVo.getLocale(), request, response);
 		if(isAutoLogin)
 		{		
 			LoginUtils.setAutoLoginCookie(response, loginVo, loginVo.getAutoLoginToken());	//设置自动登录

@@ -17,7 +17,6 @@ int totalPage = pageList.getTotalPage();
 int pageSize = pageList.getPageSize();
 int totalSize = pageList.getTotalSize();
 
-System.out.println(curPageNo);
 int displayLinkCount = totalPage<10?totalPage:10;	//显示10个页码跳转
 
 int countBeforeCurrent = displayLinkCount / 2;
