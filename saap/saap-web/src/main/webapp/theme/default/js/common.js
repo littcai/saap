@@ -5,6 +5,18 @@
 $(document).ready(function(){
 	
 	/*
+	 * fieldset支持点击legend隐藏显示
+	 * 用法：为fieldset增加collapsible属性
+	 */
+	$('fieldset.collapsible > legend').prepend('<i class="icon-chevron-down"></i>&nbsp;');
+	$('fieldset.collapsible > legend').click(function () {
+	    var $divs = $(this).siblings();
+	    $divs.slideToggle();
+	    	    
+      	$(this).find('i').toggleClass('icon-chevron-down').toggleClass('icon-chevron-up');  
+	});
+	
+	/*
 	 * 初始化按钮的loading功能，点击后将显示Loading字样，并且按钮被disabled掉，无法连续点击，防止二次提交
 	 * 超过3秒后按钮将恢复原状
 	 */
