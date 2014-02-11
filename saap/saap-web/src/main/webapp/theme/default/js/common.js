@@ -451,12 +451,14 @@ $(document).ready(function(){
 (function($) {   
 	var defaults = {
 			type: 'ajax',
-			enableValidator: true,	//是否启用表单校验
+			enableValidator: true,		//是否启用表单校验
+			enableChangeCheck: true, 	//是否启用变更检查
 			rules: {},	//检验规则
 			messages: {
 				loading: "Processing...",
 				error: "System error",
-				success: "Success"
+				success: "Success",
+				formChanged: "You have unsaved changes."
 			},
 			errorMessages:{},
 			errorContainer: $([]),
@@ -476,7 +478,30 @@ $(document).ready(function(){
 	var setting = $.extend({}, defaults, options || {});    	
 	// iterate and reformat each matched element
 	return this.each(function() {    
-	  $this = $(this);	
+	  $this = $(this);
+	  
+	  //记录表单的变化状态，若修改并离开页面，需要提示用户保存
+	  if(enableChangeCheck)
+	  {
+		  var formValue = $this.serialize();
+		  
+//		  $this.data("_changed", false);		  
+//		  
+//		  //使用jQuery实现
+//		  $this.children(":text,:password,textarea,select").change(function() {
+//			  $this.data("_changed", true);
+//		  });
+//		  $this.children(":checkbox,:radio").change(function() {
+//			  $this.data("_changed", true);
+//		  });
+		  
+		  $(window).bind('beforeunload', function (e) {		
+			  var changed = (formValue != $this.serialize());
+			  if(changed)
+				  return setting.messages.formChanged;
+		  });
+	  }	  
+	  
 	  var loading;  
 	  $this.validate({
 		  	rules : setting.rules,	
@@ -488,6 +513,12 @@ $(document).ready(function(){
 				$(form).ajaxSubmit({ 							   
 			    	dataType:  'json',         
 			    	success:   function(data, textStatus){
+			    		//移除beforeunload事件
+			    		if(enableChangeCheck)
+			    		{
+			    			$(window).unbind('beforeunload');
+			    		}
+
 			    		var _opts = {
 			    				icon: "icon-ok-sign",	
 			    				title: setting.messages.success,
