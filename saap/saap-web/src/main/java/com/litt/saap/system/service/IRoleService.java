@@ -2,6 +2,8 @@ package com.litt.saap.system.service;
 
 import java.util.List;
 
+import com.litt.core.dao.page.IPageList;
+import com.litt.core.dao.ql.PageParam;
 import com.litt.saap.system.po.Role;
 
 /**
@@ -21,7 +23,37 @@ import com.litt.saap.system.po.Role;
  */
 public interface IRoleService {
 
+	/**
+	 * Save.
+	 *
+	 * @param role the role
+	 * @return the role
+	 */
 	public Role save(Role role);
+	
+	/**
+	 * Update.
+	 * @param role Role
+	 */
+	public void update(Role role);	
+	
+	/**
+	 * Delete by id.
+	 * @param id id
+	 */
+	public void delete(Integer id);	
+	
+	/**
+	 * Delete by instance.
+	 * @param id id
+	 */
+	public void delete(Role role);
+	
+	/**
+	 * Batch delete by ids.
+	 * @param ids ids
+	 */
+	public void deleteBatch(Integer[] ids);
 	
 	/**
 	 * Load.
@@ -38,5 +70,13 @@ public interface IRoleService {
 	 * @return the list
 	 */
 	public List<Role> listByTenant(int tenantId);
+	
+	/**
+	 * list by page.
+	 * 
+	 * @param pageParam params
+	 * @return IPageList IPageList
+	 */
+	public IPageList listPage(PageParam pageParam);	
 
 }

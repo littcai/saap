@@ -65,6 +65,11 @@
 		<artifactId>littcore-io</artifactId>
 		<version>${com.litt.core.littcore.version}</version>		
 	</dependency>	
+	<dependency>
+  		<groupId>com.litt.core</groupId>
+  		<artifactId>littextras-office</artifactId>
+  		<version>1.0-SNAPSHOT</version>
+  	</dependency>
   	<dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
@@ -75,12 +80,13 @@
   		<artifactId>scribe</artifactId>
   		<version>1.3.5</version>
   	</dependency>
+  	
   </dependencies>
   	
   	<repositories>
   		<repository>
-            <id>nexus</id>
-            <name>local private nexus</name>
+            <id>osc</id>
+            <name>osc private nexus</name>
             <url>http://maven.oschina.net/content/groups/public/</url>            
         </repository> 
 	</repositories>

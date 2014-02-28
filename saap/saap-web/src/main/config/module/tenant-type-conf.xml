@@ -52,6 +52,42 @@
 			<code>121002</code>
 			<code>121003</code>
 			<code>121004</code>
+			<!-- message center -->
+			<code>80</code>
+			<code>8001</code>
+			<code>800101</code>
+			<code>800102</code>
+			<code>800103</code>
+			<code>800104</code>
+			<code>8002</code>			
+			<code>800203</code>
+			<code>800204</code>
+			<!-- ***************************  -->
+			<!-- system management for tenant -->
+			<code>90</code>
+			<!-- tenant  -->
+			<code>9001</code>
+			<code>900102</code>
+			<code>900103</code>
+			<code>900104</code>
+			<!-- tenant members  -->
+			<code>9002</code>
+			<code>900201</code>
+			<code>900202</code>
+			<code>900203</code>
+			<code>900204</code>
+			<!-- tenant groups  -->
+			<code>9003</code>
+			<code>900301</code>
+			<code>900302</code>
+			<code>900303</code>
+			<code>900304</code>
+			<!-- tenant roles  -->
+			<code>9004</code>
+			<code>900401</code>
+			<code>900402</code>
+			<code>900403</code>
+			<code>900404</code>
 		</permissions>
 		<!-- 默认角色及其对应的权限
 			注：role的code需要在国际化文件中有映射，以实现数据库存储的国际化
@@ -106,6 +142,42 @@
 				<code>121002</code>
 				<code>121003</code>
 				<code>121004</code>
+				<!-- message center -->
+				<code>80</code>
+				<code>8001</code>
+				<code>800101</code>
+				<code>800102</code>
+				<code>800103</code>
+				<code>800104</code>
+				<code>8002</code>			
+				<code>800203</code>
+				<code>800204</code>
+				<!-- ***************************  -->
+				<!-- system management for tenant -->
+				<code>90</code>
+				<!-- tenant  -->
+				<code>9001</code>
+				<code>900102</code>
+				<code>900103</code>
+				<code>900104</code>
+				<!-- tenant members  -->
+				<code>9002</code>
+				<code>900201</code>
+				<code>900202</code>
+				<code>900203</code>
+				<code>900204</code>
+				<!-- tenant groups  -->
+				<code>9003</code>
+				<code>900301</code>
+				<code>900302</code>
+				<code>900303</code>
+				<code>900304</code>
+				<!-- tenant roles  -->
+				<code>9004</code>
+				<code>900401</code>
+				<code>900402</code>
+				<code>900403</code>
+				<code>900404</code>
 			</permissions>
 		</role>
 		<role code="member">

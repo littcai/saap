@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.litt.core.exception.BusiCodeException;
 import com.litt.core.util.ArrayUtils;
@@ -15,10 +17,10 @@ import com.litt.core.util.DateUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
-import com.litt.saap.core.module.tenant.config.TenantConfig;
-import com.litt.saap.core.module.tenant.config.TenantConfigManager;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfig;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
@@ -26,11 +28,13 @@ import com.litt.saap.system.dao.RoleFuncPermissionDao;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
 import com.litt.saap.system.dao.UserRoleDao;
+import com.litt.saap.system.dao.UserStateDao;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.po.UserRole;
+import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.vo.TenantVo;
@@ -52,6 +56,8 @@ import com.litt.saap.system.vo.TenantVo;
  */
 public class TenantBizServiceImpl implements ITenantBizService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(TenantBizServiceImpl.class);
+	
 	@Resource
 	private ITenantService tenantService;	
 	@Resource
@@ -62,6 +68,8 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	private IRoleService roleService;
 	@Resource
 	private RoleFuncPermissionDao roleFuncPermissionDao;
+	@Resource
+	private UserStateDao userStateDao;
 	@Resource
 	private UserRoleDao userRoleDao;
 	
@@ -77,7 +85,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		if(isOrderActivated)
 			throw new BusiCodeException("order.error.isActivated", locale);
 		
-		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig(bagCode);
+		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(bagCode);
 				
 		Tenant tenant = new Tenant();
 		tenant.setCode(orderNo);
@@ -132,6 +140,12 @@ public class TenantBizServiceImpl implements ITenantBizService {
 				adminPermissions = permissions;
 			}
 		}		
+		
+		//设置用户的当前租户为新激活的租户
+		UserState userState = userStateDao.load(userId);		
+		userState.setCurrentTenantId(tenantId);
+		userStateDao.update(userState);
+		
 		//绑定用户和角色
 		UserRole userRole = new UserRole(tenantId, userId, adminRoleId);
 		userRoleDao.save(userRole);
@@ -150,43 +164,52 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	 * @param tenantConfig the tenant config
 	 * @return the tenant active bo
 	 */
-	public void doUpgradePermission(TenantConfig tenantConfig)
+	public void doUpgradePermission(TenantTypeConfig tenantConfig)
 	{
+		logger.info("Upgrade tenant permissions start...");
 		List<Tenant> tenantList = tenantDao.listAll();
 		for (Tenant tenant : tenantList) {
+			logger.info("Upgrade tenant permissions for:{}...", new Object[]{tenant.getId(), tenant.getAppAlias()});
+			
 			Integer tenantId = tenant.getId();
 			List<Role> roleList = roleService.listByTenant(tenantId);
 			
-			TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig(tenant.getBagCode());
+			TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenant.getBagCode());
 			
 			for (Role role : roleList) {
 				Integer roleId = role.getId();			
 				//获取所有的Role及对应的permission
 				List<RoleFuncPermission> permissionList = roleFuncPermissionDao.listByTenantAndRole(tenantId, roleId);
+				String[] dbPermissions = new String[permissionList.size()];
 				
 				List<RoleFuncPermission> deleteList = new ArrayList<RoleFuncPermission>();
+				int index=0;
 				for (RoleFuncPermission roleFuncPermission : permissionList) 
 				{
+					dbPermissions[index] = roleFuncPermission.getPermissionCode();
 					if(!tenantDefConfig.containsPermission(roleFuncPermission.getPermissionCode()))
 					{
 						//该权限需删除
+						logger.info("remove permission:{}", new Object[]{roleFuncPermission.getPermissionCode()});
 						deleteList.add(roleFuncPermission);
 					}
+					index++;
 				}
 				//把新增的权限加到现有角色上
 				if(role.getStatus()==9)	//系统内置角色
 				{			
 					TenantDefConfig newTenantDefConfig = tenantConfig.getTenantDef(tenant.getBagCode());
 					
-					TenantRoleConfig oldRoleConfig = tenantDefConfig.getRoleByCode(role.getName());
+					//TenantRoleConfig oldRoleConfig = tenantDefConfig.getRoleByCode(role.getName());	//TODO 系统覆盖更新没法获取旧的配置，改为与数据库对比
 					TenantRoleConfig newRoleConfig = newTenantDefConfig.getRoleByCode(role.getName());
 					//对比两个配置，获得新的权限编号
 					List<String> addPermissionList = new ArrayList<String>();
-					String[] oldPermissions = oldRoleConfig.getPermissions();
+					String[] oldPermissions = dbPermissions;
 					String[] newPermissions = newRoleConfig.getPermissions();
 					for (String permissionCode : newPermissions) {
 						if(!ArrayUtils.contains(oldPermissions, permissionCode))
 						{
+							logger.info("add permission:{}", new Object[]{permissionCode});
 							addPermissionList.add(permissionCode);
 						}
 					}
@@ -206,8 +229,9 @@ public class TenantBizServiceImpl implements ITenantBizService {
 				}
 			}					
 		}
+		logger.info("Upgrade tenant permissions end...");
 		//重新加载当前配置实例，变成最新的
-		TenantConfigManager.getInstance().reload();
+		TenantTypeConfigManager.getInstance().reload();
 	}
 	
 	/**
@@ -290,7 +314,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 			index++;
 		}				
 		
-		TenantDefConfig tenantDefConfig = TenantConfigManager.getInstance().getTenantDefConfig("basic");
+		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig("basic");
 		String[] permissions = tenantDefConfig.getPermissions();
 				
 		TenantQuitBo tenantQuit = new TenantQuitBo(tenantVo, roleIds, permissions);

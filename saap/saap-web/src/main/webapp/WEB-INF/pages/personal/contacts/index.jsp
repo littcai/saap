@@ -12,26 +12,18 @@
 	<body> 		
 		<!-- form filter -->	
 		<div>
-			<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="POST">				
+			<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="GET">				
 				<input type="hidden" id="pageIndex" name="pageIndex" value="${pageParam.pageIndex }" />
 				<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
-                <select name="searchField" id="searchField" style="width:130px">
-                    <option label="姓名" value="accountname">姓名</option>	
-                    <option label="性别" value="accountname">性别</option>	
-                    <option label="手机号码" value="phone">手机号码</option>				
-					<option label="Email" value="email">Email</option>
-					<option label="联系人" value="membername">电话</option>
-					<option label="职位" value="title">职位</option>
-					
-                </select>                      
-                      <input type="text" class="input-large search-query" value="" name="search_text">
-                      <button type="button" class="btn btn-small" onClick="callSearch('Basic');"><i class="icon-search"></i>&nbsp;搜索</button>
-                      <button type="button" class="btn btn-small " onClick="clearSearchResult('Accounts','BasicSearch');">
-                      <i class="icon-remove-sign"></i>&nbsp;取消查找</button>
-                      <button type="button" class="btn btn-small " onClick="openAdvanceDialogs('Accounts');">
-                      <i class="icon-share-alt"></i>&nbsp;高级搜索</button>
+				<select name="s_searchField" id="s_searchField" style="width:130px">
+		        	<option value="name" ${li:renderSelected(param.s_searchField, "name")}><s:message code="contacts.name" /></option>	
+		        	<option value="mobile" ${li:renderSelected(param.s_searchField, "mobile")}><s:message code="contacts.mobile" /></option>
+		        	<option value="email" ${li:renderSelected(param.s_searchField, "email")}><s:message code="contacts.email" /></option>						
+		        </select>                                    
+                <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
+        		<button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
              </form>
 		</div>	
 		<div class="clear"></div> 				
@@ -40,8 +32,7 @@
 			<ul class="nav nav-pills" style="margin-bottom: 5px;">	
 			  <li <c:if test="${empty param.filter }">class="active"</c:if> >
 			    <a href="index.do"><s:message code="contacts.filter.all" /></a>
-			  </li>
-			  <li <c:if test="${'today' eq param.filter }">class="active"</c:if> ><a href="index.do?filter=today"><s:message code="contacts.filter.fav" /></a></li>
+			  </li>			  
 			</ul>
 		</div>
 		<div class="clear"></div> 		
@@ -52,32 +43,7 @@
                   <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
                 <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete('contactsIds');">
                   <i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button>
-
-				  <div class="btn-group" style="margin-top:2px;">
-					<a class="btn btn-small btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-edit icon-white"></i> 批量操作
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a href="#" onclick="javascript:quick_edit(this, 'quickedit', 'Accounts');return false;"> 批量修改</a>
-						</li>
-						<li>
-							<a href="#" onclick="javascript:change(this,'changeowner');return false;" > 修改负责人</a>
-						</li>
-					</ul>
-				</div>
-                <!--<button class="btn btn-small btn-inverse" style="margin-top:2px;" onclick="javascript:quick_edit(this, 'quickedit', 'Accounts');return false;" >-->
-                  
-                <button class="btn btn-small btn-success" style="margin-top:2px;" onclick="javascript:location.href='index.php?module=Accounts&action=Import&step=1&return_module=Accounts&return_action=index&parenttab=Customer'">
-                  <i class="icon-download icon-white"></i> <s:message code="btn.import" /></button>
-                <button class="btn btn-small btn-success" style="margin-top:2px;" onclick="return selectedRecords('Accounts','Customer')" >
-                  <i class="icon-upload icon-white"></i> <s:message code="btn.export" /></button>
-                 <button class="btn btn-small " style="margin-top:2px;" onclick="javascript:qunfa_mail(this, 'qunfamail', 'Accounts');return false;">
-                  <i class="icon-envelope"></i> 发送邮件</button>
-                 <button class="btn btn-small " style="margin-top:2px;" onclick="javascript:qunfa_sms(this, 'qunfasms', 'Accounts');return false;">
-                  <i class="icon-comment"></i> 发送短信</button>
-              </div> 	 		  
+            </div>      
 		</div>	
 		<div class="clear"></div> 	
 		<!-- message notify -->

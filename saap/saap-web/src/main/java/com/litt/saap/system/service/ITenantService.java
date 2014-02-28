@@ -46,6 +46,12 @@ public interface ITenantService {
 	 */
 	public boolean isTenantMember(int tenantId, int userId);
 	
+	/**
+	 * @param tenantId
+	 * @return
+	 */
+	public Tenant load(Integer tenantId);
+	
 	public TenantVo findById(Integer tenantId);
 	
 	/**

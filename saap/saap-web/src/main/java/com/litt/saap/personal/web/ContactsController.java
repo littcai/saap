@@ -1,5 +1,6 @@
 package com.litt.saap.personal.web;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
@@ -61,13 +62,13 @@ public class ContactsController extends BaseController
 	{	
 		
 		//get params from request
-		String name = request.getParameter("name");	
+		String searchField = request.getParameter("s_searchField");
+		String searchValue = request.getParameter("s_searchValue");
 					
-		//return params to response
-		modelMap.addAttribute("name", name);	
-		
+			
 		PageParam pageParam = WebUtils.getPageParam(request);
 		pageParam.addCond("createUserId", super.getLoginOpId().intValue());
+		pageParam.addCond(searchField, searchValue);
 		
 		IPageList pageList = contactsService.listPage(pageParam);
 		
@@ -125,7 +126,7 @@ public class ContactsController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="0314")
+	@Func(funcCode="01",moduleCode="0305")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -140,7 +141,7 @@ public class ContactsController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="0314")
+	@Func(funcCode="02",moduleCode="0305")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -154,12 +155,24 @@ public class ContactsController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0314")
+	@Func(funcCode="03",moduleCode="0305")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
 		contactsService.delete(id);
 	}
 
+	/**
+	 * Gets the contact list.
+	 *
+	 * @return the contact list
+	 */
+	@RequestMapping 
+	public ModelAndView getContactList()
+	{
+		List<Contacts> contactList = contactsService.listByUser(LoginUtils.getLoginOpId().intValue());
+		return new ModelAndView("jsonView").addObject("contactList", contactList);
+	}
+	
 
 }

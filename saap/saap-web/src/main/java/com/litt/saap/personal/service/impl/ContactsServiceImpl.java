@@ -1,6 +1,7 @@
 package com.litt.saap.personal.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -118,8 +119,23 @@ public class ContactsServiceImpl extends BaseService implements IContactsService
 	public IPageList listPage(PageParam pageParam)
 	{
 		String listHql = "select obj from Contacts obj"
+			+ "-- and obj.createUserId={userId}"
 			+ "-- and obj.name={name}"
+			+ "-- and obj.mobile={mobile}"
+			+ "-- and obj.email={email}"
 			;	
 		return contactsDao.listPage(listHql, pageParam);
+	}
+	
+	/**
+	 * 查询用户个人通讯录.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<Contacts> listByUser(int userId)
+	{
+		String listHql = "from Contacts where createUserId=?";
+		return contactsDao.listAll(listHql, new Object[]{userId});
 	}
 }

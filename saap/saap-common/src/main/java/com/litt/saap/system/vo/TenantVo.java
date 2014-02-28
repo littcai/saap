@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * .
+ * 租户基本信息.
  * 
  * <pre><b>描述：</b>
  *    

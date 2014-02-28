@@ -1,9 +1,10 @@
 package com.litt.saap.personal.service;
 
+import java.util.List;
+
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
-
 import com.litt.saap.personal.po.Contacts;
 
 /**
@@ -59,5 +60,14 @@ public interface IContactsService
 	 * @return IPageList IPageList
 	 */
 	public IPageList listPage(PageParam pageParam);	
+	
+	/**
+	 * 查询用户个人通讯录.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<Contacts> listByUser(int userId);
+	
 
 }

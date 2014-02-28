@@ -9,14 +9,14 @@
 		user.home - User's home directory
 		user.dir - User's current working directory
 		java.io.tmpdir - Default temp file path -->
-	<diskStore path="java.io.tmpdir/trannms/hibernate" />
+	<diskStore path="java.io.tmpdir/hibernate" />
 
 	<!-- Object cache -->	
-	<cache name="com.litt.cidp.system.po.DictParamType" maxElementsInMemory="5000" eternal="true"/>	
-	<cache name="com.litt.cidp.system.po.DictParam" maxElementsInMemory="5000" eternal="true"/>		
+	<cache name="com.litt.saap.system.po.DictParamType" maxElementsInMemory="5000" eternal="true"/>	
+	<cache name="com.litt.saap.system.po.DictParam" maxElementsInMemory="5000" eternal="true"/>		
 		
 	<!-- 特别设定Operator类的Cache，内存中最多只保存5000个Operator实例，而且idle 600秒过期 -->	
-	<cache name="com.litt.cidp.system.po.Operator" maxElementsInMemory="5000" eternal="false"
+	<cache name="com.litt.saap.system.po.UserInfo" maxElementsInMemory="5000" eternal="false"
 		timeToIdleSeconds="600" />	
 
 	<!--Default Cache configuration. These will applied to caches programmatically created through
@@ -41,110 +41,6 @@
 	-->
 	<defaultCache maxElementsInMemory="100000" eternal="true" overflowToDisk="true" />
 	
-	<!-- NODE-CACHE -->
-   <cache name="com.transoft.nms.core.infocache.pool.NodeCachePool"  
-           maxElementsInMemory="10000"  
-           eternal="true"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"
-           statistics="true"  
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache> 
-   
-   <cache name="com.transoft.nms.core.infocache.pool.NodeCachePool-QUERY"  
-           maxElementsInMemory="100"  
-           eternal="false"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache>  
-   
-   <!-- INTERFACE-CACHE -->
-   <cache name="com.transoft.nms.core.infocache.pool.InterfaceCachePool"  
-           maxElementsInMemory="10000"  
-           eternal="false"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache> 
-   
-   <cache name="com.transoft.nms.core.infocache.pool.InterfaceCachePool-QUERY"  
-           maxElementsInMemory="100"  
-           eternal="false"  
-           overflowToDisk="false"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache>  
-   
-   <!-- ALARM-CACHE -->
-   <cache name="com.transoft.nms.core.infocache.pool.AlarmCachePool"  
-           maxElementsInMemory="10000"  
-           eternal="false"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache> 
-   
-   <cache name="com.transoft.nms.core.infocache.pool.AlarmCachePool-QUERY"  
-           maxElementsInMemory="10000"  
-           eternal="false"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache>  
-   
-   <!-- NODE-CACHE -->
-   <cache name="com.transoft.nms.core.infocache.pool.PolicyMetadataCachePool"  
-           maxElementsInMemory="10000"  
-           eternal="true"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           diskExpiryThreadIntervalSeconds="1"
-           statistics="true"  
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache> 
-   
-   <cache name="com.transoft.nms.core.infocache.pool.PolicyMetadataCachePool-QUERY"  
-           maxElementsInMemory="100"   
-           eternal="false"  
-           overflowToDisk="true"  
-           timeToIdleSeconds="300"  
-           timeToLiveSeconds="600"  
-           diskPersistent="true"  
-           statistics="true" 
-           memoryStoreEvictionPolicy="LFU">  
-           <cacheEventListenerFactory class="com.transoft.nms.core.infocache.listener.CacheListenerFactory" properties=""/>  
-   </cache>  
+	 
 
 </ehcache>

@@ -58,7 +58,7 @@
 		<level value="DEBUG" />
 	</category>
 	
-	<category name="com.litt.cidp">
+	<category name="com.litt.saap">
 		<level value="DEBUG" />
 	</category>
 	<!-- 

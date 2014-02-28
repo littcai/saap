@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2013-10-15 11:44:09 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="com.litt.saap.system.po.DictParamType" dynamic-insert="true" dynamic-update="true" table="dict_param_type">

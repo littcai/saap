@@ -175,6 +175,36 @@
   </welcome-file-list>
   
   <mime-mapping>
+	<extension>doc</extension>
+	<mime-type>application/vnd.ms-word</mime-type>
+  </mime-mapping>
+
+	<mime-mapping>
+		<extension>xls</extension>
+		<mime-type>application/msexcel</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>ppt</extension>
+		<mime-type>application/vnd.ms-powerpoint</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>docx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.wordprocessingml.document</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>pptx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.presentationml.presentation</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>xlsx</extension>
+		<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
+	</mime-mapping>  
+  
+  <mime-mapping>
     <extension>woff</extension>
     <mime-type>application/x-font-woff</mime-type>
   </mime-mapping>

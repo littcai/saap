@@ -28,7 +28,7 @@ import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.servlet.LoginCaptchaServlet;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.core.module.tenant.config.TenantConfigManager;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
@@ -460,7 +460,7 @@ public class LoginController {
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);		
 			
-		TenantConfigManager manager = new TenantConfigManager();	//重新加载配置，更新权限
+		TenantTypeConfigManager manager = new TenantTypeConfigManager();	//重新加载配置，更新权限
 		
 		tenantBizService.doUpgradePermission(manager.getConfig());
 		

@@ -115,8 +115,17 @@ public class TenantServiceImpl implements ITenantService {
 	
 	public TenantVo findById(Integer tenantId)
 	{
-		Tenant po = tenantDao.load(tenantId);
+		Tenant po = load(tenantId);
 		return convertVo(po);
+	}
+
+
+	/**
+	 * @param tenantId
+	 * @return
+	 */
+	public Tenant load(Integer tenantId) {
+		return tenantDao.load(tenantId);
 	}
 
 

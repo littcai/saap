@@ -2,7 +2,7 @@ package com.litt.saap.system.biz;
 
 import java.util.Locale;
 
-import com.litt.saap.core.module.tenant.config.TenantConfig;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfig;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
@@ -42,7 +42,7 @@ public interface ITenantBizService {
 	 * @param tenantConfig the tenant config
 	 * @return the tenant active bo
 	 */
-	public void doUpgradePermission(TenantConfig tenantConfig);
+	public void doUpgradePermission(TenantTypeConfig tenantConfig);
 	
 	/**
 	 * 注销租户空间.

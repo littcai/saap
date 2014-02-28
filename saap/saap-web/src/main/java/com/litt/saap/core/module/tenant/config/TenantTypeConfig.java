@@ -18,7 +18,7 @@ import java.util.Map;
  * @since 2013-11-14
  * @version 1.0
  */
-public class TenantConfig {
+public class TenantTypeConfig {
 	
 	private Map<String, TenantDefConfig> tenantDefMap = new HashMap<String, TenantDefConfig>();
 

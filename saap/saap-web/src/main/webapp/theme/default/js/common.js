@@ -45,7 +45,8 @@ $(document).ready(function(){
 	if(jQuery.validator)
 	{
 		jQuery.validator.setDefaults({
-		    errorPlacement: function(error, element) {
+		    errorPlacement: function(error, element) {     
+		    	
 		      // if the input has a prepend or append element, put the validation msg after the parent div
 		      if(element.parent().hasClass('input-prepend') || element.parent().hasClass('input-append')) {
 		        error.insertAfter(element.parent());		
@@ -70,7 +71,7 @@ $(document).ready(function(){
 						.addClass('error');
 			},
 			success : function(element) {
-				element.text('OK!').addClass('valid')
+				element.addClass('valid')
 						.closest('.control-group')
 						.removeClass('error').addClass(
 								'success');
@@ -462,7 +463,8 @@ $(document).ready(function(){
 			},
 			errorMessages:{},
 			errorContainer: $([]),
-			errorLabelContainer: $([]),					
+			errorLabelContainer: $([]),
+			errorPlacement: $.validator.defaults.errorPlacement,
 			beforeSerialize: null,
 			beforeSubmit: null,
 			success: null,
@@ -481,7 +483,7 @@ $(document).ready(function(){
 	  $this = $(this);
 	  
 	  //记录表单的变化状态，若修改并离开页面，需要提示用户保存
-	  if(enableChangeCheck)
+	  if(setting.enableChangeCheck)
 	  {
 		  var formValue = $this.serialize();
 		  
@@ -508,13 +510,14 @@ $(document).ready(function(){
 		  	messages: setting.errorMessages,
 		  	errorContainer: setting.errorContainer,
 			errorLabelContainer: setting.errorLabelContainer,
+			errorPlacement: setting.errorPlacement,
 			submitHandler: function(form) { 			
 				
 				$(form).ajaxSubmit({ 							   
 			    	dataType:  'json',         
 			    	success:   function(data, textStatus){
 			    		//移除beforeunload事件
-			    		if(enableChangeCheck)
+			    		if(setting.enableChangeCheck)
 			    		{
 			    			$(window).unbind('beforeunload');
 			    		}

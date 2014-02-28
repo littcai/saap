@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-17 14:51:14 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.message.po.SmsIn" dynamic-insert="true" dynamic-update="true" table="sms_in">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户</comment>
+            </column>
+        </property>
+        <property name="sender" type="string">
+            <column name="SENDER" length="50" not-null="true">
+                <comment>发送人</comment>
+            </column>
+        </property>
+        <property name="receiver" type="string">
+            <column name="RECEIVER" length="50" not-null="true">
+                <comment>接收人</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="500" not-null="true">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

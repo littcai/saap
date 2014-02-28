@@ -255,6 +255,12 @@ public class UserBizServiceImpl implements IUserBizService {
 			UserInfo userInfo = userInfoService.load(userId);
 			userInfo.setStatus(SaapConstants.UserStatus.NORMAL);
 			userInfoService.update(userInfo);
+			
+			//设置用户的当前租户为新激活的租户
+			UserState userState = userStateDao.load(userInfo.getId());		
+			userState.setCurrentTenantId(tenantId);
+			userStateDao.update(userState);
+			
 			//添加默认的个人事务角色（自动赋予权限）
 			UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID);
 			userRoleDao.save(userRole);

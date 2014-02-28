@@ -67,6 +67,7 @@
 
 	<!-- 租户成员 -->
 	<bean id="tenantMemberDao" class="com.litt.saap.system.dao.TenantMemberDao" parent="baseDao"/>
+	<bean id="tenantMemberService" class="com.litt.saap.system.service.impl.TenantMemberServiceImpl"/>
 	
 	<!-- 用户评论 -->
 	<bean id="userCommentDao" class="com.litt.saap.system.dao.UserCommentDao" parent="baseDao"/>

@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.litt.core.dao.page.IPageList;
+import com.litt.core.dao.ql.PageParam;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.dao.RoleDao;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.service.IRoleService;
@@ -38,6 +41,54 @@ public class RoleServiceImpl implements IRoleService {
 	}
 	
 	/**
+	 * Update.
+	 * @param role Role
+	 */
+	public void update(Role role) 
+	{
+		//校验租户权限
+		LoginUtils.validateTenant(role.getTenantId());
+	
+		roleDao.update(role);
+	}			
+   
+   	/**
+	 * Delete by id.
+	 * @param id id
+	 */
+	public void delete(Integer id) 
+	{
+		Role role = this.load(id);
+		this.delete(role);
+	}
+	
+	/**
+	 * Batch delete by ids.
+	 * @param ids ids
+	 */
+	public void deleteBatch(Integer[] ids) 
+	{
+		if(ids!=null)
+		{
+			for (Integer id : ids) {
+				this.delete(id);
+			}
+		}
+	}
+	
+	/**
+	 * Delete by instance.
+	 * @param id id
+	 */
+	public void delete(Role role) 
+	{
+		//校验租户权限
+		LoginUtils.validateTenant(role.getTenantId());
+	
+		roleDao.delete(role);
+	}
+	
+	/**
 	 * Load.
 	 *
 	 * @param roleId the role id
@@ -45,7 +96,11 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	public Role load(int roleId)
 	{
-		return roleDao.load(roleId);
+		Role role = roleDao.load(roleId);
+		//校验租户权限
+		LoginUtils.validateTenant(role.getTenantId());
+	
+		return role;
 	}
 	
 	/**
@@ -60,5 +115,18 @@ public class RoleServiceImpl implements IRoleService {
 		return roleDao.listAll(listHql, new Object[]{tenantId});
 	}
 	
+	/**
+	 * list by page.
+	 * 
+	 * @param pageParam params
+	 * @return IPageList IPageList
+	 */
+	public IPageList listPage(PageParam pageParam)
+	{
+		String listHql = "select obj from Role obj"
+			+ "-- and obj.tenantId={tenantId}"
+			;	
+		return roleDao.listPage(listHql, pageParam);
+	}
 
 }

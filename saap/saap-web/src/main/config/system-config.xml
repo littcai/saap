@@ -14,6 +14,9 @@
 		<username>service@webestlife.com</username>
 		<password enctypted="true">Service810802</password>
 	</smtpServer>
+	<smsServer>
+		<sender></sender>	<!-- 发件人手机号 -->
+	</smsServer>
 	<globalization>
 		<dateFormat>yyyy-MM-dd hh:mm:ss</dateFormat>
 		<currencyFormat>#####.###</currencyFormat>

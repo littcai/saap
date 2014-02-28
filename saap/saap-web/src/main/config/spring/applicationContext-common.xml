@@ -34,6 +34,7 @@
 	 			<value>WEB-INF/messages/module</value>
 	 			<value>WEB-INF/messages/dictparam</value>
 	 			<value>WEB-INF/messages/system</value>
+	 			<value>WEB-INF/messages/message</value>
 	 			<value>WEB-INF/messages/assistant</value>
 	 			<value>WEB-INF/messages/personal</value>
 	 			<value>WEB-INF/messages/report</value>
@@ -280,7 +281,7 @@
   	</bean>   
 	 -->
 	 
-	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	 <bean id="smailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="${smtp.host}"/>
 	 	<property name="port" value="${smtp.port}"/>	 	
 	 	<property name="username" value="${smtp.username}"/>
@@ -307,6 +308,27 @@
     	 -->
 	 </bean>
 	 
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	 	<property name="host" value="${smtp.host}"/>
+	 	<property name="port" value="${smtp.port}"/>	 	
+	 	<property name="username" value="${smtp.username}"/>
+	 	<property name="password" value="${smtp.password}"/>
+	 	<property name="defaultEncoding" value="UTF-8"></property> 
+	 	<!-- SSL -->
+	 	<property name="protocol" value="smtps" />		 	
+	 	<property name="javaMailProperties">
+	        <props>
+	        	<prop key="mail.debug">true</prop> 
+	            <prop key="mail.smtps.auth">true</prop>	
+	            <prop key="mail.smtp.ssl.enable">true</prop>
+	            <prop key="mail.transport.protocol">smtps</prop>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+            	<prop key="mail.smtp.starttls.required">true</prop>  	           
+	        </props>
+    	</property>
+	 	
+	 </bean>
+	 
 	 <!-- Email Service -->
 	 <bean id="emailService" class="com.litt.saap.common.service.impl.EmailServiceImpl">
 	 	<property name="from" value="${smtp.from}"/>	
@@ -316,6 +338,23 @@
 	 <bean id="templateService" class="com.litt.saap.common.service.impl.TemplateServiceImpl" init-method="init">
 	 	<property name="templatePath" value="${template.path}"/>	 	
 	 </bean>
+	 
+	 <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name = "supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
 	 
 	 
 </beans>
