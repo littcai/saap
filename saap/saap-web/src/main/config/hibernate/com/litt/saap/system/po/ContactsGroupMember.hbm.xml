@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-2-28 17:23:19 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.ContactsGroupMember" dynamic-insert="true" dynamic-update="true" table="contacts_group_member">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="contactsId" type="int">
+            <column name="CONTACTS_ID" not-null="true">
+                <comment>联系人ID</comment>
+            </column>
+        </property>
+        <property name="groupId" type="int">
+            <column name="GROUP_ID" not-null="true">
+                <comment>分组ID</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
