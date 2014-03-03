@@ -66,6 +66,7 @@ public class ContactsController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
+	@Func(funcCode="04",moduleCode="0305", enableLog=false)
 	@RequestMapping 
 	public ModelAndView index(Locale locale, WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -90,6 +91,7 @@ public class ContactsController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
+	@Func(funcCode="01",moduleCode="0305", enableLog=false)
 	@RequestMapping
 	public ModelAndView add() 
 	{    
@@ -105,6 +107,7 @@ public class ContactsController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
+	@Func(funcCode="02",moduleCode="0305", enableLog=false)
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 

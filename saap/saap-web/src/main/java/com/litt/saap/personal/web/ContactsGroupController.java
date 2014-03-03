@@ -51,18 +51,17 @@ public class ContactsGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01",moduleCode="0305", enableLog=false)
+	@Func(funcCode="04",moduleCode="0305", enableLog=false)
 	@RequestMapping 
 	public ModelAndView index(Locale locale, WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
 		
 		//get params from request
-		String searchField = request.getParameter("s_searchField");
 		String searchValue = request.getParameter("s_searchValue");					
 			
 		PageParam pageParam = WebUtils.getPageParam(request);
-		pageParam.addCond("createUserId", super.getLoginOpId().intValue());
-		pageParam.addCond(searchField, searchValue);
+		pageParam.addCond("createBy", super.getLoginOpId().intValue());
+		pageParam.addCond("name", searchValue);
 		
 		IPageList pageList = contactsGroupService.listPage(pageParam);
 		

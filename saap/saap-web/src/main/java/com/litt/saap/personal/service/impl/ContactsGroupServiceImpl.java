@@ -1,5 +1,6 @@
 package com.litt.saap.personal.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,17 +9,20 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.litt.core.dao.IResultsetTransformer;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.service.BaseService;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.dao.ContactsGroupDao;
 import com.litt.saap.personal.dao.ContactsGroupMemberDao;
 import com.litt.saap.personal.po.ContactsGroup;
 import com.litt.saap.personal.service.IContactsGroupService;
+import com.litt.saap.personal.vo.ContactsGroupVo;
 
 /**
  * 
@@ -149,10 +153,27 @@ public class ContactsGroupServiceImpl implements IContactsGroupService
 	public IPageList listPage(PageParam pageParam)
 	{
 		String listHql = "select obj from ContactsGroup obj"
-			+ "-- and obj.createBy={userId}"
-			+ "-- and obj.name={name}"
+			+ "-- and obj.createBy={createBy}"
+			+ "-- and obj.name like {name%}"
 			;	
-		return contactsGroupDao.listPage(listHql, pageParam);
+		IPageList pageList = contactsGroupDao.listPage(listHql, pageParam);
+		pageList.setResultsetTransformer(new IResultsetTransformer() {
+			
+			@Override
+			public List transform(List srcList) {
+				List<ContactsGroupVo> voList = new ArrayList<ContactsGroupVo>(srcList.size());
+				for (int i=0;i<srcList.size();i++) {
+					ContactsGroup po = (ContactsGroup)srcList.get(i);
+					ContactsGroupVo vo = BeanCopier.copy(po, ContactsGroupVo.class);
+					int count = contactsGroupMemberDao.countByContactsGroup(po.getId());
+					vo.setMembers(count);
+					voList.add(vo);
+				}
+				return voList;
+			}
+		});
+		return pageList;
+		
 	}
 	
 	/**

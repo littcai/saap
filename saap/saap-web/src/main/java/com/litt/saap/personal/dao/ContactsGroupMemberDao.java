@@ -33,6 +33,11 @@ public class ContactsGroupMemberDao extends GenericHibernateDao<ContactsGroupMem
 		return super.listAll("from ContactsGroupMember where contactsId=?", new Object[]{contactsId});
 	}
 	
+	public int countByContactsGroup(int contactsGroupId)
+	{
+		return super.count("select count(o) from ContactsGroupMember o where o.groupId=?", new Object[]{contactsGroupId});
+	}
+	
 	/**
 	 * Delete by contacts.
 	 *

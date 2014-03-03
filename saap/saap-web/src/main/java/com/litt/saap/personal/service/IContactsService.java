@@ -75,5 +75,7 @@ public interface IContactsService
 	 */
 	public List<Contacts> listByUser(int userId);
 	
+	public List<Contacts>listByGroup(int groupId);
+	
 
 }

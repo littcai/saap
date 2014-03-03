@@ -141,10 +141,10 @@ public class ContactsServiceImpl implements IContactsService
 	public IPageList listPage(PageParam pageParam)
 	{
 		String listHql = "select obj from Contacts obj"
-			+ "-- and obj.createUserId={userId}"
-			+ "-- and obj.name={name}"
-			+ "-- and obj.mobile={mobile}"
-			+ "-- and obj.email={email}"
+			+ "-- and obj.createBy={createBy}"
+			+ "-- and obj.name like {name%}"
+			+ "-- and obj.mobile like {mobile%}"
+			+ "-- and obj.email like {email%}"
 			;	
 		return contactsDao.listPage(listHql, pageParam);
 	}
@@ -157,7 +157,13 @@ public class ContactsServiceImpl implements IContactsService
 	 */
 	public List<Contacts> listByUser(int userId)
 	{
-		String listHql = "from Contacts where createUserId=?";
+		String listHql = "from Contacts where createBy=?";
 		return contactsDao.listAll(listHql, new Object[]{userId});
+	}
+	
+	public List<Contacts>listByGroup(int groupId)
+	{
+		String listHql = "select a from Contacts a, ContactGroupMember b where b.groupId=? and a.id=b.contactsId";
+		return contactsDao.listAll(listHql, new Object[]{groupId});
 	}
 }
