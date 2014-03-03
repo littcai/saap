@@ -22,57 +22,41 @@
         		<button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
              </form>
 		</div>	
-		<div class="clear"></div> 				
-		<!-- quick filter -->
-		<div>			
-			<ul class="nav nav-pills" style="margin-bottom: 5px;">	
-			  <li <c:if test="${empty param.filter }">class="active"</c:if> >
-			    <a href="index.do"><s:message code="contacts.filter.all" /></a>
-			  </li>			  
-			</ul>
-		</div>
-		<div class="clear"></div> 		
+		<div class="clear"></div> 	
 		<!-- toolbar -->
 		<div style="margin-top:2px;padding-top:5px;margin-bottom:8px;border-top:2px solid #0088CC;">
 			<div class="pull-left" style="margin-bottom:5px;">
                 <button class="btn btn-small btn-primary" style="margin-top:2px;" onclick="javascript:location.href='add.do'">
                   <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
-                <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete('contactsIds');">
+                <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete();">
                   <i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button>
+                <button class="btn btn-small btn-info" style="margin-top:2px;" onclick="javascript:location.href='../contacts/index.do'">
+	              <i class="icon-user icon-white"></i> <s:message code="contacts" /></button>
             </div>      
 		</div>	
 		<div class="clear"></div> 	
-		<!-- message notify -->
-		<h:notify content="${messageBox.content }" type="${messageBox.type }"></h:notify>	
 		<!-- datatable -->
 		<div>
 			<table class="table table-striped table-bordered table-hover datatable">
 				<thead>
 					<tr>			
 						<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>		
-						<th class="sort name"><s:message code="contacts.name" /></th>
-						<th class="sort gender"><s:message code="contacts.gender" /></th>
-						<th><s:message code="contacts.mobile" /></th>
-						<th><s:message code="contacts.email" /></th>
-						<th><s:message code="contacts.phone" /></th>
+						<th class="sort name"><s:message code="contactsGroup.name" /></th>
+						<th><s:message code="contactsGroup.members" /></th>
 						<th><s:message code="common.action" /></th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
-						<td class="checkCol"><input type="checkbox" name="contactsIds" value="${row.id }" /></td>
-						<td><c:out value="${row.name }" /></td>
-						<td>${li:genDictContent("0002", row.gender)}</td>
-						<td><c:out value="${row.mobile }" /></td>
-						<td><a href="mailto:${row.email }"><c:out value="${row.email }" /></a></td>
-						<td><c:out value="${row.phone }" /></td>
+						<td class="checkCol"><input type="checkbox" class="checkItem" name="contactsIds" value="${row.id }" /></td>
+						<td><c:out value="${row.name }" /></td>						
+						<td><c:out value="${row.members }" /></td>
 						<td class="action-buttons">
 							<div class="action-buttons">
 							<a href="edit.do?id=${row.id }" class="blue" >
 								<i class="icon-pencil"></i>
-							</a>
-							<span class="vbar"></span>	
+							</a>&nbsp;
 							<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
 								<i class="icon-trash"></i>
 							</a>
@@ -90,24 +74,24 @@
 			
 			$('.datatable').dataTable();	
 			//checkall
-			$('.datatable th input:checkbox').on('click' , function(){
-				var that = this;
-				$(this).closest('table').find('tr > td:first-child input:checkbox')
-				.each(function(){
-					this.checked = that.checked;
-					$(this).closest('tr').toggleClass('selected');
-				});					
+			var checkboxs = $.webtools.checkboxs({
+				checkAll: "#checkAll",
+				checkItem: ".checkItem"				
 			});
-			//toggle checkall
-			//$(this).closest('table').find('.datatable tr > td:first-child input:checkbox').on('click' , function(){
-				
-				
-				
-			//});
 		})
 		
 		function batchDelete(fieldName)
-		{					
+		{			
+			if($(".checkItem:checked").length<=0)
+			{
+				$.webtools.notify({
+					type: "notice",
+					message: "<s:message code='validate.checkone'/>"
+				});
+				return;
+			}
+			var ids = $.webtools.getCheckValuesArray(".checkItem");	
+			
 			bootbox.confirm("<s:message code='common.delete.confirm' />", function(result){
 				if(result)
 				{

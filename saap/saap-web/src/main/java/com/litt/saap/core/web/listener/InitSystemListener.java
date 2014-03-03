@@ -69,14 +69,14 @@ public class InitSystemListener extends
 		}
 		
 		//read license.
-		File licensePath = new File(homePath, "license");
-		File licenseFile = new File(licensePath, "license.xml");
-		File publicKeyFile = new File(licensePath, "license.key");
-		try {
-			LicenseManager.reload(licenseFile.getPath(), publicKeyFile.getPath());
-		} catch (LicenseException e) {
-			logger.error("Can't read license file.", e);
-		}
+//		File licensePath = new File(homePath, "license");
+//		File licenseFile = new File(licensePath, "license.xml");
+//		File publicKeyFile = new File(licensePath, "license.key");
+//		try {
+//			LicenseManager.reload(licenseFile.getPath(), publicKeyFile.getPath());
+//		} catch (LicenseException e) {
+//			logger.error("Can't read license file.", e);
+//		}
 		
 		//读取系统配置信息，存入APPLICATION
 		ISystemInfoService systemInfoService = BeanManager.getBean("systemInfoService", ISystemInfoService.class);

@@ -9,6 +9,9 @@
  		http://www.springframework.org/schema/context 
  		http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
  		
+ 	<!-- 复合业务服务 -->
+ 	<bean id="contactsBizService" class="com.litt.saap.personal.biz.impl.ContactsBizServiceImpl"/>	
+ 		
  	<!-- Note -->	
 	<bean id="noteDao" class="com.litt.saap.personal.dao.NoteDao" parent="baseDao"/>		
 	
@@ -27,6 +30,14 @@
 	<!-- Contacts -->	
 	<bean id="contactsDao" class="com.litt.saap.personal.dao.ContactsDao" parent="baseDao"/>		
 	
-	<bean id="contactsService" class="com.litt.saap.personal.service.impl.ContactsServiceImpl" parent="baseService"/>	
+	<bean id="contactsService" class="com.litt.saap.personal.service.impl.ContactsServiceImpl"/>
+	
+	<!-- ContactsGroup -->	
+	<bean id="contactsGroupDao" class="com.litt.saap.personal.dao.ContactsGroupDao" parent="baseDao"/>		
+	
+	<bean id="contactsGroupService" class="com.litt.saap.personal.service.impl.ContactsGroupServiceImpl"/>	
+	
+	<!-- ContactsGroupMember -->	
+	<bean id="contactsGroupMemberDao" class="com.litt.saap.personal.dao.ContactsGroupMemberDao" parent="baseDao"/>	
 	
 </beans>

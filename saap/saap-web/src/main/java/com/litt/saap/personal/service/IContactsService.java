@@ -47,6 +47,12 @@ public interface IContactsService
 	public void delete(Contacts contacts) throws NotLoginException ;
 	
 	/**
+	 * Batch delete by ids.
+	 * @param ids ids
+	 */
+	public void deleteBatch(Integer[] ids) ;
+	
+	/**
 	 * Load by id.
 	 * @param id id
 	 * @return Contacts

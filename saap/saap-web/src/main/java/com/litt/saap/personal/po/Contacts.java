@@ -67,7 +67,7 @@ public class Contacts implements Serializable {
 	/**
 	 * 创建人.
 	 */
-	private int createUserId;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -89,7 +89,7 @@ public class Contacts implements Serializable {
 
 	public Contacts(String name, byte gender, String mobile, String email,
 			String phone, String fax, String address, String zipCode,
-			int createUserId, Date createDatetime, Date updateDatetime) {
+			int createBy, Date createDatetime, Date updateDatetime) {
 		this.name = name;
 		this.gender = gender;
 		this.mobile = mobile;
@@ -98,14 +98,14 @@ public class Contacts implements Serializable {
 		this.fax = fax;
 		this.address = address;
 		this.zipCode = zipCode;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
 	}
 
 	public Contacts(String name, byte gender, String mobile, String email,
 			String phone, String fax, String address, String zipCode,
-			int createUserId, Date createDatetime, Date updateDatetime,
+			int createBy, Date createDatetime, Date updateDatetime,
 			String remark) {
 		this.name = name;
 		this.gender = gender;
@@ -115,7 +115,7 @@ public class Contacts implements Serializable {
 		this.fax = fax;
 		this.address = address;
 		this.zipCode = zipCode;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
 		this.remark = remark;
@@ -281,16 +281,16 @@ public class Contacts implements Serializable {
 	 * 取得 创建人.
 	 * @return 创建人
 	 */
-	public int getCreateUserId() {
-		return this.createUserId;
+	public int getCreateBy() {
+		return this.createBy;
 	}
 
 	/**
 	 * 设置 创建人.
-	 * @param createUserId 创建人
+	 * @param createBy 创建人
 	 */
-	public void setCreateUserId(int createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 	/**  

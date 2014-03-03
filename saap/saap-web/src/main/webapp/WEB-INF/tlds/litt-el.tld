@@ -3,7 +3,14 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
  <tlib-version>1.0</tlib-version>
  <short-name>li</short-name>
- <uri>http://www.littcore.com/core</uri> 
+ <uri>http://www.littcore.com/core</uri>
+ <function>
+  <description>是否包含</description>
+  <name>contains</name>
+  <function-class>com.litt.core.web.tag.el.FormEL</function-class>
+  <function-signature>boolean contains(java.lang.Object[], java.lang.Object)</function-signature>
+  <example>${li:contains(['aa','bb','cc'], 'aa')}</example>
+ </function> 
  <function>
   <description>获得字符串的ANSI长度</description>
   <name>getAnsiLength</name>
