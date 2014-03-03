@@ -1,6 +1,7 @@
 package com.litt.saap.system.dao;
 
 import com.litt.core.dao.GenericHibernateDao;
+import com.litt.saap.personal.po.ContactsGroupMember;
 import com.litt.saap.system.po.UserGroupMember;
 
 /**
@@ -20,4 +21,19 @@ import com.litt.saap.system.po.UserGroupMember;
  */
 public class UserGroupMemberDao extends GenericHibernateDao<UserGroupMember, Integer> {
 
+	/**
+	 * Delete by contacts.
+	 *
+	 * @param contactsId the contacts id
+	 */
+	public void deleteByUser(int userId)
+	{
+		this.delete(UserGroupMember.class, "userId", userId);
+	}
+	
+	public void deleteByUserGroup(int groupId)
+	{
+		this.delete(UserGroupMember.class, "groupId", groupId);
+	}
+	
 }

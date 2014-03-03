@@ -3,16 +3,14 @@
 <%@ include file="/common/common.inc"%>
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
-  <head>		
+  <head>
+  	<link href="${contextPath }/widgets/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+  	<script src="${contextPath }/widgets/bootstrap-select/bootstrap-select.min.js"></script>		
 	</head>
 	<body> 			
-			<div id="formMessage" class="alert alert-error hide">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<strong><s:message code="error.ui.title" /></strong> <span id="sysErrorBox"></span>
-			</div>
 			<form id="theform" action="save.json" method="post" class="form-horizontal">
 				<fieldset>
-					<legend><s:message code="contacts.ui.fieldset.base" /></legend>
+					<legend><s:message code="common.ui.fieldset.base" /></legend>
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
@@ -92,6 +90,23 @@
 					</div>
 				</fieldset>	
 				<fieldset>
+					<legend><s:message code="contacts.ui.fieldset.group" /></legend>
+					<div class="row-fluid">
+						<div class="span12">
+							<div class="control-group">
+								<label class="control-label" for="contactsGroupIds"><s:message code="contactsGroup" /></label>
+								<div class="controls">
+									<select id="contactsGroupIds" name="contactsGroupIds" multiple="multiple" class="selectpicker show-menu-arrow show-tick span12"  title="<s:message code='common.ui.select' />">
+										<c:forEach items="${contactsGroupList }" var="row">
+										<option value="${row.id }">${row.name }</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+						</div>						
+					</div>
+				</fieldset>	
+				<fieldset>
 				<legend><s:message code="contacts.ui.fieldset.ext" /></legend>
 						<div class="row-fluid">
 							<div class="span12">
@@ -114,6 +129,8 @@
 		<!--page specific plugin scripts-->				
 		<script type="text/javascript">
 		$(document).ready(function(){	
+			
+			$('.selectpicker').selectpicker();
 			
 			$('#theform').littFormSubmit({
 				rules : {

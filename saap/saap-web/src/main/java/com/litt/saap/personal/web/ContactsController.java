@@ -22,12 +22,17 @@ import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.module.annotation.Func;
+import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.core.web.model.MessageBox;
 import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.personal.biz.IContactsBizService;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.po.ContactsGroup;
+import com.litt.saap.personal.po.ContactsGroupMember;
+import com.litt.saap.personal.service.IContactsGroupService;
 import com.litt.saap.personal.service.IContactsService;
 
 /**
@@ -47,7 +52,11 @@ public class ContactsController extends BaseController
 	private final static Logger logger = LoggerFactory.getLogger(ContactsController.class);
 
 	@Resource
-	private IContactsService contactsService;
+	private IContactsService contactsService;	
+	@Resource
+	private IContactsGroupService contactsGroupService;
+	@Resource
+	private IContactsBizService contactsBizService;
 	
 	/**
 	 * default page.
@@ -72,13 +81,8 @@ public class ContactsController extends BaseController
 		
 		IPageList pageList = contactsService.listPage(pageParam);
 		
-		if(!ValidateUtils.isEmpty(request.getParameter("result")))
-		{
-			String actionType = request.getParameter("actionType");
-			MessageBox messageBox = new MessageBox(super.getMessage("contacts.func."+actionType+".success", locale));
-			modelMap.addAttribute("messageBox", messageBox);
-		}
-        return new ModelAndView("/personal/contacts/index").addObject("pageParam", pageParam).addObject("pageList", pageList);
+        return new ModelAndView("/personal/contacts/index")
+        		.addObject("pageParam", pageParam).addObject("pageList", pageList);
 	}   
 	
 	/**
@@ -88,8 +92,10 @@ public class ContactsController extends BaseController
 	 */	
 	@RequestMapping
 	public ModelAndView add() 
-	{        
-        return new ModelAndView("/personal/contacts/add");
+	{    
+		List<ContactsGroup> contactsGroupList = contactsGroupService.listByUser(LoginUtils.getLoginOpId().intValue());
+		
+        return new ModelAndView("/personal/contacts/add").addObject("contactsGroupList", contactsGroupList);
     }
 	
 	/**
@@ -102,8 +108,20 @@ public class ContactsController extends BaseController
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
-		Contacts contacts = contactsService.load(id);		
-        return new ModelAndView("/personal/contacts/edit").addObject("contacts", contacts);
+		Contacts contacts = contactsService.load(id);	
+		List<ContactsGroup> contactsGroupList = contactsGroupService.listByUser(LoginUtils.getLoginOpId().intValue());
+		
+		List<ContactsGroupMember> memberList = contactsBizService.listMemberByContacts(id);
+		Integer[] memberGroupIds = new Integer[memberList.size()];
+		for (int i=0;i<memberList.size();i++) {
+			ContactsGroupMember contactsGroupMember = memberList.get(i);
+			memberGroupIds[i] = contactsGroupMember.getGroupId();
+		}
+		
+        return new ModelAndView("/personal/contacts/edit")
+        		.addObject("contacts", contacts)
+        		.addObject("contactsGroupList", contactsGroupList)
+        		.addObject("memberGroupIds", memberGroupIds);
     }	
     
 	/**
@@ -132,7 +150,10 @@ public class ContactsController extends BaseController
 	{	
 		Contacts contacts = new Contacts();
 		BeanUtils.populate(contacts, request.getParameterMap());			
-		contactsService.save(contacts);		
+		
+		Integer[] contactsGroupIds = ArrayUtils.toInteger(request.getParameterValues("contactsGroupIds"));
+		
+		contactsBizService.save(contacts, contactsGroupIds);
 	}
 	
 	/**
@@ -147,7 +168,9 @@ public class ContactsController extends BaseController
 	{
 		Contacts contacts = contactsService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(contacts, request.getParameterMap());
-		contactsService.update(contacts);
+		
+		Integer[] contactsGroupIds = ArrayUtils.toInteger(request.getParameterValues("contactsGroupIds"));
+		contactsBizService.update(contacts, contactsGroupIds);
 	}
 	
 	/**
@@ -160,6 +183,18 @@ public class ContactsController extends BaseController
 	public void delete(@RequestParam Integer id) throws Exception
 	{
 		contactsService.delete(id);
+	}
+	
+	/**
+	 * Delete Batch.
+	 * @param id id
+	 * @throws Exception 
+	 */
+	@Func(funcCode="03",moduleCode="0305")
+	@RequestMapping 
+	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
+	{
+		contactsGroupService.deleteBatch(ids);
 	}
 
 	/**

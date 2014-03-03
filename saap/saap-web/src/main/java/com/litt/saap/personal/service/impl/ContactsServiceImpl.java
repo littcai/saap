@@ -16,7 +16,9 @@ import com.litt.core.service.BaseService;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.dao.ContactsDao;
+import com.litt.saap.personal.dao.ContactsGroupMemberDao;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.po.ContactsGroupMember;
 import com.litt.saap.personal.service.IContactsService;
 
 /**
@@ -30,13 +32,16 @@ import com.litt.saap.personal.service.IContactsService;
  * @since 2013-09-18
  * @version 1.0
  */
-public class ContactsServiceImpl extends BaseService implements IContactsService
+public class ContactsServiceImpl implements IContactsService
 { 
 	/** Logger. */
     private static final Logger logger = LoggerFactory.getLogger(ContactsServiceImpl.class);
     
     @Resource
     private ContactsDao contactsDao;
+    
+    @Resource
+    private ContactsGroupMemberDao contactsGroupMemberDao;
 
    	/**
 	 * Save.
@@ -47,7 +52,7 @@ public class ContactsServiceImpl extends BaseService implements IContactsService
 	{
 		ILoginVo loginVo = LoginUtils.getLoginVo();
 		
-		contacts.setCreateUserId(loginVo.getOpId().intValue());
+		contacts.setCreateBy(loginVo.getOpId().intValue());
 		contacts.setCreateDatetime(new Date());
 		contacts.setUpdateDatetime(contacts.getCreateDatetime());
 		
@@ -82,8 +87,25 @@ public class ContactsServiceImpl extends BaseService implements IContactsService
 	 */
 	public void delete(Contacts contacts) throws NotLoginException 
 	{		
-		this.validatePermission(contacts);		
+		this.validatePermission(contacts);	
+		
+		contactsGroupMemberDao.deleteByContacts(contacts.getId());
+		
 		contactsDao.delete(contacts);
+	}
+	
+	/**
+	 * Batch delete by ids.
+	 * @param ids ids
+	 */
+	public void deleteBatch(Integer[] ids) 
+	{
+		if(ids!=null)
+		{
+			for (Integer id : ids) {
+				this.delete(id);
+			}
+		}
 	}
 	
 	/**
@@ -94,7 +116,7 @@ public class ContactsServiceImpl extends BaseService implements IContactsService
 	{
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
-		if(contacts.getCreateUserId()!=loginVo.getOpId().intValue())
+		if(contacts.getCreateBy()!=loginVo.getOpId().intValue())
 		{
 			throw new BusiCodeException("error.biz.permissionDenied", loginVo.toLocale());
 		}

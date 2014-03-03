@@ -1,7 +1,7 @@
 package com.litt.saap.personal.dao;
 
 import com.litt.core.dao.GenericHibernateDao;
-import com.litt.saap.system.po.UserGroup;
+import com.litt.saap.personal.po.ContactsGroup;
 
 /**
  * .
@@ -18,6 +18,6 @@ import com.litt.saap.system.po.UserGroup;
  * @since 2013-8-29
  * @version 1.0
  */
-public class ContactsGroupDao extends GenericHibernateDao<UserGroup, Integer> {
+public class ContactsGroupDao extends GenericHibernateDao<ContactsGroup, Integer> {
 
 }

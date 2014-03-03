@@ -1,4 +1,4 @@
-package com.litt.saap.system.po;
+package com.litt.saap.personal.po;
 
 import java.util.Date;
 
@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 /**
  * <br>
- * Table:contacts_group<br>
+ * Table:contacts_group_member<br>
  * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
  * @since 2014-2-28 17:23:18
  */
-public class ContactsGroup implements Serializable {
+public class ContactsGroupMember implements Serializable {
 	/**
 	 * UID
 	 */
@@ -22,13 +22,16 @@ public class ContactsGroup implements Serializable {
 	private Integer id;
 
 	/**
-	 * 名称.
+	 * 联系人ID.
 	 */
-	private String name;
+	private int contactsId;
 
 	/**
-	 * 创建人.
+	 * 分组ID.
 	 */
+	private int groupId;
+	
+	/** The create by. */
 	private int createBy;
 
 	/**
@@ -36,20 +39,14 @@ public class ContactsGroup implements Serializable {
 	 */
 	private Date createDatetime;
 
-	/**
-	 * 更新时间.
-	 */
-	private Date updateDatetime;
-
-	public ContactsGroup() {
+	public ContactsGroupMember() {
 	}
 
-	public ContactsGroup(String name, int createBy, Date createDatetime,
-			Date updateDatetime) {
-		this.name = name;
+	public ContactsGroupMember(int contactsId, int groupId, int createBy, Date createDatetime) {
+		this.contactsId = contactsId;
+		this.groupId = groupId;
 		this.createBy = createBy;
 		this.createDatetime = createDatetime;
-		this.updateDatetime = updateDatetime;
 	}
 
 	/**  
@@ -69,35 +66,35 @@ public class ContactsGroup implements Serializable {
 	}
 
 	/**  
-	 * Get 名称.
-	 * @return 名称
+	 * Get 联系人ID.
+	 * @return 联系人ID
 	 */
-	public String getName() {
-		return this.name;
+	public int getContactsId() {
+		return this.contactsId;
 	}
 
 	/**
-	 * Set 名称.
-	 * @param name 名称
+	 * Set 联系人ID.
+	 * @param contactsId 联系人ID
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setContactsId(int contactsId) {
+		this.contactsId = contactsId;
 	}
 
 	/**  
-	 * Get 创建人.
-	 * @return 创建人
+	 * Get 分组ID.
+	 * @return 分组ID
 	 */
-	public int getCreateBy() {
-		return this.createBy;
+	public int getGroupId() {
+		return this.groupId;
 	}
 
 	/**
-	 * Set 创建人.
-	 * @param createBy 创建人
+	 * Set 分组ID.
+	 * @param groupId 分组ID
 	 */
-	public void setCreateBy(int createBy) {
-		this.createBy = createBy;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	/**  
@@ -116,20 +113,18 @@ public class ContactsGroup implements Serializable {
 		this.createDatetime = createDatetime;
 	}
 
-	/**  
-	 * Get 更新时间.
-	 * @return 更新时间
+	/**
+	 * @return the createBy
 	 */
-	public Date getUpdateDatetime() {
-		return this.updateDatetime;
+	public int getCreateBy() {
+		return createBy;
 	}
 
 	/**
-	 * Set 更新时间.
-	 * @param updateDatetime 更新时间
+	 * @param createBy the createBy to set
 	 */
-	public void setUpdateDatetime(Date updateDatetime) {
-		this.updateDatetime = updateDatetime;
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 }

@@ -10,14 +10,7 @@
 	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
 	</head>
 	<body> 	
-		<div>	
-		<ul class="nav nav-tabs">
-		  <li class="active"><a href="#basic" data-toggle="tab"><s:message code="profile.ui.tab.basic" /></a></li>
-		  <li><a href="#state" data-toggle="tab"><s:message code="profile.ui.tab.state" /></a></li>
-		</ul>
 		
-		<div class="tab-content ">
-		  <div class="tab-pane active" id="basic">	
 			<!-- form filter -->	
 			<div>
 				<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="GET">				
@@ -49,8 +42,10 @@
 				<div class="pull-left" style="margin-bottom:5px;">
 	                <button class="btn btn-small btn-primary" style="margin-top:2px;" onclick="javascript:location.href='add.do'">
 	                  <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
-	                <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete('contactsIds');">
+	                <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete();">
 	                  <i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button>
+	                <button class="btn btn-small btn-info" style="margin-top:2px;" onclick="javascript:location.href='../contactsGroup/index.do'">
+	                  <i class="icon-book icon-white"></i> <s:message code="contactsGroup" /></button>
 	            </div>      
 			</div>	
 			<div class="clear"></div> 	
@@ -61,7 +56,7 @@
 				<table class="table table-striped table-bordered table-hover datatable">
 					<thead>
 						<tr>			
-							<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>		
+							<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" class="checkItem" /></th>		
 							<th class="sort name"><s:message code="contacts.name" /></th>
 							<th class="sort gender"><s:message code="contacts.gender" /></th>
 							<th><s:message code="contacts.mobile" /></th>
@@ -95,33 +90,32 @@
 					</tbody>
 				</table>
 				<h:pager params="${pageList }" formId="datatable"></h:pager>
-			</div>    
-		  </div>
-		</div>	
+			</div>
 		<!--page specific plugin scripts-->	  			
 		<script type="text/javascript">
 		$(document).ready(function(){					
 			
 			$('.datatable').dataTable();	
 			//checkall
-			$('.datatable th input:checkbox').on('click' , function(){
-				var that = this;
-				$(this).closest('table').find('tr > td:first-child input:checkbox')
-				.each(function(){
-					this.checked = that.checked;
-					$(this).closest('tr').toggleClass('selected');
-				});					
+			var checkboxs = $.webtools.checkboxs({
+				checkAll: "#checkAll",
+				checkItem: ".checkItem"				
 			});
-			//toggle checkall
-			//$(this).closest('table').find('.datatable tr > td:first-child input:checkbox').on('click' , function(){
-				
-				
-				
-			//});
+			
 		})
 		
 		function batchDelete(fieldName)
-		{					
+		{		
+			if($(".checkItem:checked").length<=0)
+			{
+				$.webtools.notify({
+					type: "notice",
+					message: "<s:message code='validate.checkone'/>"
+				});
+				return;
+			}
+			var ids = $.webtools.getCheckValuesArray(".checkItem");	
+			
 			bootbox.confirm("<s:message code='common.delete.confirm' />", function(result){
 				if(result)
 				{
