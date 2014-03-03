@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+"classpath://org/hibernate/hibernate-mapping-3.0.dtd">
 <!-- Generated 2013-9-12 17:34:14 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="com.litt.saap.personal.po.Todo" dynamic-insert="true" dynamic-update="true" table="todo">
