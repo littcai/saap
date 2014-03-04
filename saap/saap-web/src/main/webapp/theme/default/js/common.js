@@ -303,25 +303,30 @@ $(document).ready(function(){
 		checkboxs: function(options)
 		{
 			var defaults = {
-				checkAll: "#checkAll",
+				checkAll: "#checkAll",	//选择器或jquery对象
 				checkItem: ".checkItem"
-			};	
-						
+			};				
 			var setting = $.extend({}, defaults, options);	
 		
 			//绑定全选和单选对象
-			$(setting.checkAll).bind("click", function(){
+			var checkAll;
+			if(setting.checkAll instanceof jQuery)
+				checkAll = setting.checkAll;
+			else
+				checkAll = $(setting.checkAll);
+			
+			checkAll.bind("click", function(){
 				$(setting.checkItem).prop("checked", $(this).is(':checked'));				
 			});
-			
 			$(setting.checkItem).each(function(){
 				$(this).bind("click", function(){
+					
 					if ($(setting.checkItem+":checked").length == $(setting.checkItem).length) 
 					{
-						$(setting.checkAll).prop("checked", true);
+						checkAll.prop("checked", true);
 					}
 					else{
-						$(setting.checkAll).prop("checked", false);
+						checkAll.prop("checked", false);
 					}
 						
 				});

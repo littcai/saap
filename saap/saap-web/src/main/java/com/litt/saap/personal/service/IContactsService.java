@@ -6,6 +6,7 @@ import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.vo.ContactsVo;
 
 /**
  * 
@@ -75,7 +76,21 @@ public interface IContactsService
 	 */
 	public List<Contacts> listByUser(int userId);
 	
-	public List<Contacts>listByGroup(int groupId);
+	public List<Contacts> listByGroup(int groupId);
 	
-
+	/**
+	 * 查询没有分组的联系人.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<Contacts> listNoGroupByUser(int userId);
+	
+	/**
+	 * Find by group.
+	 *
+	 * @param groupId the group id
+	 * @return the list
+	 */
+	public List<ContactsVo> findByGroup(int groupId);
 }

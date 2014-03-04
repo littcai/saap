@@ -14,12 +14,14 @@ import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.service.BaseService;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.dao.ContactsDao;
 import com.litt.saap.personal.dao.ContactsGroupMemberDao;
 import com.litt.saap.personal.po.Contacts;
 import com.litt.saap.personal.po.ContactsGroupMember;
 import com.litt.saap.personal.service.IContactsService;
+import com.litt.saap.personal.vo.ContactsVo;
 
 /**
  * 
@@ -161,9 +163,34 @@ public class ContactsServiceImpl implements IContactsService
 		return contactsDao.listAll(listHql, new Object[]{userId});
 	}
 	
-	public List<Contacts>listByGroup(int groupId)
+	/**
+	 * 查询没有分组的联系人.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<Contacts> listNoGroupByUser(int userId)
 	{
-		String listHql = "select a from Contacts a, ContactGroupMember b where b.groupId=? and a.id=b.contactsId";
+		String listHql = "from Contacts where createBy=? and id not in(select m.contactsId from ContactsGroupMember m where m.createBy=?)";
+		return contactsDao.listAll(listHql, new Object[]{userId, userId});
+	}
+	
+	public List<Contacts> listByGroup(int groupId)
+	{
+		String listHql = "select a from Contacts a, ContactsGroupMember b where b.groupId=? and a.id=b.contactsId";
 		return contactsDao.listAll(listHql, new Object[]{groupId});
+	}
+	
+	/**
+	 * Find by group.
+	 *
+	 * @param groupId the group id
+	 * @return the list
+	 */
+	public List<ContactsVo> findByGroup(int groupId)
+	{
+		List<Contacts> poList = this.listByGroup(groupId);
+		List<ContactsVo> voList = BeanCopier.copyList(poList, ContactsVo.class);
+		return voList;
 	}
 }

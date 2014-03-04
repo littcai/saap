@@ -6,13 +6,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.biz.IContactsBizService;
+import com.litt.saap.personal.bo.ContactsGroupBo;
 import com.litt.saap.personal.dao.ContactsGroupMemberDao;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.po.ContactsGroup;
 import com.litt.saap.personal.po.ContactsGroupMember;
 import com.litt.saap.personal.service.IContactsGroupService;
 import com.litt.saap.personal.service.IContactsService;
+import com.litt.saap.personal.vo.ContactsGroupVo;
+import com.litt.saap.personal.vo.ContactsVo;
 
 /**
  * ContactsBizServiceImpl.
@@ -125,6 +130,30 @@ public class ContactsBizServiceImpl implements IContactsBizService {
 	public List<ContactsGroupMember> listMemberByContacts(int contactsId)
 	{
 		return contactsGroupMemberDao.listByContacts(contactsId);
+	}
+	
+	/**
+	 * Find group with members by user.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<ContactsGroupBo> findGroupWithMembersByUser(int userId)
+	{
+		List<ContactsGroupBo> boList = new ArrayList<ContactsGroupBo>();
+		
+		List<ContactsGroup> contactsGroupList = contactsGroupService.listByUser(userId);
+		for (ContactsGroup contactsGroup : contactsGroupList) {
+			
+			
+			ContactsGroupVo vo = BeanCopier.copy(contactsGroup, ContactsGroupVo.class);
+			
+			List<ContactsVo> contactsList = contactsService.findByGroup(vo.getId());
+			
+			ContactsGroupBo bo = new ContactsGroupBo(vo, contactsList);
+			boList.add(bo);
+		}
+		return boList;
 	}
 	
 }

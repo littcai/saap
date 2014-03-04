@@ -2,6 +2,7 @@ package com.litt.saap.personal.biz;
 
 import java.util.List;
 
+import com.litt.saap.personal.bo.ContactsGroupBo;
 import com.litt.saap.personal.po.Contacts;
 import com.litt.saap.personal.po.ContactsGroupMember;
 
@@ -46,5 +47,13 @@ public interface IContactsBizService {
 	 * @return the list
 	 */
 	public List<ContactsGroupMember> listMemberByContacts(int contactsId);
+	
+	/**
+	 * Find group with members by user.
+	 *
+	 * @param userId the user id
+	 * @return the list
+	 */
+	public List<ContactsGroupBo> findGroupWithMembersByUser(int userId);
 
 }

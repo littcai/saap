@@ -26,7 +26,10 @@ import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.message.po.SmsOut;
 import com.litt.saap.message.service.ISmsOutService;
+import com.litt.saap.personal.biz.IContactsBizService;
+import com.litt.saap.personal.bo.ContactsGroupBo;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.service.IContactsGroupService;
 import com.litt.saap.personal.service.IContactsService;
 
 /**
@@ -49,6 +52,10 @@ public class SmsOutController extends BaseController
 	private ISmsOutService smsOutService;
 	@Resource
 	private IContactsService contactsService;
+	@Resource
+	private IContactsGroupService contactsGroupService;
+	@Resource
+	private IContactsBizService contactsBizService;
 	
 	/**
 	 * default page.
@@ -93,8 +100,16 @@ public class SmsOutController extends BaseController
 	@RequestMapping
 	public ModelAndView add() 
 	{  
-		List<Contacts> contactList = contactsService.listByUser(LoginUtils.getLoginOpId().intValue());
-	  	return new ModelAndView("/message/smsOut/add").addObject("contactList", contactList);
+		List<Contacts> contactsList = contactsService.listByUser(LoginUtils.getLoginOpId().intValue());
+		List<Contacts> noGroupContactsList = contactsService.listNoGroupByUser(LoginUtils.getLoginOpId().intValue());
+		
+		List<ContactsGroupBo> contactsGroupList = contactsBizService.findGroupWithMembersByUser(LoginUtils.getLoginOpId().intValue());
+		
+		
+	  	return new ModelAndView("/message/smsOut/add")
+	  			.addObject("contactsList", contactsList)
+	  			.addObject("noGroupContactsList", noGroupContactsList)
+	  			.addObject("contactsGroupList", contactsGroupList);
     }
 	
 	/**
