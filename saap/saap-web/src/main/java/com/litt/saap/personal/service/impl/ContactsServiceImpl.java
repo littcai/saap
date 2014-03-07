@@ -19,6 +19,7 @@ import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.dao.ContactsDao;
 import com.litt.saap.personal.dao.ContactsGroupMemberDao;
 import com.litt.saap.personal.po.Contacts;
+import com.litt.saap.personal.po.ContactsGroup;
 import com.litt.saap.personal.po.ContactsGroupMember;
 import com.litt.saap.personal.service.IContactsService;
 import com.litt.saap.personal.vo.ContactsVo;
@@ -111,6 +112,32 @@ public class ContactsServiceImpl implements IContactsService
 	}
 	
 	/**
+	 * Do imp.
+	 *
+	 * @param contacts the contacts
+	 * @return the integer
+	 */
+	public Integer doImp(Contacts contacts)
+	{
+		return this.save(contacts);
+	}
+	
+	/**
+	 * Validate exist.
+	 *
+	 * @param mobile the mobile
+	 * @return the integer
+	 */
+	public boolean validateExist(String mobile)
+	{
+		int createBy = LoginUtils.getLoginOpId().intValue();
+		
+		String countHql = "select count(*) from Contacts where createBy=? and mobile=?";
+		boolean isExist = contactsDao.count(countHql, new Object[]{createBy, mobile})>0;		
+		return isExist;
+	}
+	
+	/**
 	 * @param todo
 	 * @throws NotLoginException
 	 */
@@ -133,6 +160,7 @@ public class ContactsServiceImpl implements IContactsService
 	{
 		return contactsDao.load(Contacts.class, id);
 	}
+	
 	
 	/**
 	 * list by page.
@@ -177,7 +205,7 @@ public class ContactsServiceImpl implements IContactsService
 	
 	public List<Contacts> listByGroup(int groupId)
 	{
-		String listHql = "select a from Contacts a, ContactsGroupMember b where b.groupId=? and a.id=b.contactsId";
+		String listHql = "select a from Contacts a, ContactsGroupMember b where a.id=b.contactsId and b.groupId=?";
 		return contactsDao.listAll(listHql, new Object[]{groupId});
 	}
 	

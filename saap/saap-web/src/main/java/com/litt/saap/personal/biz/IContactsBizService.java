@@ -1,7 +1,9 @@
 package com.litt.saap.personal.biz;
 
+import java.io.File;
 import java.util.List;
 
+import com.litt.core.exception.NotLoginException;
 import com.litt.saap.personal.bo.ContactsGroupBo;
 import com.litt.saap.personal.po.Contacts;
 import com.litt.saap.personal.po.ContactsGroupMember;
@@ -38,6 +40,13 @@ public interface IContactsBizService {
 	 * @param contactsGroupIds the contacts group ids
 	 */
 	public void update(Contacts contacts, Integer[] contactsGroupIds);
+	
+	/**
+	 * 数据导入.
+	 *
+	 * @param file the file
+	 */
+	public void doImp(File file) throws NotLoginException;
 	
 	
 	/**

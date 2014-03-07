@@ -1,8 +1,8 @@
 package com.litt.saap.system.vo;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import com.litt.core.pojo.ISystemInfoVo;
 import com.litt.core.version.Version;
 
 /**
@@ -20,7 +20,9 @@ import com.litt.core.version.Version;
  * @since 2013-9-2
  * @version 1.0
  */
-public class SystemInfoVo implements Serializable {
+public class SystemInfoVo implements ISystemInfoVo {
+	
+	private Long systemId;
 	
 	/** The system code. */
 	private String systemCode;
@@ -345,6 +347,24 @@ public class SystemInfoVo implements Serializable {
 	 */
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
+	}
+
+	/**
+	 * @return
+	 * @see com.litt.core.pojo.ISystemInfoVo#getSystemId()
+	 */
+	@Override
+	public Long getSystemId() {
+		return systemId;
+	}
+
+	/**
+	 * @param systemId
+	 * @see com.litt.core.pojo.ISystemInfoVo#setSystemId(java.lang.Long)
+	 */
+	@Override
+	public void setSystemId(Long systemId) {
+		this.systemId = systemId;
 	}
 
 }

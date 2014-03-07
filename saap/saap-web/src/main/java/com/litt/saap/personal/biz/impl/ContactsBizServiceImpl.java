@@ -1,11 +1,26 @@
 package com.litt.saap.personal.biz.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.litt.core.exception.BusiCodeException;
+import com.litt.core.exception.NotLoginException;
 import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.biz.IContactsBizService;
@@ -119,6 +134,69 @@ public class ContactsBizServiceImpl implements IContactsBizService {
 		for (ContactsGroupMember contactsGroupMember : addList) {
 			contactsGroupMemberDao.save(contactsGroupMember);
 		}
+	}
+	
+	/**
+	 * 数据导入.
+	 *
+	 * @param file the file
+	 */
+	public void doImp(File file) throws NotLoginException
+	{
+		try {
+			
+			//HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
+			Workbook workbook = WorkbookFactory.create(file);
+			int sheetCount = workbook.getNumberOfSheets();
+			int totalCount = 0;
+			for(int i=0;i<sheetCount;i++)
+			{
+				//HSSFSheet sheet = workbook.getSheetAt(i);	//每sheet一个部门
+				Sheet sheet = workbook.getSheetAt(i);
+				String groupName = sheet.getSheetName();
+				//保存组
+				Integer groupId = contactsGroupService.doImp(groupName);
+				
+				int rowCount = sheet.getLastRowNum();
+				for(int j=1;j<=rowCount;j++)
+				{
+					//HSSFRow row = sheet.getRow(j);
+					Row row = sheet.getRow(j);
+					String name = row.getCell(0).getStringCellValue();
+					
+					Cell mobileCell = row.getCell(1);
+					String mobile = "";
+					if(mobileCell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
+						mobile = String.valueOf(Double.valueOf(mobileCell.getNumericCellValue()).intValue());
+					else 
+						mobile = mobileCell.getStringCellValue();
+					
+					boolean isExist = contactsService.validateExist(mobile);
+					if(!isExist)
+					{
+						Contacts contacts = new Contacts();
+						contacts.setName(name);
+						contacts.setMobile(mobile);
+						contacts.setEmail("");
+						contacts.setPhone("");
+						contacts.setFax("");
+						contacts.setGender(0);
+						contacts.setAddress("");
+						contacts.setZipCode("");
+						Integer contactsId = contactsService.doImp(contacts);
+						
+						ContactsGroupMember groupMember = new ContactsGroupMember(contactsId, groupId, LoginUtils.getLoginOpId().intValue(), new Date());
+						contactsGroupMemberDao.save(groupMember);
+					}
+				}
+			}
+		} catch (InvalidFormatException e) {
+			throw new BusiCodeException("contacts.func.imp.error", e);
+		} catch (FileNotFoundException e) {
+			throw new BusiCodeException("contacts.func.imp.error", e);
+		} catch (IOException e) {
+			throw new BusiCodeException("contacts.func.imp.error", e);
+		}	
 	}
 	
 	/**

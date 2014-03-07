@@ -8,6 +8,11 @@
 	<link href="${contextPath}/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
 	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
 	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
+	<!-- jquery file upload -->
+	<link href="${contextPath}/widgets/jquery-fileupload/css/jquery.fileupload.css" rel="stylesheet" />	
+	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.ui.widget.js"></script>
+	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.iframe-transport.js"></script>
+	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.fileupload.js"></script>
 	</head>
 	<body> 	
 		
@@ -38,14 +43,20 @@
 			</div>
 			<div class="clear"></div> 		
 			<!-- toolbar -->
-			<div style="margin-top:2px;padding-top:5px;margin-bottom:8px;border-top:2px solid #0088CC;">
+			<div style="margin-top:2px;padding-top:7px;margin-bottom:8px;border-top:2px solid #0088CC;">
 				<div class="pull-left" style="margin-bottom:5px;">
-	                <button class="btn btn-small btn-primary" style="margin-top:2px;" onclick="javascript:location.href='add.do'">
+	                <button class="btn btn-small btn-primary" onclick="javascript:location.href='add.do'">
 	                  <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
-	                <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete();">
+	                <button class="btn btn-small btn-danger" onclick="javascript:return batchDelete();">
 	                  <i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button>
-	                <button class="btn btn-small btn-info" style="margin-top:2px;" onclick="javascript:location.href='../contactsGroup/index.do'">
+	                <button class="btn btn-small btn-info" onclick="javascript:location.href='../contactsGroup/index.do'">
 	                  <i class="icon-book icon-white"></i> <s:message code="contactsGroup" /></button>
+	                <span class="btn btn-small btn-success fileinput-button">
+				        <i class="icon-upload icon-white"></i>
+				        <span><s:message code="btn.import" /></span>
+				        <!-- The file input field used as target for the file upload widget -->
+				        <input id="btnImport" type="file" name="files[]" multiple>
+				    </span>	                 
 	            </div>      
 			</div>	
 			<div class="clear"></div> 	
@@ -56,7 +67,7 @@
 				<table class="table table-striped table-bordered table-hover datatable">
 					<thead>
 						<tr>			
-							<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" class="checkItem" /></th>		
+							<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll"/></th>		
 							<th class="sort name"><s:message code="contacts.name" /></th>
 							<th class="sort gender"><s:message code="contacts.gender" /></th>
 							<th><s:message code="contacts.mobile" /></th>
@@ -68,7 +79,7 @@
 					<tbody>
 					<c:forEach items="${pageList.rsList }" var="row">
 						<tr>
-							<td class="checkCol"><input type="checkbox" name="contactsIds" value="${row.id }" /></td>
+							<td class="checkCol"><input type="checkbox" class="checkItem" name="contactsIds" value="${row.id }" /></td>
 							<td><c:out value="${row.name }" /></td>
 							<td>${li:genDictContent("0002", row.gender)}</td>
 							<td><c:out value="${row.mobile }" /></td>
@@ -93,7 +104,33 @@
 			</div>
 		<!--page specific plugin scripts-->	  			
 		<script type="text/javascript">
-		$(document).ready(function(){					
+		$(document).ready(function(){		
+			
+			$('#btnImport').fileupload({
+		        dataType: 'json',
+		        url: 'imp.json',
+		        add: function (e, data) {
+		            //data.context = $('<p/>').text('Uploading...').appendTo(document.body);
+		            data.submit();
+		        },
+		        done: function (e, data) {
+		        	var result = data.result;
+		        	if(result.error)
+		        	{
+		        		$.webtools.notify({
+							type: "error",
+							message: result.errorMessage
+						});		        		
+		        	}
+		        	else
+		        	{
+		        		$.webtools.notify({
+							type: "success",
+							message: "<s:message code='common.import.success'/>"
+						});	
+		        	}
+		        }
+		    });
 			
 			$('.datatable').dataTable();	
 			//checkall

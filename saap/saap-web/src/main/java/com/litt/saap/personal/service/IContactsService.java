@@ -54,6 +54,22 @@ public interface IContactsService
 	public void deleteBatch(Integer[] ids) ;
 	
 	/**
+	 * Do imp.
+	 *
+	 * @param contacts the contacts
+	 * @return the integer
+	 */
+	public Integer doImp(Contacts contacts);
+	
+	/**
+	 * Validate exist.
+	 *
+	 * @param mobile the mobile
+	 * @return the integer
+	 */
+	public boolean validateExist(String mobile);
+	
+	/**
 	 * Load by id.
 	 * @param id id
 	 * @return Contacts

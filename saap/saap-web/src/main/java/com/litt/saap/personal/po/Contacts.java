@@ -32,7 +32,7 @@ public class Contacts implements Serializable {
 	        1:male
 	        2:female.
 	 */
-	private byte gender;
+	private int gender;
 
 	/**
 	 * 手机号.
@@ -87,7 +87,7 @@ public class Contacts implements Serializable {
 	public Contacts() {
 	}
 
-	public Contacts(String name, byte gender, String mobile, String email,
+	public Contacts(String name, int gender, String mobile, String email,
 			String phone, String fax, String address, String zipCode,
 			int createBy, Date createDatetime, Date updateDatetime) {
 		this.name = name;
@@ -103,7 +103,7 @@ public class Contacts implements Serializable {
 		this.updateDatetime = updateDatetime;
 	}
 
-	public Contacts(String name, byte gender, String mobile, String email,
+	public Contacts(String name, int gender, String mobile, String email,
 			String phone, String fax, String address, String zipCode,
 			int createBy, Date createDatetime, Date updateDatetime,
 			String remark) {
@@ -163,7 +163,7 @@ public class Contacts implements Serializable {
 	        1:male
 	        2:female
 	 */
-	public byte getGender() {
+	public int getGender() {
 		return this.gender;
 	}
 
@@ -177,7 +177,7 @@ public class Contacts implements Serializable {
 	        1:male
 	        2:female
 	 */
-	public void setGender(byte gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 

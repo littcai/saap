@@ -80,7 +80,8 @@ public class InitSystemListener extends
 		
 		//读取系统配置信息，存入APPLICATION
 		ISystemInfoService systemInfoService = BeanManager.getBean("systemInfoService", ISystemInfoService.class);
-		SystemInfoVo systemInfoVo = systemInfoService.getSystemInfo();		
+		SystemInfoVo systemInfoVo = systemInfoService.getSystemInfo();	
+		systemInfoVo.setHomePath(homePath);
 		application.setAttribute(CoreConstants.APP_SYSTEMINFO, systemInfoVo);	//缓存到servlet容器供页面使用
 	}
 	

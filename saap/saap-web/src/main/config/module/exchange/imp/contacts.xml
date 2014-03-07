@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exchange>
+	<!-- 数据源定义 -->
+	<source type="xls">
+		<col name="Name" field="name"/>
+		<col name="Mobile" field="mobile"/>
+		<col name="Email" field="email"/>
+	</source>
+	<!-- 输出目标：到数据库 -->
+	<target type="db" table="CONTACTS">
+		<col name="NAME" field="name"></col>
+	</target>
+
+</exchange>

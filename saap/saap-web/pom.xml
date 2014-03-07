@@ -30,7 +30,7 @@
 	<org.hibernate.version>3.6.10.Final</org.hibernate.version>
 	<org.apache.mina.version>2.0.4</org.apache.mina.version>
 	<org.snmp4j.version>1.11.2</org.snmp4j.version>
-	<org.apache.poi.version>3.5-FINAL</org.apache.poi.version>
+	<org.apache.poi.version>3.8</org.apache.poi.version>
 	<org.freemarker.version>2.3.18</org.freemarker.version>
 	<org.unitils.version>3.3</org.unitils.version>
 	<commons-beanutils.version>1.8.3</commons-beanutils.version>
@@ -230,19 +230,17 @@
   			</exclusion>
   		</exclusions>
   	</dependency>
-  	<dependency>
-  		<groupId>org.apache.poi</groupId>
-  		<artifactId>poi-contrib</artifactId>
-  		<version>${org.apache.poi.version}</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  		<exclusions>
-  			<exclusion>
-  				<artifactId>commons-logging</artifactId>
-  				<groupId>commons-logging</groupId>
-  			</exclusion>
-  		</exclusions>
-  	</dependency>  	
+  	<!-- 为POI支持Office Open XML -->  
+	<dependency>  
+	    <groupId>org.apache.poi</groupId>  
+	    <artifactId>poi-ooxml</artifactId>  
+	    <version>${org.apache.poi.version}</version>  
+	</dependency>  
+	<dependency>  
+	    <groupId>org.apache.poi</groupId>  
+	    <artifactId>poi-ooxml-schemas</artifactId>  
+	    <version>${org.apache.poi.version}</version>  
+	</dependency>    	
   	<dependency>
   		<groupId>org.codehaus.jackson</groupId>
   		<artifactId>jackson-core-lgpl</artifactId>

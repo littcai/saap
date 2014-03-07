@@ -131,7 +131,28 @@ public class ContactsGroupServiceImpl implements IContactsGroupService
 		{
 			throw new BusiCodeException("error.biz.permissionDenied", loginVo.toLocale());
 		}
-	}		
+	}
+	
+	/**
+	 * Do imp.
+	 *
+	 * @param groupName the group name
+	 * @return the integer
+	 */
+	public Integer doImp(String groupName)
+	{
+		ContactsGroup group = this.load(LoginUtils.getLoginOpId().intValue(), groupName);
+		
+		//检查组名是否存在，存在不保存				
+		if(group == null)
+		{
+			group = new ContactsGroup(groupName, LoginUtils.getLoginOpId().intValue(), new Date(), new Date());
+			return contactsGroupDao.save(group);
+		}
+		else {
+			return group.getId();
+		}
+	}
 	
 	/**
 	 * @param id
@@ -142,6 +163,18 @@ public class ContactsGroupServiceImpl implements IContactsGroupService
 	public ContactsGroup load(Integer id)
 	{
 		return contactsGroupDao.load(ContactsGroup.class, id);
+	}
+	
+	/**
+	 * Load.
+	 *
+	 * @param name the name
+	 * @return the contacts group
+	 */
+	public ContactsGroup load(int createBy, String name)
+	{
+		String hql = "from ContactsGroup where createBy=? and name=?";
+		return contactsGroupDao.uniqueResult(hql, new Object[]{createBy, name}, ContactsGroup.class);
 	}
 	
 	/**

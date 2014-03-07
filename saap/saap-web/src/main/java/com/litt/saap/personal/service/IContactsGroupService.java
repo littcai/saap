@@ -57,6 +57,14 @@ public interface IContactsGroupService {
 	 * @param ids ids
 	 */
 	public void deleteBatch(Integer[] ids) ;
+	
+	/**
+	 * Do imp.
+	 *
+	 * @param groupName the group name
+	 * @return the integer
+	 */
+	public Integer doImp(String groupName);
 
 	/**
 	 * Load by id.

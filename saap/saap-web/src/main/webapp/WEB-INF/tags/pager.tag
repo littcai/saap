@@ -33,8 +33,8 @@ int endPageNo = curPageNo + countBehindCurrent;
 boolean isFirstPage = curPageNo==1;//是否是第一页
 boolean isLastPage = curPageNo==totalPage;//是否是最后一页
 
-int firstRow = 0;
-int lastRow = 0;
+int firstRow = curPageNo * displayLinkCount;
+int lastRow = totalSize - (totalPage - curPageNo)*pageSize;
 
 StringBuilder sb = new StringBuilder(50);
 sb.append("<select size=\"1\" ")

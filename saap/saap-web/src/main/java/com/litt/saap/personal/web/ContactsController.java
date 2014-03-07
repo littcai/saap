@@ -1,12 +1,15 @@
 package com.litt.saap.personal.web;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,13 +23,15 @@ import com.litt.core.common.BeanManager;
 import com.litt.core.common.Utility;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.core.exception.BusiCodeException;
+import com.litt.core.exception.BusiException;
 import com.litt.core.exception.NotLoginException;
+import com.litt.core.io.fileupload.HttpFileUpload;
+import com.litt.core.io.fileupload.UploadFile;
 import com.litt.core.module.annotation.Func;
 import com.litt.core.util.ArrayUtils;
-import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
-import com.litt.saap.core.web.model.MessageBox;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.personal.biz.IContactsBizService;
 import com.litt.saap.personal.po.Contacts;
@@ -197,7 +202,77 @@ public class ContactsController extends BaseController
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{
-		contactsGroupService.deleteBatch(ids);
+		contactsService.deleteBatch(ids);
+	}
+	
+	@RequestMapping
+	public ModelAndView imp(HttpServletRequest request, HttpServletResponse response)
+	{
+		String homePath = super.getHomePath();
+		//处理文件上传		
+		boolean isMultipart = HttpFileUpload.isMultipartContent(request);	//是否为文件上传
+		if(isMultipart)
+		{			
+			if(logger.isDebugEnabled())
+			{
+				logger.debug("处理文件上传...");
+			}					
+			String characterEncoding = request.getCharacterEncoding(); 	//编码			
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			factory.setSizeThreshold(4096);	//内存使用4K	
+			String uploadPath = "tmp";	//相对目录			
+			String finalPath = homePath + File.separator + uploadPath;
+			HttpFileUpload fileUpload = new HttpFileUpload(homePath, uploadPath, factory);
+			fileUpload.setAllowField(true); //允许表单字段
+			fileUpload.setAllowFileTypes("");
+			fileUpload.addAllowFileTypes("application/vnd.ms-excel");
+			fileUpload.addAllowFileTypes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			fileUpload.setHeaderEncoding(characterEncoding); //设置头编码
+			fileUpload.setSizeMax(100 * 1024 * 1024); //设置最大上传尺寸100M
+			fileUpload.setFileSizeMax(40 * 1024 * 1024);	//设置单个文件上传尺寸10M			
+			try
+			{
+				fileUpload.parseRequest(request);
+				fileUpload.upload();	//上传文件并保存
+			}
+			catch (Exception e)
+			{
+				logger.error("File upload failed.", e);
+				return new ModelAndView("jsonView").addObject("error", true).addObject("errorMessage", BeanManager.getMessage("contacts.func.imp.error", LoginUtils.getLocale(request)));
+			}
+			finally
+			{
+				fileUpload.dispose();
+			}
+			List<UploadFile> fileList =  fileUpload.getSucceedFiles();
+			//这里只会上传一个文件
+			UploadFile uploadFile = fileList.get(0);
+			
+			try
+			{
+				File file = new File(uploadFile.getFilePath(), uploadFile.getFileName());
+				contactsBizService.doImp(file);		
+				
+				return new ModelAndView("jsonView").addObject("error", false);
+			}
+//			catch (IOException e)
+//			{				
+//				return new ModelAndView("jsonView").addObject("error", true).addObject("errorMessage", "Upload failed.").addObject("errorDetail", e.getMessage());
+//			}
+			catch (BusiCodeException e)
+			{	
+				logger.error("Contacts import failed.", e);
+				return new ModelAndView("jsonView").addObject("error", true).addObject("errorMessage", BeanManager.getMessage(e.getErrorCode(), LoginUtils.getLocale(request)));
+			}
+			catch (BusiException e)
+			{	
+				logger.error("Contacts import failed.", e);
+				return new ModelAndView("jsonView").addObject("error", true).addObject("errorMessage", "Upload failed.");
+			}
+		}	
+		else {
+			return new ModelAndView("jsonView").addObject("error", true).addObject("errorMessage", "No file selected.");
+		}
 	}
 
 	/**
