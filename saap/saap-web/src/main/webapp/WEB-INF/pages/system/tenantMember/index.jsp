@@ -18,8 +18,10 @@
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
         <select name="s_searchField" id="s_searchField" style="width:130px">
-        	<option value="code" ${li:renderSelected(param.s_searchField, "code")}><s:message code="code" /></option>	
-        	<option value="name" ${li:renderSelected(param.s_searchField, "name")}><s:message code="name" /></option>						
+        	<option value="loginId" ${li:renderSelected(param.s_searchField, "loginId")}><s:message code="userInfo.loginId" /></option>	
+        	<option value="userName" ${li:renderSelected(param.s_searchField, "userName")}><s:message code="userInfo.userName" /></option>	
+        	<option value="mobile" ${li:renderSelected(param.s_searchField, "mobile")}><s:message code="userInfo.mobile" /></option>	
+        	<option value="email" ${li:renderSelected(param.s_searchField, "email")}><s:message code="userInfo.email" /></option>					
         </select>                      
         <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
         <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
@@ -53,15 +55,12 @@
 				<thead>
 					<tr>			
 						<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>	
-						<th><s:message code="tenantMember.id" /></th>
-						<th><s:message code="tenantMember.tenantId" /></th>
-						<th><s:message code="tenantMember.appId" /></th>
-						<th><s:message code="tenantMember.userId" /></th>
-						<th><s:message code="tenantMember.isAdmin" /></th>
-						<th><s:message code="tenantMember.status" /></th>
-						<th><s:message code="tenantMember.createUserId" /></th>
+						<th><s:message code="userInfo.loginId" /></th>
+						<th><s:message code="userInfo.userName" /></th>
+						<th><s:message code="userInfo.nickName" /></th>
+						<th><s:message code="userInfo.gender" /></th>
+						<th><s:message code="userInfo.status" /></th>
 						<th><s:message code="tenantMember.createDatetime" /></th>
-						<th><s:message code="tenantMember.updateUserId" /></th>
 						<th><s:message code="tenantMember.updateDatetime" /></th>
 						<th><s:message code="common.action" /></th>
 					</tr>
@@ -69,24 +68,21 @@
 				<tbody>
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
-						<td class="checkCol"><input type="checkbox" name="tenantMemberIds" value="${row.id }" /></td>
-						<td><c:out value="${row.id }"></c:out></td>
-						<td><c:out value="${row.tenantId }"></c:out></td>
-						<td><c:out value="${row.appId }"></c:out></td>
-						<td><c:out value="${row.userId }"></c:out></td>
-						<td><c:out value="${row.isAdmin }"></c:out></td>
-						<td><c:out value="${row.status }"></c:out></td>
-						<td><c:out value="${row.createUserId }"></c:out></td>
-						<td><c:out value="${row.createDatetime }"></c:out></td>
-						<td><c:out value="${row.updateUserId }"></c:out></td>
-						<td><c:out value="${row.updateDatetime }"></c:out></td>
+						<td class="checkCol"><input type="checkbox" class="checkItem" name="tenantMemberIds" value="${row.tenantMember.id }" /></td>
+						<td><c:out value="${row.userInfo.loginId }"></c:out></td>
+						<td><c:out value="${row.userInfo.userName }"></c:out></td>
+						<td><c:out value="${row.userInfo.nickName }"></c:out></td>
+						<td><c:out value="${li:genDictContent('0002', row.userInfo.gender) }"></c:out></td>
+						<td><c:out value="${li:genDictContent('1002', row.userInfo.status) }"></c:out></td>
+						<td><c:out value="${li:formatDateTime(row.userInfo.createDatetime) }"></c:out></td>
+						<td><c:out value="${li:formatDateTime(row.userInfo.updateDatetime) }"></c:out></td>
 						<td class="action-buttons">
 							<div class="action-buttons">
-							<a href="edit.do?id=${row.id }" class="blue" >
+							<a href="edit.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-pencil"></i>
 							</a>
 							<span class="vbar"></span>	
-							<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
+							<a href="javascript:;" class="red" onclick="rowDelete(${row.tenantMember.id});">
 								<i class="icon-trash"></i>
 							</a>
 							</div>

@@ -33,6 +33,11 @@
                 <comment>发送标志</comment>
             </column>
         </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
         <property name="createDatetime" type="timestamp">
             <column name="CREATE_DATETIME" length="19" not-null="true">
                 <comment>创建时间</comment>

@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.module.message.model.SmsHttpResponse;
 import com.litt.saap.core.module.message.model.SmsResponse;
 import com.litt.saap.core.web.util.LoginUtils;
@@ -76,6 +77,7 @@ public class SmsOutServiceImpl implements ISmsOutService
 		
 		smsOut.setTenantId(LoginUtils.getTenantId());
 		smsOut.setSender(sender);//FIXME
+		smsOut.setCreateBy(LoginUtils.getLoginOpId().intValue());
 		smsOut.setCreateDatetime(new Date());
 		smsOut.setSendFlag(false);
 		smsOut.setSendDatetime(smsOut.getCreateDatetime());
@@ -193,7 +195,11 @@ public class SmsOutServiceImpl implements ISmsOutService
 			+ "-- and obj.tenantId={tenantId}"
 			+ "-- and obj.sender={sender}"
 			+ "-- and obj.receiver={receiver}"
+			+ "-- and obj.createBy={createBy}"
+			+ "-- and obj.sendDatetime>={startDate}"
+			+ "-- and obj.sendDatetime<={endDate}"
 			;	
+		
 		return smsOutDao.listPage(listHql, pageParam);
 	}
 

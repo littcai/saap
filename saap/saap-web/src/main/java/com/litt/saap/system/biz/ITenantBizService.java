@@ -6,6 +6,8 @@ import com.litt.saap.core.module.tenant.config.TenantTypeConfig;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
+import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserInfo;
 
 /**
  * .
@@ -23,6 +25,14 @@ import com.litt.saap.system.bo.TenantQuitBo;
  * @version 1.0
  */
 public interface ITenantBizService {
+	
+	public void saveMember(UserInfo userInfo);
+	
+	public void updateMember(TenantMember tenantMember, UserInfo userInfo);
+	
+	public void deleteMember(Integer tenantMemberId);
+	
+	public void deleteMemberBatch(Integer[] ids);
 
 	/**
 	 * 根据订单号激活.

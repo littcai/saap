@@ -81,6 +81,16 @@ public class SaapConstants {
 		
 	}
 	
+	/**
+	 * 用户类型.
+	 */
+	public interface DefaultRoleName{
+		
+		public static final String ADMIN = "admin";
+		public static final String MEMBER = "member";	
+		
+	}
+	
 	public interface TenantStatus{
 		public static final int CANCELED = -4;	//注销（主动）
 		public static final int EXPIRED = -3;		//到期

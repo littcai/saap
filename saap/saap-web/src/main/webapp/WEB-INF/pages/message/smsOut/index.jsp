@@ -8,7 +8,13 @@
 	<link href="${contextPath}/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
 	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
 	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
-	</head>
+	<!-- bootstrap-datetimepicker -->
+	<link href="${contextPath}/widgets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="${contextPath }/widgets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSOION_USER.locale, 'en') }">
+		<script src="${contextPath }/widgets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.${SESSION_USER.locale }.js"></script>
+	</c:if>		
+  </head>
  <body>
  	<!-- form filter -->	
 		<div>
@@ -21,7 +27,16 @@
         	<option value="sender" ${li:renderSelected(param.s_searchField, "sender")}><s:message code="smsIn.sender" /></option>	
         	<option value="receiver" ${li:renderSelected(param.s_searchField, "receiver")}><s:message code="smsIn.receiver" /></option>						
         </select>                      
-        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
+        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">&nbsp;
+        <label class="control-label" for="startDate"><s:message code="smsOut.sendDatetime" />:</label>
+        <div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
+			<input id="startDate" name="startDate" placeholder="" type="text" readonly="readonly" value="${li:formatDate(startDate) }"  />
+			<span class="add-on"><i class="icon-calendar"></i></span>
+		</div>&nbsp;-&nbsp;
+		<div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
+			<input id="endDate" name="endDate" placeholder="" type="text" readonly="readonly" value="${li:formatDate(endDate) }"  />
+			<span class="add-on"><i class="icon-calendar"></i></span>
+		</div> 							
         <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
       </form>
 		</div>	
@@ -95,6 +110,11 @@
 		<script type="text/javascript">
 		$(document).ready(function(){				
 			$('.datatable').dataTable();	
+			
+			$('.datetimepicker').datetimepicker({
+				todayHighlight: true,
+				minView: 2
+			});
 			
 			var checkboxs = $.webtools.checkboxs({
 				checkAll: "#checkAll",

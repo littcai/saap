@@ -1,19 +1,19 @@
 package com.litt.saap.system.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;     
-import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.core.exception.BusiException;
-import com.litt.core.service.BaseService;
-import com.litt.saap.system.service.ITenantMemberService;
-
-import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.dao.TenantMemberDao;
+import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.service.ITenantMemberService;
 
 /**
  * 
@@ -52,7 +52,8 @@ public class TenantMemberServiceImpl implements ITenantMemberService
 	{
 		//校验租户权限
 		LoginUtils.validateTenant(tenantMember.getTenantId());
-	
+		tenantMember.setUpdateDatetime(new Date());
+		tenantMember.setUpdateUserId(LoginUtils.getLoginOpId().intValue());
 		tenantMemberDao.update(tenantMember);
 	}			
    
@@ -107,6 +108,33 @@ public class TenantMemberServiceImpl implements ITenantMemberService
 	}
 	
 	/**
+	 * 根据登录名读取租户用户
+	 * @param loginId
+	 * @param tenantId
+	 * @return
+	 */
+	public UserInfo loadUserInfoByLoginIdAndTenantId(String loginId, Integer tenantId)
+	{
+		String hql = "select u from UserInfo u, TenantMember m where u.loginId=? and u.id=m.userId and m.tenantId=?";
+		return tenantMemberDao.uniqueResult(hql, new Object[]{loginId, tenantId}, UserInfo.class);
+	}
+	
+	/**
+	 * 
+	 * @param tenantId
+	 * @param userId
+	 * @return
+	 */
+	public TenantMember load(int tenantId, int userId)
+	{
+		String hql = "from TenantMember where tenantId=? and userId=?";
+		TenantMember tenantMember = tenantMemberDao.uniqueResult(hql, new Object[]{tenantId, userId}, TenantMember.class);
+		//校验租户权限
+		LoginUtils.validateTenant(tenantMember.getTenantId());
+		return tenantMember;
+	}
+	
+	/**
 	 * list by page.
 	 * 
 	 * @param pageParam params
@@ -114,8 +142,14 @@ public class TenantMemberServiceImpl implements ITenantMemberService
 	 */
 	public IPageList listPage(PageParam pageParam)
 	{
-		String listHql = "select obj from TenantMember obj"
+		String listHql = "select new map(obj as tenantMember, u as userInfo) from TenantMember obj, UserInfo u"
 			+ "-- and obj.tenantId={tenantId}"
+			+ "-- and obj.userId=u.id"	
+			+ "-- and u.loginId like {loginId%}"	
+			+ "-- and u.userName like {userName%}"	
+			+ "-- and u.nickName like {nickName%}"	
+			+ "-- and u.mobile like {mobile%}"	
+			+ "-- and u.email like {email%}"	
 			;	
 		return tenantMemberDao.listPage(listHql, pageParam);
 	}

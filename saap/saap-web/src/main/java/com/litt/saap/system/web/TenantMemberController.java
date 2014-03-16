@@ -1,5 +1,7 @@
 package com.litt.saap.system.web;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,9 +16,12 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.common.SaapConstants;
+import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.ITenantMemberService;
-
+import com.litt.saap.system.service.IUserInfoService;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -43,6 +48,10 @@ public class TenantMemberController extends BaseController
 
 	@Resource
 	private ITenantMemberService tenantMemberService;
+	@Resource
+	private ITenantBizService tenantBizService;
+	@Resource
+	private IUserInfoService userInfoService;
 	
 	/**
 	 * default page.
@@ -59,14 +68,15 @@ public class TenantMemberController extends BaseController
 		LoginUserVo loginUserVo = (LoginUserVo)super.getLoginVo();
 		
 		//get params from request
-		String code = request.getParameter("code");
-		String name = request.getParameter("name");
+		Map<String, Object> params = WebUtils.getParametersStartingWith(request, SaapConstants.DEFAULT_SEARCH_PREFIX);
+			
+		String searchField = Utility.trimNull(params.get("searchField"));
+		Object searchValue = params.get("searchValue");
 				
 		//package the params
 		PageParam pageParam = WebUtils.getPageParam(request);
 		pageParam.addCond("tenantId", loginUserVo.getTenantId());
-		pageParam.addCond("code", code);	
-		pageParam.addCond("name", name);	
+		pageParam.addCond(searchField, searchValue);	
 		pageParam.addCond("isDeleted", false);	
 		//Get page result
 		IPageList pageList = tenantMemberService.listPage(pageParam);		
@@ -103,7 +113,12 @@ public class TenantMemberController extends BaseController
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
 		TenantMember tenantMember = tenantMemberService.load(id);		
-        return new ModelAndView("/system/tenantMember/edit").addObject("tenantMember", tenantMember);
+		UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
+		
+        return new ModelAndView("/system/tenantMember/edit")
+        			.addObject("tenantMember", tenantMember)
+        			.addObject("userInfo", userInfo)
+        			;
     }	
     
 	/**
@@ -118,7 +133,11 @@ public class TenantMemberController extends BaseController
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
 		TenantMember tenantMember = tenantMemberService.load(id);		
-        return new ModelAndView("/system/tenantMember/show").addObject("tenantMember", tenantMember);
+		UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
+        return new ModelAndView("/system/tenantMember/show")
+					.addObject("tenantMember", tenantMember)
+					.addObject("userInfo", userInfo)
+					;
     }   
     
     /**
@@ -131,9 +150,9 @@ public class TenantMemberController extends BaseController
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
-		TenantMember tenantMember = new TenantMember();
-		BeanUtils.populate(tenantMember, request.getParameterMap());			
-		tenantMemberService.save(tenantMember);
+		UserInfo userInfo = new UserInfo();
+		BeanUtils.populate(userInfo, request.getParameterMap());			
+		tenantBizService.saveMember(userInfo);
 	}
 	
 	/**
@@ -146,9 +165,11 @@ public class TenantMemberController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
-		TenantMember tenantMember = tenantMemberService.load(Utility.parseInt(request.getParameter("id")));
-		BeanUtils.populate(tenantMember, request.getParameterMap());
-		tenantMemberService.update(tenantMember);
+		TenantMember tenantMember = tenantMemberService.load(Utility.parseInt(request.getParameter("tenantMemberId")));
+		
+		UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
+		BeanUtils.populate(userInfo, request.getParameterMap());		
+		tenantBizService.updateMember(tenantMember, userInfo);
 	}
 	
 	/**
@@ -160,7 +181,7 @@ public class TenantMemberController extends BaseController
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
-		tenantMemberService.delete(id);
+		tenantBizService.deleteMember(id);
 	}
 
 	/**
@@ -172,7 +193,7 @@ public class TenantMemberController extends BaseController
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{
-		tenantMemberService.deleteBatch(ids);
+		tenantBizService.deleteMemberBatch(ids);
 	}
 
 }
