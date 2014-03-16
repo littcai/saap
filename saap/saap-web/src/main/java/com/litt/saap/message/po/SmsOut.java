@@ -45,6 +45,11 @@ public class SmsOut implements Serializable {
 	 * 发送标志.
 	 */
 	private boolean sendFlag;
+	
+	/**
+	 * 创建人.
+	 */
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -174,6 +179,20 @@ public class SmsOut implements Serializable {
 	 */
 	public void setSendFlag(boolean sendFlag) {
 		this.sendFlag = sendFlag;
+	}
+	
+	/**
+	 * @return the createBy
+	 */
+	public int getCreateBy() {
+		return createBy;
+	}
+
+	/**
+	 * @param createBy the createBy to set
+	 */
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 	/**  

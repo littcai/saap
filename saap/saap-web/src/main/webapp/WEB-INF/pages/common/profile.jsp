@@ -215,10 +215,14 @@ $(document).ready(function(){
 	$('#password-form').littFormSubmit({		
 		rules : {
 			newPassword: {
-                required: true
+                required: true,
+				minlength: 6,
+				maxlength: 50
             },
             rpassword: {
             	required: true,
+				minlength: 6,
+				maxlength: 50,
                 equalTo: "#newPassword"
             }
 		},	

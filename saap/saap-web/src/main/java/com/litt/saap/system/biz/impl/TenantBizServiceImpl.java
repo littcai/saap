@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.litt.core.exception.BusiCodeException;
+import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.BeanCopier;
 import com.litt.core.util.DateUtils;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
@@ -21,6 +23,7 @@ import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
 import com.litt.saap.core.module.tenant.config.TenantTypeConfig;
 import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
@@ -33,10 +36,13 @@ import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.IRoleService;
+import com.litt.saap.system.service.ITenantMemberService;
 import com.litt.saap.system.service.ITenantService;
+import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.TenantVo;
 
 /**
@@ -65,6 +71,8 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	@Resource
 	private TenantMemberDao tenantMemberDao;
 	@Resource
+	private ITenantMemberService tenantMemberService;
+	@Resource
 	private IRoleService roleService;
 	@Resource
 	private RoleFuncPermissionDao roleFuncPermissionDao;
@@ -72,6 +80,73 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	private UserStateDao userStateDao;
 	@Resource
 	private UserRoleDao userRoleDao;
+	@Resource
+	private IUserInfoService userInfoService;
+	
+	public void saveMember(UserInfo userInfo)
+	{
+		String loginId = userInfo.getLoginId();
+		ILoginVo loginVo = LoginUtils.getLoginVo();
+		
+		int tenantId = LoginUtils.getTenantId();
+		//data validte
+		this.validate(0, loginId);
+		//保存用户信息
+		userInfo.setStatus(SaapConstants.UserStatus.NORMAL);
+		userInfo.setLocale(loginVo.getLocale());
+		userInfo.setTimezone(loginVo.getTimezone());
+		userInfo.setTheme(loginVo.getTheme());
+		Integer userId = userInfoService.save(userInfo);
+		//加入到租户
+		TenantMember tenantMember = new TenantMember();
+		tenantMember.setTenantId(tenantId);
+		tenantMember.setAppId(SaapConstants.PLATFORM_APP_ID);
+		tenantMember.setUserId(userId);
+		tenantMember.setIsAdmin(false);
+		tenantMember.setStatus(TenantMemberStatus.NORMAL);
+		tenantMember.setCreateUserId(userId);
+		tenantMember.setCreateDatetime(new Date());
+		tenantMember.setUpdateUserId(userId);
+		tenantMember.setUpdateDatetime(tenantMember.getCreateDatetime());
+		tenantMemberService.save(tenantMember);
+		//
+		//设置用户的当前租户为新激活的租户
+		UserState userState = userStateDao.load(userId);		
+		userState.setCurrentTenantId(tenantId);
+		userStateDao.update(userState);
+		
+		//添加默认的个人事务角色（自动赋予权限）
+		UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID);
+		userRoleDao.save(userRole);
+		//默认绑定租户成员角色权限
+		Role role = roleService.load(tenantId, SaapConstants.DefaultRoleName.MEMBER, 9);
+		userRole = new UserRole(tenantId, userId, role.getId());
+		userRoleDao.save(userRole);
+	}
+	
+	public void updateMember(TenantMember tenantMember, UserInfo userInfo)
+	{
+		//data validte
+		this.validate(userInfo.getId(), userInfo.getLoginId());
+				
+		userInfoService.update(userInfo);
+		tenantMemberService.update(tenantMember);
+	}
+	
+	public void deleteMember(Integer tenantMemberId)
+	{
+		TenantMember tenantMember = tenantMemberService.load(tenantMemberId);
+		tenantMember.setStatus(TenantMemberStatus.DELETED);
+		tenantMemberService.update(tenantMember);
+		userInfoService.deleteLogic(tenantMember.getUserId());
+	}
+	
+	public void deleteMemberBatch(Integer[] ids)
+	{
+		for (Integer id : ids) {
+			this.deleteMember(id);
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.biz.impl.ITenantBizService#activate(java.lang.String, java.lang.Integer)
@@ -321,6 +396,23 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		return tenantQuit;
 	}
 	
-	
+	/**
+	 * 数据有效性检查.
+	 *
+	 * @param id the id
+	 * @param name the name
+	 */
+	private void validate(Integer id, String loginId)
+	{		
+		int tenantId = LoginUtils.getTenantId();
+		
+		String countHql = "select count(u) from UserInfo u, TenantMember m where m.tenantId=? and m.userId=u.id and u.loginId=? and (u.id>? or u.id<?)";
+		boolean invalid = tenantMemberDao.count(countHql, new Object[]{tenantId, loginId, id, id})>0;		
+		if(invalid)
+		{
+			throw new BusiCodeException("userInfo.error.loginIdDuplicated");
+		}
+		
+	}
 
 }

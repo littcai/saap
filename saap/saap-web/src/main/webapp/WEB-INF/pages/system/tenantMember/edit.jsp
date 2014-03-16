@@ -7,98 +7,46 @@
   </head>
   <body>   
   <form id="theform" action="update.json" method="post" class="form-horizontal">
-  	<input type="hidden" name="id" value="${tenantMember.id}" />
+  	<input type="hidden" name="tenantMemberId" value="${tenantMember.id }" />
 				<fieldset>
-					<legend><s:message code="tenantMember.ui.fieldset.base" /></legend>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.id"><s:message code="tenantMember.id" /></label>
-								<div class="controls">
-									<input id="tenantMember.id" name="id" placeholder="" type="text" value="<c:out values='${tenantMember.id}' />" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.tenantId"><s:message code="tenantMember.tenantId" /></label>
-								<div class="controls">
-									<input id="tenantMember.tenantId" name="tenantId" placeholder="" type="text" value="<c:out values='${tenantMember.tenantId}' />" />
-								</div>
-							</div>
-						</div>								
+					<legend><s:message code="common.ui.fieldset.base" /></legend>
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.loginId' /></label>
+						<div class="controls">							
+							<input type="text" name="loginId" value='<c:out value="${userInfo.loginId }"/>' />
+						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.appId"><s:message code="tenantMember.appId" /></label>
-								<div class="controls">
-									<input id="tenantMember.appId" name="appId" placeholder="" type="text" value="<c:out values='${tenantMember.appId}' />" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.userId"><s:message code="tenantMember.userId" /></label>
-								<div class="controls">
-									<input id="tenantMember.userId" name="userId" placeholder="" type="text" value="<c:out values='${tenantMember.userId}' />" />
-								</div>
-							</div>
-						</div>								
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.userName' /></label>
+						<div class="controls">							
+							<input type="text" name="userName" value='<c:out value="${userInfo.userName }"/>' />
+						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.isAdmin"><s:message code="tenantMember.isAdmin" /></label>
-								<div class="controls">
-									<input id="tenantMember.isAdmin" name="isAdmin" placeholder="" type="text" value="<c:out values='${tenantMember.isAdmin}' />" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.status"><s:message code="tenantMember.status" /></label>
-								<div class="controls">
-									<input id="tenantMember.status" name="status" placeholder="" type="text" value="<c:out values='${tenantMember.status}' />" />
-								</div>
-							</div>
-						</div>								
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.nickName' /></label>
+						<div class="controls">							
+							<input type="text" name="nickName" value='<c:out value="${userInfo.nickName }"/>' />
+						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.createUserId"><s:message code="tenantMember.createUserId" /></label>
-								<div class="controls">
-									<input id="tenantMember.createUserId" name="createUserId" placeholder="" type="text" value="<c:out values='${tenantMember.createUserId}' />" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.createDatetime"><s:message code="tenantMember.createDatetime" /></label>
-								<div class="controls">
-									<input id="tenantMember.createDatetime" name="createDatetime" placeholder="" type="text" value="<c:out values='${tenantMember.createDatetime}' />" />
-								</div>
-							</div>
-						</div>								
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.gender' /></label>
+						<div class="controls">							
+							<select id="gender" name="gender">
+								<li:dictOptions dictType="0002" dictValue="${userInfo.gender }"/>
+							</select>
+						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.updateUserId"><s:message code="tenantMember.updateUserId" /></label>
-								<div class="controls">
-									<input id="tenantMember.updateUserId" name="updateUserId" placeholder="" type="text" value="<c:out values='${tenantMember.updateUserId}' />" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.updateDatetime"><s:message code="tenantMember.updateDatetime" /></label>
-								<div class="controls">
-									<input id="tenantMember.updateDatetime" name="updateDatetime" placeholder="" type="text" value="<c:out values='${tenantMember.updateDatetime}' />" />
-								</div>
-							</div>
-						</div>								
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.email' /></label>
+						<div class="controls">							
+							<input type="text" name="email" value='<c:out value="${userInfo.email }"/>' />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.mobile' /></label>
+						<div class="controls">							
+							<input type="text" name="mobile" value='<c:out value="${userInfo.mobile }"/>' />
+						</div>
 					</div>
 				</fieldset>					
 						
@@ -114,7 +62,13 @@
 			
 			$('#theform').littFormSubmit({
 				rules : {
-					name : {
+					
+					loginId : {
+						required : true,
+						minlength: 4,
+						maxlength: 50
+					},
+					userName : {
 						required : true
 					}
 				},			

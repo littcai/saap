@@ -64,6 +64,14 @@ public interface IRoleService {
 	public Role load(int roleId);
 	
 	/**
+	 * load member by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public Role load(int tenantId, String name, int status);
+	
+	/**
 	 * List by tenant.
 	 *
 	 * @param tenantId the tenant id

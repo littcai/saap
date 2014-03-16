@@ -2,8 +2,8 @@ package com.litt.saap.system.service;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserInfo;
 
 /**
  * 
@@ -56,6 +56,22 @@ public interface ITenantMemberService
 	 * @return TenantMember
 	 */
 	public TenantMember load(Integer id);	
+	
+	/**
+	 * 根据登录名读取租户用户
+	 * @param loginId
+	 * @param tenantId
+	 * @return
+	 */
+	public UserInfo loadUserInfoByLoginIdAndTenantId(String loginId, Integer tenantId);
+	
+	/**
+	 * 
+	 * @param tenantId
+	 * @param userId
+	 * @return
+	 */
+	public TenantMember load(int tenantId, int userId);
 	
 	/**
 	 * list by page.

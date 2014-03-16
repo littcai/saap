@@ -104,6 +104,18 @@ public class RoleServiceImpl implements IRoleService {
 	}
 	
 	/**
+	 * load member by tenant.
+	 *
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public Role load(int tenantId, String name, int status)
+	{
+		String hql = "from Role where tenantId=? and name=? and status=?";
+		return roleDao.uniqueResult(hql, new Object[]{tenantId, name, status}, Role.class);
+	}
+	
+	/**
 	 * List by tenant.
 	 *
 	 * @param tenantId the tenant id

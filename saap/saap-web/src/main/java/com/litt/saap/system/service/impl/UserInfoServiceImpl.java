@@ -24,6 +24,7 @@ import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.Gender;
 import com.litt.saap.core.common.SaapConstants.UserStatus;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.dao.ActivationCodeDao;
 import com.litt.saap.system.dao.UserExtDao;
 import com.litt.saap.system.dao.UserInfoDao;
@@ -368,7 +369,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	{		
 		//用户退出，统计相关数据	
 	}	
-	
 	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.service.impl.IUserInfoService#load(java.lang.Integer)
