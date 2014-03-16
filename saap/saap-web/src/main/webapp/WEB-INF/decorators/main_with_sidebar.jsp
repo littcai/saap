@@ -104,7 +104,8 @@
 	              </c:forEach>	              
 	            </ul>
 	            <ul class="pull-right nav">
-	            	<li ><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
+	            	<li><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
+	            	<li ><a href="#"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
 	            	<li class="dropdown">
 					      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">
 					      	<c:if test="${empty SESSION_USER.nickName }">${SESSION_USER.opName }</c:if>		
