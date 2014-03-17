@@ -155,7 +155,7 @@ public class TenantServiceImpl implements ITenantService {
 			TenantVo vo = this.convertVo(tenant);
 			if(vo.getCreateUserId()==userId)
 			{
-				vo.setAdmin(true);
+				vo.setIsAdmin(true);
 			}
 			tenantVoList.add(vo);
 		}

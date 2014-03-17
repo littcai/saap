@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.databene.jdbacl.sql.parser.SQLParser.null_comparison_return;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ import com.litt.core.util.StringUtils;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.core.common.SaapConstants;
+import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.message.po.SmsOut;
 import com.litt.saap.message.service.ISmsOutService;
@@ -34,7 +35,7 @@ import com.litt.saap.personal.bo.ContactsGroupBo;
 import com.litt.saap.personal.po.Contacts;
 import com.litt.saap.personal.service.IContactsGroupService;
 import com.litt.saap.personal.service.IContactsService;
-import com.litt.saap.system.po.Role;
+import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantMemberService;
@@ -67,6 +68,8 @@ public class SmsOutController extends BaseController
 	private IRoleService roleService;
 	@Resource
 	private ITenantMemberService tenantMemberService;
+	@Resource
+	private IUserBizService userBizService;
 	
 	/**
 	 * default page.
@@ -88,6 +91,7 @@ public class SmsOutController extends BaseController
 		
 		Date startDate = Utility.parseDate(request.getParameter("startDate"), DateUtils.getBeAfDay(-7));
 		Date endDate = Utility.parseDate(request.getParameter("endDate"), new Date());
+		Integer createBy = Utility.parseInt(request.getParameter("createBy"));
 				
 		//package the params
 		PageParam pageParam = WebUtils.getPageParam(request);
@@ -96,22 +100,28 @@ public class SmsOutController extends BaseController
 		pageParam.addCond("startDate", DateUtils.getStartOfDay(startDate));	
 		pageParam.addCond("endDate", DateUtils.getEndOfDay(endDate));	
 		pageParam.addCond("isDeleted", false);	
-		//当前用户是租户管理员则可查看全部，否则只能查看自己发送的短信
-		TenantMember tenantMember = tenantMemberService.load(loginUserVo.getTenantId(), loginUserVo.getOpId().intValue());
-		if(tenantMember!=null && !tenantMember.getIsAdmin())
+		
+		//如果指定了创建人，则作为优先查询条件
+		if(createBy>0)
+		{
+			pageParam.addCond("createBy", createBy);
+		}		
+		else if(loginUserVo.getTenant()!= null && !loginUserVo.getTenant().getIsAdmin())	//当前用户是租户管理员则可查看全部，否则只能查看自己发送的短信
 		{
 			pageParam.addCond("createBy", LoginUtils.getLoginOpId().intValue());	
 		}
+		
 		//Get page result
 		IPageList pageList = smsOutService.listPage(pageParam);		
 		
 		//return params to response
-		modelMap.addAttribute("startDate", startDate);	
-		modelMap.addAttribute("endDate", endDate);	
 		modelMap.addAttribute("pageParam", pageParam);	
 		modelMap.addAttribute("pageList", pageList);	
 		
-    return new ModelAndView("/message/smsOut/index");	
+		List<TenantUserVo> tenantUserList = userBizService.findByTenant(loginUserVo.getTenantId());
+		modelMap.addAttribute("tenantUserList", tenantUserList);	
+		
+		return new ModelAndView("/message/smsOut/index");	
 	
 	} 	
 	

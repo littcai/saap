@@ -320,12 +320,5 @@ public class TenantVo implements Serializable {
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
-
-	/**
-	 * @param isAdmin the isAdmin to set
-	 */
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
 	
 }

@@ -23,21 +23,32 @@
 				<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
-        <select name="s_searchField" id="s_searchField" style="width:130px">
-        	<option value="sender" ${li:renderSelected(param.s_searchField, "sender")}><s:message code="smsIn.sender" /></option>	
-        	<option value="receiver" ${li:renderSelected(param.s_searchField, "receiver")}><s:message code="smsIn.receiver" /></option>						
-        </select>                      
-        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">&nbsp;
-        <label class="control-label" for="startDate"><s:message code="smsOut.sendDatetime" />:</label>
-        <div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
-			<input id="startDate" name="startDate" placeholder="" type="text" readonly="readonly" value="${li:formatDate(startDate) }"  />
-			<span class="add-on"><i class="icon-calendar"></i></span>
-		</div>&nbsp;-&nbsp;
-		<div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
-			<input id="endDate" name="endDate" placeholder="" type="text" readonly="readonly" value="${li:formatDate(endDate) }"  />
-			<span class="add-on"><i class="icon-calendar"></i></span>
-		</div> 							
-        <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
+		<div>		
+	        <select name="s_searchField" id="s_searchField" style="width:130px">
+	        	<option value="sender" ${li:renderSelected(param.s_searchField, "sender")}><s:message code="smsIn.sender" /></option>	
+	        	<option value="receiver" ${li:renderSelected(param.s_searchField, "receiver")}><s:message code="smsIn.receiver" /></option>						
+	        </select>                      
+	        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">&nbsp;
+	        <label class="control-label" for="createBy"><s:message code="common.field.createBy" />:</label>
+	        <select name="createBy" id="createBy">
+	        	<option value=""><s:message code="common.ui.select" /></option>		
+	        	<c:forEach items="${tenantUserList }" var="row">
+	        		<option value="${row.id }" ${li:renderSelected(param.createBy, row.id) }  >${row.userName }[${row.loginId }]</option>
+	        	</c:forEach>		
+	        </select>
+	        <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>  
+	    </div>
+        <div> 
+	        <label class="control-label" for="startDate"><s:message code="smsOut.sendDatetime" />:</label>
+	        <div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
+				<input id="startDate" name="startDate" placeholder="" type="text" readonly="readonly" value="${param.startDate }"/>
+				<span class="add-on"><i class="icon-calendar"></i></span>
+			</div>&nbsp;-&nbsp;
+			<div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
+				<input id="endDate" name="endDate" placeholder="" type="text" readonly="readonly" value="${param.endDate }"/>
+				<span class="add-on"><i class="icon-calendar"></i></span>
+			</div>
+        </div>    
       </form>
 		</div>	
 		<div class="clear"></div> 		

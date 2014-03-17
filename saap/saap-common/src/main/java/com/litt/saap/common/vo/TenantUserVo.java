@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.litt.saap.system.vo.UserInfoVo;
 
+// TODO: Auto-generated Javadoc
 /**
  * .
  * 
@@ -14,10 +15,10 @@ import com.litt.saap.system.vo.UserInfoVo;
  * <pre><b>修改记录：</b>
  *    
  * </pre>
- * 
+ *
  * @author <a href="mailto:littcai@hotmail.com">蔡源</a>
- * @since 2013-10-17
  * @version 1.0
+ * @since 2013-10-17
  */
 public class TenantUserVo extends UserInfoVo implements Serializable {
 	
@@ -26,8 +27,13 @@ public class TenantUserVo extends UserInfoVo implements Serializable {
 	
 	/** 是否租户管理员. */
 	private boolean isAdmin;
+	
+	/** 所在租户的成员状态. */
+	private int memberStatus; 
 
 	/**
+	 * Gets the tenant id.
+	 *
 	 * @return the tenantId
 	 */
 	public int getTenantId() {
@@ -35,6 +41,8 @@ public class TenantUserVo extends UserInfoVo implements Serializable {
 	}
 
 	/**
+	 * Sets the tenant id.
+	 *
 	 * @param tenantId the tenantId to set
 	 */
 	public void setTenantId(int tenantId) {
@@ -42,6 +50,8 @@ public class TenantUserVo extends UserInfoVo implements Serializable {
 	}
 
 	/**
+	 * Gets the checks if is admin.
+	 *
 	 * @return the isAdmin
 	 */
 	public boolean getIsAdmin() {
@@ -49,10 +59,26 @@ public class TenantUserVo extends UserInfoVo implements Serializable {
 	}
 
 	/**
+	 * Sets the checks if is admin.
+	 *
 	 * @param isAdmin the isAdmin to set
 	 */
 	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	/**
+	 * @return the memberStatus
+	 */
+	public int getMemberStatus() {
+		return memberStatus;
+	}
+
+	/**
+	 * @param memberStatus the memberStatus to set
+	 */
+	public void setMemberStatus(int memberStatus) {
+		this.memberStatus = memberStatus;
 	}	
 
 }

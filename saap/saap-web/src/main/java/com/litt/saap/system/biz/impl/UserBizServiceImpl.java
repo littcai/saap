@@ -686,7 +686,7 @@ public class UserBizServiceImpl implements IUserBizService {
 	 */
 	public List<TenantUserVo> findByTenant(int tenantId)
 	{
-		String listHql = "select new map(userInfo as userInfo, tenantMember as tenantMember) from UserInfo userInfo, TenantMember tenantMember where userInfo.id=tenantMember.userId and tenantMember.tenantId=?";
+		String listHql = "select new map(userInfo as userInfo, tenantMember as tenantMember) from UserInfo userInfo, TenantMember tenantMember where tenantMember.tenantId=? and userInfo.id=tenantMember.userId";
 		List<Map<String, Object>> rsList = userInfoDao.listAll(listHql, new Object[]{tenantId});		
 		
 		List<TenantUserVo> retList = new ArrayList<TenantUserVo>(rsList.size());
@@ -699,6 +699,8 @@ public class UserBizServiceImpl implements IUserBizService {
 			BeanCopier.copy(userInfo, tenantUser);
 			
 			tenantUser.setTenantId(tenantId);
+			tenantUser.setIsAdmin(tenantMember.getIsAdmin());
+			tenantUser.setMemberStatus(tenantMember.getStatus());
 			
 			retList.add(tenantUser);
 		}
