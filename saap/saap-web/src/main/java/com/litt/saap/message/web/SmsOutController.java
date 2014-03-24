@@ -89,8 +89,8 @@ public class SmsOutController extends BaseController
 		String searchField = request.getParameter("s_searchField");
 		String searchValue = request.getParameter("s_searchValue");
 		
-		Date startDate = Utility.parseDate(request.getParameter("startDate"), DateUtils.getBeAfDay(-7));
-		Date endDate = Utility.parseDate(request.getParameter("endDate"), new Date());
+		Date startDate = Utility.parseDate(request.getParameter("startDate"));
+		Date endDate = Utility.parseDate(request.getParameter("endDate"));
 		Integer createBy = Utility.parseInt(request.getParameter("createBy"));
 				
 		//package the params
