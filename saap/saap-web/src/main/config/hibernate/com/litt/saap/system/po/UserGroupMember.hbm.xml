@@ -24,14 +24,9 @@
                 <comment>用户ID</comment>
             </column>
         </property>
-        <property name="type" type="int">
-            <column name="TYPE" not-null="true">
-                <comment>类型 1：创建人 2：普通成员 3：管理员</comment>
-            </column>
-        </property>
-        <property name="status" type="int">
-            <column name="STATUS" not-null="true">
-                <comment>状态 1：正常 2：锁定</comment>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建用户</comment>
             </column>
         </property>
         <property name="createDatetime" type="timestamp">

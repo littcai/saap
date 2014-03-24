@@ -51,7 +51,7 @@ public class UserGroupServiceImpl implements IUserGroupService {
 		ILoginVo loginVo = LoginUtils.getLoginVo();
 		
 		userGroup.setTenantId(LoginUtils.getTenantId());
-		userGroup.setCreateUserId(loginVo.getOpId().intValue());
+		userGroup.setCreateBy(loginVo.getOpId().intValue());
 		userGroup.setCreateDatetime(new Date());
 		userGroup.setUpdateDatetime(userGroup.getCreateDatetime());
 		
@@ -121,7 +121,7 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	{
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
-		if(userGroup.getCreateUserId()!=loginVo.getOpId().intValue())
+		if(userGroup.getCreateBy()!=loginVo.getOpId().intValue())
 		{
 			throw new BusiCodeException("error.biz.permissionDenied", loginVo.toLocale());
 		}

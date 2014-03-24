@@ -88,6 +88,7 @@
 			<code>900402</code>
 			<code>900403</code>
 			<code>900404</code>
+			<code>900405</code>
 		</permissions>
 		<!-- 默认角色及其对应的权限
 			注：role的code需要在国际化文件中有映射，以实现数据库存储的国际化
@@ -178,6 +179,7 @@
 				<code>900402</code>
 				<code>900403</code>
 				<code>900404</code>
+				<code>900405</code>
 			</permissions>
 		</role>
 		<role code="member">

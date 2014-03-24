@@ -91,6 +91,16 @@ public class SaapConstants {
 		
 	}
 	
+	/**
+	 * 角色状态.
+	 */
+	public interface RoleStatus{
+		
+		public static final int NORMAL = 1;
+		public static final int LOGIC_DELETED = 2;
+		public static final int SYSTEM_DEFINED = 9;
+	}
+	
 	public interface TenantStatus{
 		public static final int CANCELED = -4;	//注销（主动）
 		public static final int EXPIRED = -3;		//到期

@@ -35,19 +35,9 @@ public class UserGroupMember implements Serializable {
 	private int userId;
 
 	/**
-	 * 类型
-	        1：创建人
-	        2：普通成员
-	        3：管理员.
+	 * 创建用户.
 	 */
-	private int type;
-
-	/**
-	 * 状态
-	        1：正常
-	        2：锁定.
-	 */
-	private int status;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -57,13 +47,12 @@ public class UserGroupMember implements Serializable {
 	public UserGroupMember() {
 	}
 
-	public UserGroupMember(int tenantId, int groupId, int userId, int type, int status,
+	public UserGroupMember(int tenantId, int groupId, int userId, int createBy,
 			Date createDatetime) {
 		this.tenantId = tenantId;
 		this.groupId = groupId;
 		this.userId = userId;
-		this.type = type;
-		this.status = status;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 	}
 
@@ -116,58 +105,6 @@ public class UserGroupMember implements Serializable {
 	}
 
 	/**  
-	 * 取得 类型
-	        1：创建人
-	        2：普通成员
-	        3：管理员.
-	 * @return 类型
-	        1：创建人
-	        2：普通成员
-	        3：管理员
-	 */
-	public int getType() {
-		return this.type;
-	}
-
-	/**
-	 * 设置 类型
-	        1：创建人
-	        2：普通成员
-	        3：管理员.
-	 * @param type 类型
-	        1：创建人
-	        2：普通成员
-	        3：管理员
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	/**  
-	 * 取得 状态
-	        1：正常
-	        2：锁定.
-	 * @return 状态
-	        1：正常
-	        2：锁定
-	 */
-	public int getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * 设置 状态
-	        1：正常
-	        2：锁定.
-	 * @param status 状态
-	        1：正常
-	        2：锁定
-	 */
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	/**  
 	 * 取得 创建时间.
 	 * @return 创建时间
 	 */
@@ -195,6 +132,20 @@ public class UserGroupMember implements Serializable {
 	 */
 	public void setTenantId(int tenantId) {
 		this.tenantId = tenantId;
+	}
+
+	/**
+	 * @return the createBy
+	 */
+	public int getCreateBy() {
+		return createBy;
+	}
+
+	/**
+	 * @param createBy the createBy to set
+	 */
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 }

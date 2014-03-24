@@ -56,6 +56,18 @@ public interface IRoleService {
 	public void deleteBatch(Integer[] ids);
 	
 	/**
+	 * Resume by id.
+	 * @param id id
+	 */
+	public void doResume(Integer id) ;
+	
+	/**
+	 * Resume by instance.
+	 * @param id id
+	 */
+	public void doResume(Role role) ;
+	
+	/**
 	 * Load.
 	 *
 	 * @param roleId the role id

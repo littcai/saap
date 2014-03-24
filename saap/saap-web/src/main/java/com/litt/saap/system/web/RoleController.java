@@ -174,5 +174,17 @@ public class RoleController extends BaseController
 	{
 		roleService.deleteBatch(ids);
 	}
+	
+	/**
+	 * Resume.
+	 * @param id id
+	 * @throws Exception 
+	 */
+	@Func(funcCode="05",moduleCode="9004")
+	@RequestMapping 
+	public void resume(@RequestParam Integer id) throws Exception
+	{
+		roleService.doResume(id);
+	}
 
 }

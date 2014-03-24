@@ -17,10 +17,7 @@
 				<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
-        <select name="s_searchField" id="s_searchField" style="width:130px">
-        	<option value="code" ${li:renderSelected(param.s_searchField, "code")}><s:message code="code" /></option>	
-        	<option value="name" ${li:renderSelected(param.s_searchField, "name")}><s:message code="name" /></option>						
-        </select>                      
+        <label class="control-label" for="name"><s:message code="role.name" />:</label>                     
         <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
         <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
       </form>
@@ -53,33 +50,35 @@
 				<thead>
 					<tr>			
 						<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>	
-						<th><s:message code="role.id" /></th>
-						<th><s:message code="role.tenantId" /></th>
 						<th><s:message code="role.name" /></th>
 						<th><s:message code="role.status" /></th>
-						<th><s:message code="role.remark" /></th>
 						<th><s:message code="common.action" /></th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
-						<td class="checkCol"><input type="checkbox" name="roleIds" value="${row.id }" /></td>
-						<td><c:out value="${row.id }"></c:out></td>
-						<td><c:out value="${row.tenantId }"></c:out></td>
+						<td class="checkCol"><input type="checkbox" class="checkItem" name="roleIds" value="${row.id }" /></td>
 						<td><c:out value="${row.name }"></c:out></td>
 						<td><c:out value="${row.status }"></c:out></td>
-						<td><c:out value="${row.remark }"></c:out></td>
 						<td class="action-buttons">
-							<div class="action-buttons">
-							<a href="edit.do?id=${row.id }" class="blue" >
-								<i class="icon-pencil"></i>
-							</a>
-							<span class="vbar"></span>	
-							<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
-								<i class="icon-trash"></i>
-							</a>
-							</div>
+							<c:if test="${row.status==1 }">
+								<div class="action-buttons">
+								<a href="edit.do?id=${row.id }" class="blue" >
+									<i class="icon-pencil"></i>
+								</a>&nbsp;
+								<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
+									<i class="icon-trash"></i>
+								</a>
+								</div>
+							</c:if>
+							<c:if test="${row.status==2 }">
+								<div class="action-buttons">
+								<a href="javascript:;" class="green" onclick="rowResume(${row.id});">
+									<i class="icon-trash"></i>
+								</a>
+								</div>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>
@@ -131,6 +130,22 @@
 				{
 					$.webtools.ajax({
 						url: "delete.json",
+						params: {"id":id},
+						success: function(reply) {
+							location.reload();
+						}
+					});					
+				}				
+			});			
+		}		
+		
+		function rowResume(id)
+		{			
+			bootbox.confirm("<s:message code='role.func.resume.confirm' />", function(result){
+				if(result)
+				{
+					$.webtools.ajax({
+						url: "resume.json",
 						params: {"id":id},
 						success: function(reply) {
 							location.reload();

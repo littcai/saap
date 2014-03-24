@@ -1,6 +1,7 @@
 package com.litt.saap.system.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户组角色表<br>
@@ -33,6 +34,16 @@ public class UserGroupRole implements Serializable {
 	 * 角色ID.
 	 */
 	private int roleId;
+	
+	/**
+	 * 创建用户.
+	 */
+	private int createBy;
+
+	/**
+	 * 创建时间.
+	 */
+	private Date createDatetime;
 
 	public UserGroupRole() {
 	}
@@ -105,6 +116,34 @@ public class UserGroupRole implements Serializable {
 	 */
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	/**
+	 * @return the createBy
+	 */
+	public int getCreateBy() {
+		return createBy;
+	}
+
+	/**
+	 * @param createBy the createBy to set
+	 */
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
+	}
+
+	/**
+	 * @return the createDatetime
+	 */
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	/**
+	 * @param createDatetime the createDatetime to set
+	 */
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
 	}
 
 }

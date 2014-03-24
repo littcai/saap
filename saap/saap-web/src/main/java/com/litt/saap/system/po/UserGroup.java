@@ -59,7 +59,7 @@ public class UserGroup implements Serializable {
 	/**
 	 * 创建用户.
 	 */
-	private int createUserId;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -69,7 +69,7 @@ public class UserGroup implements Serializable {
 	/**
 	 * 更新用户.
 	 */
-	private Integer updateUserId;
+	private int updateBy;
 
 	/**
 	 * 更新时间.
@@ -80,7 +80,7 @@ public class UserGroup implements Serializable {
 	}
 
 	public UserGroup(int tenantId, int parentId, String code, String name, int type,
-			String description, int status, int createUserId,
+			String description, int status, int createBy,
 			Date createDatetime) {
 		this.tenantId = tenantId;
 		this.parentId = parentId;
@@ -89,13 +89,13 @@ public class UserGroup implements Serializable {
 		this.type = type;
 		this.description = description;
 		this.status = status;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 	}
 
 	public UserGroup(int tenantId, int parentId, String code, String name, int type,
-			String description, int status, int createUserId,
-			Date createDatetime, Integer updateUserId, Date updateDatetime) {
+			String description, int status, int createBy,
+			Date createDatetime, int updateBy, Date updateDatetime) {
 		this.tenantId = tenantId;
 		this.parentId = parentId;
 		this.code = code;
@@ -103,9 +103,9 @@ public class UserGroup implements Serializable {
 		this.type = type;
 		this.description = description;
 		this.status = status;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
-		this.updateUserId = updateUserId;
+		this.updateBy = updateBy;
 		this.updateDatetime = updateDatetime;
 	}
 
@@ -233,16 +233,16 @@ public class UserGroup implements Serializable {
 	 * 取得 创建用户.
 	 * @return 创建用户
 	 */
-	public int getCreateUserId() {
-		return this.createUserId;
+	public int getCreateBy() {
+		return this.createBy;
 	}
 
 	/**
 	 * 设置 创建用户.
-	 * @param createUserId 创建用户
+	 * @param createBy 创建用户
 	 */
-	public void setCreateUserId(int createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 	/**  
@@ -265,16 +265,16 @@ public class UserGroup implements Serializable {
 	 * 取得 更新用户.
 	 * @return 更新用户
 	 */
-	public Integer getUpdateUserId() {
-		return this.updateUserId;
+	public int getUpdateBy() {
+		return this.updateBy;
 	}
 
 	/**
 	 * 设置 更新用户.
-	 * @param updateUserId 更新用户
+	 * @param updateBy 更新用户
 	 */
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
+	public void setUpdateBy(int updateBy) {
+		this.updateBy = updateBy;
 	}
 
 	/**  

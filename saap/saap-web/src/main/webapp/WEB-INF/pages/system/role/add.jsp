@@ -8,50 +8,20 @@
   <body>   
   <form id="theform" action="save.json" method="post" class="form-horizontal">
 				<fieldset>
-					<legend><s:message code="role.ui.fieldset.base" /></legend>
+					<legend><s:message code="common.ui.fieldset.base" /></legend>
 					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="role.id"><s:message code="role.id" /></label>
-								<div class="controls">
-									<input id="role.id" name="id" placeholder="" type="text" />
-								</div>
+						<div class="control-group">
+							<label class="control-label" for="name"><s:message code="role.name" /></label>
+							<div class="controls">
+								<input id="role.name" name="name" placeholder="" type="text" />
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="role.tenantId"><s:message code="role.tenantId" /></label>
-								<div class="controls">
-									<input id="role.tenantId" name="tenantId" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
+						</div>
 					</div>
 					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="role.name"><s:message code="role.name" /></label>
-								<div class="controls">
-									<input id="role.name" name="name" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="role.status"><s:message code="role.status" /></label>
-								<div class="controls">
-									<input id="role.status" name="status" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="role.remark"><s:message code="role.remark" /></label>
-								<div class="controls">
-									<input id="role.remark" name="remark" placeholder="" type="text" />
-								</div>
+						<div class="control-group">
+							<label class="control-label" for="remark"><s:message code="role.remark" /></label>
+							<div class="controls">
+								<textarea rows="6" cols="8" id="remark" name="remark" class="input-block-level limited"></textarea>
 							</div>
 						</div>								
 					</div>
@@ -70,7 +40,8 @@
 			$('#theform').littFormSubmit({
 				rules : {
 					name : {
-						required : true
+						required : true,
+						maxlength: 50
 					}
 				},			
 				success: function(reply){

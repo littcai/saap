@@ -1,11 +1,13 @@
 package com.litt.saap.system.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.saap.core.common.SaapConstants.RoleStatus;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.dao.RoleDao;
 import com.litt.saap.system.po.Role;
@@ -36,6 +38,13 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	public Role save(Role role)
 	{
+		role.setStatus(RoleStatus.NORMAL);
+		role.setTenantId(LoginUtils.getTenantId());
+		role.setCreateBy(LoginUtils.getLoginOpId().intValue());
+		role.setCreateDatetime(new Date());
+		role.setUpdateBy(role.getCreateBy());
+		role.setUpdateDatetime(role.getCreateDatetime());
+		
 		roleDao.save(role);
 		return role;
 	}
@@ -48,6 +57,9 @@ public class RoleServiceImpl implements IRoleService {
 	{
 		//校验租户权限
 		LoginUtils.validateTenant(role.getTenantId());
+		
+		role.setUpdateBy(LoginUtils.getLoginOpId().intValue());
+		role.setUpdateDatetime(new Date());
 	
 		roleDao.update(role);
 	}			
@@ -84,8 +96,38 @@ public class RoleServiceImpl implements IRoleService {
 	{
 		//校验租户权限
 		LoginUtils.validateTenant(role.getTenantId());
+	    if(role.getStatus() != RoleStatus.SYSTEM_DEFINED)
+	    {
+			role.setStatus(RoleStatus.LOGIC_DELETED);
+			this.update(role);
+	    }
+		//roleDao.delete(role);
+	}
 	
-		roleDao.delete(role);
+	/**
+	 * Resume by id.
+	 * @param id id
+	 */
+	public void doResume(Integer id) 
+	{
+		Role role = this.load(id);
+		this.doResume(role);
+	}
+	
+	/**
+	 * Resume by instance.
+	 * @param id id
+	 */
+	public void doResume(Role role) 
+	{
+		//校验租户权限
+		LoginUtils.validateTenant(role.getTenantId());
+	    if( role.getStatus()==RoleStatus.LOGIC_DELETED)
+	    {
+			role.setStatus(RoleStatus.NORMAL);
+			this.update(role);
+	    }
+		//roleDao.delete(role);
 	}
 	
 	/**
@@ -137,6 +179,7 @@ public class RoleServiceImpl implements IRoleService {
 	{
 		String listHql = "select obj from Role obj"
 			+ "-- and obj.tenantId={tenantId}"
+			+ "-- and obj.name like {name%}"
 			;	
 		return roleDao.listPage(listHql, pageParam);
 	}

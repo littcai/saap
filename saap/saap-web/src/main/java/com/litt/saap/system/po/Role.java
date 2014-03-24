@@ -1,6 +1,7 @@
 package com.litt.saap.system.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 角色表<br>
@@ -38,6 +39,26 @@ public class Role implements Serializable {
 	 * 备注.
 	 */
 	private String remark;
+	
+	/**
+	 * 创建用户.
+	 */
+	private int createBy;
+
+	/**
+	 * 创建时间.
+	 */
+	private Date createDatetime;
+
+	/**
+	 * 更新用户.
+	 */
+	private int updateBy;
+
+	/**
+	 * 更新时间.
+	 */
+	private Date updateDatetime;
 
 	public Role() {
 	}
@@ -133,6 +154,62 @@ public class Role implements Serializable {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/**
+	 * @return the createBy
+	 */
+	public int getCreateBy() {
+		return createBy;
+	}
+
+	/**
+	 * @param createBy the createBy to set
+	 */
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
+	}
+
+	/**
+	 * @return the createDatetime
+	 */
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	/**
+	 * @param createDatetime the createDatetime to set
+	 */
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+
+	/**
+	 * @return the updateBy
+	 */
+	public int getUpdateBy() {
+		return updateBy;
+	}
+
+	/**
+	 * @param updateBy the updateBy to set
+	 */
+	public void setUpdateBy(int updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	/**
+	 * @return the updateDatetime
+	 */
+	public Date getUpdateDatetime() {
+		return updateDatetime;
+	}
+
+	/**
+	 * @param updateDatetime the updateDatetime to set
+	 */
+	public void setUpdateDatetime(Date updateDatetime) {
+		this.updateDatetime = updateDatetime;
 	}
 
 }
