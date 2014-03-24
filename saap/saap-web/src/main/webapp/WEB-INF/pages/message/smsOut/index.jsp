@@ -29,14 +29,15 @@
 	        	<option value="receiver" ${li:renderSelected(param.s_searchField, "receiver")}><s:message code="smsIn.receiver" /></option>						
 	        </select>                      
 	        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">&nbsp;
-	        <label class="control-label" for="createBy"><s:message code="common.field.createBy" />:</label>
-	        <select name="createBy" id="createBy">
-	        	<option value=""><s:message code="common.ui.select" /></option>		
-	        	<c:forEach items="${tenantUserList }" var="row">
-	        		<option value="${row.id }" ${li:renderSelected(param.createBy, row.id) }  >${row.userName }[${row.loginId }]</option>
-	        	</c:forEach>		
-	        </select>
-	        <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>  
+	        <c:if test="${not empty SESSION_USER.tenant && SESSION_USER.tenant.isAdmin}">
+		        <label class="control-label" for="createBy"><s:message code="common.field.createBy" />:</label>
+		        <select name="createBy" id="createBy">
+		        	<option value=""><s:message code="common.ui.select" /></option>		
+		        	<c:forEach items="${tenantUserList }" var="row">
+		        		<option value="${row.id }" ${li:renderSelected(param.createBy, row.id) }  >${row.userName }[${row.loginId }]</option>
+		        	</c:forEach>		
+		        </select>
+	        </c:if>
 	    </div>
         <div> 
 	        <label class="control-label" for="startDate"><s:message code="smsOut.sendDatetime" />:</label>
@@ -47,7 +48,8 @@
 			<div class="input-append date datetimepicker" data-date-format="yyyy-mm-dd">
 				<input id="endDate" name="endDate" placeholder="" type="text" readonly="readonly" value="${param.endDate }"/>
 				<span class="add-on"><i class="icon-calendar"></i></span>
-			</div>
+			</div>&nbsp;
+			<button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>  
         </div>    
       </form>
 		</div>	
