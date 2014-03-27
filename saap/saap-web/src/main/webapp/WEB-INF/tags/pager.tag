@@ -9,6 +9,8 @@
 	<c:set var="funcName" value="jumpPage" />
 </c:if>
 <%
+int DEFAULT_PAGE_SIZE = 15;
+
 IPageList pageList = (IPageList)jspContext.getAttribute("params");
 String funcName = jspContext.getAttribute("funcName").toString();
 
@@ -33,17 +35,17 @@ int endPageNo = curPageNo + countBehindCurrent;
 boolean isFirstPage = curPageNo==1;//是否是第一页
 boolean isLastPage = curPageNo==totalPage;//是否是最后一页
 
-int firstRow = curPageNo * displayLinkCount;
-int lastRow = totalSize - (totalPage - curPageNo)*pageSize;
+int firstRow = (curPageNo-1) * pageSize + 1;
+int lastRow = firstRow + curPageNo==totalPage?(totalSize - firstRow ):totalSize;
 
 StringBuilder sb = new StringBuilder(50);
 sb.append("<select size=\"1\" ")
 .append(" style=\"width:70px;height:25px;padding:2px 3px;margin:0 4px;\"")
 .append(" onchange=\"javascript:" + funcName + "(" + curPageNo + ", this.value);\" >");
-if(pageSize==10)
-	sb.append("<option selected>10</option>");
+if(pageSize==DEFAULT_PAGE_SIZE)
+	sb.append("<option selected>"+ DEFAULT_PAGE_SIZE +"</option>");
 else 
-	sb.append("<option>10</option>");
+	sb.append("<option>"+ DEFAULT_PAGE_SIZE +"</option>");
 if(pageSize==20)
 	sb.append("<option selected>20</option>");
 else 
@@ -118,7 +120,34 @@ sb.append("</select>");
 <!--
 function jumpPage(pageNo, pageSize)
 {
-	alert(location.href);	
+	var url = location.href;
+	var params = url.substring(url.indexOf("?")+1, url.length);
+	//var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");  
+    //if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " ")); return "";
+	
+	if(url.indexOf("pageIndex")>0)
+	{
+		url = url.replaceAll("pageIndex=<%=curPageNo%>", "pageIndex="+pageNo);
+	}
+	else if(url.indexOf("?")<0)
+	{
+		url = url + "?pageIndex=" + pageNo;
+	}
+	else
+	{
+		url = url + "&pageIndex=" + pageNo;
+	}
+	
+	if(url.indexOf("pageSize")>0)
+	{
+		url = url.replaceAll("pageSize=<%=pageSize%>", "pageSize="+pageSize);
+	}
+	else
+	{
+		url = url + "&pageSize=" + pageSize;
+	}
+	
+	location.href = url;
 }
 //-->
 </script>
