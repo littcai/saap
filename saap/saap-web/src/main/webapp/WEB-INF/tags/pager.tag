@@ -114,3 +114,11 @@ sb.append("</select>");
 		</div>	
 	</div>
 </div>
+<script type="text/javascript">
+<!--
+function jumpPage(pageNo, pageSize)
+{
+	alert(location.href);	
+}
+//-->
+</script>

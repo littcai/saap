@@ -321,12 +321,19 @@ $(document).ready(function(){
 			$(setting.checkItem).each(function(){
 				$(this).bind("click", function(){
 					
-					if ($(setting.checkItem+":checked").length == $(setting.checkItem).length) 
+//					if ($(setting.checkItem+":checked").length == $(setting.checkItem).length) 
+//					{
+//						checkAll.prop("checked", true);
+//					}
+//					else{
+//						checkAll.prop("checked", false);
+//					}
+					if ($(setting.checkItem+":checked").length == 0) 
 					{
-						checkAll.prop("checked", true);
-					}
-					else{
 						checkAll.prop("checked", false);
+					}
+					else{						
+						checkAll.prop("checked", true);
 					}
 						
 				});

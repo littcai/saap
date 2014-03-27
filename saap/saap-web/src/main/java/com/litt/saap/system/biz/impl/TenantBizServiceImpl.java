@@ -2,8 +2,10 @@ package com.litt.saap.system.biz.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,7 +17,7 @@ import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.BeanCopier;
 import com.litt.core.util.DateUtils;
-import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.core.util.StringUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
@@ -43,6 +45,7 @@ import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantMemberService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
+import com.litt.saap.system.vo.PermissionTreeVo;
 import com.litt.saap.system.vo.TenantVo;
 
 /**
@@ -196,18 +199,16 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		String[] adminPermissions = new String[0];
 		TenantRoleConfig[] roleConfig = tenantDefConfig.getRoles();
 		for (TenantRoleConfig tenantRoleConfig : roleConfig) {
+			//插入角色的权限
+			String[] permissions = tenantDefConfig.getPermissions();
+			
 			Role role = new Role();
 			role.setTenantId(tenantId);
 			role.setName(tenantRoleConfig.getCode());	//BeanManager.getMessage("tenant.config.role."+tenantRoleConfig.getCode(), locale)
 			role.setStatus(9);		
-			roleService.save(role);
+			roleService.save(role, permissions);
 			Integer roleId = role.getId();
-			//插入角色的权限
-			String[] permissions = tenantDefConfig.getPermissions();
-			for (String permissionCode : permissions) {
-				RoleFuncPermission entity = new RoleFuncPermission(tenantId, roleId, permissionCode);
-				roleFuncPermissionDao.save(entity);
-			}
+			
 			//取到管理员的权限，赋给租户拥有者
 			if(tenantRoleConfig.isAdmin())
 			{
@@ -389,7 +390,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 			index++;
 		}				
 		
-		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig("basic");
+		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenantVo.getBagCode());
 		String[] permissions = tenantDefConfig.getPermissions();
 				
 		TenantQuitBo tenantQuit = new TenantQuitBo(tenantVo, roleIds, permissions);
@@ -413,6 +414,169 @@ public class TenantBizServiceImpl implements ITenantBizService {
 			throw new BusiCodeException("userInfo.error.loginIdDuplicated");
 		}
 		
+	}
+	
+	/**
+	 * 获得租户权限集.
+	 *
+	 * @param tenantId the tenant id
+	 */
+	public PermissionTreeVo findTenantPermissionTree(int tenantId)
+	{
+		Tenant tenant = tenantService.load(tenantId);
+		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenant.getBagCode());
+		String[] permissions = tenantDefConfig.getPermissions();
+		
+		PermissionTreeVo tree = PermissionTreeVo.newRoot();
+		Map<String, PermissionTreeVo> cache = new HashMap<String, PermissionTreeVo>(permissions.length);
+		
+		for (String code : permissions) {
+			//如果是两位的，则肯定是domain
+			if(StringUtils.length(code)==2)
+			{
+				PermissionTreeVo domain = PermissionTreeVo.newDomain(code);
+				tree.add(domain);
+				cache.put(code, domain);
+			}
+			else if(StringUtils.length(code)==4)	//4位可能是module，也可能是二层domain
+			{
+				PermissionTreeVo module = PermissionTreeVo.newModule(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				PermissionTreeVo domain = cache.get(domainCode);
+				if(domain!=null)
+				{
+					domain.add(module);
+					cache.put(code, module);
+				}
+			}
+			else if(StringUtils.length(code)==6)	//6位可能是func，也可能是module
+			{
+				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				String moduleCode = StringUtils.substring(code, 0, 4);
+				PermissionTreeVo module = cache.get(moduleCode);
+				if(module!=null)
+				{
+					module.add(func);
+					cache.put(code, func);
+				}
+			}
+			else if(StringUtils.length(code)==8)	//8位只能是func（目前仅支持3层菜单）
+			{
+				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				String subDomainCode = StringUtils.substring(code, 0, 4);
+				String moduleCode = StringUtils.substring(code, 0, 6);
+				PermissionTreeVo subDomain = cache.get(subDomainCode);
+				if(subDomain!=null)
+				{
+					if(subDomain.getType()!=PermissionTreeVo.DOMAIN)	//更新类型为domain
+					{
+						subDomain.setType(PermissionTreeVo.DOMAIN);
+					}
+					
+					PermissionTreeVo module = cache.get(moduleCode);
+					if(module!=null)
+					{
+						if(module.getType()!=PermissionTreeVo.MODULE)	//更新类型为domain
+						{
+							module.setType(PermissionTreeVo.MODULE);
+						}						
+						module.add(func);
+						cache.put(code, func);
+					}
+				}
+			}
+		}
+		
+		return tree;
+	}
+	
+	/**
+	 * 获得租户权限集.
+	 *
+	 * @param tenantId the tenant id
+	 */
+	public PermissionTreeVo findTenantPermissionTree(int tenantId, int roleId)
+	{
+		
+		Tenant tenant = tenantService.load(tenantId);
+		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenant.getBagCode());
+		String[] permissions = tenantDefConfig.getPermissions();
+		
+		PermissionTreeVo tree = PermissionTreeVo.newRoot();
+		Map<String, PermissionTreeVo> cache = new HashMap<String, PermissionTreeVo>(permissions.length);
+		
+		for (String code : permissions) {
+			//如果是两位的，则肯定是domain
+			if(StringUtils.length(code)==2)
+			{
+				PermissionTreeVo domain = PermissionTreeVo.newDomain(code);
+				tree.add(domain);
+				cache.put(code, domain);
+			}
+			else if(StringUtils.length(code)==4)	//4位可能是module，也可能是二层domain
+			{
+				PermissionTreeVo module = PermissionTreeVo.newModule(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				PermissionTreeVo domain = cache.get(domainCode);
+				if(domain!=null)
+				{
+					domain.add(module);
+					cache.put(code, module);
+				}
+			}
+			else if(StringUtils.length(code)==6)	//6位可能是func，也可能是module
+			{
+				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				String moduleCode = StringUtils.substring(code, 0, 4);
+				PermissionTreeVo module = cache.get(moduleCode);
+				if(module!=null)
+				{
+					module.add(func);
+					cache.put(code, func);
+				}
+			}
+			else if(StringUtils.length(code)==8)	//8位只能是func（目前仅支持3层菜单）
+			{
+				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
+				String domainCode = StringUtils.substring(code, 0, 2);
+				String subDomainCode = StringUtils.substring(code, 0, 4);
+				String moduleCode = StringUtils.substring(code, 0, 6);
+				PermissionTreeVo subDomain = cache.get(subDomainCode);
+				if(subDomain!=null)
+				{
+					if(subDomain.getType()!=PermissionTreeVo.DOMAIN)	//更新类型为domain
+					{
+						subDomain.setType(PermissionTreeVo.DOMAIN);
+					}
+					
+					PermissionTreeVo module = cache.get(moduleCode);
+					if(module!=null)
+					{
+						if(module.getType()!=PermissionTreeVo.MODULE)	//更新类型为domain
+						{
+							module.setType(PermissionTreeVo.MODULE);
+						}						
+						module.add(func);
+						cache.put(code, func);
+					}
+				}
+			}
+		}
+		//读取角色已经拥有的权限，设置选中状态
+		List<RoleFuncPermission> dbPermissionList = roleFuncPermissionDao.listByTenantAndRole(tenantId, roleId);
+				
+		for (RoleFuncPermission roleFuncPermission : dbPermissionList) {
+			PermissionTreeVo node = cache.get(roleFuncPermission.getPermissionCode());
+			if(node!=null)
+			{
+				node.setChecked(true);
+			}
+		}
+		
+		return tree;
 	}
 
 }

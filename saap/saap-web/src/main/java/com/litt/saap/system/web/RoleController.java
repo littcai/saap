@@ -14,9 +14,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
+import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.service.IRoleService;
-
+import com.litt.saap.system.vo.PermissionTreeVo;
+import com.litt.saap.system.vo.TenantVo;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -43,6 +47,8 @@ public class RoleController extends BaseController
 
 	@Resource
 	private IRoleService roleService;
+	@Resource
+	private ITenantBizService tenantBizService;
 	
 	/**
 	 * default page.
@@ -88,8 +94,10 @@ public class RoleController extends BaseController
 	@RequestMapping
 	public ModelAndView add() 
 	{        
-  	return new ModelAndView("/system/role/add");
-  }
+		PermissionTreeVo permissionTree = tenantBizService.findTenantPermissionTree(LoginUtils.getTenantId());
+		
+		return new ModelAndView("/system/role/add").addObject("permissionTree", permissionTree);
+    }
 	
 	/**
 	 * Edit Page.
@@ -102,8 +110,9 @@ public class RoleController extends BaseController
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
-		Role role = roleService.load(id);		
-        return new ModelAndView("/system/role/edit").addObject("role", role);
+		Role role = roleService.load(id);
+		PermissionTreeVo permissionTree = tenantBizService.findTenantPermissionTree(LoginUtils.getTenantId(), id);
+        return new ModelAndView("/system/role/edit").addObject("role", role).addObject("permissionTree", permissionTree);
     }	
     
 	/**
@@ -131,9 +140,11 @@ public class RoleController extends BaseController
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
+		String[] permissionCodes = request.getParameterValues("permissionCodes");
+		
 		Role role = new Role();
 		BeanUtils.populate(role, request.getParameterMap());			
-		roleService.save(role);
+		roleService.save(role, permissionCodes);
 	}
 	
 	/**
@@ -146,9 +157,11 @@ public class RoleController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
+		String[] permissionCodes = request.getParameterValues("permissionCodes");
+		
 		Role role = roleService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(role, request.getParameterMap());
-		roleService.update(role);
+		roleService.update(role, permissionCodes);
 	}
 	
 	/**

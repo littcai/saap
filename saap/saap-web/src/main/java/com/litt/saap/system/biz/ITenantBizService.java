@@ -8,6 +8,7 @@ import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
 import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.vo.PermissionTreeVo;
 
 /**
  * .
@@ -70,5 +71,19 @@ public interface ITenantBizService {
 	 * @return the tenant quit bo
 	 */
 	public TenantQuitBo doQuit(int tenantId, int userId);
+	
+	/**
+	 * 获得租户权限集.
+	 *
+	 * @param tenantId the tenant id
+	 */
+	public PermissionTreeVo findTenantPermissionTree(int tenantId);
+	
+	/**
+	 * 获得租户权限集.
+	 *
+	 * @param tenantId the tenant id
+	 */
+	public PermissionTreeVo findTenantPermissionTree(int tenantId, int roleId);
 
 }

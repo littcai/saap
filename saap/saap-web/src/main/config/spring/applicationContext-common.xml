@@ -267,8 +267,7 @@
 		<property name="eventBus" ref="eventBus"/>
 	</bean>
 	
-	<!-- Database migration -->
-	<!-- 
+	<!-- Database migration -->	
 	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
       <property ref="dataSource" name="dataSource"></property>
       <property name="changeLog" value="classpath:changelog.xml"></property>
@@ -278,8 +277,7 @@
       		<entry key="system.version" value="${system.version}" />
       	</map>
       </property>
-  	</bean>   
-	 -->
+  	</bean> 
 	 
 	 <bean id="smailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="${smtp.host}"/>

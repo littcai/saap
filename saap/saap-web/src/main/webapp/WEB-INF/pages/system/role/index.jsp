@@ -60,25 +60,23 @@
 					<tr>
 						<td class="checkCol"><input type="checkbox" class="checkItem" name="roleIds" value="${row.id }" /></td>
 						<td><c:out value="${row.name }"></c:out></td>
-						<td><c:out value="${row.status }"></c:out></td>
+						<td style="text-align: center"><s:message code="role.status.${row.status }"></s:message></td>
 						<td class="action-buttons">
-							<c:if test="${row.status==1 }">
-								<div class="action-buttons">
+							<div class="action-buttons">
 								<a href="edit.do?id=${row.id }" class="blue" >
 									<i class="icon-pencil"></i>
 								</a>&nbsp;
+							<c:if test="${row.status==1 }">
 								<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
 									<i class="icon-trash"></i>
 								</a>
-								</div>
 							</c:if>
 							<c:if test="${row.status==2 }">
-								<div class="action-buttons">
 								<a href="javascript:;" class="green" onclick="rowResume(${row.id});">
 									<i class="icon-trash"></i>
 								</a>
-								</div>
 							</c:if>
+							</div>
 						</td>
 					</tr>
 				</c:forEach>

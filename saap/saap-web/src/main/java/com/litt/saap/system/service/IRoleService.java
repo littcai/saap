@@ -27,15 +27,18 @@ public interface IRoleService {
 	 * Save.
 	 *
 	 * @param role the role
+	 * @param permissionCodes the permission codes
 	 * @return the role
 	 */
-	public Role save(Role role);
+	public Role save(Role role, String[] permissionCodes);
 	
 	/**
 	 * Update.
+	 *
 	 * @param role Role
+	 * @param permissionCodes the permission codes
 	 */
-	public void update(Role role);	
+	public void update(Role role, String[] permissionCodes);	
 	
 	/**
 	 * Delete by id.
