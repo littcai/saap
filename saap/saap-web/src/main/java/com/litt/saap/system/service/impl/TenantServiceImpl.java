@@ -97,7 +97,7 @@ public class TenantServiceImpl implements ITenantService {
 		tenantMemberDao.save(newMember);
 		
 		//绑定用户和角色
-		UserRole userRole = new UserRole(tenantId, userId, roleId);
+		UserRole userRole = new UserRole(tenantId, userId, roleId, userId);
 		userRoleDao.save(userRole);
 	}
 	

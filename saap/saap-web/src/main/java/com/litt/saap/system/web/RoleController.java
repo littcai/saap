@@ -64,14 +64,12 @@ public class RoleController extends BaseController
 	{	
 		LoginUserVo loginUserVo = (LoginUserVo)super.getLoginVo();
 		
-		//get params from request
-		String code = request.getParameter("code");
+		//get params from request		
 		String name = request.getParameter("name");
 				
 		//package the params
 		PageParam pageParam = WebUtils.getPageParam(request);
 		pageParam.addCond("tenantId", loginUserVo.getTenantId());
-		pageParam.addCond("code", code);	
 		pageParam.addCond("name", name);	
 		pageParam.addCond("isDeleted", false);	
 		//Get page result
@@ -93,7 +91,7 @@ public class RoleController extends BaseController
 	@Func(funcCode="01", moduleCode="9004", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
-	{        
+	{   		
 		PermissionTreeVo permissionTree = tenantBizService.findTenantPermissionTree(LoginUtils.getTenantId());
 		
 		return new ModelAndView("/system/role/add").addObject("permissionTree", permissionTree);

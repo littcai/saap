@@ -18,7 +18,7 @@
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
         <label class="control-label" for="name"><s:message code="role.name" />:</label>                     
-        <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
+        <input type="text" class="input-large search-query" value="${param.name }" name="name">
         <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
       </form>
 		</div>	
@@ -61,19 +61,20 @@
 						<td class="checkCol"><input type="checkbox" class="checkItem" name="roleIds" value="${row.id }" /></td>
 						<td><c:out value="${row.name }"></c:out></td>
 						<td style="text-align: center"><s:message code="role.status.${row.status }"></s:message></td>
-						<td class="action-buttons">
+						<td class="action-buttons">							
 							<div class="action-buttons">
+								
+							<c:if test="${row.status==1 }">
 								<a href="edit.do?id=${row.id }" class="blue" >
 									<i class="icon-pencil"></i>
 								</a>&nbsp;
-							<c:if test="${row.status==1 }">
 								<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
 									<i class="icon-trash"></i>
 								</a>
 							</c:if>
 							<c:if test="${row.status==2 }">
 								<a href="javascript:;" class="green" onclick="rowResume(${row.id});">
-									<i class="icon-trash"></i>
+									<i class="icon-repeat"></i>
 								</a>
 							</c:if>
 							</div>

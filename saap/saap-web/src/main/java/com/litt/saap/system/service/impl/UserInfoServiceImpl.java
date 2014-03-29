@@ -75,11 +75,11 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		//data validate 
 		
 		//MD5加密密码
-		String encryptPassowrd = userInfo.getPassword();
+		String encryptPassoword = userInfo.getPassword();
 		try
 		{
-			encryptPassowrd = MessageDigestTool.encryptMD5(encryptPassowrd);
-			userInfo.setPassword(encryptPassowrd);
+			encryptPassoword = MessageDigestTool.encryptMD5(encryptPassoword);
+			userInfo.setPassword(encryptPassoword);
 		}
 		catch (EncryptFailedException e)
 		{

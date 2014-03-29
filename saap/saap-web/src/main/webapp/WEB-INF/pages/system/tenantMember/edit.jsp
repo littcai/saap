@@ -17,6 +17,18 @@
 						</div>
 					</div>
 					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.password' /></label>
+						<div class="controls">
+							<input type="password" id="newpassword" placeholder="<s:message code='userInfo.password' />" name="newpassword"/>
+						</div>
+					</div>	
+					<div class="control-group">
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.rpassword' /></label>
+						<div class="controls">
+							<input type="password" id="rpassword" placeholder="<s:message code='userInfo.rpassword' />" name="rpassword"/>							
+						</div>
+					</div>
+					<div class="control-group">
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.userName' /></label>
 						<div class="controls">							
 							<input type="text" name="userName" value='<c:out value="${userInfo.userName }"/>' />
@@ -68,12 +80,21 @@
 						minlength: 4,
 						maxlength: 50
 					},
+					newpassword : {
+						minlength: 6,
+						maxlength: 20
+					},
+					rpassword : {
+						minlength: 6,
+						maxlength: 20,
+						equalTo: "#newpassword"
+					},
 					userName : {
 						required : true
 					}
 				},			
 				success: function(reply){
-					 location.href = "index.do";					
+					 location.href = <h:returnUrl value="index.do"></h:returnUrl>;					
 				}
 			});
 		});

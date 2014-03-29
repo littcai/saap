@@ -1,4 +1,4 @@
-<%@ page import="java.util.*" errorPage="/500.jsp" %>
+<%@ page import="java.util.*" errorPage="/500.jsp"  trimDirectiveWhitespaces="true" %>
 <% 
 response.setHeader("Pragma","No-cache");//HTTP 1.1
 response.setHeader("Cache-Control","no-cache");//HTTP 1.0

@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.litt.core.exception.BusiCodeException;
+import com.litt.core.security.EncryptFailedException;
+import com.litt.core.security.MessageDigestTool;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.BeanCopier;
@@ -119,19 +121,33 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		userStateDao.update(userState);
 		
 		//添加默认的个人事务角色（自动赋予权限）
-		UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID);
+		UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID, loginVo.getOpId().intValue());
 		userRoleDao.save(userRole);
 		//默认绑定租户成员角色权限
 		Role role = roleService.load(tenantId, SaapConstants.DefaultRoleName.MEMBER, 9);
-		userRole = new UserRole(tenantId, userId, role.getId());
+		userRole = new UserRole(tenantId, userId, role.getId(), loginVo.getOpId().intValue());
 		userRoleDao.save(userRole);
 	}
 	
-	public void updateMember(TenantMember tenantMember, UserInfo userInfo)
+	public void updateMember(TenantMember tenantMember, UserInfo userInfo, String newpassword)
 	{
 		//data validte
 		this.validate(userInfo.getId(), userInfo.getLoginId());
 				
+		//MD5加密密码
+		if(!StringUtils.isEmpty(newpassword))
+		{
+			try
+			{
+				String encryptPassoword = MessageDigestTool.encryptMD5(newpassword);
+				userInfo.setPassword(encryptPassoword);
+			}
+			catch (EncryptFailedException e)
+			{
+				throw new BusiCodeException("error.login.failed", e);
+			}	
+		}
+		
 		userInfoService.update(userInfo);
 		tenantMemberService.update(tenantMember);
 	}
@@ -223,7 +239,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		userStateDao.update(userState);
 		
 		//绑定用户和角色
-		UserRole userRole = new UserRole(tenantId, userId, adminRoleId);
+		UserRole userRole = new UserRole(tenantId, userId, adminRoleId, userId);
 		userRoleDao.save(userRole);
 		
 		TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenant.getAppAlias(), true, tenant.getExpiredDate());

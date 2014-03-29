@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ include file="/common/common.inc"%>
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
@@ -158,7 +158,7 @@
 					}
 				},
 				success: function(reply){
-					 location.href = "index.do";					
+					 location.href =  <h:returnUrl value="index.do"></h:returnUrl>;					
 				}
 			});
 		});

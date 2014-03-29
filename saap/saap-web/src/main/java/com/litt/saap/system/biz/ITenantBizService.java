@@ -29,7 +29,7 @@ public interface ITenantBizService {
 	
 	public void saveMember(UserInfo userInfo);
 	
-	public void updateMember(TenantMember tenantMember, UserInfo userInfo);
+	public void updateMember(TenantMember tenantMember, UserInfo userInfo, String newpassword);
 	
 	public void deleteMember(Integer tenantMemberId);
 	

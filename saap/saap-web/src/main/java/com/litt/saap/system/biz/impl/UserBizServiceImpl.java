@@ -262,7 +262,7 @@ public class UserBizServiceImpl implements IUserBizService {
 			userStateDao.update(userState);
 			
 			//添加默认的个人事务角色（自动赋予权限）
-			UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID);
+			UserRole userRole = new UserRole(0, userId, SaapConstants.DEFAULT_ROLE_ID, userId);
 			userRoleDao.save(userRole);
 			
 			targetUser = userInfo;
@@ -328,7 +328,7 @@ public class UserBizServiceImpl implements IUserBizService {
 				userInfoService.update(userInfo);
 				
 				//添加默认的个人事务角色（自动赋予权限）
-				UserRole userRole = new UserRole(0, userInfo.getId(), SaapConstants.DEFAULT_ROLE_ID);
+				UserRole userRole = new UserRole(0, userInfo.getId(), SaapConstants.DEFAULT_ROLE_ID, userInfo.getId());
 				userRoleDao.save(userRole);
 				
 				//进行登录			

@@ -48,10 +48,12 @@ public class UserRole implements Serializable {
 	public UserRole() {
 	}
 
-	public UserRole(int tenantId, int userId, int roleId) {
+	public UserRole(int tenantId, int userId, int roleId, int createBy) {
 		this.tenantId = tenantId;
 		this.userId = userId;
 		this.roleId = roleId;
+		this.createBy = createBy;
+		this.createDatetime = new Date();
 	}
 
 	/**  

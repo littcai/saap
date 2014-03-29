@@ -227,6 +227,10 @@
       <taglib-location>/WEB-INF/tlds/litt-el.tld</taglib-location>
     </taglib>
     <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <trim-directive-whitespaces>true</trim-directive-whitespaces>
+    </jsp-property-group>
+    <jsp-property-group>
       <display-name>JSPConfiguration</display-name>
       <url-pattern>*.inc</url-pattern>
       <el-ignored>false</el-ignored>
@@ -234,6 +238,7 @@
       <scripting-invalid>false</scripting-invalid>
       <include-prelude></include-prelude>
       <include-coda></include-coda>
+      <trim-directive-whitespaces>true</trim-directive-whitespaces>
     </jsp-property-group>
   </jsp-config>
 </web-app>

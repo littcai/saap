@@ -165,11 +165,13 @@ public class TenantMemberController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
+		String newpassword = request.getParameter("newpassword");
+		
 		TenantMember tenantMember = tenantMemberService.load(Utility.parseInt(request.getParameter("tenantMemberId")));
 		
 		UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
 		BeanUtils.populate(userInfo, request.getParameterMap());		
-		tenantBizService.updateMember(tenantMember, userInfo);
+		tenantBizService.updateMember(tenantMember, userInfo, newpassword);
 	}
 	
 	/**

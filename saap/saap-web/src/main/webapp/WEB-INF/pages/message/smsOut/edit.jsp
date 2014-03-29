@@ -99,7 +99,7 @@
 				      }
 				},
 				success: function(reply){
-					location.href = "index.do";					
+					location.href = <h:returnUrl value="index.do"></h:returnUrl>;					
 				}
 			});
 		});
