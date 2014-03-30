@@ -362,6 +362,14 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		return tenantQuit;
 	}
 	
+	/**
+	 * 用户退出指定租户.
+	 * 
+	 * @param tenantId
+	 * @param userId
+	 * @return
+	 * @see com.litt.saap.system.biz.ITenantBizService#doQuit(int, int)
+	 */
 	public TenantQuitBo doQuit(int tenantId, int userId)
 	{		
 		TenantVo tenantVo = tenantService.findById(tenantId);
@@ -371,7 +379,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		//退出用户是租户创建人，则是解散租户
 		if(tenantMember.getCreateUserId()==userId)	
 		{
-			
+			throw new BusiCodeException("tenantMember.error.creatorQuit");
 		}
 		//检查是否还剩其他管理员存在，没有的话禁止退出，否则无法对租户进行管理		
 		if(tenantMember.getIsAdmin())

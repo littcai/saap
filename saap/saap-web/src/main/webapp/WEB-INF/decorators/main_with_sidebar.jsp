@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <html lang="en">
   <head>	
-  	<%@ include file="/common/meta.inc"%> 	
+  	<%@ include file="/common/meta.inc"%>  		 	
 	<decorator:head />	
 	<!--  -->
 	<script type="text/javascript">

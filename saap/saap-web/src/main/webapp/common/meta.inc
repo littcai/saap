@@ -62,7 +62,13 @@
 		<!-- common plugin scripts-->		
 		<!-- jquery bootbox -->
 		<script src="${contextPath }/widgets/bootbox/bootbox.min.js"></script>	
-		
+		<c:if test="${not empty sessionScope.SESSION_USER && not empty sessionScope.SESSION_USER.locale && !fn:startsWith(sessionScope.SESSION_USER.locale, 'en') }">
+			<script type="text/javascript"> 
+			$(document).ready(function(){	
+				bootbox.setLocale("${sessionScope.SESSION_USER.locale}");
+	  		});
+	  		</script>
+		</c:if>			
 		<!-- jquery pnotify -->
 		<link href="${contextPath}/widgets/pnotify/css/jquery.pnotify.default.css" rel="stylesheet" />
 		<script src="${contextPath }/widgets/pnotify/js/jquery.pnotify.min.js"></script>	
@@ -70,8 +76,8 @@
 		<!-- jquery form and validate -->
 <script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>
 <script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
-<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSOION_USER.locale, 'en') }">
-	<script src="${contextPath }/widgets/jquery-validate/i18n/messages_${SESSION_USER.locale }.js"></script>
+<c:if test="${!empty sessionScope.SESSION_USER && !empty sessionScope.SESSION_USER.locale && !fn:startsWith(sessionScope.SESSOION_USER.locale, 'en') }">
+	<script src="${contextPath }/widgets/jquery-validate/i18n/messages_${sessionScope.SESSION_USER.locale }.js"></script>
 </c:if>
 <script src="${contextPath }/widgets/jquery-form/jquery.form.min.js"></script>
 <!-- jquery select2 -->

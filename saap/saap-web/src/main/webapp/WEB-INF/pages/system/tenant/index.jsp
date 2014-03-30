@@ -7,18 +7,23 @@
 		<title><s:message code="login.ui.title" /></title>
 	</head>
 	<body> 	
-	<div>	
+	<div> 
+		<div class="btn-toolbar">
+		  		<button class="btn" onclick="activateTenant();"><s:message code="tenant.func.activate"/>(仅做测试)</button>
+		  		<button class="btn" onclick="upgradeTenant();"><s:message code="tenant.func.upgrade"/>(仅做测试)</button>
+		  		<button class="btn btn-danger" onclick="deactivateTenant();"><s:message code="tenant.func.deactivate"/></button>
+		  		<button class="btn btn-warning" onclick="quitTenant();"><s:message code="tenantMember.func.quit"/></button>
+		  	</div>
 		<ul class="nav nav-tabs">
-		  <li class="active"><a href="#basic" data-toggle="tab"><s:message code="tenant.ui.tab.summary" /></a></li>
+		  <li class="active"><a href="#summary" data-toggle="tab"><s:message code="tenant.ui.tab.summary" /></a></li>
 		  <li><a href="#stat" data-toggle="tab"><s:message code="tenant.ui.tab.stat" /></a></li>	
 		  <li><a href="#conf" data-toggle="tab"><s:message code="tenant.ui.tab.conf" /></a></li>	    
 		</ul>
 		
 		<div class="tab-content ">
-		  <div class="tab-pane active" id="summary">
+		  <div class="tab-pane active" id="summary">		  	
 		  	<form id="basic-form" action="index.do" method="GET" class="form-horizontal">
-		  		<fieldset>
-		  			<legend>General</legend>
+		  		<fieldset>		  			
 		  			<div class="control-group">
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.code' /></label>
 						<div class="controls">							
@@ -65,7 +70,7 @@
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.expiredDate' /></label>
 						<div class="controls">							
 							<input type="text" name="expiredDate" value='<c:out value="${li:formatDate(tenant.expiredDate) }"/>' readonly="readonly" />
-							&nbsp;<button type="button" class="btn btn-primary"><s:message code="tenant.btn.recharge" /></button>
+							&nbsp;<button type="button" class="btn btn-primary"><s:message code="tenant.func.recharge" /></button>
 						</div>
 					</div>
 					<div class="control-group">
@@ -77,7 +82,7 @@
 		  		</fieldset>		  		
 		  	</form>
 		  </div>	
-		  <div class="tab-pane" id="state">
+		  <div class="tab-pane" id="stat">
 		  	<form id="state-form" action="" method="POST" class="form-horizontal">
 		  		<fieldset>
 		  			<div class="control-group">
@@ -100,8 +105,11 @@
 					</div>
 				</fieldset>
 			</form>		
+		  </div>
+		  <div class="tab-pane" id="conf">
+		  
 		  </div>	 
-		  		</div>
+	  </div>
 	</div>	 
 
 <!-- inline scripts related to this page -->
@@ -111,6 +119,48 @@ $(document).ready(function(){
 	
 	
 });	
+
+function activateTenant()
+{
+	location.href = "${contextPath }/login/activateTenant.do";
+}
+
+function upgradeTenant()
+{
+	location.href = "${contextPath }/login/upgradeTenantPermission.do";		
+}
+
+function deactivateTenant()
+{
+	bootbox.confirm("<s:message code='tenant.func.deactivate.confirm' />", function(result){
+		if(result)
+		{
+			$.webtools.ajax({
+				url: "${contextPath }/login/deactivateTenant.json",
+				params: {},
+				success: function(reply) {
+					location.reload();
+				}
+			});	
+		}
+	});	
+}
+
+function quitTenant()
+{
+	bootbox.confirm("<s:message code='tenantMember.func.quit.confirm' />", function(result){
+		if(result)
+		{
+			$.webtools.ajax({
+				url: "${contextPath }/login/quitTenant.json",
+				params: {},
+				success: function(reply) {
+					location.reload();
+				}
+			});	
+		}
+	});		
+}
 </script>
 </body>
 </html>

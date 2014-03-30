@@ -11,7 +11,7 @@
 	<!-- bootstrap-datetimepicker -->
 	<link href="${contextPath}/widgets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <script src="${contextPath }/widgets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-	<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSOION_USER.locale, 'en') }">
+	<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSION_USER.locale, 'en') }">
 		<script src="${contextPath }/widgets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.${SESSION_USER.locale }.js"></script>
 	</c:if>		
   </head>

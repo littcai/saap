@@ -415,10 +415,11 @@ public class LoginController {
 	 * @throws Exception the exception
 	 */
 	@RequestMapping(value="activateTenant.do")
-	public ModelAndView activateTenant(@RequestParam String orderNo, @RequestParam Integer userId
+	public ModelAndView activateTenant(@RequestParam String orderNo
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
+		int userId = LoginUtils.getLoginOpId().intValue();
 		
 		Locale locale = LoginUtils.getLocale(request);
 				
@@ -481,7 +482,7 @@ public class LoginController {
 	 * @return 视图
 	 * @throws Exception the exception
 	 */
-	@RequestMapping(value="deactivateTenant.do")
+	@RequestMapping(value="deactivateTenant.json")
 	public ModelAndView deactivateTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		Locale locale = LoginUtils.getLocale(request);
@@ -496,10 +497,16 @@ public class LoginController {
 		}		
 		loginUser.removePermissions(tenantQuitBo.getPermissionCodes());
 		
-		String message = messageSource.getMessage("tenant.action.deactivate.success", new Object[]{tenantQuitBo.getTenant().getAppAlias()}, locale);
-		String redirectUrl = "index";	//跳转到首页
+		return new ModelAndView("jsonView");
+	}
+	
+	@RequestMapping(value="quitTenant.json")
+	public ModelAndView quitTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		LoginUserVo loginUserVo = (LoginUserVo)LoginUtils.getLoginVo();		
+		tenantBizService.doQuit(loginUserVo.getTenantId(), loginUserVo.getOpId().intValue());
 		
-		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+		return new ModelAndView("jsonView");
 	}
 	
 	

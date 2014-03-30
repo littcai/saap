@@ -97,6 +97,7 @@ $(document).ready(function(){
 	        }		
 		});	
 	}
+	
 });	
 
 /**
@@ -482,6 +483,7 @@ $(document).ready(function(){
 			success: null,
 			error: null
 	};
+	
 	
 	
   //定义插件

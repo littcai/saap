@@ -4,7 +4,9 @@
 		loading: "正在处理，请稍候...",
 		error: "系统错误",
 		success: "操作成功",
-		formChanged: "您有未保存的数据" 
+		formChanged: "您有未保存的数据",
+		ok: "确认",
+		cancel: "取消"
 	});
 	// 闭包结束    
 })(jQuery);  	

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.core.module.annotation.Func;
 import com.litt.core.web.mvc.action.BaseController;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.service.ITenantService;
@@ -43,6 +44,8 @@ public class TenantController extends BaseController
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
 	{
+		LoginUserVo loginUserVo = (LoginUserVo)LoginUtils.getLoginVo();
+		
 		Tenant tenant = tenantService.load(LoginUtils.getTenantId());
 		
 		return new ModelAndView("/system/tenant/index").addObject("tenant", tenant);
