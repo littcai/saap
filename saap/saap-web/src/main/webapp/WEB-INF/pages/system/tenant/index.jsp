@@ -11,9 +11,10 @@
 		<div class="btn-toolbar">
 		  		<button class="btn" onclick="activateTenant();"><s:message code="tenant.func.activate"/>(仅做测试)</button>
 		  		<button class="btn" onclick="upgradeTenant();"><s:message code="tenant.func.upgrade"/>(仅做测试)</button>
+		  		<button class="btn btn-warning" onclick="lockTenant();"><s:message code="tenant.func.lock"/></button>
 		  		<button class="btn btn-danger" onclick="deactivateTenant();"><s:message code="tenant.func.deactivate"/></button>
-		  		<button class="btn btn-warning" onclick="quitTenant();"><s:message code="tenantMember.func.quit"/></button>
-		  	</div>
+		  		
+		</div>
 		<ul class="nav nav-tabs">
 		  <li class="active"><a href="#summary" data-toggle="tab"><s:message code="tenant.ui.tab.summary" /></a></li>
 		  <li><a href="#stat" data-toggle="tab"><s:message code="tenant.ui.tab.stat" /></a></li>	
@@ -107,7 +108,20 @@
 			</form>		
 		  </div>
 		  <div class="tab-pane" id="conf">
-		  
+			  <form id="conf-form" action="config.json" method="POST" class="form-horizontal">
+			  		<fieldset>
+			  			<div class="control-group">
+							<label class="control-label"><s:message code='tenant.appAlias' /></label>
+							<div class="controls">							
+								<input type="text" name="appAlias" value='<c:out value="${tenant.appAlias }"/>'  />
+							</div>
+						</div>
+						
+					</fieldset>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary" data-loading-text="<s:message code='common.processing' />"><i class="icon-ok"></i> <s:message code="btn.submit" /></button>
+					</div>
+				</form>	
 		  </div>	 
 	  </div>
 	</div>	 
@@ -115,7 +129,24 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
 $(document).ready(function(){	
-	
+	$('#conf-form').littFormSubmit({		
+		rules : {
+			appAlias: {
+                required: true,
+                minlength: 4,
+                maxlength: 50
+            }
+		},	
+		success: function(reply){			
+			$.webtools.alert({
+				containerId: "conf-form",
+				type: "success",
+				overwrite: false,
+				position: "prepend",
+				message: "<s:message code='tenant.func.conf.success' />"				
+			}); 				
+		}
+	});
 	
 	
 });	
@@ -128,6 +159,22 @@ function activateTenant()
 function upgradeTenant()
 {
 	location.href = "${contextPath }/login/upgradeTenantPermission.do";		
+}
+
+function lockTenant()
+{
+	bootbox.confirm("<s:message code='tenant.func.lock.confirm' />", function(result){
+		if(result)
+		{
+			$.webtools.ajax({
+				url: "${contextPath }/login/lockTenant.json",
+				params: {},
+				success: function(reply) {
+					location.reload();
+				}
+			});	
+		}
+	});	
 }
 
 function deactivateTenant()
@@ -146,21 +193,7 @@ function deactivateTenant()
 	});	
 }
 
-function quitTenant()
-{
-	bootbox.confirm("<s:message code='tenantMember.func.quit.confirm' />", function(result){
-		if(result)
-		{
-			$.webtools.ajax({
-				url: "${contextPath }/login/quitTenant.json",
-				params: {},
-				success: function(reply) {
-					location.reload();
-				}
-			});	
-		}
-	});		
-}
+
 </script>
 </body>
 </html>

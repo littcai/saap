@@ -28,6 +28,14 @@ public interface ITenantService {
 	 * @param tenant the tenant
 	 */
 	public void update(Tenant tenant);
+	
+	/**
+	 * Update.
+	 *
+	 * @param tenantId the tenant id
+	 * @param appAlias the app alias
+	 */
+	public void update(int tenantId, String appAlias);
 
 	/**
 	 * 加入租户.

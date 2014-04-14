@@ -61,6 +61,19 @@ public class TenantServiceImpl implements ITenantService {
 		tenantDao.update(tenant);
 	}
 	
+	/**
+	 * Update.
+	 *
+	 * @param tenantId the tenant id
+	 * @param appAlias the app alias
+	 */
+	public void update(int tenantId, String appAlias)
+	{
+		Tenant tenant = this.load(tenantId);
+		tenant.setAppAlias(appAlias);
+		this.update(tenant);
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.service.impl.ITenantService#doJoin(int, int, int)

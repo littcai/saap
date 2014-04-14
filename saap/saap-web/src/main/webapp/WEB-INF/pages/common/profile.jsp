@@ -8,6 +8,9 @@
 	</head>
 	<body> 	
 	<div>	
+		<div class="btn-toolbar">
+			<button class="btn btn-warning" onclick="quitTenant();"><s:message code="tenantMember.func.quit"/></button>
+		</div>
 		<ul class="nav nav-tabs">
 		  <li class="active"><a href="#basic" data-toggle="tab"><s:message code="profile.ui.tab.basic" /></a></li>
 		  <li><a href="#state" data-toggle="tab"><s:message code="profile.ui.tab.state" /></a></li>
@@ -238,6 +241,22 @@ $(document).ready(function(){
 	});	
 	
 });	
+
+function quitTenant()
+{
+	bootbox.confirm("<s:message code='tenantMember.func.quit.confirm' />", function(result){
+		if(result)
+		{
+			$.webtools.ajax({
+				url: "${contextPath }/login/quitTenant.json",
+				params: {},
+				success: function(reply) {
+					location.reload();
+				}
+			});	
+		}
+	});		
+}
 </script>
 </body>
 </html>
