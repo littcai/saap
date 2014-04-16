@@ -11,37 +11,37 @@
 				<fieldset>
 					<legend><s:message code="common.ui.fieldset.base" /></legend>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.loginId' /></label>
+						<label class="control-label"><s:message code='userInfo.loginId' /></label>
 						<div class="controls">							
-							<input type="text" name="loginId" value='<c:out value="${userInfo.loginId }"/>' />
+							<input type="text" name="_loginId" value='<c:out value="${userInfo.loginId }"/>' readonly="readonly" />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.password' /></label>
+						<label class="control-label"><s:message code='userInfo.password' /></label>
 						<div class="controls">
 							<input type="password" id="newpassword" placeholder="<s:message code='userInfo.password' />" name="newpassword"/>
 						</div>
 					</div>	
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.rpassword' /></label>
+						<label class="control-label"><s:message code='userInfo.rpassword' /></label>
 						<div class="controls">
 							<input type="password" id="rpassword" placeholder="<s:message code='userInfo.rpassword' />" name="rpassword"/>							
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.userName' /></label>
+						<label class="control-label"><s:message code='userInfo.userName' /></label>
 						<div class="controls">							
 							<input type="text" name="userName" value='<c:out value="${userInfo.userName }"/>' />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.nickName' /></label>
+						<label class="control-label"><s:message code='userInfo.nickName' /></label>
 						<div class="controls">							
 							<input type="text" name="nickName" value='<c:out value="${userInfo.nickName }"/>' />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.gender' /></label>
+						<label class="control-label"><s:message code='userInfo.gender' /></label>
 						<div class="controls">							
 							<select id="gender" name="gender">
 								<li:dictOptions dictType="0002" dictValue="${userInfo.gender }"/>
@@ -49,13 +49,13 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.email' /></label>
+						<label class="control-label"><s:message code='userInfo.email' /></label>
 						<div class="controls">							
 							<input type="text" name="email" value='<c:out value="${userInfo.email }"/>' />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.mobile' /></label>
+						<label class="control-label"><s:message code='userInfo.mobile' /></label>
 						<div class="controls">							
 							<input type="text" name="mobile" value='<c:out value="${userInfo.mobile }"/>' />
 						</div>

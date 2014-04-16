@@ -69,7 +69,7 @@
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
 						<td class="checkCol"><input type="checkbox" class="checkItem" name="tenantMemberIds" value="${row.tenantMember.id }" /></td>
-						<td><c:out value="${row.userInfo.loginId }"></c:out></td>
+						<td><a href="show.do?id=${row.tenantMember.id }"><c:out value="${row.userInfo.loginId }"></c:out>&nbsp;<i class="icon-info-sign"></i></a></td>
 						<td><c:out value="${row.userInfo.userName }"></c:out></td>
 						<td><c:out value="${row.userInfo.nickName }"></c:out></td>
 						<td><c:out value="${li:genDictContent('0002', row.userInfo.gender) }"></c:out></td>
@@ -80,8 +80,13 @@
 							<div class="action-buttons">
 							<a href="edit.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-pencil"></i>
-							</a>
-							<span class="vbar"></span>	
+							</a>&nbsp;
+							<a href="editRole.do?id=${row.tenantMember.id }" class="blue" >
+								<i class="icon-cog"></i>
+							</a>&nbsp;	
+							<a href="editGroup.do?id=${row.tenantMember.id }" class="blue" >
+								<i class="icon-group"></i>
+							</a>&nbsp;							
 							<a href="javascript:;" class="red" onclick="rowDelete(${row.tenantMember.id});">
 								<i class="icon-trash"></i>
 							</a>

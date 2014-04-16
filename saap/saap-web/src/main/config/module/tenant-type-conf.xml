@@ -70,6 +70,8 @@
 			<code>900102</code>
 			<code>900103</code>
 			<code>900104</code>
+			<code>900105</code>
+			<code>900106</code>
 			<!-- tenant members  -->
 			<code>9002</code>
 			<code>900201</code>
@@ -160,7 +162,9 @@
 				<code>9001</code>
 				<code>900102</code>
 				<code>900103</code>
-				<code>900104</code>
+				<code>900104</code>				
+				<code>900105</code>
+				<code>900106</code>
 				<!-- tenant members  -->
 				<code>9002</code>
 				<code>900201</code>

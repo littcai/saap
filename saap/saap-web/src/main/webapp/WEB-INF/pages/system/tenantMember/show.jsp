@@ -5,25 +5,31 @@
 <html lang="en">
   <head>		
   </head>
-  <body>   
-  <form id="theform" action="show.do" method="post" class="form-horizontal">
-  	<input type="hidden" name="id" value="${tenantMember.id}" />
-				<fieldset>
-					<legend><s:message code="tenantMember.ui.fieldset.base" /></legend>
+  <body> 
+  	<ul class="nav nav-tabs">
+		  <li class="active"><a href="#basic" data-toggle="tab"><s:message code="tenantMember.ui.tab.basic" /></a></li>
+		  <li><a href="#userRole" data-toggle="tab"><s:message code="tenantMember.ui.tab.userRole" /></a></li>
+		  <li><a href="#userGroup" data-toggle="tab"><s:message code="tenantMember.ui.tab.userGroup" /></a></li>
+		</ul>		
+		<div class="tab-content ">
+		  <div class="tab-pane active" id="basic">    
+  			<form id="theform" action="show.do" method="post" class="form-horizontal">
+			  <fieldset>
+				<legend><s:message code="common.ui.fieldset.base" /></legend>	
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.id"><s:message code="tenantMember.id" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.id}" />									
+								<label class="control-label"><s:message code='userInfo.loginId' /></label>
+								<div class="controls">							
+									<input type="text" name="loginId" value='<c:out value="${userInfo.loginId }"/>' readonly="readonly" />
 								</div>
 							</div>
 						</div>								
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.tenantId"><s:message code="tenantMember.tenantId" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.tenantId}" />									
+								<label class="control-label"><s:message code='userInfo.userName' /></label>
+								<div class="controls">							
+									<input type="text" name="userName" value='<c:out value="${userInfo.userName }"/>' readonly="readonly" />
 								</div>
 							</div>
 						</div>								
@@ -31,17 +37,35 @@
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.appId"><s:message code="tenantMember.appId" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.appId}" />									
+								<label class="control-label"><s:message code='userInfo.nickName' /></label>
+								<div class="controls">							
+									<input type="text" name="nickName" value='<c:out value="${userInfo.nickName }"/>' readonly="readonly" />
 								</div>
 							</div>
 						</div>								
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.userId"><s:message code="tenantMember.userId" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.userId}" />									
+								<label class="control-label"><s:message code='userInfo.gender' /></label>
+								<div class="controls">							
+									<input type="text" name="gender" value="${li:genDictContent('0002', userInfo.gender) }" readonly="readonly" />
+								</div>
+							</div>
+						</div>								
+					</div>
+					<div class="row-fluid">
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label"><s:message code='userInfo.email' /></label>
+								<div class="controls">							
+									<input type="text" name="email" value='<c:out value="${userInfo.email }"/>' readonly="readonly" />
+								</div>
+							</div>
+						</div>								
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label"><s:message code='userInfo.mobile' /></label>
+								<div class="controls">							
+									<input type="text" name="mobile" value='<c:out value="${userInfo.mobile }"/>' readonly="readonly" />
 								</div>
 							</div>
 						</div>								
@@ -50,52 +74,35 @@
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="tenantMember.isAdmin"><s:message code="tenantMember.isAdmin" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.isAdmin}" />									
+								<div class="controls">		
+									<h:yesno value="${tenantMember.isAdmin}"></h:yesno>					
 								</div>
 							</div>
 						</div>								
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.status"><s:message code="tenantMember.status" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.status}" />									
+								<label class="control-label" for="userInfo.status"><s:message code="userInfo.status" /></label>
+								<div class="controls">							
+									<input type="text" name="userInfo.status" value="${li:genDictContent('1002', userInfo.status)}" readonly="readonly" />
 								</div>
 							</div>
 						</div>								
-					</div>
-					<div class="row-fluid">
+					</div>					
+					
+					<div class="row-fluid">												
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.createUserId"><s:message code="tenantMember.createUserId" /></label>
+								<label class="control-label" for="userInfo.createDatetime"><s:message code="userInfo.createDatetime" /></label>
 								<div class="controls">
-									<c:out value="${tenantMember.createUserId}" />									
+									<input type="text" name="userInfo.createDatetime" value='<c:out value="${li:formatDateTime(userInfo.createDatetime)}" />' readonly="readonly" />									
 								</div>
 							</div>
-						</div>								
+						</div>	
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="tenantMember.createDatetime"><s:message code="tenantMember.createDatetime" /></label>
+								<label class="control-label" for="userInfo.updateDatetime"><s:message code="userInfo.updateDatetime" /></label>
 								<div class="controls">
-									<c:out value="${tenantMember.createDatetime}" />									
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.updateUserId"><s:message code="tenantMember.updateUserId" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.updateUserId}" />									
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="tenantMember.updateDatetime"><s:message code="tenantMember.updateDatetime" /></label>
-								<div class="controls">
-									<c:out value="${tenantMember.updateDatetime}" />									
+									<input type="text" name="userInfo.updateDatetime" value='<c:out value="${li:formatDateTime(userInfo.updateDatetime)}" />' readonly="readonly" />									
 								</div>
 							</div>
 						</div>								
@@ -103,10 +110,36 @@
 				</fieldset>					
 						
 				<div class="form-actions">					
-					<button type="button" class="btn" onclick="history.back();"><s:message code="btn.cancel" /></button>
+					<button type="button" class="btn" onclick="history.back();"><s:message code="btn.back" /></button>
 				</div>					
 				
-			</form>			
+			</form>	
+		</div>
+		
+		<div class="tab-pane" id="userRole">    
+  			<table class="table table-striped table-bordered table-hover datatable">				
+				<thead>
+				  <tr>
+					<th width="30%"><s:message code="role.name"/></th>
+					<th><s:message code="role.remark"/></th>
+				  </tr>	
+				</thead>
+				<tbody>
+				  <c:forEach items="${userRoleList }" var="row">
+				    <tr>				    	
+				    	<td><c:out value="${row.name }"></c:out></td>
+				    	<td><c:out value="${row.remark }"></c:out></td>
+				    </tr>
+				  </c:forEach>
+				</tbody>
+			</table>
+		 </div>
+		 
+		 <div class="tab-pane" id="userGroup">    
+		 
+		 </div>
+		
+	  </div>				
 			  
   </body>	
 </html>

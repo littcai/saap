@@ -2,7 +2,6 @@ package com.litt.saap.system.biz.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +33,7 @@ import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
@@ -43,6 +43,7 @@ import com.litt.saap.system.dao.UserInfoDao;
 import com.litt.saap.system.dao.UserRoleDao;
 import com.litt.saap.system.dao.UserStateDao;
 import com.litt.saap.system.po.ActivationCode;
+import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
@@ -496,6 +497,67 @@ public class UserBizServiceImpl implements IUserBizService {
 	}
 	
 	/**
+	 * 更新用户在租户中的角色.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 * @param roleIds the role ids
+	 */
+	public void updateUserRoleByTenant(int userId, int tenantId, Integer[] roleIds)
+	{
+		int createBy = LoginUtils.getLoginOpId().intValue();
+		if(ArrayUtils.isEmpty(roleIds))	//所有角色都被删除
+		{
+			userRoleDao.deleteByTenantUser(tenantId, userId);
+		}
+		else 
+		{
+			List<UserRole> userRoleList = userRoleDao.listByTenantUser(tenantId, userId);
+			
+			List<UserRole> addList = new ArrayList<UserRole>();	//追加的
+			List<UserRole> deleteList = new ArrayList<UserRole>(); //删除的
+			
+			for (UserRole userRole : userRoleList) {
+				boolean isExist = false;
+				for (Integer roleId : roleIds) {
+					if(userRole.getId().equals(roleId))
+					{
+						isExist = true;
+						break;
+					}
+				}
+				if(!isExist)
+				{
+					logger.debug("Role:{} will be deleted from user:{} on workspace:{}", new Object[]{userRole.getRoleId(), userRole.getUserId(), userRole.getTenantId()});
+					deleteList.add(userRole);
+				}
+			}
+			//新增
+			for (Integer roleId : roleIds) 
+			{
+				boolean isExist = false;
+				for (UserRole userRole : userRoleList) 
+				{					
+					if(userRole.getId().equals(roleId))
+					{
+						isExist = true;
+						break;
+					}
+				}
+				if(!isExist)
+				{
+					logger.debug("Role:{} will be added to user:{} on workspace:{}", new Object[]{roleId, userId, tenantId});
+					UserRole newUserRole = new UserRole(tenantId, userId, roleId, createBy);
+					addList.add(newUserRole);
+				}	
+			}
+			//执行具体操作
+			userRoleDao.deleteBatch(deleteList);
+			userRoleDao.saveBatch(addList);
+		}
+	}
+	
+	/**
 	 * Do login.
 	 *
 	 * @param loginId the login id
@@ -627,6 +689,21 @@ public class UserBizServiceImpl implements IUserBizService {
 		initDefaultPermission(loginUser);
 		//初始化租户相关
 		initLoginUserTenant(loginUser);	
+	}
+	
+	/**
+	 * 查询用户在某租户下的所有角色.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<Role> listUserRoleByTenant(int userId, int tenantId)
+	{
+		//获取用户直接角色的权限
+		String listHql = "select r from UserRole ur, Role r where ur.tenantId=? and ur.userId=? and ur.roleId=r.id and r.tenantId=ur.tenantId";
+		List<Role> roleList = userRoleDao.listAll(listHql, new Object[]{tenantId, userId});		
+		return roleList;
 	}
 	
 	/**

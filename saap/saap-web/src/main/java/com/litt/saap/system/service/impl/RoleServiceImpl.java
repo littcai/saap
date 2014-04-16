@@ -109,7 +109,7 @@ public class RoleServiceImpl implements IRoleService {
 		}
 		
 		//删除旧的
-		roleFuncPermissionDao.deleteAll(delList);
+		roleFuncPermissionDao.deleteBatch(delList);
 		//保存新的
 		roleFuncPermissionDao.saveBatch(newList);
 	}

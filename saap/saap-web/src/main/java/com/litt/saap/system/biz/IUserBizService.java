@@ -10,6 +10,7 @@ import com.litt.core.exception.BusiException;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.system.po.ActivationCode;
+import com.litt.saap.system.po.Role;
 import com.litt.saap.system.vo.UserInfoVo;
 
 /**
@@ -123,6 +124,15 @@ public interface IUserBizService {
 			, String locale, int timezone, String theme);
 	
 	/**
+	 * 更新用户在租户中的角色.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 * @param roleIds the role ids
+	 */
+	public void updateUserRoleByTenant(int userId, int tenantId, Integer[] roleIds);
+	
+	/**
 	 * Do login.
 	 *
 	 * @param loginId the login id
@@ -160,6 +170,16 @@ public interface IUserBizService {
 	 * @return the list
 	 */
 	public List<TenantUserVo> findByTenant(int tenantId);
+	
+	
+	/**
+	 * 查询用户在某租户下的所有角色.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 * @return the list
+	 */
+	public List<Role> listUserRoleByTenant(int userId, int tenantId);
 	
 	
 

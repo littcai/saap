@@ -66,7 +66,7 @@ public class TenantController extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@Func(funcCode="05",moduleCode="9001")
+	@Func(funcCode="02",moduleCode="9001")
 	public ModelAndView config(@RequestParam String appAlias
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
