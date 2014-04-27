@@ -41,7 +41,7 @@
 			      <span class="icon-bar"></span>
 			      <span class="icon-bar"></span>
 			    </a>	                 
-	          <a class="brand" href="#">Saap</a>
+	          <a class="brand" href="#"><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.appAlias }</c:if></a>
 	          <!-- Everything you want hidden at 940px or less, place within here -->
 	          <div class="nav-collapse collapse" id="topMenu">	            
 	            <ul class="nav nav-pills">

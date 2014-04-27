@@ -30,7 +30,7 @@
 		  <div class="navbar-inner">
 	        <div class="container-fluid">
 	        	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->			    
-	          <a class="brand" href="#">Saap</a>	            
+	          <a class="brand" href="#"><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.appAlias }</c:if></a>	            
 	          </div><!--/.nav-collapse -->
 	        </div>
 	      </div>
