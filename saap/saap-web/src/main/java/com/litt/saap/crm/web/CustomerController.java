@@ -89,7 +89,9 @@ public class CustomerController extends BaseController {
 	@RequestMapping
 	public ModelAndView add() 
 	{        
-        return new ModelAndView("/crm/customer/add");
+		List<TenantUserVo> chargeUserList = userBizService.findByTenant(LoginUtils.getTenantId());
+		
+        return new ModelAndView("/crm/customer/add").addObject("chargeUserList", chargeUserList);
     }
 	
 	/**

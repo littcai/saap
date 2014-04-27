@@ -5,7 +5,8 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <html lang="en">
   <head>	
-  	<%@ include file="/common/meta.inc"%>  		 	
+  	<%@ include file="/common/meta.inc"%>  	
+  	<title><c:if test="${empty SESSION_USER.tenant }" >SaaP</c:if><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.appAlias }</c:if></title>	 	
 	<decorator:head />	
 	<!--  -->
 	<script type="text/javascript">
@@ -41,7 +42,7 @@
 			      <span class="icon-bar"></span>
 			      <span class="icon-bar"></span>
 			    </a>	                 
-	          <a class="brand" href="#"><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.appAlias }</c:if></a>
+	          <a class="brand" href="${contextPath }"><c:if test="${empty SESSION_USER.tenant }" >SaaP</c:if><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.appAlias }</c:if></a>
 	          <!-- Everything you want hidden at 940px or less, place within here -->
 	          <div class="nav-collapse collapse" id="topMenu">	            
 	            <ul class="nav nav-pills">
