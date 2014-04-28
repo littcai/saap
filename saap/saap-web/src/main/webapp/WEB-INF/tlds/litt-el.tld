@@ -75,6 +75,13 @@
   <example>${li:formatLongIp(3232235521L)}</example>
  </function>
  <function>
+  <description>格式化文件大小为用户友好显示</description>
+  <name>formatFileSize</name>
+  <function-class>com.litt.core.web.tag.el.FormatEL</function-class>
+  <function-signature>java.lang.String formatFileSize(java.lang.Long, boolean)</function-signature>
+  <example>${li:formatFileSize(1024, false)}</example>
+ </function>
+ <function>
   <description>输出HTML安全的文本</description>
   <name>out</name>
   <function-class>com.litt.core.web.tag.el.FormatEL</function-class>

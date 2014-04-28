@@ -10,10 +10,10 @@
     <include file="changelog-1.0.0.xml"/>
      -->
     
-    <!-- If version changed, update system_info
+    <!-- If version changed, update system_info -->
     <changeSet id="000_UPDATE_SYSTEM_VERSION" author="superadmin" runOnChange="true">
   		<sql>UPDATE SYSTEM_INFO SET SYSTEM_VERSION='${system.version}', LAST_UPDATE_DATETIME=now()</sql> 
   	</changeSet>
-     -->
+    
     
 </databaseChangeLog>

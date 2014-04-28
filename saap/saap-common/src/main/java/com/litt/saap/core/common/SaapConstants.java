@@ -19,6 +19,13 @@ public class SaapConstants {
 	
 	public static String HOME_PATH = "";
 	
+	/** 
+	 * 附件保存相对目录.
+	 * 附件完整目录为: HOME_PATH / TENANT_ID / ATTACHMENT_PATH;
+	 *  
+	 */
+    public static String ATTACHMENT_PATH = "attachment";	
+	
 	/** 默认查询条件字段前缀. */
     public static final String DEFAULT_SEARCH_PREFIX = "s_";		   
     

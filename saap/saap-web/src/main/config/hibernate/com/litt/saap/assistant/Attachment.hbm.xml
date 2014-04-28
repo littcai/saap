@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-4-23 11:01:43 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.assistant.po.Attachment" table="attachment">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="uid" type="string">
+            <column name="UID" length="32" not-null="true">
+                <comment>UID</comment>
+            </column>
+        </property>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="recordId" type="int">
+            <column name="RECORD_ID" not-null="true">
+                <comment>记录ID</comment>
+            </column>
+        </property>
+        <property name="moduleCode" type="string">
+            <column name="MODULE_CODE" length="50" not-null="true">
+                <comment>模块编号</comment>
+            </column>
+        </property>
+        <property name="displayName" type="string">
+            <column name="DISPLAY_NAME" length="100" not-null="true">
+                <comment>显示名称</comment>
+            </column>
+        </property>
+        <property name="fileName" type="string">
+            <column name="FILE_NAME" length="100" not-null="true">
+                <comment>文件名</comment>
+            </column>
+        </property>
+        <property name="filePath" type="string">
+            <column name="FILE_PATH" length="500" not-null="true">
+                <comment>文件路径</comment>
+            </column>
+        </property>
+        <property name="fileSize" type="string">
+            <column name="FILE_SIZE" length="50" not-null="true">
+                <comment>文件大小</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <property name="updateBy" type="int">
+            <column name="UPDATE_BY" not-null="true">
+                <comment>更新人</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

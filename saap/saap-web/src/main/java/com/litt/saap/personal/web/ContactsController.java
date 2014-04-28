@@ -82,7 +82,7 @@ public class ContactsController extends BaseController
 					
 			
 		PageParam pageParam = WebUtils.getPageParam(request);
-		pageParam.addCond("createUserId", super.getLoginOpId().intValue());
+		pageParam.addCond("createBy", super.getLoginOpId().intValue());
 		pageParam.addCond(searchField, searchValue);
 		
 		IPageList pageList = contactsService.listPage(pageParam);

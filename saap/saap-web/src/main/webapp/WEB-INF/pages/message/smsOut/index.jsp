@@ -85,6 +85,7 @@
 						<th><s:message code="smsOut.receiver" /></th>
 						<th><s:message code="smsOut.content" /></th>
 						<th><s:message code="smsOut.sendFlag" /></th>
+						<th><s:message code="smsOut.createBy" /></th>
 						<th><s:message code="smsOut.createDatetime" /></th>
 						<th><s:message code="smsOut.sendDatetime" /></th>
 						<th><s:message code="common.action" /></th>
@@ -98,9 +99,10 @@
 						<td><c:out value="${row.receiver }"></c:out></td>
 						<td><c:out value="${li:formatLongString(row.content, 10) }"></c:out></td>
 						<td><c:out value="${row.sendFlag }"></c:out></td>
+						<td><c:out value="${li:getUser(row.createBy).loginId }"></c:out></td>
 						<td><c:out value="${li:formatDateTime(row.createDatetime) }"></c:out></td>
 						<td><c:out value="${li:formatDateTime(row.sendDatetime) }"></c:out></td>
-						<td class="action-buttons">
+						<td>
 							<div class="action-buttons">
 							<a href="show.do?id=${row.id }">
 								<i class="icon-eye-open"></i>

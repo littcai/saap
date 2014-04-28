@@ -9,6 +9,11 @@
  		http://www.springframework.org/schema/context 
  		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
+	<!-- Attachment -->	
+	<bean id="attachmentDao" class="com.litt.saap.assistant.dao.AttachmentDao" parent="baseDao"/>	
 	
+	<bean id="attachmentService" class="com.litt.saap.assistant.service.impl.AttachmentServiceImpl">
+		<property name="homePath" value="${home.path}"></property>
+	</bean>	
 	
 </beans>

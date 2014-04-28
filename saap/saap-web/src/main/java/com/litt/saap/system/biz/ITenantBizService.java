@@ -34,6 +34,8 @@ public interface ITenantBizService {
 	public void deleteMember(Integer tenantMemberId);
 	
 	public void deleteMemberBatch(Integer[] ids);
+	
+	public void doResumeMember(Integer tenantMemberId);
 
 	/**
 	 * 根据订单号激活.

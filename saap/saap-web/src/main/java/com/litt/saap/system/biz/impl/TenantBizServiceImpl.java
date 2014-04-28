@@ -167,6 +167,14 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		}
 	}
 	
+	public void doResumeMember(Integer tenantMemberId)
+	{
+		TenantMember tenantMember = tenantMemberService.load(tenantMemberId);
+		tenantMember.setStatus(TenantMemberStatus.NORMAL);
+		tenantMemberService.update(tenantMember);
+		userInfoService.doResume(tenantMember.getUserId());
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.biz.impl.ITenantBizService#activate(java.lang.String, java.lang.Integer)
 	 */

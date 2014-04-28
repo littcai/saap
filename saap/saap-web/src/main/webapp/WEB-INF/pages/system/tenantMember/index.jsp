@@ -76,7 +76,7 @@
 						<td><c:out value="${li:genDictContent('1002', row.userInfo.status) }"></c:out></td>
 						<td><c:out value="${li:formatDateTime(row.userInfo.createDatetime) }"></c:out></td>
 						<td><c:out value="${li:formatDateTime(row.userInfo.updateDatetime) }"></c:out></td>
-						<td class="action-buttons">
+						<td>
 							<div class="action-buttons">
 							<a href="edit.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-pencil"></i>
@@ -86,10 +86,17 @@
 							</a>&nbsp;	
 							<a href="editGroup.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-group"></i>
-							</a>&nbsp;							
+							</a>&nbsp;		
+							<c:if test="${row.tenantMember.status==-1 }">
+							<a href="javascript:;" class="green" onclick="rowResume(${row.tenantMember.id});">
+								<i class="icon-repeat"></i>
+							</a>
+							</c:if>	
+							<c:if test="${row.tenantMember.status!=-1 }">				
 							<a href="javascript:;" class="red" onclick="rowDelete(${row.tenantMember.id});">
 								<i class="icon-trash"></i>
 							</a>
+							</c:if>	
 							</div>
 						</td>
 					</tr>
@@ -149,7 +156,23 @@
 					});					
 				}				
 			});			
-		}		
+		}	
+		
+		function rowResume(id)
+		{			
+			bootbox.confirm("<s:message code='tenantMember.func.resume.confirm' />", function(result){
+				if(result)
+				{
+					$.webtools.ajax({
+						url: "resume.json",
+						params: {"id":id},
+						success: function(reply) {
+							location.reload();
+						}
+					});					
+				}				
+			});			
+		}
 		</script>
   </body>
 </html>

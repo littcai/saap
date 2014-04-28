@@ -118,6 +118,8 @@ public class SmsInServiceImpl implements ISmsInService
 			+ "-- and obj.tenantId={tenantId}"
 			+ "-- and obj.sender={sender}"
 			+ "-- and obj.receiver={receiver}"
+			+ "-- and obj.createDatetime>={startDate}"
+			+ "-- and obj.createDatetime<={endDate}"
 			;	
 		return smsInDao.listPage(listHql, pageParam);
 	}

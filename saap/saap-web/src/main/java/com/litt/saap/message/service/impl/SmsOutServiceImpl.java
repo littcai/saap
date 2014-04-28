@@ -65,11 +65,11 @@ public class SmsOutServiceImpl implements ISmsOutService
 		}
 		else if(NumPoolManager.isTelecom(mobile))
 		{
-			sender = NumPoolManager.MOBILE_ACCOUNT;
+			sender = NumPoolManager.TELECOM_ACCOUNT;
 		}
 		else if(NumPoolManager.isUnicom(mobile))
 		{
-			sender = NumPoolManager.MOBILE_ACCOUNT;
+			sender = NumPoolManager.UNICOM_ACCOUNT;
 		}
 		else {
 			return null;

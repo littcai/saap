@@ -1,5 +1,7 @@
 package com.litt.saap.message.web;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -16,9 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.message.po.SmsIn;
 import com.litt.saap.message.service.ISmsInService;
-
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
+import com.litt.core.util.DateUtils;
 import com.litt.core.web.util.WebUtils;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
@@ -61,11 +63,16 @@ public class SmsInController extends BaseController
 		//get params from request
 		String searchField = request.getParameter("s_searchField");
 		String searchValue = request.getParameter("s_searchValue");
+		
+		Date startDate = Utility.parseDate(request.getParameter("startDate"));
+		Date endDate = Utility.parseDate(request.getParameter("endDate"));
 				
 		//package the params
 		PageParam pageParam = WebUtils.getPageParam(request);
 		pageParam.addCond("tenantId", loginUserVo.getTenantId());
 		pageParam.addCond(searchField, searchValue);
+		pageParam.addCond("startDate", DateUtils.getStartOfDay(startDate));	
+		pageParam.addCond("endDate", DateUtils.getEndOfDay(endDate));
 		pageParam.addCond("isDeleted", false);	
 		//Get page result
 		IPageList pageList = smsInService.listPage(pageParam);		

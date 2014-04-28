@@ -218,6 +218,18 @@ public class TenantMemberController extends BaseController
 	}
 	
 	/**
+	 * Delete.
+	 * @param id id
+	 * @throws Exception 
+	 */
+	@Func(funcCode="05",moduleCode="9002")
+	@RequestMapping 
+	public void resume(@RequestParam Integer id) throws Exception
+	{
+		tenantBizService.doResumeMember(id);
+	}
+	
+	/**
 	 * Edit Page.
 	 * 
 	 * @param id 
