@@ -81,6 +81,20 @@ public class DictParamDao extends GenericHibernateDao<DictParam, Integer>
 	}
 	
 	/**
+	 * 根据参数类型查询参数字典信息.
+	 *
+	 * @param dictType 参数类型
+	 * @param filter 过滤条件
+	 * @return List 参数字典对象
+	 */
+	public List listByTypeAndFilter(String dictType, String filter) 
+	{
+		getHibernateTemplate().setCacheQueries(true);  
+		String hql = "from DictParam where dictType=? and filter=? order by position desc";
+		return super.listAll(hql, new String[]{dictType, filter});
+	}
+	
+	/**
 	 * 获得某个类型下最大的ID值
 	 * @param dictType
 	 * @return

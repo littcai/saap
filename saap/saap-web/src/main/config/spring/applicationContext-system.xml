@@ -61,6 +61,11 @@
 		
 	<bean id="dictParamService" class="com.litt.saap.system.service.impl.DictParamServiceImpl"/>
 	
+	<!-- 租户参数字典 -->
+	<bean id="tenantDictParamDao" class="com.litt.saap.system.dao.TenantDictParamDao" parent="baseDao"/>	
+		
+	<bean id="tenantDictParamService" class="com.litt.saap.system.service.impl.TenantDictParamServiceImpl"/>
+	
 	<!-- 租户 -->
 	<bean id="tenantDao" class="com.litt.saap.system.dao.TenantDao" parent="baseDao"/>
 	<bean id="tenantService" class="com.litt.saap.system.service.impl.TenantServiceImpl"/>

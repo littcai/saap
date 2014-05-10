@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-9 12:39:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.system.po.TenantOrder" dynamic-insert="true" dynamic-update="true" table="tenant_order">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="orderNo" type="string">
+            <column name="ORDER_NO" length="50" not-null="true" unique="true">
+                <comment>订单编号</comment>
+            </column>
+        </property>
+        <property name="orderType" type="int">
+            <column name="ORDER_TYPE" not-null="true">
+                <comment>订单类型</comment>
+            </column>
+        </property>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="tenantCode" type="string">
+            <column name="TENANT_CODE" length="50" not-null="true">
+                <comment>租户编号</comment>
+            </column>
+        </property>
+        <property name="tenantAlias" type="string">
+            <column name="TENANT_ALIAS" length="50" not-null="true">
+                <comment>租户别名</comment>
+            </column>
+        </property>
+        <property name="bagCode" type="string">
+            <column name="BAG_CODE" length="50" not-null="true">
+                <comment>功能包编号</comment>
+            </column>
+        </property>
+        <property name="isolatedMode" type="int">
+            <column name="ISOLATED_MODE" not-null="true">
+                <comment>隔离级别</comment>
+            </column>
+        </property>
+        <property name="price" type="big_decimal">
+            <column name="PRICE" precision="10" scale="4" not-null="true">
+                <comment>价格</comment>
+            </column>
+        </property>
+        <property name="quantity" type="int">
+            <column name="QUANTITY" not-null="true">
+                <comment>购买份数</comment>
+            </column>
+        </property>
+        <property name="status" type="int">
+            <column name="STATUS" not-null="true">
+                <comment>状态</comment>
+            </column>
+        </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="payChannel" type="string">
+            <column name="PAY_CHANNEL" length="50">
+                <comment>付款通道</comment>
+            </column>
+        </property>
+        <property name="payDatetime" type="timestamp">
+            <column name="PAY_DATETIME" length="19">
+                <comment>付款时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

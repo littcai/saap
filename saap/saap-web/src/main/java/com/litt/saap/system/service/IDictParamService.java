@@ -63,13 +63,22 @@ public interface IDictParamService {
 	public List<DictParam> listByType(String dictType);
 	
 	/**
+	 * 根据类型和过滤条件过滤.
+	 *
+	 * @param dictType the dict type
+	 * @param filter the filter
+	 * @return the list
+	 */
+	public List<DictParam> listByTypeAndFilter(String dictType, String filter);
+	
+	/**
 	 * Findy type.
 	 *
 	 * @param dictType the dict type
 	 * @param locale the locale
 	 * @return the list
 	 */
-	public List<DictParamVo> findyType(String dictType, Locale locale);
+	public List<DictParamVo> findByType(String dictType, Locale locale);
 
 	/**
 	 * 获得某个类型下最大的ID值

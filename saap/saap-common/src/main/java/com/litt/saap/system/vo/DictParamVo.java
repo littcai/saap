@@ -21,13 +21,21 @@ import java.io.Serializable;
  */
 public class DictParamVo implements Serializable
 {
-	private Long id;
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
 	private String dictType;
 
 	private String dictValue;
 
 	private String dictContent;
+	
+	private String filter;
+	
+	private String params;
 	
 	private Integer status;
 
@@ -38,7 +46,7 @@ public class DictParamVo implements Serializable
 	/**
 	 * @return the id.
 	 */
-	public Long getId()
+	public Integer getId()
 	{
 		return id;
 	}
@@ -46,7 +54,7 @@ public class DictParamVo implements Serializable
 	/**
 	 * @param id the id to set.
 	 */
-	public void setId(Long id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -145,5 +153,33 @@ public class DictParamVo implements Serializable
 	public void setRemark(String remark)
 	{
 		this.remark = remark;
+	}
+
+	/**
+	 * @return the filter
+	 */
+	public String getFilter() {
+		return filter;
+	}
+
+	/**
+	 * @param filter the filter to set
+	 */
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	/**
+	 * @return the params
+	 */
+	public String getParams() {
+		return params;
+	}
+
+	/**
+	 * @param params the params to set
+	 */
+	public void setParams(String params) {
+		this.params = params;
 	}
 }

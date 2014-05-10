@@ -141,7 +141,8 @@ public class RoleController extends BaseController
 		String[] permissionCodes = request.getParameterValues("permissionCodes");
 		
 		Role role = new Role();
-		BeanUtils.populate(role, request.getParameterMap());			
+		BeanUtils.populate(role, request.getParameterMap());	
+		role.setTenantId(LoginUtils.getTenantId());
 		roleService.save(role, permissionCodes);
 	}
 	

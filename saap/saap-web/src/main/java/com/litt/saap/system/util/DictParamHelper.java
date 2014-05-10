@@ -52,7 +52,7 @@ public class DictParamHelper {
 	public static List<DictParamVo> getDictList(String dictType, Locale locale)
 	{
 		IDictParamService dictParamService = BeanManager.getBean("dictParamService", IDictParamService.class); 
-		List<DictParamVo> dictParamList = dictParamService.findyType(dictType, locale);
+		List<DictParamVo> dictParamList = dictParamService.findByType(dictType, locale);
 		return dictParamList;
 	}
 	

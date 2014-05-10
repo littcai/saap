@@ -24,6 +24,16 @@
                 <comment>参数描述</comment>
             </column>
         </property>
+        <property name="filter" type="string">
+            <column name="FILTER" length="500" not-null="true">
+                <comment>参数描述</comment>
+            </column>
+        </property>
+        <property name="params" type="string">
+            <column name="PARAMS" length="2000">
+                <comment>参数描述</comment>
+            </column>
+        </property>
         <property name="position" type="int">
             <column name="POSITION" not-null="true">
                 <comment>排序</comment>

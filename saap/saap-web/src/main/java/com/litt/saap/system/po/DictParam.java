@@ -33,6 +33,12 @@ public class DictParam implements Serializable {
 	 * 参数描述.
 	 */
 	private String dictContent;
+	
+	/** 过滤器. */
+	private String filter;
+	
+	/** 附加参数. */
+	private String params;
 
 	/**
 	 * 排序.
@@ -196,6 +202,34 @@ public class DictParam implements Serializable {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/**
+	 * @return the filter
+	 */
+	public String getFilter() {
+		return filter;
+	}
+
+	/**
+	 * @param filter the filter to set
+	 */
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	/**
+	 * @return the params
+	 */
+	public String getParams() {
+		return params;
+	}
+
+	/**
+	 * @param params the params to set
+	 */
+	public void setParams(String params) {
+		this.params = params;
 	}
 
 }

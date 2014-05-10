@@ -16,6 +16,7 @@ import com.litt.saap.system.dao.DictParamDao;
 import com.litt.saap.system.po.DictParam;
 import com.litt.saap.system.service.IDictParamService;
 import com.litt.saap.system.vo.DictParamVo;
+import com.litt.saap.system.webservice.IDictParamWebService;
 
 /**
  * 
@@ -28,7 +29,7 @@ import com.litt.saap.system.vo.DictParamVo;
  * @since 2009-03-24 12:06:58
  * @version 1.0
  */
-public class DictParamServiceImpl implements IDictParamService
+public class DictParamServiceImpl implements IDictParamService, IDictParamWebService
 { 
 	@Resource
 	private DictParamDao dictParamDao;	
@@ -41,7 +42,14 @@ public class DictParamServiceImpl implements IDictParamService
 	 */
 	public Integer save(DictParam dictParam)
 	{
+		dictParam.setStatus((byte)1);
 		return dictParamDao.save(dictParam);
+	}
+	
+	public Integer save(DictParamVo dictParam)
+	{
+		DictParam po = BeanCopier.copy(dictParam, DictParam.class);
+		return this.save(dictParam);
 	}
 	
 	/* (non-Javadoc)
@@ -50,6 +58,13 @@ public class DictParamServiceImpl implements IDictParamService
 	public void update(DictParam dictParam)
 	{
 		dictParamDao.update(dictParam);
+	}	
+	
+	public void update(DictParamVo dictParam)
+	{
+		DictParam po = this.load(dictParam.getId());
+		po = BeanCopier.copy(dictParam, po);
+		this.update(po);
 	}	
    
    	/* (non-Javadoc)
@@ -66,6 +81,12 @@ public class DictParamServiceImpl implements IDictParamService
 	public DictParam load(Integer id)
 	{
 		return dictParamDao.load(id);
+	}
+	
+	public DictParamVo find(Integer id)
+	{
+		DictParam po = this.load(id);
+		return BeanCopier.copy(po, DictParamVo.class);
 	}
 	
 	/* (non-Javadoc)
@@ -92,21 +113,57 @@ public class DictParamServiceImpl implements IDictParamService
 		return dictParamDao.listByType(dictType);
 	}	
 	
+	/**
+	 * 根据类型和过滤条件过滤.
+	 *
+	 * @param dictType the dict type
+	 * @param filter the filter
+	 * @return the list
+	 */
+	public List<DictParam> listByTypeAndFilter(String dictType, String filter) 
+	{
+		return dictParamDao.listByTypeAndFilter(dictType, filter);
+	}	
+	
 	/* (non-Javadoc)
 	 * @see com.litt.cidp.system.service.IDictParamService#findyType(java.lang.String, java.util.Locale)
 	 */
-	public List<DictParamVo> findyType(String dictType, Locale locale) 
+	public List<DictParamVo> findByType(String dictType) 
 	{
 		List<DictParam> dictParamList = dictParamDao.listByType(dictType);
 		List<DictParamVo> retList = new ArrayList<DictParamVo>(dictParamList.size());
 		for (DictParam dictParam : dictParamList)
 		{
-			DictParamVo vo = BeanCopier.copy(dictParam, DictParamVo.class);			
-			vo.setDictContent(messageSource.getMessage("dictparam."+vo.getDictType()+"."+dictParam.getDictValue(), null, locale));
+			DictParamVo vo = BeanCopier.copy(dictParam, DictParamVo.class);	
 			retList.add(vo);
 		}
 		return retList;
 	}	
+	
+	/* (non-Javadoc)
+	 * @see com.litt.cidp.system.service.IDictParamService#findyType(java.lang.String, java.util.Locale)
+	 */
+	public List<DictParamVo> findByType(String dictType, Locale locale) 
+	{
+		List<DictParamVo> dictParamList = this.findByType(dictType);
+		for (DictParamVo vo : dictParamList)
+		{	
+			vo.setDictContent(messageSource.getMessage("dictparam."+vo.getDictType()+"."+vo.getDictValue(), null, locale));
+		}
+		return dictParamList;
+	}	
+	
+	public List<DictParamVo> findByTypeAndFilter(String dictType, String filter) 
+	{
+		List<DictParam> dictParamList = dictParamDao.listByTypeAndFilter(dictType, filter);
+		List<DictParamVo> retList = new ArrayList<DictParamVo>(dictParamList.size());
+		for (DictParam dictParam : dictParamList)
+		{
+			DictParamVo vo = BeanCopier.copy(dictParam, DictParamVo.class);	
+			retList.add(vo);
+		}
+		return retList;
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.litt.cidp.system.service.impl.IDictParamService#findMaxId(java.lang.String)

@@ -8,9 +8,11 @@
 	</head>
 	<body> 	
 	<div>	
+		<c:if test="${not empty SESSION_USER.tenant }">
 		<div class="btn-toolbar">
 			<button class="btn btn-warning" onclick="quitTenant();"><s:message code="tenantMember.func.quit"/></button>
 		</div>
+		</c:if>
 		<ul class="nav nav-tabs">
 		  <li class="active"><a href="#basic" data-toggle="tab"><s:message code="profile.ui.tab.basic" /></a></li>
 		  <li><a href="#state" data-toggle="tab"><s:message code="profile.ui.tab.state" /></a></li>

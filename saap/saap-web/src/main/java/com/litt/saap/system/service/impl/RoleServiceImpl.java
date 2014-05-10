@@ -43,11 +43,8 @@ public class RoleServiceImpl implements IRoleService {
 	 * @see com.litt.saap.system.service.impl.IRoleService#save(com.litt.saap.system.po.Role)
 	 */
 	public Role save(Role role, String[] permissionCodes)
-	{
-		int tenantId = LoginUtils.getTenantId();
-		
+	{		
 		role.setStatus(RoleStatus.NORMAL);
-		role.setTenantId(tenantId);
 		role.setCreateBy(LoginUtils.getLoginOpId().intValue());
 		role.setCreateDatetime(new Date());
 		role.setUpdateBy(role.getCreateBy());
@@ -58,7 +55,7 @@ public class RoleServiceImpl implements IRoleService {
 		List<RoleFuncPermission> permissionList = new ArrayList<RoleFuncPermission>(permissionCodes.length);
 		for (String permissionCode : permissionCodes) {
 			RoleFuncPermission permission = new RoleFuncPermission();
-			permission.setTenantId(tenantId);
+			permission.setTenantId(role.getTenantId());
 			permission.setRoleId(roleId);
 			permission.setPermissionCode(permissionCode);
 			
