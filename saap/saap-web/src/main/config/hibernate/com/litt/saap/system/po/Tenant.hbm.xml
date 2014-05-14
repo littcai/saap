@@ -68,12 +68,7 @@
             <column name="EXPIRED_DATE" length="10" not-null="true">
                 <comment>到期日</comment>
             </column>
-        </property>
-        <property name="price" type="int">
-            <column name="PRICE" not-null="true">
-                <comment>购买价格</comment>
-            </column>
-        </property>
+        </property>       
         <property name="logoUrl" type="string">
             <column name="LOGO_URL" length="200">
                 <comment>图标路径</comment>

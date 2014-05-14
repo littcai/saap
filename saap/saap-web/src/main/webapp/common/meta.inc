@@ -19,12 +19,7 @@
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->	
-	<!--page specific plugin styles-->
-	<!--fonts-->
-
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
-		
-	
+	<!--page specific plugin styles-->	
 	<!--inline styles related to this page-->
 	<link href="${contextPath}/${theme}/css/main.css" rel="stylesheet" />
 	

@@ -494,7 +494,7 @@ $(document).ready(function(){
 	var setting = $.extend({}, defaults, options || {});    	
 	// iterate and reformat each matched element
 	return this.each(function() {    
-	  $this = $(this);
+	  var $this = $(this);
 	  
 	  //记录表单的变化状态，若修改并离开页面，需要提示用户保存
 	  if(setting.enableChangeCheck)
@@ -514,7 +514,11 @@ $(document).ready(function(){
 		  $(window).bind('beforeunload', function (e) {		
 			  var changed = (formValue != $this.serialize());
 			  if(changed)
+			  {
+				  //alert(formValue);
+				  //alert($this.serialize());
 				  return setting.messages.formChanged;
+			  }
 		  });
 	  }	  
 	  
@@ -532,7 +536,7 @@ $(document).ready(function(){
 			    	success:   function(data, textStatus){
 			    		//移除beforeunload事件
 			    		if(setting.enableChangeCheck)
-			    		{
+			    		{			    			
 			    			$(window).unbind('beforeunload');
 			    		}
 

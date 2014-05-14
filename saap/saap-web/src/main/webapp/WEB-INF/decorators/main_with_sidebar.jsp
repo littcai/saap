@@ -116,8 +116,10 @@
 	              		  <ul class="dropdown-menu"> 
 	              		  	<li ><a href="${contextPath }/user/profile.do"><i class="icon-user"></i>&nbsp;<s:message code="common.ui.profile" /></a></li>
 			            	<li ><a href="${contextPath }/user/invite.do"><i class="icon-group"></i>&nbsp;<s:message code="common.ui.invite" /></a></li>
+			            	<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;<s:message code="common.ui.help" /></a></li>
+			            	<li class="divider"></li>
 			            	<li ><a href="${contextPath }/login/logout.do"><i class="icon-off"></i>&nbsp;<s:message code="common.ui.logout" /></a></li>
-							<li ><a href="help.html" target="_blank"><i class="icon-question-sign"></i>&nbsp;<s:message code="common.ui.help" /></a></li>
+							
 	            		  </ul>
 	            	</li>
 	            </ul>

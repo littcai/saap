@@ -44,7 +44,6 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	public Role save(Role role, String[] permissionCodes)
 	{		
-		role.setStatus(RoleStatus.NORMAL);
 		role.setCreateBy(LoginUtils.getLoginOpId().intValue());
 		role.setCreateDatetime(new Date());
 		role.setUpdateBy(role.getCreateBy());

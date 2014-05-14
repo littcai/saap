@@ -22,6 +22,7 @@ import com.litt.core.util.DateUtils;
 import com.litt.core.util.StringUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
+import com.litt.saap.core.common.SaapConstants.TenantOrderStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
@@ -40,11 +41,13 @@ import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.TenantOrder;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantMemberService;
+import com.litt.saap.system.service.ITenantOrderService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.PermissionTreeVo;
@@ -69,6 +72,8 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TenantBizServiceImpl.class);
 	
+	@Resource
+	private ITenantOrderService tenantOrderService;	
 	@Resource
 	private ITenantService tenantService;	
 	@Resource
@@ -180,25 +185,36 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	 */
 	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale)
 	{
-		String bagCode = "basic";	//此处应该从订单中获得购买了哪个类型的产品包
+		TenantOrder tenantOrder = tenantOrderService.loadByNo(orderNo);
+		if(tenantOrder==null)
+			throw new BusiCodeException("tenantOrder.error.notExist", locale);
+		//有效性检查，如果订单已生效，则无法再次激活
+		switch (tenantOrder.getStatus()) {
+			case TenantOrderStatus.ACTIVATED:
+			case TenantOrderStatus.CANCELED:
+			case TenantOrderStatus.INVALID:
+			case TenantOrderStatus.TOBE_PAY:
+				throw new BusiCodeException("tenantOrder.status."+tenantOrder.getStatus(), locale);	
+			default:
+				break;
+		}
 		
-		//TODO有效性检查，如果订单已生效，则无法再次激活
-		boolean isOrderActivated = false;
-		if(isOrderActivated)
-			throw new BusiCodeException("order.error.isActivated", locale);
+		String bagCode = tenantOrder.getBagCode();	//此处应该从订单中获得购买了哪个类型的产品包		
 		
 		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(bagCode);
 				
 		Tenant tenant = new Tenant();
 		tenant.setCode(orderNo);
-		tenant.setAppCode(SaapConstants.PLATFORM_APP_CODE);
-		tenant.setAppAlias("默认别名");	//FIXME	这个值后面由用户填入
+		tenant.setAppCode(tenantOrder.getTenantCode());
+		tenant.setAppAlias(tenantOrder.getTenantAlias());	
 		tenant.setBagCode(bagCode);
 		tenant.setStatus(TenantStatus.NORMAL);	//直接激活		
 		tenant.setId(tenant.getCreateUserId());
-		tenant.setMaxMembers(tenantDefConfig.getMaxMembers());		
-		Date expiredDate = DateUtils.getBeAfMonth(1);
-		tenant.setExpiredDate(expiredDate);		//默认都一个月
+		tenant.setMaxMembers(tenantDefConfig.getMaxMembers());	
+		tenant.setIsolatedMode(tenantOrder.getIsolatedMode());
+		tenant.setTrialDays(30);	//默认试用30天
+		Date expiredDate = DateUtils.getBeAfMonth(tenantOrder.getQuantity());	//单位一个月，数量为时长
+		tenant.setExpiredDate(expiredDate);		
 		tenant.setCreateUserId(userId);
 		tenant.setCreateDatetime(new Date());
 		tenant.setUpdateDatetime(tenant.getCreateDatetime());

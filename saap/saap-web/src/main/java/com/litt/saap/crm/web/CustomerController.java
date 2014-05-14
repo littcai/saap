@@ -18,6 +18,8 @@ import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.module.annotation.Func;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.ArrayUtils;
+import com.litt.core.util.BeanCopier;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
@@ -138,11 +140,13 @@ public class CustomerController extends BaseController {
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
+		//附件集合
+		String[] attachmentUids = request.getParameterValues("attachmentUids[]");
 		Customer customer = new Customer();
-		BeanUtils.populate(customer, request.getParameterMap());	
+		BeanUtils.populate(customer, WebUtils.getParametersStartingWith(request, "customer_"));
 		
 		customer.setCreateUserId(super.getLoginOpId().intValue());
-		customerService.save(customer);		
+		customerService.save(customer, attachmentUids);		
 	}
 	
 	/**

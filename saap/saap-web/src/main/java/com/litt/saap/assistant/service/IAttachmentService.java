@@ -47,7 +47,23 @@ public interface IAttachmentService
 	 * Update.
 	 * @param attachement Attachement
 	 */
-	public void update(Attachment attachement);				
+	public void update(Attachment attachement);		
+	
+	/**
+	 * 批量更新附件的关联记录值.
+	 *
+	 * @param attachmentIds the attachment ids
+	 * @param recordId the record id
+	 */
+	public void updateRecordIdBatch(Integer[] attachmentIds, Integer recordId);
+	
+	/**
+	 * 批量更新附件的关联记录值.
+	 *
+	 * @param attachmentUids the attachment uids
+	 * @param recordId the record id
+	 */
+	public void updateRecordIdBatch(String[] attachmentUids, Integer recordId);
    
    	/**
 	 * Delete by id.
@@ -90,6 +106,14 @@ public interface IAttachmentService
 	 * @return Attachement
 	 */
 	public Attachment load(Integer id);	
+	
+	/**
+	 * Load by uid.
+	 *
+	 * @param uid the uid
+	 * @return Attachment
+	 */
+	public Attachment loadByUid(String uid);
 	
 	/**
 	 * list by page.

@@ -88,8 +88,14 @@
 </div>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-$(document).ready(function(){		
-	$('#theform').littFormSubmit({		
+$(document).ready(function(){	
+	
+	angular.element(document).ready(function() {	
+		angular.bootstrap(document);	 
+	});
+	
+	$('#theform').littFormSubmit({	
+		enableChangeCheck: false,
 		beforeSubmit: function(fields) {
 			var isEmpty = true;
 			$('[name^="emails"]').each(function() {
@@ -116,9 +122,6 @@ $(document).ready(function(){
 		}
 	});	
 	
-	angular.element(document).ready(function() {	
-		angular.bootstrap(document);	 
-	});
 });	
 
 

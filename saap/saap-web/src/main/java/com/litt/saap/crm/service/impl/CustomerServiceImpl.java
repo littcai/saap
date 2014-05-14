@@ -11,8 +11,11 @@ import org.slf4j.LoggerFactory;
 import com.litt.core.dao.BaseJdbcDao;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.saap.assistant.po.Attachment;
+import com.litt.saap.assistant.service.IAttachmentService;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.dao.CustomerDao;
 import com.litt.saap.crm.po.Customer;
@@ -44,6 +47,9 @@ public class CustomerServiceImpl implements ICustomerService {
     @Resource
     private BaseJdbcDao jdbcDao;
     
+    @Resource
+    private IAttachmentService attachmentService;
+    
     /* (non-Javadoc)
 	 * @see com.litt.saap.crm.service.impl.ICustomerService#save(com.litt.saap.crm.po.Customer, com.litt.core.shield.vo.ILoginVo)
 	 */
@@ -51,13 +57,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	{		
 		ILoginVo loginVo = LoginUtils.getLoginVo();
 		int tenantId = LoginUtils.getTenantId();
-		//if(this.isExist(customer.getCode(), customer.getId()))
-		//	throw new BusiException("客户编号已存在！");
-//		if(this.isNameExist(customer.getName(), customer.getId()))
-//			throw new BusiException("客户名称已存在！");		
+		this.validate(customer.getId(), customer.getCode(), customer.getName());
 		
-//		if(customer.getParentId()==null || customer.getParentId().longValue()==0)
-//			customer.setParentId(0L);
 //		else 
 //		{
 //			Customer parent = this.load(customer.getParentId());
@@ -77,6 +78,18 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 	
 	/**
+	 * Save.
+	 *
+	 * @param customer the customer
+	 * @param attachmentIds the attachment ids
+	 */
+	public void save(Customer customer, String[] attachmentUids)
+	{
+		Integer customerId = this.save(customer);
+		attachmentService.updateRecordIdBatch(attachmentUids, customerId);
+	}
+	
+	/**
 	 * Update.
 	 * @param customer Customer
 	 */
@@ -84,7 +97,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	{		
 		//校验租户权限
 		LoginUtils.validateTenant(customer.getTenantId());
-		
+		//校验数据有效性
+		this.validate(customer.getId(), customer.getCode(), customer.getName());
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
 		customer.setUpdateUserId(loginVo.getOpId().intValue());
@@ -113,6 +127,31 @@ public class CustomerServiceImpl implements ICustomerService {
 		LoginUtils.validateTenant(customer.getTenantId());
 		
 		customerDao.delete(customer);
+	}
+	
+	/**
+	 * 数据有效性检查.
+	 *
+	 * @param id the id
+	 * @param name the name
+	 */
+	private void validate(Integer id, String code, String name)
+	{		
+		int tenantId = LoginUtils.getTenantId();
+		
+		String countHql = "select count(*) from Customer where tenantId=? and code=? and (id>? or id<?)";
+		boolean invalid = customerDao.count(countHql, new Object[]{tenantId, code, id, id})>0;		
+		if(invalid)
+		{
+			throw new BusiCodeException("customer.error.codeDuplicated");
+		}
+		
+		countHql = "select count(*) from Customer where tenantId=? and name=? and (id>? or id<?)";
+		invalid = customerDao.count(countHql, new Object[]{tenantId, name, id, id})>0;		
+		if(invalid)
+		{
+			throw new BusiCodeException("customer.error.nameDuplicated");
+		}
 	}
 	
 	/**

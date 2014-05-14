@@ -7,12 +7,13 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">     
 
 	
-    <include file="changelog-1.0.0.xml"/>    
+    <changeSet id="v1.0.0" author="dba">    	
+    	<sqlFile path="upgrade/v1.0.0.sql"/>	
+    </changeSet> 
     
-    <!-- If version changed, update system_info -->
-    <changeSet id="000_UPDATE_SYSTEM_VERSION" author="superadmin" runOnChange="true">
-  		<sql>UPDATE SYSTEM_INFO SET SYSTEM_VERSION='${system.version}', LAST_UPDATE_DATETIME=now()</sql> 
-  	</changeSet>
+    <changeSet id="v1.0.1" author="dba">    	
+    	<sql>RENAME TABLE ATTACHEMENT TO ATTACHMENT</sql>
+    </changeSet>   
     
     
 </databaseChangeLog>

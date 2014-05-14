@@ -132,7 +132,7 @@
 		  		<tbody>
 		  			<c:forEach items="${tenantList }" var="row">
 					<tr>
-						<td><c:out value="${row.appAlias }"></c:out>&nbsp;[<a href="switchTenant.do?id=${row.id }" class="blue" ><s:message code="tenant.action.switch" /></a>]</td>
+						<td><c:out value="${row.appAlias }"></c:out>&nbsp;[<a href="javascript:;" class="blue" onclick="switchTenant(${row.id});"><s:message code="tenant.action.switch" /></a>]</td>
 						<td style="text-align: center"><s:message code="tenant.status.${row.status }"/></td>
 						<td style="text-align: right"><c:out value="${row.maxMembers }"></c:out></td>
 						<td style="text-align: center"><c:out value="${li:formatDate(row.expiredDate) }"></c:out></td>
@@ -244,13 +244,29 @@ $(document).ready(function(){
 	
 });	
 
+function switchTenant(tenantId)
+{
+	bootbox.confirm("<s:message code='tenantMember.func.switch.confirm' />", function(result){
+		if(result)
+		{
+			$.webtools.ajax({
+				url: "switchTenant.json",
+				params: {"tenantId":tenantId},
+				success: function(reply) {
+					location.reload();
+				}
+			});	
+		}
+	});		
+}
+
 function quitTenant()
 {
 	bootbox.confirm("<s:message code='tenantMember.func.quit.confirm' />", function(result){
 		if(result)
 		{
 			$.webtools.ajax({
-				url: "${contextPath }/login/quitTenant.json",
+				url: "quitTenant.json",
 				params: {},
 				success: function(reply) {
 					location.reload();

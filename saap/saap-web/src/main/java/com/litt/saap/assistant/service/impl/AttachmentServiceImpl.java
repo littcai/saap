@@ -129,6 +129,11 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 	{
 		Attachment attachment = this.load(id);
 		attachment.setRecordId(recordId);
+		//重新计算文件名
+		String fileName = attachment.getFileName();
+		String[] strings = StringUtils.split(fileName, '-');
+		fileName = strings[0] + "-" + recordId + "-" + strings[2] + "-" + strings[3];  
+		attachment.setFileName(fileName);
 		this.update(attachment);
 	}
 	
@@ -143,7 +148,53 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 		attachment.setUpdateBy(LoginUtils.getLoginOpId().intValue());
 		attachment.setUpdateDatetime(new Date());
 		attachmentDao.update(attachment);
-	}			
+	}		
+	
+	/**
+	 * 批量更新附件的关联记录值.
+	 *
+	 * @param attachmentIds the attachment ids
+	 * @param recordId the record id
+	 */
+	public void updateRecordIdBatch(Integer[] attachmentIds, Integer recordId)
+	{
+		if(attachmentIds==null)
+			return;
+		
+		Attachment[] attachments = new Attachment[attachmentIds.length];
+		for (int i=0;i<attachmentIds.length;i++) {
+			Integer attachmentId = attachmentIds[i];
+			Attachment attachment = this.load(attachmentId);
+			LoginUtils.validateTenant(attachment.getTenantId());
+			
+			attachment.setRecordId(recordId);
+			attachments[i] = attachment;
+		}
+		attachmentDao.updateBatch(attachments);
+	}
+	
+	/**
+	 * 批量更新附件的关联记录值.
+	 *
+	 * @param attachmentIds the attachment ids
+	 * @param recordId the record id
+	 */
+	public void updateRecordIdBatch(String[] attachmentUids, Integer recordId)
+	{
+		if(attachmentUids==null)
+			return;
+		
+		Attachment[] attachments = new Attachment[attachmentUids.length];
+		for (int i=0;i<attachmentUids.length;i++) {
+			String attachmentUid = attachmentUids[i];
+			Attachment attachment = this.loadByUid(attachmentUid);
+			LoginUtils.validateTenant(attachment.getTenantId());
+			
+			attachment.setRecordId(recordId);
+			attachments[i] = attachment;
+		}
+		attachmentDao.updateBatch(attachments);
+	}
    
    	/**
 	 * Delete by id.
@@ -223,6 +274,21 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 	public Attachment load(Integer id) 
 	{
 		Attachment attachment = attachmentDao.load(id);
+		//校验租户权限
+		LoginUtils.validateTenant(attachment.getTenantId());
+	
+		return attachment;
+	}	
+	
+	/**
+	 * Load by uid.
+	 *
+	 * @param uid the uid
+	 * @return Attachment
+	 */
+	public Attachment loadByUid(String uid) 
+	{
+		Attachment attachment = attachmentDao.load(Attachment.class, "uid", uid);
 		//校验租户权限
 		LoginUtils.validateTenant(attachment.getTenantId());
 	

@@ -4,8 +4,15 @@
 <%@ include file="/common/taglibs.inc"%>
 <html lang="en">
   <head>
-	<meta name="decorator" content="main_with_bar" />	
-	</head>
+  	<!-- angularjs -->
+  	<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>	
+	<!-- jquery file upload-8.7.1 -->
+	<link href="${contextPath}/widgets/jquery-fileupload-8.7.1/css/jquery.fileupload-ui.css" rel="stylesheet" />	
+	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.ui.widget.js"></script>
+	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.iframe-transport.js"></script>
+	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload.js"></script>	
+	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload-angular.js"></script>	
+  </head>
 	<body> 			
 		<form id="theform" action="update.json" method="post" class="form-horizontal">
 			<input id="customerId" name="id" type="hidden" value="${customer.id }">

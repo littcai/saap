@@ -20,6 +20,7 @@ import com.litt.core.security.EncryptFailedException;
 import com.litt.core.security.MessageDigestTool;
 import com.litt.core.shield.vo.AutoLoginToken;
 import com.litt.core.util.BeanCopier;
+import com.litt.core.util.StringUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.Gender;
@@ -212,8 +213,19 @@ public class UserInfoServiceImpl implements IUserInfoService {
 					.append("LoginId:").append(loginId)									
 					.toString());
 		}
-		UserInfo userInfo = this.loadByLoginId(loginId);
-		if(userInfo==null)	//登录ID不存在
+		UserInfo userInfo = null;
+		//如果loginId是数字，且符合手机位数(11位)，则通过手机号登录
+		//TODO 还可以判断是邮件地址，则通过邮箱读取
+		if(StringUtils.isNumeric(loginId) && 11==loginId.length())
+		{
+			userInfo = this.loadByMobile(loginId);
+		}
+		else 
+		{
+			userInfo = this.loadByLoginId(loginId);
+		} 
+		//是否读取到用户
+		if(userInfo==null)
 			throw new BusiCodeException("error.login.failed");
 		
 		UserState userState = userStateDao.load(userInfo.getId());
@@ -395,6 +407,11 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	public UserInfo loadByEmail(String email)
 	{
 		return userInfoDao.load(UserInfo.class, "email", email);
+	}
+	
+	public UserInfo loadByMobile(String mobile)
+	{
+		return userInfoDao.load(UserInfo.class, "mobile", mobile);
 	}
 	
 	/**

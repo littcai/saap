@@ -157,16 +157,15 @@ public class UserController {
 	 * @return 视图
 	 * @throws Exception the exception
 	 */
-	@RequestMapping(value="quitTenant.do")
-	public ModelAndView quitTenant(@RequestParam Integer userId
-			, HttpServletRequest request, HttpServletResponse response) throws Exception
+	@RequestMapping(value="quitTenant.json")
+	public ModelAndView quitTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
 		
 		Locale locale = LoginUtils.getLocale(request);
 		
-		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);
-				
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo(request);	
+		int userId = loginUser.getOpId().intValue();
 		//退出租户	
 		TenantQuitBo tenantQuitBo = tenantBizService.doQuit(loginUser.getTenantId(), userId);
 		
@@ -187,7 +186,7 @@ public class UserController {
 		String message = messageSource.getMessage("tenant.action.quit.success", new Object[]{tenantQuitBo.getTenant().getAppAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
-		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);
+		return new ModelAndView("jsonView").addObject("message", message).addObject("redirectUrl", redirectUrl);
 	}
 	
 	/**

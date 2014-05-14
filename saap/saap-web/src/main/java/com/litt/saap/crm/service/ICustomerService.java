@@ -33,40 +33,48 @@ public interface ICustomerService {
 	 * 
 	 * @return 主键
 	 */
-	public Integer save(Customer customer) throws NotLoginException;	
+	public Integer save(Customer customer);	
+	
+	/**
+	 * Save.
+	 *
+	 * @param customer the customer
+	 * @param attachmentIds the attachment ids
+	 */
+	public void save(Customer customer, String[] attachmentUids);
 			
 	
 	/**
 	 * Update.
 	 * @param customer Customer
 	 */
-	public void update(Customer customer) throws NotLoginException;				
+	public void update(Customer customer);				
    
    	/**
 	 * Delete by id.
 	 * @param id id
 	 */
-	public void delete(Integer id) throws NotLoginException;	
+	public void delete(Integer id);	
 	
 	/**
 	 * Delete by instance.
 	 * @param id id
 	 */
-	public void delete(Customer customer) throws NotLoginException ;
+	public void delete(Customer customer) ;
 	
 	/**
 	 * Load by id.
 	 * @param id id
 	 * @return Customer
 	 */
-	public Customer load(Integer id) throws NotLoginException;	
+	public Customer load(Integer id);	
 	
 	/**
 	 * List all.
 	 *
 	 * @return the list
 	 */
-	public List<Customer> listAll() throws NotLoginException;
+	public List<Customer> listAll();
 	
 
 	/**
@@ -75,6 +83,6 @@ public interface ICustomerService {
 	 * @param pageParam 查询参数
 	 * @return IPageList IPageList对象
 	 */
-	public IPageList listPage(PageParam pageParam) throws NotLoginException;
+	public IPageList listPage(PageParam pageParam);
 
 }

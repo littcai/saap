@@ -108,6 +108,23 @@ public class SaapConstants {
 		public static final int SYSTEM_DEFINED = 9;
 	}
 	
+	/**
+	 * 租户订单状态.
+	 */
+	public interface TenantOrderStatus{
+		
+		public static final int TOBE_ACTIVATE = -2;	//待生效
+		public static final int TOBE_PAY = -1;		//待支付
+		public static final int ACTIVATED = 1;		//已生效
+		public static final int CANCELED = 2;		//取消（主动）
+		public static final int INVALID = 3;		//失效（超时被动）
+		
+		
+	}
+	
+	/**
+	 * 租户状态.
+	 */
 	public interface TenantStatus{
 		public static final int CANCELED = -4;	//注销（主动）
 		public static final int EXPIRED = -3;		//到期

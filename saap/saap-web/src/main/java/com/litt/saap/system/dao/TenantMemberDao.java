@@ -30,7 +30,7 @@ public class TenantMemberDao extends GenericHibernateDao<TenantMember, Integer> 
 	 */
 	public boolean isTenantMember(int tenantId, int userId)
 	{
-		String countHql = "select count(o) from TenantMember o where o.tenantId, o.userId=?";
+		String countHql = "select count(o) from TenantMember o where o.tenantId=? and o.userId=?";
 		return super.count(countHql, new Object[]{tenantId, userId})>0;
 	}
 	

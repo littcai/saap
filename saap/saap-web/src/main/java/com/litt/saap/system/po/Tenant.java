@@ -86,11 +86,6 @@ public class Tenant implements Serializable {
 	 * 到期日.
 	 */
 	private Date expiredDate;
-
-	/**
-	 * 购买价格.
-	 */
-	private int price;
 	
 	/** The logo url. */
 	private String logoUrl;
@@ -114,7 +109,6 @@ public class Tenant implements Serializable {
 		this.maxMembers = maxMembers;
 		this.trialDays = trialDays;
 		this.expiredDate = expiredDate;
-		this.price = price;
 	}
 
 	/**  
@@ -339,22 +333,6 @@ public class Tenant implements Serializable {
 	 */
 	public void setExpiredDate(Date expiredDate) {
 		this.expiredDate = expiredDate;
-	}
-
-	/**  
-	 * 取得 购买价格.
-	 * @return 购买价格
-	 */
-	public int getPrice() {
-		return this.price;
-	}
-
-	/**
-	 * 设置 购买价格.
-	 * @param price 购买价格
-	 */
-	public void setPrice(int price) {
-		this.price = price;
 	}
 
 	/**

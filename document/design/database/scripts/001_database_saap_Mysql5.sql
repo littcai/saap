@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/5/8 16:55:41                            */
+/* Created on:     2014/5/14 15:54:42                           */
 /*==============================================================*/
 
 
@@ -14,11 +14,11 @@ DROP INDEX IDX_AS_CODE ON APP_STORE;
 
 DROP TABLE IF EXISTS APP_STORE;
 
-DROP INDEX IDX_ATTACHMENT ON ATTACHEMENT;
+DROP INDEX IDX_ATTACHMENT ON ATTACHMENT;
 
-DROP INDEX IDX_ATTACHMENT_UID ON ATTACHEMENT;
+DROP INDEX IDX_ATTACHMENT_UID ON ATTACHMENT;
 
-DROP TABLE IF EXISTS ATTACHEMENT;
+DROP TABLE IF EXISTS ATTACHMENT;
 
 DROP INDEX IDX_CALENDAR_DATETIME ON CALENDAR;
 
@@ -116,6 +116,8 @@ DROP INDEX IDX_SO_SEND_FLAG ON SMS_OUT;
 
 DROP TABLE IF EXISTS SMS_OUT;
 
+DROP TABLE IF EXISTS SYSTEM_INFO;
+
 DROP INDEX IDX_TAG_NAME ON TAG;
 
 DROP TABLE IF EXISTS TAG;
@@ -143,6 +145,10 @@ DROP TABLE IF EXISTS TENANT_DICT_PARAM;
 DROP INDEX IDX_TM_USER ON TENANT_MEMBER;
 
 DROP TABLE IF EXISTS TENANT_MEMBER;
+
+DROP INDEX IDX_TO_ORDER_NO ON TENANT_ORDER;
+
+DROP TABLE IF EXISTS TENANT_ORDER;
 
 DROP TABLE IF EXISTS TENANT_STAT;
 
@@ -270,9 +276,9 @@ CREATE UNIQUE INDEX IDX_AS_KEY ON APP_STORE
 );
 
 /*==============================================================*/
-/* Table: ATTACHEMENT                                           */
+/* Table: ATTACHMENT                                            */
 /*==============================================================*/
-CREATE TABLE ATTACHEMENT
+CREATE TABLE ATTACHMENT
 (
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    UID                  VARCHAR(32) NOT NULL COMMENT '唯一ID',
@@ -291,12 +297,12 @@ CREATE TABLE ATTACHEMENT
 )
 ENGINE = INNODB;
 
-ALTER TABLE ATTACHEMENT COMMENT '附件表';
+ALTER TABLE ATTACHMENT COMMENT '附件表';
 
 /*==============================================================*/
 /* Index: IDX_ATTACHMENT_UID                                    */
 /*==============================================================*/
-CREATE INDEX IDX_ATTACHMENT_UID ON ATTACHEMENT
+CREATE INDEX IDX_ATTACHMENT_UID ON ATTACHMENT
 (
    UID
 );
@@ -304,7 +310,7 @@ CREATE INDEX IDX_ATTACHMENT_UID ON ATTACHEMENT
 /*==============================================================*/
 /* Index: IDX_ATTACHMENT                                        */
 /*==============================================================*/
-CREATE INDEX IDX_ATTACHMENT ON ATTACHEMENT
+CREATE INDEX IDX_ATTACHMENT ON ATTACHMENT
 (
    TENANT_ID,
    RECORD_ID,
@@ -1125,6 +1131,29 @@ CREATE INDEX IDX_SO_SEND_FLAG ON SMS_OUT
 );
 
 /*==============================================================*/
+/* Table: SYSTEM_INFO                                           */
+/*==============================================================*/
+CREATE TABLE SYSTEM_INFO
+(
+   SYSTEM_ID            INT NOT NULL COMMENT '系统ID',
+   SYSTEM_CODE          VARCHAR(50) COMMENT '系统编号',
+   SYSTEM_NAME          VARCHAR(200) NOT NULL COMMENT '系统名称',
+   SYSTEM_VERSION       VARCHAR(50) NOT NULL COMMENT '系统版本',
+   COPYRIGHT            VARCHAR(100) NOT NULL COMMENT '版权信息',
+   COMPANY_NAME         VARCHAR(100) NOT NULL COMMENT '公司名称',
+   STATUS               INT(1) NOT NULL DEFAULT 9 COMMENT '系统状态(1000)
+            1：正常
+            2：系统维护中
+            9：首次运行
+            ',
+   LAST_UPDATE_DATETIME DATETIME COMMENT '系统最后更新时间',
+   HOME_PATH            VARCHAR(200) NOT NULL COMMENT '数据保存路径',
+   PRIMARY KEY (SYSTEM_ID)
+);
+
+ALTER TABLE SYSTEM_INFO COMMENT '系统信息表';
+
+/*==============================================================*/
 /* Table: TAG                                                   */
 /*==============================================================*/
 CREATE TABLE TAG
@@ -1346,6 +1375,40 @@ CREATE INDEX IDX_TM_USER ON TENANT_MEMBER
 (
    USER_ID,
    APP_ID
+);
+
+/*==============================================================*/
+/* Table: TENANT_ORDER                                          */
+/*==============================================================*/
+CREATE TABLE TENANT_ORDER
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   ORDER_NO             VARCHAR(50) NOT NULL COMMENT '订单编号',
+   ORDER_TYPE           INT NOT NULL COMMENT '订单类型',
+   TENANT_ID            INT NOT NULL DEFAULT 0 COMMENT '租户ID',
+   TENANT_CODE          VARCHAR(50) NOT NULL COMMENT '租户编号',
+   TENANT_ALIAS         VARCHAR(50) NOT NULL COMMENT '租户别名',
+   BAG_CODE             VARCHAR(50) NOT NULL COMMENT '功能包编号',
+   ISOLATED_MODE        INT NOT NULL COMMENT '隔离级别',
+   PRICE                DECIMAL(10,4) NOT NULL COMMENT '价格',
+   QUANTITY             INT NOT NULL DEFAULT 1 COMMENT '购买份数',
+   STATUS               INT NOT NULL DEFAULT -1 COMMENT '状态',
+   CREATE_BY            INT NOT NULL COMMENT '创建人',
+   CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   PAY_CHANNEL          VARCHAR(50) COMMENT '付款通道',
+   PAY_DATETIME         DATETIME COMMENT '付款时间',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE TENANT_ORDER COMMENT '租户订单';
+
+/*==============================================================*/
+/* Index: IDX_TO_ORDER_NO                                       */
+/*==============================================================*/
+CREATE UNIQUE INDEX IDX_TO_ORDER_NO ON TENANT_ORDER
+(
+   ORDER_NO
 );
 
 /*==============================================================*/

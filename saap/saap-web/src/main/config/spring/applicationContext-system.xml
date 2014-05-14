@@ -66,6 +66,10 @@
 		
 	<bean id="tenantDictParamService" class="com.litt.saap.system.service.impl.TenantDictParamServiceImpl"/>
 	
+	<!-- 租户订单 -->
+	<bean id="tenantOrderDao" class="com.litt.saap.system.dao.TenantOrderDao" parent="baseDao"/>
+	<bean id="tenantOrderService" class="com.litt.saap.system.service.impl.TenantOrderServiceImpl"/>
+	
 	<!-- 租户 -->
 	<bean id="tenantDao" class="com.litt.saap.system.dao.TenantDao" parent="baseDao"/>
 	<bean id="tenantService" class="com.litt.saap.system.service.impl.TenantServiceImpl"/>

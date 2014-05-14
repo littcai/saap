@@ -415,7 +415,7 @@ public class LoginController {
 	 * @throws Exception the exception
 	 */
 	@RequestMapping(value="activateTenant.do")
-	public ModelAndView activateTenant(@RequestParam String orderNo
+	public ModelAndView activateTenant(@RequestParam String orderNo, @RequestParam String tenantAlias
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
@@ -499,19 +499,7 @@ public class LoginController {
 		
 		return new ModelAndView("jsonView");
 	}
-	
-	@RequestMapping(value="quitTenant.json")
-	public ModelAndView quitTenant(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
-		LoginUserVo loginUserVo = (LoginUserVo)LoginUtils.getLoginVo();		
-		tenantBizService.doQuit(loginUserVo.getTenantId(), loginUserVo.getOpId().intValue());
 		
-		return new ModelAndView("jsonView");
-	}
-	
-	
-	
-	
 	/**
 	 * 获得登录用户的授权菜单.
 	 *
