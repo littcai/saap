@@ -24,7 +24,7 @@
 		  <div class="tab-pane active" id="basic">
 		  	<form id="basic-form" action="update.json" method="POST" class="form-horizontal">
 		  		<fieldset>
-		  			<legend>General</legend>
+		  			<legend><s:message code="profile.ui.fieldset.general" /></legend>
 		  			<div class="control-group">
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.userName' /></label>
 						<div class="controls">							
@@ -59,7 +59,7 @@
 					</div>
 				</fieldset>
 				<fieldset>
-		  			<legend>Settings</legend>	
+		  			<legend><s:message code="profile.ui.fieldset.setting" /></legend>	
 					<div class="control-group">
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='userInfo.locale' /></label>
 						<div class="controls">				
@@ -116,27 +116,27 @@
 		  </div>	 
 		  <div class="tab-pane" id="tenant">
 		  	<div class="alert alert-info">
-  				Current Workspace: <strong>${currentTenant.appAlias }</strong>
+  				<s:message code="profile.ui.currentTenant" />: <strong>${currentTenant.tenantAlias }</strong>
 			</div>		  
 		  	<table class="table table-striped table-bordered table-hover datatable">
 		  		<thead>
 		  			<tr>
-		  				<th><s:message code="tenant.appAlias"></s:message></th>
+		  				<th><s:message code="tenant.tenantCode"></s:message></th>
+		  				<th><s:message code="tenant.tenantAlias"></s:message></th>
 		  				<th><s:message code="tenant.status"></s:message></th>
 		  				<th><s:message code="tenant.maxMembers"></s:message></th>
 		  				<th><s:message code="tenant.expiredDate"></s:message></th>
-		  				<th><s:message code="tenant.price"></s:message></th>
 		  				<th><s:message code="common.action" /></th>
 		  			</tr>
 		  		</thead>
 		  		<tbody>
 		  			<c:forEach items="${tenantList }" var="row">
 					<tr>
-						<td><c:out value="${row.appAlias }"></c:out>&nbsp;[<a href="javascript:;" class="blue" onclick="switchTenant(${row.id});"><s:message code="tenant.action.switch" /></a>]</td>
+						<td><c:out value="${row.tenantCode }"/></td>
+						<td><c:out value="${row.tenantAlias }"></c:out>&nbsp;[<a href="javascript:;" class="blue" onclick="switchTenant(${row.id});"><s:message code="tenant.action.switch" /></a>]</td>
 						<td style="text-align: center"><s:message code="tenant.status.${row.status }"/></td>
 						<td style="text-align: right"><c:out value="${row.maxMembers }"></c:out></td>
 						<td style="text-align: center"><c:out value="${li:formatDate(row.expiredDate) }"></c:out></td>
-						<td style="text-align: right"><c:out value="${row.price }"></c:out></td>
 						<td class="action-buttons"> 
 							<div class="action-buttons">
 							<a href="edit.do?id=${row.id }" class="blue" >

@@ -201,7 +201,7 @@ public class UserBizServiceImpl implements IUserBizService {
 			Map<String, Object> propMap = new HashMap<String, Object>();
 			propMap.put("activationCode", activationCode.getId());
 			propMap.put("email", email);
-			propMap.put("tenantName", tenant.getAppAlias());
+			propMap.put("tenantName", tenant.getTenantAlias());
 			propMap.put("sourceUser", userInfo);
 			propMap.put("url", systemInfo.getBaseUrl());
 			propMap.put("systemName", systemInfo.getSystemName());
@@ -625,7 +625,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		{
 			Tenant tenant = tenantDao.load(tenantMember.getTenantId());			
 		
-			TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenant.getAppAlias(), tenantMember.getIsAdmin(), tenant.getExpiredDate());
+			TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getTenantCode(), tenant.getTenantAlias(), tenantMember.getIsAdmin(), tenant.getExpiredDate());
 			tenantVo.setExpiredDate(tenant.getExpiredDate());
 			
 			loginUser.setTenant(tenantVo);		

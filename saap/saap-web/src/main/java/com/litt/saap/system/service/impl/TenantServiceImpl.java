@@ -70,7 +70,7 @@ public class TenantServiceImpl implements ITenantService {
 	public void update(int tenantId, String appAlias)
 	{
 		Tenant tenant = this.load(tenantId);
-		tenant.setAppAlias(appAlias);
+		tenant.setTenantAlias(appAlias);
 		this.update(tenant);
 	}
 	

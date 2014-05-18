@@ -15,5 +15,9 @@
     	<sql>RENAME TABLE ATTACHEMENT TO ATTACHMENT</sql>
     </changeSet>   
     
+    <changeSet id="v1.0.2" author="dba">    	
+    	<sqlFile path="upgrade/v1.0.2.sql"/>	
+    </changeSet> 
+    
     
 </databaseChangeLog>

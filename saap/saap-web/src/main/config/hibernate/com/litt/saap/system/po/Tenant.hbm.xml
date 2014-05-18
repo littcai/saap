@@ -9,18 +9,13 @@
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <property name="code" type="string">
-            <column name="CODE" length="50" not-null="true">
-                <comment>编号</comment>
-            </column>
-        </property>
-        <property name="appCode" type="string">
-            <column name="APP_CODE" length="50" not-null="true">
+        <property name="tenantCode" type="string">
+            <column name="TENANT_CODE" length="50" not-null="true">
                 <comment>应用编号</comment>
             </column>
         </property>
-        <property name="appAlias" type="string">
-            <column name="APP_ALIAS" length="100" not-null="true">
+        <property name="tenantAlias" type="string">
+            <column name="TENANT_ALIAS" length="100" not-null="true">
                 <comment>应用别名</comment>
             </column>
         </property>

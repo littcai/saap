@@ -65,11 +65,13 @@
 		<artifactId>littcore-io</artifactId>
 		<version>${com.litt.core.littcore.version}</version>		
 	</dependency>	
+	<!--
 	<dependency>
   		<groupId>com.litt.core</groupId>
   		<artifactId>littextras-office</artifactId>
   		<version>1.0-SNAPSHOT</version>
   	</dependency>
+  	 -->
   	<dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>

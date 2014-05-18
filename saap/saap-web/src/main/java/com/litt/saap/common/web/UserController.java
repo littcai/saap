@@ -183,7 +183,7 @@ public class UserController {
 		//HttpSession session = request.getSession();
 		//LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
-		String message = messageSource.getMessage("tenant.action.quit.success", new Object[]{tenantQuitBo.getTenant().getAppAlias()}, locale);
+		String message = messageSource.getMessage("tenant.action.quit.success", new Object[]{tenantQuitBo.getTenant().getTenantAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("jsonView").addObject("message", message).addObject("redirectUrl", redirectUrl);

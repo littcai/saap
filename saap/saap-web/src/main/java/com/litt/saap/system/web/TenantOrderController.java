@@ -1,5 +1,7 @@
 package com.litt.saap.system.web;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,9 +16,11 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.common.SaapConstants;
+import com.litt.saap.core.common.SaapConstants.IsolatedMode;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.po.TenantOrder;
 import com.litt.saap.system.service.ITenantOrderService;
-
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -52,7 +56,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="9005", enableLog=false) 
+	@Func(funcCode="04", moduleCode="9005", enableLog=false, enablePermission=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -84,7 +88,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="9005", enableLog=false)  
+	@Func(funcCode="01", moduleCode="9005", enableLog=false, enablePermission=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -98,7 +102,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="9005", enableLog=false)  
+	@Func(funcCode="02", moduleCode="9005", enableLog=false, enablePermission=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -113,7 +117,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="9005", enableLog=false)  
+	@Func(funcCode="04", moduleCode="9005", enableLog=false, enablePermission=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -127,13 +131,17 @@ public class TenantOrderController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="9005")
+	@Func(funcCode="01",moduleCode="9005", enablePermission=false)
 	@RequestMapping 
-	public void save(WebRequest request, ModelMap modelMap) throws Exception
+	public ModelAndView save(@RequestParam String tenantCode, @RequestParam String tenantAlias, @RequestParam String bagCode
+			, @RequestParam BigDecimal price, @RequestParam int quantity) throws Exception
 	{	
-		TenantOrder tenantOrder = new TenantOrder();
-		BeanUtils.populate(tenantOrder, request.getParameterMap());			
-		tenantOrderService.save(tenantOrder);
+		int isolatedMode = IsolatedMode.NO_ISOLATION;	//TODO 目前均不隔离，需要具体实现
+		int createBy = LoginUtils.getLoginOpId().intValue();
+		
+		Integer tenantOrderId = tenantOrderService.save(SaapConstants.TenantOrderType.NEW, tenantCode, tenantAlias, bagCode, isolatedMode, price, quantity, createBy);
+		TenantOrder tenantOrder = tenantOrderService.load(tenantOrderId);
+		return new ModelAndView("jsonView").addObject("tenantOrder", tenantOrder);
 	}
 	
 	/**
@@ -142,7 +150,7 @@ public class TenantOrderController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="9005")
+	@Func(funcCode="02",moduleCode="9005", enablePermission=false)
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -156,7 +164,7 @@ public class TenantOrderController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9005")
+	@Func(funcCode="03",moduleCode="9005", enablePermission=false)
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -168,7 +176,7 @@ public class TenantOrderController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9005")
+	@Func(funcCode="03",moduleCode="9005", enablePermission=false)
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

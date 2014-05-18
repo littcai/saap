@@ -25,12 +25,10 @@ public class TenantVo implements Serializable {
 
 	private Integer id;
 	
-	private String code;
-	
-	private String appCode;
+	private String tenantCode;
 	
 	/** 别名. */
-	private String appAlias;
+	private String tenantAlias;
 	
 	/** 功能包编号. */
 	private String bagCode;
@@ -97,16 +95,15 @@ public class TenantVo implements Serializable {
 	/**
 	 * @param id
 	 * @param code
-	 * @param appCode
+	 * @param tenantCode
 	 * @param isAdmin
 	 * @param expiredDate
 	 */
-	public TenantVo(Integer id, String code, String appCode, String appAlias, boolean isAdmin,
+	public TenantVo(Integer id, String tenantCode, String tenantAlias, boolean isAdmin,
 			Date expiredDate) {
 		this.id = id;
-		this.code = code;
-		this.appCode = appCode;
-		this.appAlias = appAlias;
+		this.tenantCode = tenantCode;
+		this.tenantAlias = tenantAlias;
 		this.isAdmin = isAdmin;
 		this.expiredDate = expiredDate;
 	}
@@ -126,17 +123,17 @@ public class TenantVo implements Serializable {
 	}
 
 	/**
-	 * @return the appCode
+	 * @return the tenantCode
 	 */
-	public String getAppCode() {
-		return appCode;
+	public String getTenantCode() {
+		return tenantCode;
 	}
 
 	/**
-	 * @param appCode the appCode to set
+	 * @param tenantCode the tenantCode to set
 	 */
-	public void setAppCode(String appCode) {
-		this.appCode = appCode;
+	public void setTenantCode(String tenantCode) {
+		this.tenantCode = tenantCode;
 	}
 	
 	/**
@@ -168,31 +165,17 @@ public class TenantVo implements Serializable {
 	}
 
 	/**
-	 * @return the code
+	 * @return the tenantAlias
 	 */
-	public String getCode() {
-		return code;
+	public String getTenantAlias() {
+		return tenantAlias;
 	}
 
 	/**
-	 * @param code the code to set
+	 * @param tenantAlias the tenantAlias to set
 	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	/**
-	 * @return the appAlias
-	 */
-	public String getAppAlias() {
-		return appAlias;
-	}
-
-	/**
-	 * @param appAlias the appAlias to set
-	 */
-	public void setAppAlias(String appAlias) {
-		this.appAlias = appAlias;
+	public void setTenantAlias(String tenantAlias) {
+		this.tenantAlias = tenantAlias;
 	}
 
 	/**

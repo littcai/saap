@@ -406,7 +406,7 @@ public class LoginController {
 	/**
 	 * 开通租户.
 	 * 根据订单开通相应的租户
-	 * TODO 该方法仅做测试使用
+	 * TODO 仅用于演示，实际应由系统后台处理
 	 *
 	 * @param orderNo the order no
 	 * @param request 请求对象
@@ -415,7 +415,7 @@ public class LoginController {
 	 * @throws Exception the exception
 	 */
 	@RequestMapping(value="activateTenant.do")
-	public ModelAndView activateTenant(@RequestParam String orderNo, @RequestParam String tenantAlias
+	public ModelAndView activateTenant(@RequestParam String orderNo
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		String loginIp = WebUtils.getRemoteIp(request);
@@ -438,7 +438,7 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
-		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getAppAlias()}, locale);
+		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getTenantAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);

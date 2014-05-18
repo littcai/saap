@@ -1,8 +1,9 @@
 package com.litt.saap.system.service;
 
+import java.math.BigDecimal;
+
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-
 import com.litt.saap.system.po.TenantOrder;
 
 /**
@@ -19,12 +20,7 @@ import com.litt.saap.system.po.TenantOrder;
 public interface ITenantOrderService
 { 
 
-   	/**
-	 * Save.
-	 * @param tenantOrder TenantOrder
-	 * @return id
-	 */
-	public Integer save(TenantOrder tenantOrder);
+	public Integer save(int orderType, String tenantCode, String tenantAlias, String bagCode, int isolatedMode, BigDecimal price, int quantity, int createBy);
 	
    	/**
 	 * Update.
@@ -49,6 +45,20 @@ public interface ITenantOrderService
 	 * @param ids ids
 	 */
 	public void deleteBatch(Integer[] ids);
+	
+	/**
+	 * 付费.
+	 *
+	 * @param orderNo the order no
+	 */
+	public void doPaid(String orderNo, String payChannel);
+	
+	/**
+	 * 激活订单.
+	 *
+	 * @param orderNo the order no
+	 */
+	public void doActivate(String orderNo);
 	
 	/**
 	 * Load by id.

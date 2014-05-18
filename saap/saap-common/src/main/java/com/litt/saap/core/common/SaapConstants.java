@@ -109,6 +109,16 @@ public class SaapConstants {
 	}
 	
 	/**
+	 * 租户订单类型.
+	 */
+	public interface TenantOrderType{
+		
+		public static final int NEW = 1;				//新订单
+		public static final int UPGRADE = 2;		//升级
+		public static final int RENEW = 3;			//续费
+	}
+	
+	/**
 	 * 租户订单状态.
 	 */
 	public interface TenantOrderStatus{
@@ -118,7 +128,6 @@ public class SaapConstants {
 		public static final int ACTIVATED = 1;		//已生效
 		public static final int CANCELED = 2;		//取消（主动）
 		public static final int INVALID = 3;		//失效（超时被动）
-		
 		
 	}
 	
@@ -133,6 +142,15 @@ public class SaapConstants {
 		public static final int UNAUTHERIZED = 0;//尚未激活
 		public static final int NORMAL = 1;		//启用
 		
+	}
+	
+	/**
+	 * 租户隔离模式.
+	 */
+	public interface IsolatedMode{
+		public static final int NO_ISOLATION = 1;			//不隔离，完全共享
+		public static final int SCHEMA_ISOLATION= 2;		//SCHEMA隔离
+		public static final int DB_ISOLATION = 3;				//数据库隔离
 	}
 	
 	public interface TenantMemberStatus{

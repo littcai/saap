@@ -26,15 +26,15 @@
 		  	<form id="basic-form" action="index.do" method="GET" class="form-horizontal">
 		  		<fieldset>		  			
 		  			<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.code' /></label>
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.tenantCode' /></label>
 						<div class="controls">							
-							<input type="text" name="code" value='<c:out value="${tenant.code }"/>' readonly="readonly" />
+							<input type="text" name="tenantCode" value='<c:out value="${tenant.tenantCode }"/>' readonly="readonly" />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.appAlias' /></label>
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.tenantAlias' /></label>
 						<div class="controls">							
-							<input type="text" name="appAlias" value='<c:out value="${tenant.appAlias }"/>' readonly="readonly" />
+							<input type="text" name="tenantAlias" value='<c:out value="${tenant.tenantAlias }"/>' readonly="readonly" />
 						</div>
 					</div>
 					<div class="control-group">
@@ -111,9 +111,9 @@
 			  <form id="conf-form" action="config.json" method="POST" class="form-horizontal">
 			  		<fieldset>
 			  			<div class="control-group">
-							<label class="control-label"><s:message code='tenant.appAlias' /></label>
+							<label class="control-label"><s:message code='tenant.tenantAlias' /></label>
 							<div class="controls">							
-								<input type="text" name="appAlias" value='<c:out value="${tenant.appAlias }"/>'  />
+								<input type="text" name="tenantAlias" value='<c:out value="${tenant.tenantAlias }"/>'  />
 							</div>
 						</div>
 						
@@ -131,7 +131,7 @@
 $(document).ready(function(){	
 	$('#conf-form').littFormSubmit({		
 		rules : {
-			appAlias: {
+			tenantAlias: {
                 required: true,
                 minlength: 4,
                 maxlength: 50

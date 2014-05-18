@@ -1,18 +1,21 @@
 package com.litt.saap.system.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;     
-import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.core.exception.BusiException;
-import com.litt.core.service.BaseService;
-import com.litt.saap.system.service.ITenantOrderService;
-import com.litt.saap.system.po.TenantOrder;
+import com.litt.core.exception.BusiCodeException;
+import com.litt.core.format.FormatDateTime;
+import com.litt.saap.core.common.SaapConstants.TenantOrderStatus;
 import com.litt.saap.system.dao.TenantOrderDao;
+import com.litt.saap.system.po.TenantOrder;
+import com.litt.saap.system.service.ITenantOrderService;
 
 /**
  * 
@@ -32,14 +35,43 @@ public class TenantOrderServiceImpl implements ITenantOrderService
     
     @Resource
     private TenantOrderDao tenantOrderDao;
-
-   	/**
-	 * Save.
-	 * @param tenantOrder TenantOrder
-	 * @return id
+	
+	/* (non-Javadoc)
+	 * @see com.litt.saap.system.service.ITenantOrderService#save(int, java.lang.String, java.lang.String, java.lang.String, int, java.math.BigDecimal, int, int)
 	 */
-	public Integer save(TenantOrder tenantOrder)
+	public Integer save(int orderType, String tenantCode, String tenantAlias, String bagCode, int isolatedMode, BigDecimal price, int quantity, int createBy)
 	{
+		//数据校验
+		/*
+		 * 租户编号必须唯一：新订单，并且状态会是可激活的
+		 */
+		String countHql = "select count(t) from TenantOrder t where t.orderType=1 and t.tenantCode=? and (t.status=-2 or t.status=-1 or t.status=1)";
+		int count = tenantOrderDao.count(countHql, new Object[]{tenantCode});
+		if(count>0)
+			throw new BusiCodeException("tenantOrder.func.new.error.codeDuplicated", new Object[]{tenantCode});
+		
+		Date curDate = new Date();
+		TenantOrder tenantOrder = new TenantOrder();
+		//生成规则：年月日时分秒+用户ID
+		String orderNo = FormatDateTime.formatDateTimeNum(curDate) + createBy;
+		tenantOrder.setOrderNo(orderNo);
+		tenantOrder.setOrderType(orderType);
+		tenantOrder.setTenantId(-1);
+		tenantOrder.setTenantCode(tenantCode);
+		tenantOrder.setTenantAlias(tenantAlias);
+		tenantOrder.setBagCode(bagCode);
+		tenantOrder.setIsolatedMode(isolatedMode);
+		tenantOrder.setPrice(price);
+		tenantOrder.setQuantity(quantity);
+		tenantOrder.setStatus(TenantOrderStatus.TOBE_PAY);
+		tenantOrder.setCreateBy(createBy);
+		tenantOrder.setCreateDatetime(curDate);
+		
+		//TODO模拟付费
+		tenantOrder.setStatus(TenantOrderStatus.TOBE_ACTIVATE);
+		tenantOrder.setPayChannel("alipay");
+		tenantOrder.setPayDatetime(new Date());
+		
 		return tenantOrderDao.save(tenantOrder);
 	}
 	
@@ -83,6 +115,46 @@ public class TenantOrderServiceImpl implements ITenantOrderService
 	public void delete(TenantOrder tenantOrder) 
 	{	
 		tenantOrderDao.delete(tenantOrder);
+	}
+	
+	/**
+	 * 付费.
+	 *
+	 * @param orderNo the order no
+	 */
+	public void doPaid(String orderNo, String payChannel)
+	{
+		TenantOrder tenantOrder = this.loadByNo(orderNo);
+		if(tenantOrder==null)
+			throw new BusiCodeException("tenantOrder.error.notExist");
+		
+		tenantOrder.setPayChannel(payChannel);
+		tenantOrder.setPayDatetime(new Date());
+		this.update(tenantOrder);
+	}
+	
+	/**
+	 * 激活订单.
+	 *
+	 * @param orderNo the order no
+	 */
+	public void doActivate(String orderNo)
+	{
+		TenantOrder tenantOrder = this.loadByNo(orderNo);
+		if(tenantOrder==null)
+			throw new BusiCodeException("tenantOrder.error.notExist");
+		
+		if(TenantOrderStatus.TOBE_PAY ==  tenantOrder.getStatus())
+			throw new BusiCodeException("tenantOrder.func.activate.error.notPaid");
+		else if(TenantOrderStatus.ACTIVATED ==  tenantOrder.getStatus())
+			throw new BusiCodeException("tenantOrder.func.activate.error.alreadyActivated");
+		else if(TenantOrderStatus.CANCELED ==  tenantOrder.getStatus())
+			throw new BusiCodeException("tenantOrder.func.activate.error.cancelled");
+		else if(TenantOrderStatus.INVALID ==  tenantOrder.getStatus())
+			throw new BusiCodeException("tenantOrder.func.activate.error.invalid");
+		
+		tenantOrder.setStatus(TenantOrderStatus.ACTIVATED);
+		this.update(tenantOrder);
 	}
 	
 	/**

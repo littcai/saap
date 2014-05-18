@@ -185,28 +185,18 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	 */
 	public TenantActiveBo doActivate(String orderNo, Integer userId, Locale locale)
 	{
-		TenantOrder tenantOrder = tenantOrderService.loadByNo(orderNo);
-		if(tenantOrder==null)
-			throw new BusiCodeException("tenantOrder.error.notExist", locale);
-		//有效性检查，如果订单已生效，则无法再次激活
-		switch (tenantOrder.getStatus()) {
-			case TenantOrderStatus.ACTIVATED:
-			case TenantOrderStatus.CANCELED:
-			case TenantOrderStatus.INVALID:
-			case TenantOrderStatus.TOBE_PAY:
-				throw new BusiCodeException("tenantOrder.status."+tenantOrder.getStatus(), locale);	
-			default:
-				break;
-		}
+		//激活订单本身
+		tenantOrderService.doActivate(orderNo);
 		
+		TenantOrder tenantOrder = tenantOrderService.loadByNo(orderNo);
+		//激活租户空间
 		String bagCode = tenantOrder.getBagCode();	//此处应该从订单中获得购买了哪个类型的产品包		
 		
 		TenantDefConfig tenantDefConfig = TenantTypeConfigManager.getInstance().getTenantDefConfig(bagCode);
 				
 		Tenant tenant = new Tenant();
-		tenant.setCode(orderNo);
-		tenant.setAppCode(tenantOrder.getTenantCode());
-		tenant.setAppAlias(tenantOrder.getTenantAlias());	
+		tenant.setTenantCode(tenantOrder.getTenantCode());
+		tenant.setTenantAlias(tenantOrder.getTenantAlias());	
 		tenant.setBagCode(bagCode);
 		tenant.setStatus(TenantStatus.NORMAL);	//直接激活		
 		tenant.setId(tenant.getCreateUserId());
@@ -266,7 +256,11 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		UserRole userRole = new UserRole(tenantId, userId, adminRoleId, userId);
 		userRoleDao.save(userRole);
 		
-		TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getCode(), tenant.getAppCode(), tenant.getAppAlias(), true, tenant.getExpiredDate());
+		//更新订单中的租户ID
+		tenantOrder.setTenantId(tenantId);
+		tenantOrderService.update(tenantOrder);
+		
+		TenantVo tenantVo = new TenantVo(tenant.getId(), tenant.getTenantCode(), tenant.getTenantAlias(), true, tenant.getExpiredDate());
 		TenantActiveBo ret = new TenantActiveBo(tenantVo, adminRoleId, adminPermissions);
 		
 		return ret;
@@ -285,7 +279,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		logger.info("Upgrade tenant permissions start...");
 		List<Tenant> tenantList = tenantDao.listAll();
 		for (Tenant tenant : tenantList) {
-			logger.info("Upgrade tenant permissions for:{}...", new Object[]{tenant.getId(), tenant.getAppAlias()});
+			logger.info("Upgrade tenant permissions for:{}...", new Object[]{tenant.getId(), tenant.getTenantAlias()});
 			
 			Integer tenantId = tenant.getId();
 			List<Role> roleList = roleService.listByTenant(tenantId);
