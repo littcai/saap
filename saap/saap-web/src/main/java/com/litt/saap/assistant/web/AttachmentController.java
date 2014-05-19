@@ -32,6 +32,7 @@ import com.litt.core.io.fileupload.UploadFile;
 import com.litt.core.io.util.FileUtils;
 import com.litt.core.io.util.ZipUtils;
 import com.litt.core.module.annotation.Func;
+import com.litt.core.util.StringUtils;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.assistant.po.Attachment;
@@ -355,12 +356,24 @@ public class AttachmentController extends BaseController
 	}	
 	
 	@RequestMapping 
-	public void download(@RequestParam Integer id, 
-			HttpServletRequest request, HttpServletResponse response) throws Exception
+	public void download(@RequestParam(required=false) Integer id, @RequestParam(required=false) String uid
+			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{	
 		String homePath = super.getHomePath();
 		
-		Attachment attachment = attachmentService.load(id);
+		Attachment attachment = null;
+		if(id!=null)
+			attachment = attachmentService.load(id);
+		else if (!StringUtils.isEmpty(uid)) {
+			attachment = attachmentService.loadByUid(uid);
+		}
+		else {
+			throw new BusiCodeException("error.invalidParam");
+		}
+		if(attachment==null)
+		{
+			throw new BusiCodeException("attachment.error.notExist");
+		}
 		File dir = new File(homePath, attachment.getFilePath());
 		File file = new File(dir, attachment.getFileName());
 		

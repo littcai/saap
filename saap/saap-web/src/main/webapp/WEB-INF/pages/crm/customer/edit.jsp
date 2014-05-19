@@ -12,13 +12,16 @@
 	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.iframe-transport.js"></script>
 	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload.js"></script>	
 	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload-angular.js"></script>	
+	<!-- handlebars -->
+	<script src="${contextPath }/widgets/handlebars/handlebars-v1.3.0.js"></script>	
+	<script src="${contextPath }/widgets/handlebars/handlebars-ext.js"></script>
   </head>
 	<body> 			
 		<form id="theform" action="update.json" method="post" class="form-horizontal">
 			<input id="customerId" name="id" type="hidden" value="${customer.id }">
 			<input id="parentId" name="parentId" type="hidden" value="${customer.parentId }">
 			<fieldset>
-				<legend><s:message code="contacts.ui.fieldset.base" /></legend>
+				<legend><s:message code="common.ui.fieldset.base" /></legend>
 				<div class="row-fluid">
 					<div class="span6">
 						<div class="control-group">
@@ -42,15 +45,59 @@
 					<div class="span12">
 						<div class="control-group">
 							<label class="control-label" for="parentName"><s:message code="customer.parent" /></label>
-							<div class="controls">								
+							<div class="controls">							
 								<div class="input-append">
-								  <input id="parentName" name="parentName" placeholder="" type="text" readonly="readonly" value="${li:out(parentCustomer.name)}">
+								  <input id="parentName" name="parentName" placeholder="" type="text" value="<c:out value='${parentCustomer.name}' />" readonly="readonly">
 								  <button class="btn" type="button" onclick="selectParent(this);"><i class="icon-search"></i></button>  
-								</div>								
+								</div>		
 							</div>
 						</div>
 					</div>					
 				</div>
+				<div class="row-fluid">							
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="contactsName"><s:message code="customer.contacts" /></label>
+								<div class="controls">
+									<div class="input-append">
+										<select id="contactsId" name="customer_contactsId" data-placeholder="<s:message code='common.ui.select' />">
+											<option value=""></option>		
+											<li:optionsCollection var="row" collection="${custContactsList }" value="${customer.contactsId }">
+												<li:option property="${row.id }">${row.name }</li:option>
+											</li:optionsCollection>								
+										</select>											
+									</div>	
+								</div>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="chargeBy"><s:message code="customer.chargeUser" /></label>
+								<div class="controls">
+									<select id="chargeBy" name="chargeBy" data-placeholder="<s:message code='common.ui.select' />">
+										<option value=""></option>
+										<li:optionsCollection collection="${chargeUserList }" var="row" value="${customer.chargeBy }">	
+											<li:option property="${row.id }">${row.userName } (${row.loginId})</li:option>			
+										</li:optionsCollection>	
+									</select>									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid">
+							<div class="span12">
+								<div class="control-group">
+									<label class="control-label" for="remark"><s:message code="customer.remark" /></label>
+									<div class="controls">
+										<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited"><c:out value="${customer.remark }"></c:out></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+				</fieldset>
+				<fieldset>
+						<legend><s:message code="customer.ui.fieldset.contactInfo" /></legend>
+				
 				<div class="row-fluid">		
 					<!-- new line -->
 					<div class="span6">
@@ -92,60 +139,47 @@
 							</div>
 						</div>
 					</div>	
-					<!-- new line -->
-					<div class="row-fluid">							
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="contactsName"><s:message code="customer.contacts" /></label>
-								<div class="controls">
-									<div class="input-append">
-										<input id="contactsName" name="contactsName" placeholder="" type="text" value="${li:out(contacts.name)}" readonly="readonly"  />									  
-										<button class="btn" type="button" onclick="selectContacts(this);"><i class="icon-search"></i></button>  
-									</div>	
-								</div>
+					<div class="row-fluid">	
+						<div class="control-group">
+							<label class="control-label" for="zipCode"><s:message code="customer.zipCode" /></label>
+							<div class="controls">
+								<input id="zipCode" name="zipCode" placeholder="" type="text" value="${li:out(customer.zipCode)}" />
 							</div>
 						</div>
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="chargeUserId"><s:message code="customer.chargeUser" /></label>
-								<div class="controls">
-									<select id="chargeUserId" name="chargeUserId" data-placeholder="<s:message code='common.ui.select' />">
-										<option></option>
-										<li:optionsCollection collection="${chargeUserList }" var="row" value="${customer.chargeUserId}">	
-											<li:option property="${row.id }">${row.userName } (${row.loginId})</li:option>			
-										</li:optionsCollection>	
-									</select>									
-								</div>
+					</div>	
+					<div class="row-fluid">	
+						<div class="control-group">
+							<label class="control-label" for="address"><s:message code="customer.address" /></label>
+							<div class="controls">
+								<input id="address" name="addess" placeholder="" type="text" class="input-block-level" value="${li:out(customer.address)}"/>
 							</div>
 						</div>
-					</div>					
-					
-					<div class="row-fluid">
-							<div class="span12">
-								<div class="control-group">
-									<label class="control-label" for="remark"><s:message code="customer.remark" /></label>
-									<div class="controls">
-										<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited">${li:out(customer.remark)}</textarea>
-									</div>
-								</div>
-							</div>
-						</div>
-					</fieldset>
+					</div>
+				</fieldset>	
+				
+				<fieldset>
+						<legend><s:message code="customer.ui.fieldset.attachment" /></legend>
+						<h:attachment recordId="${customer.id }" moduleCode="customer" attachmentList="${attachmentList }"></h:attachment>
+				</fieldset>						
 						
 					<div class="form-actions">
 						<button type="submit" class="btn btn-primary" data-loading-text="<s:message code='common.processing' />"><i class="icon-ok"></i> <s:message code="btn.save" /></button>
 						<button type="button" class="btn" onclick="history.back();"><s:message code="btn.cancel" /></button>					
 					</div>						
 			</form>
-		<!-- contacts select -->		
-		
+		<%@ include file="customerSelect.jsp"%>	
 							
 		<!--page specific plugin scripts-->				
 		<script type="text/javascript">
 		$(document).ready(function(){	
 						
 			//init charge user select
-			$("#chargeUserId").select2();		
+			$("#chargeBy").select2({
+				width: 'resolve'
+			});	
+			$("#contactsId").select2({
+				width: 'resolve'
+			});
 			
 			$('#theform').littFormSubmit({
 				rules : {
@@ -179,7 +213,17 @@
 					 location.href = <h:returnUrl value="index.do"></h:returnUrl>;					
 				}
 			});	
-		});			
+		});	
+		
+		function selectParent()
+		{
+			$('#customerModal').modal();
+		}
+		
+		function onCustomerSelect(customer)
+		{
+			$('#customerModal').modal('hide');
+		}	
 		</script>			
 	</body>
 </html>

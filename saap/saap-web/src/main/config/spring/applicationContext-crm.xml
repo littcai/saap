@@ -18,4 +18,11 @@
 	<bean id="custContactsDao" class="com.litt.saap.crm.dao.CustContactsDao" parent="baseDao"/>		
 	<bean id="custContactsService" class="com.litt.saap.crm.service.impl.CustContactsServiceImpl"/>	
 	
+	<!-- Customer Activity-->	
+	<bean id="custActivityDao" class="com.litt.saap.crm.dao.CustActivityDao" parent="baseDao"/>		
+	<bean id="custActivityService" class="com.litt.saap.crm.service.impl.CustActivityServiceImpl"/>	
+	
+	<!-- Customer Event-->	
+	<bean id="custEventDao" class="com.litt.saap.crm.dao.CustEventDao" parent="baseDao"/>		
+	<bean id="custEventService" class="com.litt.saap.crm.service.impl.CustEventServiceImpl"/>	
 </beans>

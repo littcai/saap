@@ -17,17 +17,20 @@ import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.module.annotation.Func;
-import com.litt.core.shield.vo.ILoginVo;
-import com.litt.core.util.ArrayUtils;
-import com.litt.core.util.BeanCopier;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
+import com.litt.saap.assistant.po.Attachment;
+import com.litt.saap.assistant.service.IAttachmentService;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.po.Customer;
+import com.litt.saap.crm.service.ICustContactsService;
 import com.litt.saap.crm.service.ICustomerService;
 import com.litt.saap.system.biz.IUserBizService;
+import com.litt.saap.system.po.UserInfo;
+import com.litt.saap.system.service.IUserInfoService;
 
 /**
  * .
@@ -51,7 +54,16 @@ public class CustomerController extends BaseController {
 	private ICustomerService customerService;
 	
 	@Resource
+	private ICustContactsService custContactsService;
+	
+	@Resource
+	private IUserInfoService userInfoService;
+	
+	@Resource
 	private IUserBizService userBizService;
+	
+	@Resource
+	private IAttachmentService attachmentService;
 	
 	/**
 	 * 默认页面.
@@ -110,9 +122,20 @@ public class CustomerController extends BaseController {
 		Customer customer = customerService.load(id);		
 		//TODO 这里要检验用户权限		
 		
+		Customer parentCustomer = null;
+		if(customer.getParentId()>0)
+			parentCustomer = customerService.load(customer.getParentId());
+		List<CustContacts> custContactsList = custContactsService.listByCustomer(id);
 		List<TenantUserVo> chargeUserList = userBizService.findByTenant(LoginUtils.getTenantId());
 		
-        return new ModelAndView("/crm/customer/edit").addObject("customer", customer).addObject("chargeUserList", chargeUserList);
+		List<Attachment> attachmentList = attachmentService.listByRecord("customer", LoginUtils.getTenantId(), id);
+		
+        return new ModelAndView("/crm/customer/edit")
+        	.addObject("customer", customer)
+        	.addObject("parentCustomer", parentCustomer)
+        	.addObject("custContactsList", custContactsList)
+        	.addObject("chargeUserList", chargeUserList)        	
+        	.addObject("attachmentList", attachmentList);
     }	
     
 	/**
@@ -126,8 +149,25 @@ public class CustomerController extends BaseController {
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) throws NotLoginException
 	{ 
-		Customer customer = customerService.load(id);		
-        return new ModelAndView("/crm/customer/show").addObject("customer", customer);
+		Customer customer = customerService.load(id);	
+		Customer parentCustomer = null;
+		if(customer.getParentId()>0)
+			parentCustomer = customerService.load(customer.getParentId());
+		CustContacts custContacts = null;
+		if(customer.getContactsId()!=null && customer.getContactsId()>0)
+			custContacts = custContactsService.load(customer.getContactsId());
+		
+		UserInfo chargeUser = userInfoService.load(customer.getChargeBy());
+		
+		List<Attachment> attachmentList = attachmentService.listByRecord("customer", LoginUtils.getTenantId(), id);
+		
+        return new ModelAndView("/crm/customer/show")
+        			.addObject("customer", customer)
+        			.addObject("parentCustomer", parentCustomer)
+        			.addObject("custContacts", custContacts)
+        			.addObject("chargeUser", chargeUser)
+        			.addObject("attachmentList", attachmentList)
+        			;
     }   
     
     /**
@@ -145,7 +185,7 @@ public class CustomerController extends BaseController {
 		Customer customer = new Customer();
 		BeanUtils.populate(customer, WebUtils.getParametersStartingWith(request, "customer_"));
 		
-		customer.setCreateUserId(super.getLoginOpId().intValue());
+		customer.setCreateBy(super.getLoginOpId().intValue());
 		customerService.save(customer, attachmentUids);		
 	}
 	
@@ -162,7 +202,7 @@ public class CustomerController extends BaseController {
 		Customer customer = customerService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(customer, request.getParameterMap());
 		
-		customer.setUpdateUserId(super.getLoginOpId().intValue());
+		customer.setUpdateBy(super.getLoginOpId().intValue());
 		
 		customerService.update(customer);
 	}
@@ -177,6 +217,13 @@ public class CustomerController extends BaseController {
 	public void delete(@RequestParam Integer id) throws Exception
 	{
 		customerService.delete(id);
+	}
+	
+	@RequestMapping 
+	public ModelAndView query(@RequestParam(required=false) String code, @RequestParam(required=false) String name) throws Exception
+	{
+		List<Customer> customerList = customerService.listAll();
+		return new ModelAndView("jsonView").addObject("customers", customerList);
 	}
 
 }

@@ -22,10 +22,12 @@ import com.litt.core.module.annotation.Func;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.po.Customer;
 import com.litt.saap.crm.service.ICustContactsService;
 import com.litt.saap.crm.service.ICustomerService;
+import com.litt.saap.personal.po.Contacts;
 
 /**
  * 
@@ -192,6 +194,18 @@ public class CustContactsController extends BaseController
 	public void deleteBatch(@RequestParam Integer[] ids) throws Exception
 	{
 		custContactsService.deleteBatch(ids);
+	}
+	
+	/**
+	 * Gets the contact list.
+	 *
+	 * @return the contact list
+	 */
+	@RequestMapping 
+	public ModelAndView getContactsList(@RequestParam Integer customerId)
+	{
+		List<CustContacts> custContactsList = custContactsService.listByCustomer(customerId);
+		return new ModelAndView("jsonView").addObject("custContactsList", custContactsList);
 	}
 
 

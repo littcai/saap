@@ -23,7 +23,7 @@
                 	<option value="name"><s:message code="customer.name" /></option>						
                 </select>                      
                 <input type="text" class="input-large search-query" value="" name="search_text">
-                <button type="button" class="btn btn-small" onClick="callSearch('Basic');"><i class="icon-search"></i>&nbsp;搜索</button>                
+                <button type="button" class="btn btn-small" onClick="callSearch('Basic');"><i class="icon-search"></i>&nbsp;<s:message code="btn.query"></s:message></button>                
              </form>
 		</div>	
 		<div class="clear"></div> 				
@@ -93,8 +93,8 @@
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
 						<td class="checkCol"><input type="checkbox" name="customerIds" value="${row.ID }" /></td>
-						<td><c:out value="${row.CODE }"></c:out></td>
-						<td><c:out value="${row.NAME }"></c:out></td>
+						<td><a href="show.do?id=${row.ID }"><c:out value="${row.CODE }"></c:out></a></td>
+						<td><a href="show.do?id=${row.ID }"><c:out value="${row.NAME }"></c:out></a></td>
 						<td><c:out value="${row.CONTACTS_NAME }"></c:out></td>
 						<td><c:out value="${row.PHONE }"></c:out></td>
 						<td><a href="mailto:${row.EMAIL }">${row.EMAIL }</a></td>

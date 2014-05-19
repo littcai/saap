@@ -1,6 +1,7 @@
 package com.litt.saap.crm.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -42,7 +43,7 @@ public class CustContactsServiceImpl implements ICustContactsService
 	{
 		custContacts.setTenantId(LoginUtils.getTenantId());
 		custContacts.setCreateDatetime(new Date());
-		custContacts.setCreateUserId(LoginUtils.getLoginOpId().intValue());
+		custContacts.setCreateBy(LoginUtils.getLoginOpId().intValue());
 		custContacts.setUpdateDatetime(custContacts.getCreateDatetime());
 		
 		return custContactsDao.save(custContacts);
@@ -127,5 +128,17 @@ public class CustContactsServiceImpl implements ICustContactsService
 			+ "-- and t1.name like {customerName%}"
 			;	
 		return custContactsDao.listPage(listHql, pageParam);
+	}
+	
+	/**
+	 * List by customer.
+	 *
+	 * @param customerId the customer id
+	 * @return the list
+	 */
+	public List<CustContacts> listByCustomer(Integer customerId)
+	{
+		String listHql = "from CustContacts where tenantId=? and customerId=?";
+		return custContactsDao.listAll(listHql, new Object[]{LoginUtils.getTenantId(), customerId});
 	}
 }

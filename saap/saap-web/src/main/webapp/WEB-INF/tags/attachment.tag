@@ -2,11 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%@ attribute name="readonly" required="false" rtexprvalue="true" type="java.lang.Boolean"%>
 <%@ attribute name="recordId" required="true" rtexprvalue="true"%>
 <%@ attribute name="moduleCode" required="true" rtexprvalue="true"%>
-<%@ attribute name="attachmentList" required="false" rtexprvalue="true"%>
+<%@ attribute name="attachmentList" required="false" rtexprvalue="true" type="java.util.List"%>
+  <c:if test="${empty readonly || !readonly }">
 	<div class="row-fluid">
-		<div class="span16 fileupload-buttonbar">
+		<div class="span12 fileupload-buttonbar">
 			<span class="btn btn-success fileinput-button">
 		        <i class="icon-plus icon-white"></i>
 		        <span><s:message code="upload.func.selectFile"></s:message></span>
@@ -14,13 +16,22 @@
 		        <input id="fileupload" type="file" name="files[]" multiple>
 		    </span>      
         </div>
-	</div>					
+	</div>
 	<div class="row-fluid">
 		<!-- The global progress bar -->
 	    <div id="progress" class="progress progress-success progress-striped">
 	        <div class="bar"></div>
 	    </div>
 	    <div class="progress-extended"></div>
+	</div>	
+  </c:if>	  				
+	<div class="row-fluid">
+		<c:if test="${not empty readonly && readonly }">
+		<div>
+			<a href="${contextPath }/assistant/attachment/downloadAll.do?moduleCode=${moduleCode}&recordId=${recordId}" class="btn btn-primary" target="_blank"><i class="icon-download-alt"></i>&nbsp;<s:message code="btn.downloadAll" /></a>
+		</div>
+		<div class="space"></div>
+		</c:if>
         <table class="table table-striped">
         	<col/>
         	<col width="10%"/>
@@ -28,14 +39,17 @@
         	<tbody id="files">
         		<c:forEach items="${attachmentList }" var="attachment">
         		<tr id="attachmentBox${attachment.uid }">
-        			<td><p><c:out value="${attachment.displayName }"></c:out></p></td>
+        			<td><p><a href="${contextPath }/assistant/attachment/download.do?uid=${attachment.uid}" target="_blank"><c:out value="${attachment.displayName }"></c:out></a>&nbsp;<i class="icon-download-alt"></i></p></td>
         			<td>${attachment.fileSize }</td>
-        			<td><button type="button" class="btn btn-warning" onclick='deleteUploadFile("${attachment.uid }")'><s:message code="btn.delete" /></button></td>
+        			<td><c:if test="${empty readonly || !readonly }">
+        				<button type="button" class="btn btn-warning" onclick='deleteUploadFile("${attachment.uid }")'><s:message code="btn.delete" /></button>        			
+        			</c:if></td>
         		</tr>
         		</c:forEach>
         	</tbody>
         </table>
     </div>
+  <c:if test="${empty readonly || !readonly }">  
     <script id="files-template" type="text/x-handlebars-template">
       {{#fileList}}
         <tr id="attachmentBox{{uid}}">
@@ -116,3 +130,4 @@
 			});			
 		}
 		</script>	
+  </c:if>		

@@ -5,11 +5,11 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * 客户联系人<br>
- * 表名：cust_contacts<br>
- * @author Hibernate Tools 3.2.4.GA
+ * <br>
+ * Table:cust_contacts<br>
+ * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
- * @since 2013-10-29 14:05:01
+ * @since 2014-5-19 13:46:04
  */
 public class CustContacts implements Serializable {
 	/**
@@ -75,9 +75,8 @@ public class CustContacts implements Serializable {
 	private String zipCode;
 
 	/**
-	 * 创建人.
 	 */
-	private int createUserId;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -94,13 +93,18 @@ public class CustContacts implements Serializable {
 	 */
 	private String remark;
 
+	/**
+	 * 头像URL.
+	 */
+	private String headImgUrl;
+
 	public CustContacts() {
 	}
 
 	public CustContacts(int tenantId, int customerId, String name, byte gender,
 			String mobile, String email, String phone, String fax,
-			String address, String zipCode, int createUserId,
-			Date createDatetime, Date updateDatetime) {
+			String address, String zipCode, int createBy, Date createDatetime,
+			Date updateDatetime) {
 		this.tenantId = tenantId;
 		this.customerId = customerId;
 		this.name = name;
@@ -111,15 +115,15 @@ public class CustContacts implements Serializable {
 		this.fax = fax;
 		this.address = address;
 		this.zipCode = zipCode;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
 	}
 
 	public CustContacts(int tenantId, int customerId, String name, byte gender,
 			String mobile, String email, String phone, String fax,
-			String address, String zipCode, int createUserId,
-			Date createDatetime, Date updateDatetime, String remark) {
+			String address, String zipCode, int createBy, Date createDatetime,
+			Date updateDatetime, String remark, String headImgUrl) {
 		this.tenantId = tenantId;
 		this.customerId = customerId;
 		this.name = name;
@@ -130,14 +134,15 @@ public class CustContacts implements Serializable {
 		this.fax = fax;
 		this.address = address;
 		this.zipCode = zipCode;
-		this.createUserId = createUserId;
+		this.createBy = createBy;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
 		this.remark = remark;
+		this.headImgUrl = headImgUrl;
 	}
 
 	/**  
-	 * 取得 序号.
+	 * Get 序号.
 	 * @return 序号
 	 */
 	public Integer getId() {
@@ -145,7 +150,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 序号.
+	 * Set 序号.
 	 * @param id 序号
 	 */
 	public void setId(Integer id) {
@@ -153,7 +158,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 租户ID.
+	 * Get 租户ID.
 	 * @return 租户ID
 	 */
 	public int getTenantId() {
@@ -161,7 +166,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 租户ID.
+	 * Set 租户ID.
 	 * @param tenantId 租户ID
 	 */
 	public void setTenantId(int tenantId) {
@@ -169,7 +174,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 客户ID.
+	 * Get 客户ID.
 	 * @return 客户ID
 	 */
 	public int getCustomerId() {
@@ -177,7 +182,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 客户ID.
+	 * Set 客户ID.
 	 * @param customerId 客户ID
 	 */
 	public void setCustomerId(int customerId) {
@@ -185,7 +190,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 名称.
+	 * Get 名称.
 	 * @return 名称
 	 */
 	public String getName() {
@@ -193,7 +198,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 名称.
+	 * Set 名称.
 	 * @param name 名称
 	 */
 	public void setName(String name) {
@@ -201,7 +206,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 性别(0002)
+	 * Get 性别(0002)
 	        0:unknown
 	        1:male
 	        2:female.
@@ -215,7 +220,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 性别(0002)
+	 * Set 性别(0002)
 	        0:unknown
 	        1:male
 	        2:female.
@@ -229,7 +234,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 手机号.
+	 * Get 手机号.
 	 * @return 手机号
 	 */
 	public String getMobile() {
@@ -237,7 +242,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 手机号.
+	 * Set 手机号.
 	 * @param mobile 手机号
 	 */
 	public void setMobile(String mobile) {
@@ -245,7 +250,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 电子邮件.
+	 * Get 电子邮件.
 	 * @return 电子邮件
 	 */
 	public String getEmail() {
@@ -253,7 +258,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 电子邮件.
+	 * Set 电子邮件.
 	 * @param email 电子邮件
 	 */
 	public void setEmail(String email) {
@@ -261,7 +266,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 联系电话.
+	 * Get 联系电话.
 	 * @return 联系电话
 	 */
 	public String getPhone() {
@@ -269,7 +274,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 联系电话.
+	 * Set 联系电话.
 	 * @param phone 联系电话
 	 */
 	public void setPhone(String phone) {
@@ -277,7 +282,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 传真号.
+	 * Get 传真号.
 	 * @return 传真号
 	 */
 	public String getFax() {
@@ -285,7 +290,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 传真号.
+	 * Set 传真号.
 	 * @param fax 传真号
 	 */
 	public void setFax(String fax) {
@@ -293,7 +298,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 地址.
+	 * Get 地址.
 	 * @return 地址
 	 */
 	public String getAddress() {
@@ -301,7 +306,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 地址.
+	 * Set 地址.
 	 * @param address 地址
 	 */
 	public void setAddress(String address) {
@@ -309,7 +314,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 邮编.
+	 * Get 邮编.
 	 * @return 邮编
 	 */
 	public String getZipCode() {
@@ -317,7 +322,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 邮编.
+	 * Set 邮编.
 	 * @param zipCode 邮编
 	 */
 	public void setZipCode(String zipCode) {
@@ -325,23 +330,19 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 创建人.
-	 * @return 创建人
 	 */
-	public int getCreateUserId() {
-		return this.createUserId;
+	public int getCreateBy() {
+		return this.createBy;
 	}
 
 	/**
-	 * 设置 创建人.
-	 * @param createUserId 创建人
 	 */
-	public void setCreateUserId(int createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 	/**  
-	 * 取得 创建时间.
+	 * Get 创建时间.
 	 * @return 创建时间
 	 */
 	public Date getCreateDatetime() {
@@ -349,7 +350,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 创建时间.
+	 * Set 创建时间.
 	 * @param createDatetime 创建时间
 	 */
 	public void setCreateDatetime(Date createDatetime) {
@@ -357,7 +358,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 更新时间.
+	 * Get 更新时间.
 	 * @return 更新时间
 	 */
 	public Date getUpdateDatetime() {
@@ -365,7 +366,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 更新时间.
+	 * Set 更新时间.
 	 * @param updateDatetime 更新时间
 	 */
 	public void setUpdateDatetime(Date updateDatetime) {
@@ -373,7 +374,7 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
-	 * 取得 备注.
+	 * Get 备注.
 	 * @return 备注
 	 */
 	public String getRemark() {
@@ -381,11 +382,27 @@ public class CustContacts implements Serializable {
 	}
 
 	/**
-	 * 设置 备注.
+	 * Set 备注.
 	 * @param remark 备注
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/**  
+	 * Get 头像URL.
+	 * @return 头像URL
+	 */
+	public String getHeadImgUrl() {
+		return this.headImgUrl;
+	}
+
+	/**
+	 * Set 头像URL.
+	 * @param headImgUrl 头像URL
+	 */
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
 	}
 
 }

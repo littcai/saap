@@ -11,7 +11,9 @@
 	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload.js"></script>	
 	<!-- handlebars -->
 	<script src="${contextPath }/widgets/handlebars/handlebars-v1.3.0.js"></script>	
-	<script src="${contextPath }/widgets/handlebars/handlebars-ext.js"></script>	
+	<script src="${contextPath }/widgets/handlebars/handlebars-ext.js"></script>
+	<!-- angularjs -->
+	<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>			
   </head>
 	<body> 			
 		<form id="theform" action="save.json" method="post" class="form-horizontal">
@@ -47,28 +49,26 @@
 								  <input id="parentName" name="customer_parentName" placeholder="" type="text" readonly="readonly">
 								  <button class="btn" type="button" onclick="selectParent(this);"><i class="icon-search"></i></button>  
 								</div>								
-							</div>
+							</div> 
 						</div>
 					</div>					
 				</div>
 				<div class="row-fluid">							
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="contactsName"><s:message code="customer.contacts" /></label>
+								<label class="control-label" for="contactsId"><s:message code="customer.contacts" /></label>
 								<div class="controls">
-									<div class="input-append">
-										<input id="contactsName" name="customer_contactsName" placeholder="" type="text" value="" readonly="readonly"  />
-										<input id="contactsId" name="customer_contactsId" type="hidden">									  
-										<button class="btn" type="button" onclick="selectContacts(this);"><i class="icon-search"></i></button>  
-									</div>	
+									<select id="contactsId" name="customer_contactsId" data-placeholder="<s:message code='common.ui.select' />">
+										<option value=""></option>										
+									</select>								
 								</div>
 							</div>
 						</div>
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="chargeUserId"><s:message code="customer.chargeUser" /></label>
+								<label class="control-label" for="chargeBy"><s:message code="customer.chargeUser" /></label>
 								<div class="controls">
-									<select id="chargeUserId" name="customer_chargeUserId" data-placeholder="<s:message code='common.ui.select' />">
+									<select id="chargeBy" name="customer_chargeBy" data-placeholder="<s:message code='common.ui.select' />">
 										<option value=""></option>
 										<li:optionsCollection collection="${chargeUserList }" var="row">	
 											<li:option property="${row.id }">${row.userName } (${row.loginId})</li:option>			
@@ -85,7 +85,7 @@
 								<div class="control-group">
 									<label class="control-label" for="customer.remark"><s:message code="customer.remark" /></label>
 									<div class="controls">
-										<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited"></textarea>
+										<textarea rows="3" cols="8" id="remark" name="customer_remark" class="input-block-level limited"></textarea>
 									</div>
 								</div>
 							</div>
@@ -163,15 +163,18 @@
 						<button type="submit" class="btn btn-primary" data-loading-text="<s:message code='common.processing' />"><i class="icon-ok"></i> <s:message code="btn.save" /></button>
 						<button type="button" class="btn" onclick="history.back();"><s:message code="btn.cancel" /></button>
 					</div>						
-			</form>				
+			</form>	
+		<%@ include file="customerSelect.jsp"%>				
 		<!--page specific plugin scripts-->	
 		<script type="text/javascript">
 		$(document).ready(function(){	
 			
 			//init charge user select
-			$("#chargeUserId").select2({
+			$("#chargeBy").select2({
 				width: 'resolve'
-				
+			});
+			$("#contactsId").select2({
+				width: 'resolve'
 			});
 			
 			$('#theform').littFormSubmit({
@@ -184,6 +187,9 @@
 						minlength : 2,
 						required : true
 					},	
+					customer_chargeBy: {
+						required: true
+					},
 					customer_email : {
 						email : true
 					},
@@ -208,15 +214,13 @@
 		
 		function selectParent()
 		{
-			
+			$('#customerModal').modal();
 		}
 		
-		function selectContacts()
+		function onCustomerSelect(customer)
 		{
-			
-		}
-		
-		
+			$('#customerModal').modal('hide');
+		}		
 		</script>			
 	</body>
 </html>

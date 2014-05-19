@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-19 13:46:04 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.crm.po.CustActivity" dynamic-insert="true" dynamic-update="true" table="cust_activity">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="customerId" type="int">
+            <column name="CUSTOMER_ID" not-null="true">
+                <comment>客户ID</comment>
+            </column>
+        </property>
+        <property name="contactId" type="int">
+            <column name="CONTACT_ID" not-null="true">
+                <comment>联系人ID</comment>
+            </column>
+        </property>
+        <property name="actType" type="int">
+            <column name="ACT_TYPE" not-null="true">
+                <comment>联系类型</comment>
+            </column>
+        </property>
+        <property name="subject" type="string">
+            <column name="SUBJECT" length="50" not-null="true">
+                <comment>主题</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="2000">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="actDate" type="timestamp">
+            <column name="ACT_DATE" length="19" not-null="true">
+                <comment>联系日期</comment>
+            </column>
+        </property>
+        <property name="chargeBy" type="int">
+            <column name="CHARGE_BY" not-null="true" />
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true" />
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+        <property name="updateBy" type="int">
+            <column name="UPDATE_BY" not-null="true" />
+        </property>
+        <property name="nextActDate" type="timestamp">
+            <column name="NEXT_ACT_DATE" length="19">
+                <comment>下次往来日期</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

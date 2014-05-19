@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"classpath://org/hibernate/hibernate-mapping-3.0.dtd">
-<!-- Generated 2013-10-29 14:05:01 by Hibernate Tools 3.2.4.GA -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-19 13:46:04 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.litt.saap.crm.po.CustContacts" dynamic-insert="true" dynamic-update="true" table="cust_contacts">
-        <comment>客户联系人</comment>
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
@@ -59,10 +58,8 @@
                 <comment>邮编</comment>
             </column>
         </property>
-        <property name="createUserId" type="int">
-            <column name="CREATE_USER_ID" not-null="true">
-                <comment>创建人</comment>
-            </column>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true" />
         </property>
         <property name="createDatetime" type="timestamp">
             <column name="CREATE_DATETIME" length="19" not-null="true">
@@ -77,6 +74,11 @@
         <property name="remark" type="string">
             <column name="REMARK" length="200">
                 <comment>备注</comment>
+            </column>
+        </property>
+        <property name="headImgUrl" type="string">
+            <column name="HEAD_IMG_URL" length="100">
+                <comment>头像URL</comment>
             </column>
         </property>
     </class>

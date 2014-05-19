@@ -1,8 +1,9 @@
 package com.litt.saap.crm.service;
 
+import java.util.List;
+
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-
 import com.litt.saap.crm.po.CustContacts;
 
 /**
@@ -64,5 +65,13 @@ public interface ICustContactsService
 	 * @return IPageList IPageList
 	 */
 	public IPageList listPage(PageParam pageParam);	
+	
+	/**
+	 * List by customer.
+	 *
+	 * @param customerId the customer id
+	 * @return the list
+	 */
+	public List<CustContacts> listByCustomer(Integer customerId);
 
 }

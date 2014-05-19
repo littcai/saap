@@ -70,9 +70,9 @@ public class CustomerServiceImpl implements ICustomerService {
 //		}
 		
 		customer.setTenantId(tenantId);
-		customer.setCreateUserId(loginVo.getOpId().intValue());
+		customer.setCreateBy(loginVo.getOpId().intValue());
 		customer.setCreateDatetime(new Date());	
-		customer.setUpdateUserId(customer.getCreateUserId());
+		customer.setUpdateBy(customer.getCreateBy());
 		customer.setUpdateDatetime(customer.getCreateDatetime());
 		return customerDao.save(customer);
 	}
@@ -101,7 +101,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		this.validate(customer.getId(), customer.getCode(), customer.getName());
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
-		customer.setUpdateUserId(loginVo.getOpId().intValue());
+		customer.setUpdateBy(loginVo.getOpId().intValue());
 		customer.setUpdateDatetime(customer.getCreateDatetime());
 		customerDao.update(customer);
 	}
@@ -190,7 +190,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		int tenantId = LoginUtils.getTenantId();
 		pageParam.addCond("tenantId", tenantId);
 		
-		String listSql = "SELECT OBJ.*, O.USER_NAME AS CHARGE_USER_NAME, T2.NAME AS CONTACTS_NAME FROM CUSTOMER OBJ LEFT JOIN USER_INFO O ON OBJ.CHARGE_USER_ID=O.ID LEFT JOIN CUST_CONTACTS T2 ON OBJ.CONTACTS_ID=T2.ID"
+		String listSql = "SELECT OBJ.*, O.USER_NAME AS CHARGE_USER_NAME, T2.NAME AS CONTACTS_NAME FROM CUSTOMER OBJ LEFT JOIN USER_INFO O ON OBJ.CHARGE_BY=O.ID LEFT JOIN CUST_CONTACTS T2 ON OBJ.CONTACTS_ID=T2.ID"
 			+ "-- AND OBJ.TENANT_ID={tenantId}"
 			+ "-- AND OBJ.IS_DELETED={isDeleted}"
 			+ "-- AND OBJ.CODE LIKE {%code%}"

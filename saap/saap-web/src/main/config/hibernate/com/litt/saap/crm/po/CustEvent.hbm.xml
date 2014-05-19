@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-5-19 13:46:04 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.crm.po.CustEvent" dynamic-insert="true" dynamic-update="true" table="cust_event">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="customerId" type="int">
+            <column name="CUSTOMER_ID" not-null="true">
+                <comment>客户ID</comment>
+            </column>
+        </property>
+        <property name="recordId" type="int">
+            <column name="RECORD_ID" not-null="true">
+                <comment>记录ID</comment>
+            </column>
+        </property>
+        <property name="eventType" type="int">
+            <column name="EVENT_TYPE" not-null="true">
+                <comment>事件类型</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="2000" not-null="true">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="eventBy" type="int">
+            <column name="EVENT_BY" not-null="true">
+                <comment>事件发生用户</comment>
+            </column>
+        </property>
+        <property name="eventDate" type="timestamp">
+            <column name="EVENT_DATE" length="19" not-null="true">
+                <comment>事件发生时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
