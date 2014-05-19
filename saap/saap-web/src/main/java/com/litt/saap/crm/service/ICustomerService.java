@@ -76,6 +76,17 @@ public interface ICustomerService {
 	 */
 	public List<Customer> listAll();
 	
+	/**
+	 * List all.
+	 *
+	 * @param code the code
+	 * @param name the name
+	 * @param includeMe the include me
+	 * @param customerId the customer id
+	 * @return the list
+	 */
+	public List<Customer> listAll(String code, String name, boolean includeMe, Integer customerId) ;
+	
 
 	/**
 	 * 分页查询.

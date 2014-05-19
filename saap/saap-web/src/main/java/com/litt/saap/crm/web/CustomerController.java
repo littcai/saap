@@ -199,8 +199,8 @@ public class CustomerController extends BaseController {
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
-		Customer customer = customerService.load(Utility.parseInt(request.getParameter("id")));
-		BeanUtils.populate(customer, request.getParameterMap());
+		Customer customer = customerService.load(Utility.parseInt(request.getParameter("customer_id")));
+		BeanUtils.populate(customer, WebUtils.getParametersStartingWith(request, "customer_"));
 		
 		customer.setUpdateBy(super.getLoginOpId().intValue());
 		
@@ -220,9 +220,10 @@ public class CustomerController extends BaseController {
 	}
 	
 	@RequestMapping 
-	public ModelAndView query(@RequestParam(required=false) String code, @RequestParam(required=false) String name) throws Exception
+	public ModelAndView query(@RequestParam(required=false) String code, @RequestParam(required=false) String name
+			, @RequestParam(required=false) Integer customerId) throws Exception
 	{
-		List<Customer> customerList = customerService.listAll();
+		List<Customer> customerList = customerService.listAll(code, name, false, customerId);
 		return new ModelAndView("jsonView").addObject("customers", customerList);
 	}
 

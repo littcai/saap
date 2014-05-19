@@ -53,7 +53,7 @@
 							<div class="control-group">
 								<label class="control-label" for="chargeUser"><s:message code="customer.chargeUser" /></label>
 								<div class="controls">
-									<input id="chargeUser" name="chargeUser" placeholder="" type="text" value="${li:out(chargeUser.name)}" readonly="readonly" />								
+									<input id="chargeUser" name="chargeUser" placeholder="" type="text" value="${li:out(chargeUser.userName)} (${li:out(chargeUser.loginId)})" readonly="readonly" />								
 								</div>
 							</div>
 						</div>

@@ -66,7 +66,7 @@
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
 						<td class="checkCol"><input type="checkbox" name="custContactsIds" value="${row.custContacts.id }" /></td>						
-						<td><c:out value="${row.customer.name }"></c:out></td>
+						<td><a href="../customer/show.do?id=${row.customer.id }"><c:out value="${row.customer.name }"></c:out></a></td>
 						<td><a href="show.do?id=${row.custContacts.id }"><c:out value="${row.custContacts.name }"></c:out></a></td>
 						<td>${li:genDictContent("0002", row.custContacts.gender )}</td>
 						<td><c:out value="${row.custContacts.mobile }"></c:out></td>
