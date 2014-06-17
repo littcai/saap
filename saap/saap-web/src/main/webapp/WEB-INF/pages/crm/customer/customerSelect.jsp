@@ -15,10 +15,10 @@
 			<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
 			<table class="search-form">
 				<tr>
-					<td><label><s:message code="customer.code" /></label></td>
-					<td><input type="text" name="code" /></div>
-					<td><label><s:message code="customer.name" /></label></td>
-					<td><input type="text" name="name" /></td>
+					<td><label for="s_code"><s:message code="customer.code" /></label></td>
+					<td><input type="text" id="s_code" name="code" /></div>
+					<td><label for="s_name"><s:message code="customer.name" /></label></td>
+					<td><input type="text" id="s_name" name="name" /></td>
 					<td><button type="button" class="btn btn-small" ng-click="filter();"><i class="icon-search"></i>&nbsp;<s:message code="btn.query"></s:message></button></td>
 				</tr>			
 			</table>     
@@ -65,7 +65,13 @@ function CustomerSelectCtrl($scope, $http)
 	$scope.formData = {};
 	  
 	$scope.filter = function() {		
-		$http.get('query.json').success(function(data) {
+		$http.get('query.json', {
+			params: {
+				code: $("#s_code").val(),
+				name: $("#s_name").val()
+			}
+			
+		}).success(function(data) {
 		    $scope.customers = data.customers;
 		}); 
 	};

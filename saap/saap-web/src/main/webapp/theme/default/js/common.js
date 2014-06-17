@@ -45,6 +45,8 @@ $(document).ready(function(){
 	if(jQuery.validator)
 	{
 		jQuery.validator.setDefaults({
+			errorElement: 'div',
+			//errorClass: 'help-block',
 		    errorPlacement: function(error, element) {     
 		    	
 		      // if the input has a prepend or append element, put the validation msg after the parent div

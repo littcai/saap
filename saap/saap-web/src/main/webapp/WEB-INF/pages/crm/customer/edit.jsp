@@ -18,7 +18,7 @@
   </head>
 	<body> 			
 		<form id="theform" action="update.json" method="post" class="form-horizontal">
-			<input id="customerId" name="id" type="hidden" value="${customer.id }">
+			<input id="customerId" name="customer_id" type="hidden" value="${customer.id }">
 			<input id="parentId" name="customer_parentId" type="hidden" value="${customer.parentId }">
 			<fieldset>
 				<legend><s:message code="common.ui.fieldset.base" /></legend>
@@ -57,16 +57,14 @@
 				<div class="row-fluid">							
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="contactsName"><s:message code="customer.contacts" /></label>
+								<label class="control-label" for="contactsId"><s:message code="customer.contacts" /></label>
 								<div class="controls">
-									<div class="input-append">
 										<select id="contactsId" name="customer_contactsId" data-placeholder="<s:message code='common.ui.select' />">
 											<option value=""></option>		
 											<li:optionsCollection var="row" collection="${custContactsList }" value="${customer.contactsId }">
 												<li:option property="${row.id }">${row.name }</li:option>
 											</li:optionsCollection>								
-										</select>											
-									</div>	
+										</select>
 								</div>
 							</div>
 						</div>
@@ -183,30 +181,29 @@
 			
 			$('#theform').littFormSubmit({
 				rules : {
-					name : {
+					customer_name : {
 						minlength : 2,
 						required : true
 					},					
-					
-					email : {
+					customer_chargeBy: {
+						required : true
+					},
+					customer_email : {
 						required : true,
 						email : true
 					},
-					phone : {
+					customer_phone : {
 						required: true,
 						maxlength : 50
 					},
-					fax : {
+					customer_fax : {
 						maxlength : 50
 					},
-					address : {
+					customer_address : {
 						maxlength : 200
 					},
-					zipCode : {
+					customer_zipCode : {
 						maxlength : 50
-					},
-					chargeUserId: {
-						required: true
 					}
 				},		
 				success: function(reply){

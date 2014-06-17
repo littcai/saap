@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.BaseJdbcDao;
 import com.litt.core.dao.page.IPageList;
+import com.litt.core.dao.ql.CondParam;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
@@ -99,6 +100,9 @@ public class CustomerServiceImpl implements ICustomerService {
 		LoginUtils.validateTenant(customer.getTenantId());
 		//校验数据有效性
 		this.validate(customer.getId(), customer.getCode(), customer.getName());
+		//TODO 校验父节点有效性
+		
+		
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
 		customer.setUpdateBy(loginVo.getOpId().intValue());
@@ -174,12 +178,43 @@ public class CustomerServiceImpl implements ICustomerService {
 	 *
 	 * @return the list
 	 */
-	public List<Customer> listAll() throws NotLoginException
+	public List<Customer> listAll() 
 	{
 		int tenantId = LoginUtils.getTenantId();
 		
 		String listHql = "from Customer where tenantId=?";
 		return customerDao.listAll(listHql, new Object[]{tenantId});
+	}	
+	
+	/**
+	 * List all.
+	 *
+	 * @param code the code
+	 * @param name the name
+	 * @param includeMe the include me
+	 * @param customerId the customer id
+	 * @return the list
+	 */
+	public List<Customer> listAll(String code, String name, boolean includeMe, Integer customerId) 
+	{
+		int tenantId = LoginUtils.getTenantId();
+		
+		CondParam condParam = new CondParam();
+		condParam.addCond("tenantId", tenantId);
+		condParam.addCond("code", code);
+		condParam.addCond("name", name);
+		
+		String listHql = "from Customer"
+				+"-- and tenantId={tenantId}"
+				+"-- and code like {code%}"
+				+"-- and name like {name%}"
+				+"-- and id>{customerId} and id<{customerId}"
+				;
+		if(!includeMe)	//过滤掉自己
+		{
+			condParam.addCond("customerId", customerId);
+		}
+		return customerDao.listAll(listHql, condParam);
 	}	
 	
 	/* (non-Javadoc)

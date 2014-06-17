@@ -32,19 +32,15 @@
 	color:#dd5a43!important
 }
 
-label.valid {
-  width: 24px;
-  height: 24px;
-  background: url(../images/valid.png) center center no-repeat;
-  display: inline-block;
-  text-indent: -9999px;
-}
-
-label.error {
+div.error {
   font-weight: bold;
   color: red;
-  padding: 2px 8px;
-  margin-top: 2px;
+  padding: 2px;
+}
+
+div.valid {
+  height: 0;
+  padding: 0 0;
 }
 
 /* search-form start */
