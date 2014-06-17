@@ -3,11 +3,11 @@ package com.litt.saap.core.web.tag.el;
 import java.util.List;
 
 import com.litt.core.common.BeanManager;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
-import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * Web相关静态EL实现.
@@ -51,7 +51,7 @@ public class WebEL {
 	 * @param userId the user id
 	 * @return the user
 	 */
-	public static UserInfoVo getUser(Integer userId)
+	public static IUserInfo getUser(Integer userId)
 	{
 		if(userId==null || userId.intValue()<=0)
 			return null;

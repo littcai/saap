@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tenant-config>
+<tenant-type-config>
 	<tenant code="basic" descr="基础租户，仅包含基本功能">
 		<maxMembers>5</maxMembers>
 		<!-- 对应功能权限 -->
@@ -541,4 +541,4 @@
 		</role>
 	</tenant>
 
-</tenant-config>
+</tenant-type-config>

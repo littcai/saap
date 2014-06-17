@@ -29,6 +29,7 @@ import com.litt.core.util.BeanCopier;
 import com.litt.core.util.JsonUtils;
 import com.litt.saap.common.service.IEmailService;
 import com.litt.saap.common.service.ITemplateService;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.common.SaapConstants;
@@ -56,7 +57,6 @@ import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.SystemInfoVo;
 import com.litt.saap.system.vo.TenantVo;
-import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * .
@@ -128,9 +128,9 @@ public class UserBizServiceImpl implements IUserBizService {
 	 * @param timeZone the time zone
 	 * @param theme the theme
 	 */
-	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme)
+	public IUserInfo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme)
 	{
-		UserInfoVo vo = userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);
+		IUserInfo vo = userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);
 		//发送激活邮件
 		//获得系统信息
 		SystemInfoVo systemInfo = systemInfoService.getSystemInfo();
@@ -249,7 +249,7 @@ public class UserBizServiceImpl implements IUserBizService {
 		if(targetUser==null)
 		{
 			//创建用户
-			UserInfoVo vo = userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);
+			IUserInfo vo = userInfoService.doRegister(loginId, password, email, loginIp, locale, timeZone, theme);
 			Integer userId = vo.getId();
 			
 			//直接激活用户

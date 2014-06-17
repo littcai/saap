@@ -1,19 +1,18 @@
 package com.litt.saap.crm.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;     
-import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.core.exception.BusiException;
-import com.litt.core.service.BaseService;
-import com.litt.saap.crm.service.ICustActivityService;
-
-import com.litt.saap.crm.po.CustActivity;
 import com.litt.saap.crm.dao.CustActivityDao;
+import com.litt.saap.crm.po.CustActivity;
+import com.litt.saap.crm.service.ICustActivityService;
 
 /**
  * 
@@ -41,6 +40,10 @@ public class CustActivityServiceImpl implements ICustActivityService
 	 */
 	public Integer save(CustActivity custActivity)
 	{
+		custActivity.setCreateDatetime(new Date());
+		custActivity.setUpdateBy(custActivity.getCreateBy());
+		custActivity.setUpdateDatetime(custActivity.getCreateDatetime());
+		
 		return custActivityDao.save(custActivity);
 	}
 	
@@ -53,6 +56,7 @@ public class CustActivityServiceImpl implements ICustActivityService
 		//校验租户权限
 		LoginUtils.validateTenant(custActivity.getTenantId());
 	
+		custActivity.setUpdateDatetime(new Date());
 		custActivityDao.update(custActivity);
 	}			
    
@@ -114,8 +118,9 @@ public class CustActivityServiceImpl implements ICustActivityService
 	 */
 	public IPageList listPage(PageParam pageParam)
 	{
-		String listHql = "select obj from CustActivity obj"
+		String listHql = "select new map(obj as custActivity, t2 as customer, t3 as custContacts, chargeUser as chargeUser) from CustActivity obj, Customer t2, CustContacts t3, UserInfo chargeUser"
 			+ "-- and obj.tenantId={tenantId}"
+			+ "-- and obj.customerId=t2.id and obj.contactId=t3.id and obj.chargeBy=chargeUser.id"
 			;	
 		return custActivityDao.listPage(listHql, pageParam);
 	}

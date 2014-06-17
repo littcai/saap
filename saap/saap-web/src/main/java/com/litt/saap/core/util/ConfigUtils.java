@@ -1,10 +1,12 @@
 package com.litt.saap.core.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -50,9 +52,9 @@ public class ConfigUtils {
 			File confFile = ResourceUtils.getFile(confFilePath);
 			
 			Mapping mapping = new Mapping();
-			InputSource is = new InputSource(new FileReader(confMappingFile));
+			InputSource is = new InputSource(new InputStreamReader(new FileInputStream(confMappingFile)));
 			mapping.loadMapping(is);
-			FileReader reader = new FileReader(confFile);
+			InputStreamReader reader = new InputStreamReader(new FileInputStream(confFile));
 			Unmarshaller unmarshaller = new Unmarshaller(clazz);
 			unmarshaller.setProperty("org.exolab.castor.xml.lenient.id.validation", "true");	//禁用ID校验，castor对于局部对象的Identity属性有误
 			unmarshaller.setMapping(mapping);

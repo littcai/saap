@@ -6,11 +6,11 @@ import java.util.TimeZone;
 import org.springframework.ui.context.Theme;
 
 import com.litt.core.exception.BusiException;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserState;
-import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * .
@@ -85,7 +85,7 @@ public interface IUserInfoService {
 	 * @param theme 主题
 	 * @return the user info vo
 	 */
-	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
+	public IUserInfo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
 	
 
 	public LoginUserVo doLogin(String loginId, String password, String loginIp,
@@ -150,6 +150,6 @@ public interface IUserInfoService {
 	 * @param userId the user id
 	 * @return the user info vo
 	 */
-	public UserInfoVo find(Integer userId);
+	public IUserInfo find(Integer userId);
 	
 }

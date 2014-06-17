@@ -18,8 +18,8 @@
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
         <select name="s_searchField" id="s_searchField" style="width:130px">
-        	<option value="code" ${li:renderSelected(param.s_searchField, "code")}><s:message code="code" /></option>	
-        	<option value="name" ${li:renderSelected(param.s_searchField, "name")}><s:message code="name" /></option>						
+        	<option value="code" ${li:renderSelected(param.s_searchField, "code")}><s:message code="custActivity.customerId" /></option>	
+        	<option value="name" ${li:renderSelected(param.s_searchField, "name")}><s:message code="custActivity.contactId" /></option>						
         </select>                      
         <input type="text" class="input-large search-query" value="${param.s_searchValue }" name="s_searchValue">
         <button type="submit" class="btn btn-small"><i class="icon-search"></i>&nbsp;<s:message code="btn.query" /></button>        
@@ -53,46 +53,32 @@
 				<thead>
 					<tr>			
 						<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>	
-						<th><s:message code="custActivity.id" /></th>
-						<th><s:message code="custActivity.tenantId" /></th>
 						<th><s:message code="custActivity.customerId" /></th>
 						<th><s:message code="custActivity.contactId" /></th>
 						<th><s:message code="custActivity.actType" /></th>
 						<th><s:message code="custActivity.subject" /></th>
-						<th><s:message code="custActivity.content" /></th>
 						<th><s:message code="custActivity.actDate" /></th>
-						<th><s:message code="custActivity.chargeUserId" /></th>
-						<th><s:message code="custActivity.createDatetime" /></th>
-						<th><s:message code="custActivity.createUserId" /></th>
-						<th><s:message code="custActivity.updateDatetime" /></th>
-						<th><s:message code="custActivity.updateUserId" /></th>
+						<th><s:message code="custActivity.chargeBy" /></th>
 						<th><s:message code="common.action" /></th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
-						<td class="checkCol"><input type="checkbox" name="custActivityIds" value="${row.id }" /></td>
-						<td><c:out value="${row.id }"></c:out></td>
-						<td><c:out value="${row.tenantId }"></c:out></td>
-						<td><c:out value="${row.customerId }"></c:out></td>
-						<td><c:out value="${row.contactId }"></c:out></td>
-						<td><c:out value="${row.actType }"></c:out></td>
-						<td><c:out value="${row.subject }"></c:out></td>
-						<td><c:out value="${row.content }"></c:out></td>
-						<td><c:out value="${row.actDate }"></c:out></td>
-						<td><c:out value="${row.chargeUserId }"></c:out></td>
-						<td><c:out value="${row.createDatetime }"></c:out></td>
-						<td><c:out value="${row.createUserId }"></c:out></td>
-						<td><c:out value="${row.updateDatetime }"></c:out></td>
-						<td><c:out value="${row.updateUserId }"></c:out></td>
+						<td class="checkCol"><input type="checkbox" name="custActivityIds" value="${row.custActivity.id }" /></td>						
+						<td><c:out value="${row.customer.name}"></c:out></td>
+						<td><c:out value="${row.custContacts.name }"></c:out></td>
+						<td>电话拜访</td>
+						<td><c:out value="${row.custActivity.subject }"></c:out></td>
+						<td><c:out value="${li:formatDate(row.custActivity.actDate) }"></c:out></td>
+						<td><c:out value="${row.chargeUser.userName }"></c:out></td>
 						<td class="action-buttons">
 							<div class="action-buttons">
-							<a href="edit.do?id=${row.id }" class="blue" >
+							<a href="edit.do?id=${row.custActivity.id }" class="blue" >
 								<i class="icon-pencil"></i>
 							</a>
 							<span class="vbar"></span>	
-							<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
+							<a href="javascript:;" class="red" onclick="rowDelete(${row.custActivity.id});">
 								<i class="icon-trash"></i>
 							</a>
 							</div>

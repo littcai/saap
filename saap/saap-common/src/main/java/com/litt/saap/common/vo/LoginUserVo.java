@@ -3,7 +3,6 @@ package com.litt.saap.common.vo;
 import com.litt.core.shield.vo.BaseLoginVo;
 import com.litt.core.shield.vo.ILoginVo;
 import com.litt.saap.system.vo.TenantVo;
-import com.litt.saap.system.vo.UserInfoVo;
 import com.litt.saap.system.vo.UserStateVo;
 
 /**
@@ -87,7 +86,7 @@ public class LoginUserVo extends BaseLoginVo implements ILoginVo
 	 * @param userName 操作员名称
 	 * @param loginIp 登录IP
 	 */
-	public LoginUserVo(UserInfoVo userInfo, UserStateVo userState, String loginIp)
+	public LoginUserVo(IUserInfo userInfo, UserStateVo userState, String loginIp)
 	{
 		super(userInfo.getId().longValue(), userInfo.getLoginId(), userInfo.getUserName(), loginIp);
 		super.setStatus(userInfo.getStatus());

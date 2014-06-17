@@ -200,7 +200,7 @@ public class CustomerController extends BaseController {
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
 		Customer customer = customerService.load(Utility.parseInt(request.getParameter("id")));
-		BeanUtils.populate(customer, request.getParameterMap());
+		BeanUtils.populate(customer, WebUtils.getParametersStartingWith(request, "customer_"));
 		
 		customer.setUpdateBy(super.getLoginOpId().intValue());
 		

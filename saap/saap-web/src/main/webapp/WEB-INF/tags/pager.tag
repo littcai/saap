@@ -35,7 +35,7 @@ int endPageNo = curPageNo + countBehindCurrent;
 boolean isFirstPage = curPageNo==1;//是否是第一页
 boolean isLastPage = curPageNo==totalPage;//是否是最后一页
 
-int firstRow = (curPageNo-1) * pageSize + 1;
+int firstRow = totalSize==0?0:((curPageNo-1) * pageSize + 1);
 int lastRow = firstRow + curPageNo==totalPage?(totalSize - firstRow ):totalSize;
 
 StringBuilder sb = new StringBuilder(50);

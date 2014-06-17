@@ -8,124 +8,84 @@
   <body>   
   <form id="theform" action="save.json" method="post" class="form-horizontal">
 				<fieldset>
-					<legend><s:message code="custActivity.ui.fieldset.base" /></legend>
+					<legend><s:message code="common.ui.fieldset.base" /></legend>
 					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.id"><s:message code="custActivity.id" /></label>
-								<div class="controls">
-									<input id="custActivity.id" name="id" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.tenantId"><s:message code="custActivity.tenantId" /></label>
-								<div class="controls">
-									<input id="custActivity.tenantId" name="tenantId" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.customerId"><s:message code="custActivity.customerId" /></label>
-								<div class="controls">
-									<input id="custActivity.customerId" name="customerId" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.contactId"><s:message code="custActivity.contactId" /></label>
-								<div class="controls">
-									<input id="custActivity.contactId" name="contactId" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custActivity.actType"><s:message code="custActivity.actType" /></label>
 								<div class="controls">
-									<input id="custActivity.actType" name="actType" placeholder="" type="text" />
+									<select id="actType" name="actType" data-placeholder="<s:message code='common.ui.select' />">
+										<option value=""></option>
+										<option value="">电话拜访</option>
+										<option value="">电话来访</option>
+									</select>
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
+					</div>		
+					<div class="row-fluid">
 							<div class="control-group">
 								<label class="control-label" for="custActivity.subject"><s:message code="custActivity.subject" /></label>
 								<div class="controls">
 									<input id="custActivity.subject" name="subject" placeholder="" type="text" />
 								</div>
-							</div>
-						</div>								
+							</div>						
 					</div>
 					<div class="row-fluid">
-						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custActivity.content"><s:message code="custActivity.content" /></label>
 								<div class="controls">
-									<input id="custActivity.content" name="content" placeholder="" type="text" />
+									<textarea rows="3" cols="8" id="custActivity.content" name="content" class="input-block-level limited"></textarea>
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
+					</div>		
+					<div class="row-fluid">
 							<div class="control-group">
 								<label class="control-label" for="custActivity.actDate"><s:message code="custActivity.actDate" /></label>
 								<div class="controls">
 									<input id="custActivity.actDate" name="actDate" placeholder="" type="text" />
 								</div>
-							</div>
-						</div>								
-					</div>
+							</div>						
+					</div>	
 					<div class="row-fluid">
-						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custActivity.chargeUserId"><s:message code="custActivity.chargeUserId" /></label>
+								<label class="control-label" for="nextActDate"><s:message code="custActivity.nextActDate" /></label>
 								<div class="controls">
-									<input id="custActivity.chargeUserId" name="chargeUserId" placeholder="" type="text" />
+									<input id="nextActDate" name="nextActDate" placeholder="" type="text" />
 								</div>
-							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.createDatetime"><s:message code="custActivity.createDatetime" /></label>
-								<div class="controls">
-									<input id="custActivity.createDatetime" name="createDatetime" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-					</div>
+							</div>						
+					</div>					
 					<div class="row-fluid">
-						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custActivity.createUserId"><s:message code="custActivity.createUserId" /></label>
+								<label class="control-label" for="customerId"><s:message code="custActivity.customerId" /></label>
 								<div class="controls">
-									<input id="custActivity.createUserId" name="createUserId" placeholder="" type="text" />
+									<select id="customerId" name="customerId" data-placeholder="<s:message code='common.ui.select' />">
+										<option value=""></option>
+										<li:optionsCollection collection="${customerList }" var="customer" value="${custContacts.customerId}">	
+											<li:option property="${customer.id }">${customer.name }</li:option>			
+										</li:optionsCollection>
+									</select>	
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custActivity.updateDatetime"><s:message code="custActivity.updateDatetime" /></label>
-								<div class="controls">
-									<input id="custActivity.updateDatetime" name="updateDatetime" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
-					</div>
+					</div>								
 					<div class="row-fluid">
-						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custActivity.updateUserId"><s:message code="custActivity.updateUserId" /></label>
+								<label class="control-label" for="custActivity.contactId"><s:message code="custActivity.contactId" /></label>
 								<div class="controls">
-									<input id="custActivity.updateUserId" name="updateUserId" placeholder="" type="text" />
+									<input id="custActivity.contactId" name="contactId" placeholder="" type="text" />
 								</div>
-							</div>
-						</div>								
+							</div>						
+					</div>	
+					<div class="row-fluid">
+							<div class="control-group">
+								<label class="control-label" for="custActivity.chargeBy"><s:message code="custActivity.chargeBy" /></label>
+								<div class="controls">
+									<select id="chargeBy" name="chargeBy" data-placeholder="<s:message code='common.ui.select' />">
+										<option value=""></option>
+										<li:optionsCollection collection="${chargeUserList }" var="row">	
+											<li:option property="${row.id }">${row.userName } (${row.loginId})</li:option>			
+										</li:optionsCollection>	
+									</select>
+								</div>
+							</div>			
 					</div>
 				</fieldset>					
 						
@@ -139,9 +99,11 @@
 		<script type="text/javascript">
 		$(document).ready(function(){	
 			
+			$("#customerId").select2();			
+			
 			$('#theform').littFormSubmit({
 				rules : {
-					name : {
+					customerId : {
 						required : true
 					}
 				},			

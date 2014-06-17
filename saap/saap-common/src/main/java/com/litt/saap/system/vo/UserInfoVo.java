@@ -3,6 +3,8 @@ package com.litt.saap.system.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.litt.saap.common.vo.IUserInfo;
+
 /**
  * 用户信息对象.
  * 
@@ -18,7 +20,7 @@ import java.util.Date;
  * @since 2013-10-17
  * @version 1.0
  */
-public class UserInfoVo implements Serializable {
+public class UserInfoVo implements Serializable, IUserInfo {
 	
 	/**
 	 * 序号.
@@ -99,7 +101,8 @@ public class UserInfoVo implements Serializable {
 	private Date createDatetime;
 
 	/**
-	 * @return the id
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getId()
 	 */
 	public Integer getId() {
 		return id;
@@ -113,7 +116,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the loginId
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getLoginId()
 	 */
 	public String getLoginId() {
 		return loginId;
@@ -127,7 +131,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the userType
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getUserType()
 	 */
 	public int getUserType() {
 		return userType;
@@ -141,7 +146,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the userName
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getUserName()
 	 */
 	public String getUserName() {
 		return userName;
@@ -155,7 +161,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the nickName
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getNickName()
 	 */
 	public String getNickName() {
 		return nickName;
@@ -169,7 +176,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the gender
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getGender()
 	 */
 	public int getGender() {
 		return gender;
@@ -183,7 +191,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the email
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getEmail()
 	 */
 	public String getEmail() {
 		return email;
@@ -197,7 +206,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the mobile
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getMobile()
 	 */
 	public String getMobile() {
 		return mobile;
@@ -211,7 +221,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the locale
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getLocale()
 	 */
 	public String getLocale() {
 		return locale;
@@ -225,7 +236,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the timezone
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getTimezone()
 	 */
 	public int getTimezone() {
 		return timezone;
@@ -239,7 +251,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the theme
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getTheme()
 	 */
 	public String getTheme() {
 		return theme;
@@ -253,7 +266,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the headImgUrl
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getHeadImgUrl()
 	 */
 	public String getHeadImgUrl() {
 		return headImgUrl;
@@ -267,7 +281,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the createDatetime
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getCreateDatetime()
 	 */
 	public Date getCreateDatetime() {
 		return createDatetime;
@@ -281,7 +296,8 @@ public class UserInfoVo implements Serializable {
 	}
 
 	/**
-	 * @return the status
+	 * @return
+	 * @see com.litt.saap.common.vo.IUserInfo#getStatus()
 	 */
 	public int getStatus() {
 		return status;

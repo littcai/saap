@@ -70,8 +70,7 @@
 						</div>
 				</fieldset>
 				<fieldset>
-						<legend><s:message code="customer.ui.fieldset.contactInfo" /></legend>
-				
+					<legend><s:message code="customer.ui.fieldset.contactInfo" /></legend>
 				<div class="row-fluid">		
 					<!-- new line -->
 					<div class="span6">

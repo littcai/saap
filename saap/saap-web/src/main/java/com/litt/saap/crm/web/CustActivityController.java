@@ -14,9 +14,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.po.CustActivity;
 import com.litt.saap.crm.service.ICustActivityService;
-
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -131,8 +131,15 @@ public class CustActivityController extends BaseController
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
+		int tenantId = LoginUtils.getTenantId();
+		int userId = LoginUtils.getLoginOpId().intValue();
+		
 		CustActivity custActivity = new CustActivity();
-		BeanUtils.populate(custActivity, request.getParameterMap());			
+		BeanUtils.populate(custActivity, request.getParameterMap());
+		
+		custActivity.setTenantId(tenantId);
+		custActivity.setCreateBy(userId);
+		
 		custActivityService.save(custActivity);
 	}
 	
@@ -146,6 +153,8 @@ public class CustActivityController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
+		int userId = LoginUtils.getLoginOpId().intValue();
+		
 		CustActivity custActivity = custActivityService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(custActivity, request.getParameterMap());
 		custActivityService.update(custActivity);

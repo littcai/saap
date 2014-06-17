@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.core.module.annotation.Func;
+import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.bo.TenantActiveBo;
@@ -67,13 +69,17 @@ public class TenantController extends BaseController
 	 * @throws Exception
 	 */
 	@Func(funcCode="02",moduleCode="9001")
-	public ModelAndView config(@RequestParam String appAlias
+	public ModelAndView config(@RequestParam String tenantAlias
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				
 		int tenantId = LoginUtils.getTenantId();
-				
-		tenantService.update(tenantId, appAlias);
-				
+		tenantService.update(tenantId, tenantAlias);
+		
+		LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo();
+		if(loginUser.getTenant()!=null)
+		{
+			loginUser.getTenant().setTenantAlias(tenantAlias);
+		}
 		return new ModelAndView("jsonView");
 	}
 	

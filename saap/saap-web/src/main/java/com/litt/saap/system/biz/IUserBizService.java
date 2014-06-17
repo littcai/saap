@@ -7,11 +7,11 @@ import java.util.TimeZone;
 import org.springframework.ui.context.Theme;
 
 import com.litt.core.exception.BusiException;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.Role;
-import com.litt.saap.system.vo.UserInfoVo;
 
 /**
  * .
@@ -41,7 +41,7 @@ public interface IUserBizService {
 	 * @param timeZone the time zone
 	 * @param theme the theme
 	 */
-	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
+	public IUserInfo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme);
 	
 	/**
 	 * 邀请用户加入.

@@ -21,6 +21,7 @@ import com.litt.core.security.MessageDigestTool;
 import com.litt.core.shield.vo.AutoLoginToken;
 import com.litt.core.util.BeanCopier;
 import com.litt.core.util.StringUtils;
+import com.litt.saap.common.vo.IUserInfo;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.Gender;
@@ -173,7 +174,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	 * @param theme 主题
 	 * @return the user info vo
 	 */
-	public UserInfoVo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme)
+	public IUserInfo doRegister(String loginId, String password, String email, String loginIp, Locale locale, TimeZone timeZone, Theme theme)
 	{
 		//数据校验
 		/* 
@@ -197,7 +198,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		userInfo.setEmail(email);
 		this.save(userInfo);
 		
-		UserInfoVo vo = BeanCopier.copy(userInfo, UserInfoVo.class);
+		IUserInfo vo = BeanCopier.copy(userInfo, UserInfoVo.class);
 		return vo;
 	}
 	
@@ -343,7 +344,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		Integer userId = userInfo.getId();
 		String loginId = userInfo.getLoginId();		
 		
-		UserInfoVo userInfoVo = BeanCopier.copy(userInfo, UserInfoVo.class);
+		IUserInfo userInfoVo = BeanCopier.copy(userInfo, UserInfoVo.class);
 		
 		//用户状态统计也要放到登录信息中, 这里优先设置，界面上能看到上次登录时间和上次登录IP
 		UserStateVo userStateVo = new UserStateVo(userState.getCurrentTenantId()
@@ -431,13 +432,13 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	 * @param userId the user id
 	 * @return the user info vo
 	 */
-	public UserInfoVo find(Integer userId)
+	public IUserInfo find(Integer userId)
 	{
 		UserInfo po = this.load(userId);
 		if(po==null)
 			throw new BusiCodeException("userInfo.error.notExist");
 		else {
-			UserInfoVo vo = BeanCopier.copy(po, UserInfoVo.class);
+			IUserInfo vo = BeanCopier.copy(po, UserInfoVo.class);
 			return vo;
 		}
 	}
