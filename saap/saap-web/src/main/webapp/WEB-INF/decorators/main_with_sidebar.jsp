@@ -100,7 +100,7 @@
 	            </ul>
 	            <ul class="pull-right nav">
 	            	<li><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
-	            	<li><a href="#feedbackBox" data-toggle="modal-popover" data-placement="bottom"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
+	            	<li><a href="javascript:;"  id="feedbackBtn"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
 	            	<li class="dropdown">
 					      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">
 					      	<c:if test="${empty SESSION_USER.nickName }">${SESSION_USER.opName }</c:if>		
@@ -232,6 +232,8 @@
 		    <div class="popover-content">
 				<form id="feedbackForm" action="${contextPath }/assistant/feedback/save.json" onsubmit="return false;">
 					<input type="hidden" id="currentUrl" name="currentUrl" value="" />
+					<input type="hidden" name="moduleCode" value="${__moduleCode }" />
+					
 					<div class="control-group">
 						<label class="control-label" for="feedback.type"><s:message	code="feedback.type" /></label>
 						<div class="controls">
@@ -241,9 +243,9 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="feedback.content"><s:message code="feedback.content" /></label>
+						<label class="control-label" for="feedback_content"><s:message code="feedback.content" /></label>
 						<div class="controls">
-							<textarea rows="5" cols="20" id="feedback[content]" name="content" class="input-block-level limited"></textarea>
+							<textarea rows="5" cols="20" id="feedback_content" name="content" class="input-block-level limited"></textarea>
 						</div>
 					</div>
 					<div>
@@ -257,18 +259,25 @@
 		$(document).ready(function(){	
 			$("#currentUrl").val(location.href);
 			
+			$('#feedbackBox').modalPopover({
+			    target: '#feedbackBtn',
+			    placement: 'bottom'
+			});
+			
+			$('#feedbackBtn').click(function(){
+				$('#feedbackBox').modalPopover('toggle');
+			});
+			
 			$('#feedbackForm').littFormSubmit({
 				enableChangeCheck: false,
 				rules : {
-					type : {
-						required : true
-					},
 					content : {
 						required : true
 					}
 				},			
 				success: function(reply){
-					$("feedback[content]").val(""); 			
+					$("#feedback_content").val(""); 		
+					$('#feedbackBox').modalPopover('hide');
 				}
 			});
 		});

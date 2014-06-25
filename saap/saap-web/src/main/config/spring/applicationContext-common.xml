@@ -286,6 +286,7 @@
 	 	<property name="password" value="${smtp.password}"/>
 	 	<property name="defaultEncoding" value="UTF-8"></property> 
 	 	<!-- SSL -->
+	 	<!-- 
 	 	<property name="protocol" value="smtps" />		 	
 	 	<property name="javaMailProperties">
 	        <props>
@@ -294,10 +295,10 @@
 	            <prop key="mail.smtp.ssl.enable">true</prop>
 	            <prop key="mail.transport.protocol">smtps</prop>
 	            <prop key="mail.smtp.starttls.enable">true</prop>
-            	<prop key="mail.smtp.starttls.required">true</prop>  	           
+            	<prop key="mail.smtp.starttls.required">true</prop>  	
 	        </props>
     	</property>
-	 	
+	 	 -->
 	 </bean>
 	 
 	 <!-- Email Service -->

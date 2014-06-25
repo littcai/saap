@@ -101,5 +101,7 @@ public interface IEmailService {
 	 * @param mailMessage the mail message
 	 */
 	public void sendMime(MimeMessage message);
+	
+	public String getFrom();
 
 }
