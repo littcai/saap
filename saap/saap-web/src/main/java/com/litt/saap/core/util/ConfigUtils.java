@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.exolab.castor.mapping.Mapping;
@@ -14,7 +15,6 @@ import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
-import org.joda.time.DateTime;
 import org.xml.sax.InputSource;
 
 import com.litt.core.exception.BusiException;
@@ -48,11 +48,11 @@ public class ConfigUtils {
 	public static <T> T loadByCastor(Class<T> clazz, String mappingFilePath, String confFilePath)
 	{
 		try {
-			File confMappingFile = ResourceUtils.getFile(mappingFilePath);
+			InputStream input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
 			File confFile = ResourceUtils.getFile(confFilePath);
 			
 			Mapping mapping = new Mapping();
-			InputSource is = new InputSource(new InputStreamReader(new FileInputStream(confMappingFile)));
+			InputSource is = new InputSource(new InputStreamReader(input));
 			mapping.loadMapping(is);
 			InputStreamReader reader = new InputStreamReader(new FileInputStream(confFile));
 			Unmarshaller unmarshaller = new Unmarshaller(clazz);
@@ -68,13 +68,13 @@ public class ConfigUtils {
 	public static <T> void updateByCastor(T object, String mappingFilePath, String confFilePath) 
 	{
 		try {
-			File confMappingFile = ResourceUtils.getFile(mappingFilePath);
+			InputStream input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
 			File confFile = ResourceUtils.getFile(confFilePath);			
 			//ContentHandler handler  = 
 			
 			Mapping mapping = new Mapping();
 			//-- Load a mapping file
-			InputSource is = new InputSource(new FileReader(confMappingFile));
+			InputSource is = new InputSource(new InputStreamReader(input));
 			mapping.loadMapping(is);
 			// Create output format
 //            OutputFormat format = OutputFormat.createPrettyPrint();            

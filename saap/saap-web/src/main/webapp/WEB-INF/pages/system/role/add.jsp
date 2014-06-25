@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ include file="/common/common.inc"%>
-<%@ include file="/common/taglibs.inc"%>
+<%@ include file="/common/common.jspf"%>
+<%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
   <head>		
   </head>
