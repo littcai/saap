@@ -114,6 +114,8 @@ $(document).ready(function(){
  * 		type: POST or GET
  * 		url: target
  * 		params:	
+ * 		isShowLoading: true
+ * 		messageDelay: 1500
  * 		success: callback function when success
  * 		error: 	callback function when error
  * Example：$.webtools.ajax({
@@ -191,6 +193,8 @@ $(document).ready(function(){
 				type: "POST",
 				url: "",
 				params: {},
+				isShowLoading: true,
+				messageDelay: 1500,
 				success: null,
 				error: null
 			};
@@ -204,14 +208,14 @@ $(document).ready(function(){
 				url: setting.url,
 				data: setting.params, 
 				success: function(data, textStatus){
-					if(loading)
+					if(setting.isShowLoading && loading)
 					{
 						var _opts = {
 			    				icon: "icon-ok-sign",	
 			    				title: setting.messages.success,
 			    	    		type: 'success',
 			    	    		hide: true,
-			    	    		delay: 1500,
+			    	    		delay: setting.messageDelay,
 			    	    		before_close: function(pnotify) {
 			    	    			var callback = setting.success;	    	    			
 			    	    			(callback && typeof(callback) === "function") && callback(data, textStatus);
@@ -221,35 +225,46 @@ $(document).ready(function(){
 					}
 					else
 					{
-						var callback = setting.success;	    	    			
-    	    			(callback && typeof(callback) === "function") && callback(data, textStatus);
+			    		var callback = setting.success;	    	    			
+	    	    		(callback && typeof(callback) === "function") && callback(data, textStatus);
 					}
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown){					    		
-		    		if(loading)
-		    		{				    			
-		    			//效果：将loading转换为error
-		    			var _opts = {
-		    				icon: "icon-warning-sign",	
-		    				title: eval("(" + XMLHttpRequest.responseText +  ")").exception,
-		    	    		type: 'error',
-		    	    		hide: true
-		    			}; 
-		    			loading.pnotify(_opts);
-		    		}	
+		    		if(!loading)
+		    		{		
+		    			loading = $.pnotify({
+						    title: setting.messages.loading,
+						    type: 'info',
+						    icon: 'loading',
+						    hide:false,
+						    history: false,
+						    sticker: false									    
+						});
+		    		}
+		    		//效果：将loading转换为error
+	    			var _opts = {
+	    				icon: "icon-warning-sign",	
+	    				title: eval("(" + XMLHttpRequest.responseText +  ")").exception,
+	    	    		type: 'error',
+	    	    		hide: true
+	    			}; 
+	    			loading.pnotify(_opts);
 		    		//调用回调
 		    		var callback = setting.error;	    	    			
 		    		(callback && typeof(callback) === "function") && callback(data, textStatus);		    		
 				},	
 				beforeSend: function(XMLHttpRequest) {
-					loading = $.pnotify({
-					    title: setting.messages.loading,
-					    type: 'info',
-					    icon: 'loading',
-					    hide:false,
-					    history: false,
-					    sticker: false									    
-					});
+					if(setting.isShowLoading)
+					{
+						loading = $.pnotify({
+						    title: setting.messages.loading,
+						    type: 'info',
+						    icon: 'loading',
+						    hide:false,
+						    history: false,
+						    sticker: false									    
+						});
+					}
 				}
 			}); 
 			

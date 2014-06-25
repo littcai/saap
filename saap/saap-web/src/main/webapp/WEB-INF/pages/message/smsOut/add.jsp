@@ -141,8 +141,8 @@
 	</div>
   </div>
   <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true"><s:message code="btn.cancel" /></button>
-    <button class="btn btn-primary" onclick="confirmContacts();"><s:message code="btn.confirm" /></button>
+    <button type="button" class="btn" data-dismiss="modal" aria-hidden="true"><s:message code="btn.cancel" /></button>
+    <button type="button" class="btn btn-primary" onclick="confirmContacts();"><s:message code="btn.confirm" /></button>
   </div>
 </div>					
 		<!--page specific plugin scripts-->				
