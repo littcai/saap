@@ -3,10 +3,10 @@
 <%@page import="com.litt.core.exception.NotLoginException"%>
 <%@ page contentType="text/html;charset=UTF-8" isErrorPage="true"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<%@ include file="/common/taglibs.inc"%>
+<%@ include file="/common/taglibs.jspf"%>
 <head>
 <title>500 <s:message code="error.500.title" /></title>
-<%@ include file="/common/meta.inc"%>
+<%@ include file="/common/meta.jspf"%>
 <script language="javascript">
 $(document).ready(function(){	
 	

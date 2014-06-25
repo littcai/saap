@@ -278,34 +278,7 @@
       	</map>
       </property>
   	</bean> 
-	 
-	 <bean id="smailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	 	<property name="host" value="${smtp.host}"/>
-	 	<property name="port" value="${smtp.port}"/>	 	
-	 	<property name="username" value="${smtp.username}"/>
-	 	<property name="password" value="${smtp.password}"/>
-	 	<property name="defaultEncoding" value="UTF-8"></property> 	 	
-	 	<property name="javaMailProperties">
-	        <props>
-	        	<prop key="mail.debug">true</prop> 
-	            <prop key="mail.smtps.auth">true</prop>	   	           
-	        </props>
-    	</property>
-	 	<!-- SSL
-	 	<property name="protocol" value="smtps" />	 	 
-	 	<property name="javaMailProperties">
-	        <props>
-	        	<prop key="mail.debug">true</prop> 
-	            <prop key="mail.smtps.auth">true</prop>
-	            <prop key="mail.smtp.ssl.enable">true</prop>
-	            <prop key="mail.transport.protocol">smtps</prop>
-	            <prop key="mail.smtp.starttls.enable">true</prop>
-            	<prop key="mail.smtp.starttls.required">true</prop>
-	        </props>
-    	</property>
-    	 -->
-	 </bean>
-	 
+	 	 
 	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="${smtp.host}"/>
 	 	<property name="port" value="${smtp.port}"/>	 	

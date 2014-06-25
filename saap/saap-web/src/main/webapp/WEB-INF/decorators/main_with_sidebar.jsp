@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/common/common.inc"%>
-<%@ include file="/common/taglibs.inc"%>
+<%@ include file="/common/common.jspf"%>
+<%@ include file="/common/taglibs.jspf"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <html lang="en">
   <head>	
-  	<%@ include file="/common/meta.inc"%>  	
+  	<%@ include file="/common/meta.jspf"%>  	
   	<title><c:if test="${empty SESSION_USER.tenant }" >SaaP</c:if><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.tenantAlias }</c:if></title>	 	
-	<decorator:head />	
-	<!--  -->
-	<script type="text/javascript">
-	$(document).ready(function(){	
-		
-	});	
-	</script>		
+	<decorator:head />
 	</head>
 	<body>	
 <header id="header">
@@ -106,7 +100,7 @@
 	            </ul>
 	            <ul class="pull-right nav">
 	            	<li><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
-	            	<li ><a href="#"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
+	            	<li><a href="#feedbackBox" data-toggle="modal-popover" data-placement="bottom"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
 	            	<li class="dropdown">
 					      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">
 					      	<c:if test="${empty SESSION_USER.nickName }">${SESSION_USER.opName }</c:if>		
@@ -232,5 +226,52 @@
 			</div>
 		  </c:if>
 		</div>
+		<!-- feedback box -->
+		<div id="feedbackBox" class="popover" style="width: 360px;max-width: 360px;">
+		    <div class="arrow"></div>
+		    <div class="popover-content">
+				<form id="feedbackForm" action="${contextPath }/assistant/feedback/save.json" onsubmit="return false;">
+					<input type="hidden" id="currentUrl" name="currentUrl" value="" />
+					<div class="control-group">
+						<label class="control-label" for="feedback.type"><s:message	code="feedback.type" /></label>
+						<div class="controls">
+							<label class="radio inline"><input type="radio" name="type" value="1" checked="checked" /> <s:message code='feedback.type.1' /></label>&nbsp;
+							<label class="radio inline"><input type="radio" name="type" value="2" /> <s:message code='feedback.type.2' /></label>&nbsp;
+							<label class="radio inline"><input type="radio" name="type" value="3" /> <s:message code='feedback.type.3' /></label>&nbsp;
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="feedback.content"><s:message code="feedback.content" /></label>
+						<div class="controls">
+							<textarea rows="5" cols="20" id="feedback[content]" name="content" class="input-block-level limited"></textarea>
+						</div>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-primary"><i class="icon-ok"></i> <s:message code="btn.submit" /></button>
+					</div>	
+				</form>
+			</div>
+		</div>
+		<!--page specific plugin scripts-->				
+		<script type="text/javascript">
+		$(document).ready(function(){	
+			$("#currentUrl").val(location.href);
+			
+			$('#feedbackForm').littFormSubmit({
+				enableChangeCheck: false,
+				rules : {
+					type : {
+						required : true
+					},
+					content : {
+						required : true
+					}
+				},			
+				success: function(reply){
+					$("feedback[content]").val(""); 			
+				}
+			});
+		});
+		</script>	 
 	</body>
 </html>
