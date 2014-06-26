@@ -19,7 +19,7 @@ import com.litt.saap.core.util.ConfigUtils;
  */
 public class TenantTypeConfigManager {
 	
-	public static final String CONF_MAPPING_FILE_PATH = "classpath:module/tenant-type-conf-mapping.xml";
+	public static final String CONF_MAPPING_FILE_PATH = "/module/tenant-type-conf-mapping.xml";
 	
 	public static final String CONF_FILE_PATH = "classpath:module/tenant-type-conf.xml";
 	

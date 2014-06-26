@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-26 12:33:04 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.message.po.Affiche" dynamic-insert="true" dynamic-update="true" table="affiche">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="type" type="int">
+            <column name="TYPE" not-null="true">
+                <comment>类型</comment>
+            </column>
+        </property>
+        <property name="iconType" type="string">
+            <column name="ICON_TYPE" length="10">
+                <comment>图标类型</comment>
+            </column>
+        </property>
+        <property name="title" type="string">
+            <column name="TITLE" length="100" not-null="true">
+                <comment>标题</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="65535" not-null="true">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="expiredDate" type="timestamp">
+            <column name="EXPIRED_DATE" length="19">
+                <comment>过期日期</comment>
+            </column>
+        </property>
+        <property name="isChecked" type="boolean">
+            <column name="IS_CHECKED" not-null="true">
+                <comment>是否已审核</comment>
+            </column>
+        </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updateBy" type="int">
+            <column name="UPDATE_BY" not-null="true">
+                <comment>更新人</comment>
+            </column>
+        </property>
+        <property name="updateDatetime" type="timestamp">
+            <column name="UPDATE_DATETIME" length="19" not-null="true">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

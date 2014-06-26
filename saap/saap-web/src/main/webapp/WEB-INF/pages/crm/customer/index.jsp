@@ -13,7 +13,7 @@
 	<body> 		
 		<!-- form filter -->	
 		<div>
-			<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="POST">				
+			<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="get">				
 				<input type="hidden" id="pageIndex" name="pageIndex" value="${pageParam.pageIndex }" />
 				<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
@@ -92,7 +92,7 @@
 				<tbody>
 				<c:forEach items="${pageList.rsList }" var="row">
 					<tr>
-						<td class="checkCol"><input type="checkbox" name="customerIds" value="${row.ID }" /></td>
+						<td class="checkCol"><input type="checkbox" class="checkItem" name="customerIds" value="${row.ID }" /></td>
 						<td><a href="show.do?id=${row.ID }"><c:out value="${row.CODE }"></c:out></a></td>
 						<td><a href="show.do?id=${row.ID }"><c:out value="${row.NAME }"></c:out></a></td>
 						<td><c:out value="${row.CONTACTS_NAME }"></c:out></td>
@@ -120,10 +120,25 @@
 		<script type="text/javascript">
 		$(document).ready(function(){				
 			$('.datatable').dataTable();	
+			
+			var checkboxs = $.webtools.checkboxs({
+				checkAll: "#checkAll",
+				checkItem: ".checkItem"				
+			});
 		})
 		
-		function batchDelete(fieldName)
+		function batchDelete()
 		{					
+			if($(".checkItem:checked").length<=0)
+			{
+				$.webtools.notify({
+					type: "notice",
+					message: "<s:message code='validate.checkone'/>"
+				});
+				return;
+			}
+			var ids = $.webtools.getCheckValuesArray(".checkItem");	
+		
 			bootbox.confirm("<s:message code='common.delete.confirm' />", function(result){
 				if(result)
 				{
@@ -135,7 +150,7 @@
 						}
 					});						
 				}				
-			});			
+			});		
 		}	
 				
 		function rowDelete(id)

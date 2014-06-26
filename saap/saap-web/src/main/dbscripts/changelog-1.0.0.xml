@@ -6,6 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">     
 
+	<changeSet id="v1.0.4" author="dba">    	
+    	<sqlFile path="upgrade/v1.0.4.sql"/>	
+    </changeSet> 
 
 	<changeSet id="v1.0.3" author="dba">    	
     	<sqlFile path="upgrade/v1.0.3.sql"/>	

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-26 12:33:04 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.litt.saap.message.po.Feedback" dynamic-insert="true" dynamic-update="true" table="feedback">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="tenantId" type="int">
+            <column name="TENANT_ID" not-null="true">
+                <comment>租户ID</comment>
+            </column>
+        </property>
+        <property name="type" type="int">
+            <column name="TYPE" not-null="true">
+                <comment>类型</comment>
+            </column>
+        </property>
+        <property name="content" type="string">
+            <column name="CONTENT" length="65535" not-null="true">
+                <comment>内容</comment>
+            </column>
+        </property>
+        <property name="reply" type="string">
+            <column name="REPLY" length="65535">
+                <comment>回复</comment>
+            </column>
+        </property>
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="createDatetime" type="timestamp">
+            <column name="CREATE_DATETIME" length="19" not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="replyBy" type="java.lang.Integer">
+            <column name="REPLY_BY">
+                <comment>回复人</comment>
+            </column>
+        </property>
+        <property name="replyDatetime" type="timestamp">
+            <column name="REPLY_DATETIME" length="19">
+                <comment>回复时间</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

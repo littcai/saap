@@ -26,4 +26,12 @@
 	
 	<bean id="smsInService" class="com.litt.saap.message.service.impl.SmsInServiceImpl"/>		
 	
+	<!-- Affiche -->		
+	<bean id="afficheDao" class="com.litt.saap.message.dao.AfficheDao" parent="baseDao"/>	
+	<bean id="afficheService" class="com.litt.saap.message.service.impl.AfficheServiceImpl"/>		
+	
+	<!-- Feedback -->		
+	<bean id="feedbackDao" class="com.litt.saap.message.dao.FeedbackDao" parent="baseDao"/>	
+	<bean id="feedbackService" class="com.litt.saap.message.service.impl.FeedbackServiceImpl"/>		
+	
 </beans>

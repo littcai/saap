@@ -230,7 +230,7 @@
 		<div id="feedbackBox" class="popover" style="width: 360px;max-width: 360px;">
 		    <div class="arrow"></div>
 		    <div class="popover-content">
-				<form id="feedbackForm" action="${contextPath }/assistant/feedback/save.json" onsubmit="return false;">
+				<form id="feedbackForm" action="${contextPath }/message/feedback/save.json" onsubmit="return false;">
 					<input type="hidden" id="currentUrl" name="currentUrl" value="" />
 					<input type="hidden" name="moduleCode" value="${__moduleCode }" />
 					

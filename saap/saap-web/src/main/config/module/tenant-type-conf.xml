@@ -54,14 +54,30 @@
 			<code>121004</code>
 			<!-- message center -->
 			<code>80</code>
+			<!-- sms out -->
 			<code>8001</code>
 			<code>800101</code>
 			<code>800102</code>
 			<code>800103</code>
 			<code>800104</code>
+			<!-- sms in -->
 			<code>8002</code>			
 			<code>800203</code>
 			<code>800204</code>
+			<!-- affiche -->
+			<code>8003</code>
+			<code>800301</code>
+			<code>800302</code>
+			<code>800303</code>
+			<code>800304</code>
+			<code>800305</code>
+			<!-- feedback -->
+			<code>8004</code>
+			<code>800401</code>
+			<code>800402</code>
+			<code>800403</code>
+			<code>800404</code>
+			<code>800405</code>
 			<!-- ***************************  -->
 			<!-- system management for tenant -->
 			<code>90</code>
@@ -155,6 +171,20 @@
 				<code>8002</code>			
 				<code>800203</code>
 				<code>800204</code>
+				<!-- affiche -->
+				<code>8003</code>
+				<code>800301</code>
+				<code>800302</code>
+				<code>800303</code>
+				<code>800304</code>
+				<code>800305</code>
+				<!-- feedback -->
+				<code>8004</code>
+				<code>800401</code>
+				<code>800402</code>
+				<code>800403</code>
+				<code>800404</code>
+				<code>800405</code>
 				<!-- ***************************  -->
 				<!-- system management for tenant -->
 				<code>90</code>
