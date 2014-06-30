@@ -9,6 +9,8 @@
 <!--basic styles-->
 	<link href="${contextPath}/${theme}/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="${contextPath}/${theme}/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link href="${contextPath}/${theme}/css/bootstrap.panel.min.css" rel="stylesheet" />
+	<link href="${contextPath}/${theme}/css/bootstrap.list.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="${contextPath}/${theme}/css/glyphicons.css" />	
 	<link rel="stylesheet" href="${contextPath}/${theme}/css/cus-icons.css" />
 	<!--[if IE 7]>
@@ -22,37 +24,28 @@
 	<link href="${contextPath}/${theme}/css/main.css" rel="stylesheet" />
 <!--basic scripts-->
 		<!--[if !IE]>-->
-
 		<script src="${contextPath}/${theme}/js/jquery-2.0.3.min.js"></script>
-
 		<!--<![endif]-->
-
 		<!--[if IE]>
 		<script src="${contextPath}/${theme}/js/jquery-1.10.2.min.js"></script>
 		<![endif]-->
-
 		<!--[if !IE]>-->
-
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='${contextPath}/${theme}/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
 		</script>
-
 		<!--<![endif]-->
-
 		<!--[if IE]>
 		<script type="text/javascript">
 		 window.jQuery || document.write("<script src='${contextPath}/${theme}/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 		</script>
 		<![endif]-->
-
 		<script type="text/javascript">
 			if("ontouchend" in document) document.write("<script src='${contextPath}/${theme}/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		<script src="${contextPath}/${theme}/js/bootstrap.min.js"></script>
-
 		<!-- common plugin scripts-->		
 		<!-- jquery bootbox -->
-		<script src="${contextPath }/widgets/bootbox/bootbox.min.js"></script>	
+		<script src="${contextPath }/static/widgets/bootbox/bootbox.min.js"></script>	
 		<c:if test="${not empty sessionScope.SESSION_USER && not empty sessionScope.SESSION_USER.locale && !fn:startsWith(sessionScope.SESSION_USER.locale, 'en') }">
 			<script type="text/javascript"> 
 			$(document).ready(function(){	
@@ -61,21 +54,21 @@
 	  		</script>
 		</c:if>			
 		<!-- jquery pnotify -->
-		<link href="${contextPath}/widgets/pnotify/css/jquery.pnotify.default.css" rel="stylesheet" />
-		<script src="${contextPath }/widgets/pnotify/js/jquery.pnotify.min.js"></script>	
+		<link href="${contextPath}/static/widgets/pnotify/css/jquery.pnotify.default.css" rel="stylesheet" />
+		<script src="${contextPath }/static/widgets/pnotify/js/jquery.pnotify.min.js"></script>	
 		
 		<!-- jquery form and validate -->
-<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>
-<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
+<script src="${contextPath }/static/widgets/jquery-validate/js/jquery.validate.min.js"></script>
+<script src="${contextPath }/static/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
 <c:if test="${!empty sessionScope.SESSION_USER && !empty sessionScope.SESSION_USER.locale && !fn:startsWith(sessionScope.SESSOION_USER.locale, 'en') }">
-	<script src="${contextPath }/widgets/jquery-validate/i18n/messages_${sessionScope.SESSION_USER.locale }.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-validate/i18n/messages_${sessionScope.SESSION_USER.locale }.js"></script>
 </c:if>
-<script src="${contextPath }/widgets/jquery-form/jquery.form.min.js"></script>
+<script src="${contextPath }/static/widgets/jquery-form/jquery.form.min.js"></script>
 <!-- jquery select2 -->
-<link href="${contextPath}/widgets/jquery-select2/css/select2.css" rel="stylesheet" />
-<script src="${contextPath }/widgets/jquery-select2/js/select2.min.js"></script>
+<link href="${contextPath}/static/widgets/jquery-select2/css/select2.css" rel="stylesheet" />
+<script src="${contextPath }/static/widgets/jquery-select2/js/select2.min.js"></script>
 <!-- bootstrap-modal-popover -->
-<script src="${contextPath }/widgets/bootstrap-modal-popover/bootstrap-modal-popover.js"></script>
+<script src="${contextPath }/static/widgets/bootstrap-modal-popover/bootstrap-modal-popover.js"></script>
 <!-- common js -->		
 		<script src="${contextPath}/${theme}/js/common.js"></script>
 		<script src="${contextPath}/${theme}/js/i18n/messages_zh_CN.js"></script>		

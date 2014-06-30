@@ -1,5 +1,7 @@
 package com.litt.saap.message.web;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,9 +16,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.message.po.Feedback;
 import com.litt.saap.message.service.IFeedbackService;
-
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -119,15 +121,28 @@ public class FeedbackController extends BaseController
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
 		Feedback feedback = feedbackService.load(id);		
-        return new ModelAndView("/message/feedback/show").addObject("feedback", feedback);
+    return new ModelAndView("/message/feedback/show").addObject("feedback", feedback);
+  } 
+	
+	@RequestMapping 
+  public ModelAndView getTopN(@RequestParam(defaultValue="8") int pageSize, @RequestParam(defaultValue="0") int pageIndex, @RequestParam(required=false) Integer type) 
+  { 
+	  int tenantId = LoginUtils.getTenantId();
+    PageParam pageParam = new PageParam(pageIndex, pageSize, "createDatetime", "desc");
+    pageParam.addCond("tenantId", tenantId);
+    pageParam.addCond("type", type); 
+	  
+    IPageList pageList = feedbackService.listPage(pageParam); 
+    return new ModelAndView("jsonView").addObject("feedbackList", pageList.getRsList());
   } 
 
 	@Func(funcCode="01",moduleCode="8004")
 	@RequestMapping 
 	public void save(@RequestParam(required=false) String moduleCode, @RequestParam String currentUrl, @RequestParam int type, @RequestParam String content) throws Exception
-	{	
-	  Feedback feedback = new Feedback();
-	  feedbackService.save(feedback);
+	{
+	  LoginUserVo loginUserVo = (LoginUserVo)super.getLoginVo();
+	  
+	  feedbackService.save(loginUserVo.getTenantId(), loginUserVo.getOpId().intValue(), moduleCode, currentUrl, type, content);
 	}
 
 	

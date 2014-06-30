@@ -1,5 +1,6 @@
 package com.litt.saap.message.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -7,23 +8,21 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.LocaleUtils;
-import org.slf4j.Logger;     
-import org.slf4j.LoggerFactory; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.litt.core.common.BeanManager;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.core.util.StringUtils;
 import com.litt.saap.common.service.IEmailService;
 import com.litt.saap.common.service.ITemplateService;
+import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.core.exception.BusiException;
-import com.litt.core.service.BaseService;
-import com.litt.core.util.StringUtils;
-import com.litt.saap.message.service.IFeedbackService;
-import com.litt.saap.message.po.Feedback;
 import com.litt.saap.message.dao.FeedbackDao;
+import com.litt.saap.message.po.Feedback;
+import com.litt.saap.message.service.IFeedbackService;
 
 /**
  * 
@@ -50,10 +49,19 @@ public class FeedbackServiceImpl implements IFeedbackService
     @Resource
     private ITemplateService templateService;
     
-    @RequestMapping 
-    public void save(String moduleCode, String currentUrl, int type, String content)
+    public Integer save(int tenantId, int userId, String moduleCode, String currentUrl, int type, String content)
     { 
-      Locale locale = LocaleUtils.toLocale(LoginUtils.getLoginVo().getLocale());
+      Feedback feedback = new Feedback();
+      feedback.setTenantId(tenantId);
+      feedback.setCreateBy(userId);
+      feedback.setType(type);
+      feedback.setContent(content);
+      feedback.setCreateDatetime(new Date());
+      Integer id = feedbackDao.save(feedback);
+      
+      LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo();
+      
+      Locale locale = LocaleUtils.toLocale(loginUser.getLocale());
       String from = emailService.getFrom();
       String subject = BeanManager.getMessage("feedback.type."+type, locale);
       
@@ -63,6 +71,8 @@ public class FeedbackServiceImpl implements IFeedbackService
         propMap.put("moduleCode", moduleCode);
         propMap.put("moduleName", BeanManager.getMessage("module."+moduleCode, locale));
       }
+      
+      propMap.put("loginUser", loginUser);
       propMap.put("currentUrl", currentUrl);
       propMap.put("type", type);
       propMap.put("content", content);
@@ -70,18 +80,10 @@ public class FeedbackServiceImpl implements IFeedbackService
       String finalContent = templateService.genString("feedback", propMap);
       
       emailService.sendSimple(from, subject, finalContent);
+      
+      return id;
     }
-
-   	/**
-	 * Save.
-	 * @param feedback Feedback
-	 * @return id
-	 */
-	public Integer save(Feedback feedback)
-	{
-		return feedbackDao.save(feedback);
-	}
-	
+    
    	/**
 	 * Update.
 	 * @param feedback Feedback
@@ -154,6 +156,8 @@ public class FeedbackServiceImpl implements IFeedbackService
 	{
 		String listHql = "select obj from Feedback obj"
 			+ "-- and obj.tenantId={tenantId}"
+			+ "-- and obj.type={type}"
+			+ "-- and obj.createBy={createBy}"
 			;	
 		return feedbackDao.listPage(listHql, pageParam);
 	}

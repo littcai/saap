@@ -5,14 +5,14 @@
 <html lang="en">
   <head>		
 	<!-- jquery datatables -->
-	<link href="${contextPath}/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
+	<link href="${contextPath}/static/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
 	<!-- jquery file upload -->
-	<link href="${contextPath}/widgets/jquery-fileupload/css/jquery.fileupload.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.ui.widget.js"></script>
-	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.iframe-transport.js"></script>
-	<script src="${contextPath }/widgets/jquery-fileupload/js/jquery.fileupload.js"></script>
+	<link href="${contextPath}/static/widgets/jquery-fileupload/css/jquery.fileupload.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/jquery-fileupload/js/jquery.ui.widget.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-fileupload/js/jquery.iframe-transport.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-fileupload/js/jquery.fileupload.js"></script>
 	</head>
 	<body> 	
 		

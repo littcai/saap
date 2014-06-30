@@ -4,9 +4,9 @@
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
   <head>
-  	<script src="${contextPath }/widgets/jquery-input/jquery-input.js"></script>
-  	<link href="${contextPath }/widgets/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
-  	<script src="${contextPath }/widgets/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+  	<script src="${contextPath }/static/widgets/jquery-input/jquery-input.js"></script>
+  	<link href="${contextPath }/static/widgets/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
+  	<script src="${contextPath }/static/widgets/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
   	<style type="text/css">
   	.bootstrap-tagsinput {
   		width: 100%;

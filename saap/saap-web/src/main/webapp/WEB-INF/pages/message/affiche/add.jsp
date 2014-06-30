@@ -4,6 +4,14 @@
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
 <head>
+  <!-- kindeditor -->
+  <script src="${contextPath }/static/widgets/kindeditor/kindeditor.js"></script>
+  <!-- bootstrap-datepicker -->
+  <link href="${contextPath}/static/widgets/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+  <script src="${contextPath }/static/widgets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSION_USER.locale, 'en') }">
+    <script src="${contextPath }/static/widgets/bootstrap-datepicker/js/locales/bootstrap-datepicker.${SESSION_USER.locale }.js"></script>
+  </c:if> 
 </head>
 <body>
   <form id="theform" action="save.json" method="post" class="form-horizontal">
@@ -24,7 +32,7 @@
         <div class="control-group">
           <label class="control-label" for="title"><s:message code="affiche.title" /></label>
           <div class="controls">
-            <input id="title" name="title" placeholder="" type="text" />
+            <input id="title" name="title" type="text" />
           </div>
         </div>
       </div>
@@ -32,7 +40,10 @@
         <div class="control-group">
           <label class="control-label" for="expiredDate"><s:message code="affiche.expiredDate" /></label>
           <div class="controls">
-            <input id="expiredDate" name="expiredDate" placeholder="" type="text" />
+            <div class="input-append date datepicker" id="expiredDate" data-date-format="yyyy-mm-dd">
+                <input id="expiredDate" name="expiredDateFmt" type="text"/>
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
           </div>
         </div>
       </div>
@@ -40,7 +51,16 @@
         <div class="control-group">
           <label class="control-label" for="content"><s:message code="affiche.content" /></label>
           <div class="controls">
-            <input id="content" name="content" placeholder="" type="text" />
+            <textarea id="content" name="content" style="width:700px;height:300px;"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label" for="content"><s:message code="affiche.isChecked" /></label>
+          <div class="controls">
+            <label class="radio inline"><input id="isCheckedYes" name="isChecked" type="radio" value="1" checked="checked" /> <s:message code="common.yes" /></label>&nbsp;
+            <label class="radio inline"><input id="isCheckedNo" name="isChecked" type="radio" value="0" /> <s:message code="common.no" /></label>
           </div>
         </div>
       </div>
@@ -55,42 +75,41 @@
   </form>
   <!--page specific plugin scripts-->
   <script type="text/javascript">
+    var editor;
       $(document).ready(function() {
-
-        $("#customerId").select2();
-
+        $('.datepicker').datepicker({
+  		  todayBtn: true,
+  		  todayHighlight: true
+  		});
+        
         $('#theform').littFormSubmit({
           rules : {
-            name : {
+            type : {
               required : true
             },
-            gender : {
+            title : {
               required : true
-            },
-            mobile : {
-              required : true
-            },
-            email : {
-              required : true,
-              email : true
-            },
-            phone : {
-              maxlength : 50
-            },
-            fax : {
-              maxlength : 50
-            },
-            address : {
-              maxlength : 200
-            },
-            zipCode : {
-              maxlength : 50
             }
+          },
+          beforeSerialize: function(){
+            editor.sync();
           },
           success : function(reply) {
             location.href = <h:returnUrl value="index.do"></h:returnUrl>;
           }
         });
+      });
+      
+      KindEditor.ready(function(K) {
+        window.editor = K.create('#content', {
+					resizeType : 1,
+					allowPreviewEmoticons : false,
+					allowImageUpload : false,
+					items : [
+						'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+				});
       });
     </script>
 </body>

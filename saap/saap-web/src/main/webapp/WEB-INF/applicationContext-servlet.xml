@@ -41,9 +41,9 @@
 	 -->	
 	<!-- 对静态资源文件的访问  方案二 （二选一）-->  
 	<!--  -->
+	<mvc:resources mapping="/uploaded/**" location="/uploaded/" cache-period="31556926"/> 
 	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>  
-	<mvc:resources mapping="/scripts/**" location="/scripts/" cache-period="31556926"/> 
-	<mvc:resources mapping="/widgets/**" location="/widgets/" cache-period="31556926"/>  
+	<mvc:resources mapping="/static/widgets/**" location="/static/widgets/" cache-period="31556926"/>  
 	<mvc:resources mapping="/theme/**" location="/theme/" cache-period="31556926"/>  
 	
 	<!-- 定义无需Controller的url<->view直接映射 -->

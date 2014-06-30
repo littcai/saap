@@ -10,12 +10,12 @@
 		<!--page specific plugin scripts-->		
 		<script src="${contextPath }/<s:theme code='path'/>/js/common.js"></script>
 		
-		<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.min.js"></script>
-		<script src="${contextPath }/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
+		<script src="${contextPath }/static/widgets/jquery-validate/js/jquery.validate.min.js"></script>
+		<script src="${contextPath }/static/widgets/jquery-validate/js/jquery.validate.ex.js"></script>
 		<c:if test="${!fn:startsWith(locale, 'en') && !empty locale }">
-			<script src="${contextPath }/widgets/jquery-validate/i18n/messages_${locale}.js"></script>
+			<script src="${contextPath }/static/widgets/jquery-validate/i18n/messages_${locale}.js"></script>
 		</c:if>
-		<script src="${contextPath }/widgets/jquery-form/jquery.form.min.js"></script>		
+		<script src="${contextPath }/static/widgets/jquery-form/jquery.form.min.js"></script>		
 	</head>
 	<body> 		
 <div class="navbar navbar-fixed-top">	

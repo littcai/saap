@@ -7,14 +7,14 @@
   	<!-- angularjs -->
   	<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>	
 	<!-- jquery file upload-8.7.1 -->
-	<link href="${contextPath}/widgets/jquery-fileupload-8.7.1/css/jquery.fileupload-ui.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.ui.widget.js"></script>
-	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.iframe-transport.js"></script>
-	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload.js"></script>	
-	<script src="${contextPath }/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload-angular.js"></script>	
+	<link href="${contextPath}/static/widgets/jquery-fileupload-8.7.1/css/jquery.fileupload-ui.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/jquery-fileupload-8.7.1/js/jquery.ui.widget.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-fileupload-8.7.1/js/jquery.iframe-transport.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload.js"></script>	
+	<script src="${contextPath }/static/widgets/jquery-fileupload-8.7.1/js/jquery.fileupload-angular.js"></script>	
 	<!-- handlebars -->
-	<script src="${contextPath }/widgets/handlebars/handlebars-v1.3.0.js"></script>	
-	<script src="${contextPath }/widgets/handlebars/handlebars-ext.js"></script>
+	<script src="${contextPath }/static/widgets/handlebars/handlebars-v1.3.0.js"></script>	
+	<script src="${contextPath }/static/widgets/handlebars/handlebars-ext.js"></script>
   </head>
 	<body> 			
 		<form id="theform" action="update.json" method="post" class="form-horizontal">

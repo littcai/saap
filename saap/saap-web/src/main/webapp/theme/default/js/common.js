@@ -149,26 +149,7 @@ $(document).ready(function(){
  * ----------------------------------------------
  * 
  * ----------------------------------------------
- * inner信息提示
- * 嵌入式信息提示，代替默认的alert
  * 
- * Function：alert
- * Descr: alert and info enhancement
- * Dependencies: bootstrap
- * Options：
- * 	    containerId: the container for messages
- * 		title: the subject of the message
- * 		message: the content of the message
- * 		type: notice, info, error, success
- * 		hide: if the message will be hide automatically
- * 		closeable: if the popup can be closed by click	
- * 		overwrite: if overwrite previous messages
- * 		position: how to insert message to container.
- * Example：$.webtools.alert({
- * 			containerId: "id",
- *			type: "info",
- *			message: "I'm superman."			
- *		 }); 
  * 
  * 
  */
@@ -282,6 +263,7 @@ $(document).ready(function(){
 					message: "",
 					type: 'info',
 					hide: true,
+					delay: 1500,
 					sticker: false,
 					closeable: true,
 					position: 'top-right'	//top-left,top-center,top-right, center, bottom-left, bottom-center, bottm-right
@@ -294,6 +276,7 @@ $(document).ready(function(){
 	  		    text: ""==options.title?"":options.message,		
 	  		    type: options.type,
 	  		    hide: options.hide,
+	  		    delay: options.delay,
 	  		    history: false,    		    
 	  		    sticker: options.sticker,
 	  		    before_open: function(pnotify){
@@ -425,7 +408,30 @@ $(document).ready(function(){
 	});
 	
 	/*
-	 * alert组件
+	 * inner信息提示
+   * 嵌入式信息提示，代替默认的alert
+   * 
+   * Function：alert
+   * Descr: alert and info enhancement
+   * Dependencies: bootstrap
+   * Options：
+   *      containerId: the container for messages
+   *    title: the subject of the message
+   *    message: the content of the message
+   *    type: notice, info, error, success
+   *    hide: if the message will be hide automatically
+   *    closeable: if the popup can be closed by click  
+   *    overwrite: if overwrite previous messages
+   *    position: how to insert message to container.
+   * Example：$.webtools.alert({
+   *      containerId: "id",
+   *      message: "I'm superman.", 
+   *      type: "info",
+   *      hide: false, 
+   *      closeable: true,
+   *      overwrite: true,
+   *      position: 'append'   
+   *     }); 
 	 */
 	$.extend($.webtools, {
 		alert: function(options)
