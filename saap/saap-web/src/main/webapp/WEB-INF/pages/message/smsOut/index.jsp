@@ -5,14 +5,14 @@
 <html lang="en">
   <head>		
 	<!-- jquery datatables -->
-	<link href="${contextPath}/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
+	<link href="${contextPath}/static/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
 	<!-- bootstrap-datetimepicker -->
-	<link href="${contextPath}/widgets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <script src="${contextPath }/widgets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<link href="${contextPath}/static/widgets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="${contextPath }/static/widgets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 	<c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSION_USER.locale, 'en') }">
-		<script src="${contextPath }/widgets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.${SESSION_USER.locale }.js"></script>
+		<script src="${contextPath }/static/widgets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.${SESSION_USER.locale }.js"></script>
 	</c:if>		
   </head>
  <body>

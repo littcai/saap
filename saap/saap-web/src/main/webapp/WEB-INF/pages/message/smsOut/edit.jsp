@@ -4,9 +4,9 @@
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
   <head>
-  	<script src="${contextPath }/widgets/jquery-input/jquery-input.js"></script>
-  	<link href="${contextPath }/widgets/jquery-select2/css/select2.css" rel="stylesheet" />
-  	<script src="${contextPath }/widgets/jquery-select2/js/select2.min.js"></script>
+  	<script src="${contextPath }/static/widgets/jquery-input/jquery-input.js"></script>
+  	<link href="${contextPath }/static/widgets/jquery-select2/css/select2.css" rel="stylesheet" />
+  	<script src="${contextPath }/static/widgets/jquery-select2/js/select2.min.js"></script>
   	<style type="text/css">
   	.bootstrap-input{
   		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);

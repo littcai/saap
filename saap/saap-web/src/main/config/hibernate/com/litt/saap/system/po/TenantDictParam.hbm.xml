@@ -15,7 +15,7 @@
             </column>
         </property>
         <property name="dictType" type="string">
-            <column name="DICT_TYPE" length="4" not-null="true">
+            <column name="DICT_TYPE" length="20" not-null="true">
                 <comment>参数类型</comment>
             </column>
         </property>
@@ -25,7 +25,7 @@
             </column>
         </property>
         <property name="dictContent" type="string">
-            <column name="DICT_CONTENT" length="100" not-null="true">
+            <column name="DICT_CONTENT" length="200" not-null="true">
                 <comment>参数描述</comment>
             </column>
         </property>

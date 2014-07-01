@@ -1,19 +1,20 @@
 package com.litt.saap.message.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;     
-import org.slf4j.LoggerFactory; 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.core.exception.BusiException;
-import com.litt.core.service.BaseService;
-import com.litt.saap.message.service.IAfficheService;
-
-import com.litt.saap.message.po.Affiche;
 import com.litt.saap.message.dao.AfficheDao;
+import com.litt.saap.message.po.Affiche;
+import com.litt.saap.message.service.IAfficheService;
 
 /**
  * 
@@ -41,6 +42,13 @@ public class AfficheServiceImpl implements IAfficheService
 	 */
 	public Integer save(Affiche affiche)
 	{
+	  //using jsoup to avoid xss
+	  String content = Jsoup.clean(affiche.getContent(), Whitelist.basic());
+	  affiche.setContent(content);
+	  
+	  affiche.setCreateDatetime(new Date());
+	  affiche.setUpdateBy(affiche.getCreateBy());
+	  affiche.setUpdateDatetime(affiche.getCreateDatetime());
 		return afficheDao.save(affiche);
 	}
 	
@@ -52,7 +60,11 @@ public class AfficheServiceImpl implements IAfficheService
 	{
 		//校验租户权限
 		LoginUtils.validateTenant(affiche.getTenantId());
-	
+		//using jsoup to avoid xss
+    String content = Jsoup.clean(affiche.getContent(), Whitelist.basic());
+    affiche.setContent(content);
+		
+		affiche.setUpdateDatetime(affiche.getCreateDatetime());
 		afficheDao.update(affiche);
 	}			
    

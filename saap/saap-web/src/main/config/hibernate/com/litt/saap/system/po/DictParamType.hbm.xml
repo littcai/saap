@@ -8,14 +8,9 @@
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
-        </id>
-        <property name="systemId" type="int">
-            <column name="SYSTEM_ID" not-null="true">
-                <comment>系统ID 1：默认及平台 2：子系统ID</comment>
-            </column>
-        </property>
+        </id>        
         <property name="dictType" type="string">
-            <column name="DICT_TYPE" length="4" not-null="true">
+            <column name="DICT_TYPE" length="20" not-null="true">
                 <comment>参数类型</comment>
             </column>
         </property>

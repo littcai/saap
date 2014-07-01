@@ -32,8 +32,7 @@
 	        <div class="container-fluid">
 	        	<!-- .btn-navbar is used as the toggle for collapsed navbar content -->			    
 	          <a class="brand" href="${contextPath }"><c:if test="${empty SESSION_USER.tenant }" >SaaP</c:if><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.tenantAlias }</c:if></a>	            
-	          </div><!--/.nav-collapse -->
-	        </div>
+	        </div><!--/.nav-collapse -->
 	      </div>
 	    </div>		
 		<div class="container-fluid" style="margin-top: 15px;">		  

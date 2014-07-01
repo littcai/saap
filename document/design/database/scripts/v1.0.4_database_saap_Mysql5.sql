@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/6/26 12:04:59                           */
+/* Created on:     2014/6/27 11:05:47                           */
 /*==============================================================*/
 
 
@@ -69,6 +69,8 @@ DROP TABLE IF EXISTS DATA_PERMISSION;
 DROP INDEX IDX_DP_DICT_TYPE ON DICT_PARAM;
 
 DROP TABLE IF EXISTS DICT_PARAM;
+
+DROP INDEX IDX_DPT_CODE ON DICT_PARAM_TYPE;
 
 DROP TABLE IF EXISTS DICT_PARAM_TYPE;
 
@@ -763,9 +765,9 @@ ALTER TABLE DATA_PERMISSION COMMENT '数据访问授权';
 CREATE TABLE DICT_PARAM
 (
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
-   DICT_TYPE            VARCHAR(4) NOT NULL COMMENT '参数类型',
+   DICT_TYPE            VARCHAR(20) NOT NULL COMMENT '参数类型',
    DICT_VALUE           VARCHAR(100) NOT NULL COMMENT '参数值',
-   DICT_CONTENT         VARCHAR(100) NOT NULL COMMENT '参数描述',
+   DICT_CONTENT         VARCHAR(200) NOT NULL COMMENT '参数描述',
    FILTER               VARCHAR(500) NOT NULL COMMENT '过滤条件',
    PARAMS               VARCHAR(2000) NOT NULL COMMENT '附加参数',
    POSITION             INT NOT NULL DEFAULT 10 COMMENT '排序',
@@ -795,7 +797,7 @@ CREATE INDEX IDX_DP_DICT_TYPE ON DICT_PARAM
 CREATE TABLE DICT_PARAM_TYPE
 (
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
-   DICT_TYPE            VARCHAR(4) NOT NULL COMMENT '参数类型',
+   DICT_TYPE            VARCHAR(20) NOT NULL COMMENT '参数类型',
    DICT_TYPE_NAME       VARCHAR(50) NOT NULL COMMENT '参数类型名称',
    ALTER_MODE           TINYINT NOT NULL DEFAULT 1 COMMENT '更改方式
             1：不可修改
@@ -812,6 +814,14 @@ CREATE TABLE DICT_PARAM_TYPE
 );
 
 ALTER TABLE DICT_PARAM_TYPE COMMENT '参数字典类型表';
+
+/*==============================================================*/
+/* Index: IDX_DPT_CODE                                          */
+/*==============================================================*/
+CREATE UNIQUE INDEX IDX_DPT_CODE ON DICT_PARAM_TYPE
+(
+   DICT_TYPE
+);
 
 /*==============================================================*/
 /* Table: DYNAMIC_SEARCH                                        */

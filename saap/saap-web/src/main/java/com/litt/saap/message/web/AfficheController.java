@@ -3,6 +3,7 @@ package com.litt.saap.message.web;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -133,17 +134,17 @@ public class AfficheController extends BaseController
 	 * @return the top n
 	 */
 	@RequestMapping 
-	public ModelAndView getTopN(@RequestParam(defaultValue="10") int pageSize)
+	public ModelAndView getTopN(HttpServletRequest request, @RequestParam(defaultValue="8") int pageSize, @RequestParam(defaultValue="0") int pageIndex)
 	{
 	  int tenantId = LoginUtils.getTenantId();
-	  PageParam pageParam = new PageParam(0, pageSize, "updateDatetime", "desc");
+	  PageParam pageParam = new PageParam(pageIndex, pageSize, "updateDatetime", "desc");
     pageParam.addCond("tenantId", tenantId);
     pageParam.addCond("isChecked", true);  
     pageParam.addCond("expiredDate", new Date());  
     
     IPageList pageList = afficheService.listPageWithGlobal(pageParam);
     
-    return new ModelAndView("jsonView").addObject("rsList", pageList.getRsList());
+    return new ModelAndView("jsonView").addObject("afficheList", pageList.getRsList());
 	}
     
     /**
@@ -156,8 +157,15 @@ public class AfficheController extends BaseController
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
+	  Date expiredDate = Utility.parseDate(request.getParameter("expiredDateFmt"));	  
+	  
 		Affiche affiche = new Affiche();
-		BeanUtils.populate(affiche, request.getParameterMap());			
+		BeanUtils.populate(affiche, request.getParameterMap());		
+		
+		affiche.setTenantId(LoginUtils.getTenantId());
+		affiche.setExpiredDate(expiredDate);
+		affiche.setCreateBy(LoginUtils.getLoginOpId().intValue());
+		
 		afficheService.save(affiche);
 	}
 	
@@ -171,8 +179,13 @@ public class AfficheController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
+	  Date expiredDate = Utility.parseDate(request.getParameter("expiredDateFmt"));    
+	  
 		Affiche affiche = afficheService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(affiche, request.getParameterMap());
+		affiche.setExpiredDate(expiredDate);
+		affiche.setUpdateBy(LoginUtils.getLoginOpId().intValue());
+		
 		afficheService.update(affiche);
 	}
 	

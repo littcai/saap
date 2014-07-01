@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/decorators">
 	<excludes>
+		<pattern>/uploaded/*</pattern>
 		<pattern>/images/*</pattern>
-		<pattern>/widgets/*</pattern>
+		<pattern>/static/*</pattern>
 		<pattern>/theme/*</pattern>
 	</excludes>
 

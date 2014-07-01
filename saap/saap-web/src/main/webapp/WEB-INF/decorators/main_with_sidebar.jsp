@@ -238,8 +238,9 @@
 						<label class="control-label" for="feedback.type"><s:message	code="feedback.type" /></label>
 						<div class="controls">
 							<label class="radio inline"><input type="radio" name="type" value="1" checked="checked" /> <s:message code='feedback.type.1' /></label>&nbsp;
-							<label class="radio inline"><input type="radio" name="type" value="2" /> <s:message code='feedback.type.2' /></label>&nbsp;
-							<label class="radio inline"><input type="radio" name="type" value="3" /> <s:message code='feedback.type.3' /></label>&nbsp;
+				            <label class="radio inline"><input type="radio" name="type" value="2" /> <s:message code='feedback.type.2' /></label>&nbsp;			
+                            <label class="radio inline"><input type="radio" name="type" value="2" /> <s:message code='feedback.type.3' /></label>&nbsp;
+							<label class="radio inline"><input type="radio" name="type" value="3" /> <s:message code='feedback.type.4' /></label>&nbsp;
 						</div>
 					</div>
 					<div class="control-group">

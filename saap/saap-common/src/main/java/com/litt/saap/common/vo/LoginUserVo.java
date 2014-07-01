@@ -106,7 +106,7 @@ public class LoginUserVo extends BaseLoginVo implements ILoginVo
 	/**
 	 * @return the tenant
 	 */
-	public Integer getTenantId() {
+	public int getTenantId() {
 		return tenant==null?-1:tenant.getId();
 	}
 

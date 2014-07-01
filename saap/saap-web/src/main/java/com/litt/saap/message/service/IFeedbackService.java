@@ -2,7 +2,6 @@ package com.litt.saap.message.service;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-
 import com.litt.saap.message.po.Feedback;
 
 /**
@@ -18,13 +17,19 @@ import com.litt.saap.message.po.Feedback;
  */
 public interface IFeedbackService
 { 
-
-   	/**
-	 * Save.
-	 * @param feedback Feedback
-	 * @return id
-	 */
-	public Integer save(Feedback feedback);
+  
+  /**
+   * Save.
+   *
+   * @param tenantId the tenant id
+   * @param userId the user id
+   * @param moduleCode the module code
+   * @param currentUrl the current url
+   * @param type the type
+   * @param content the content
+   * @return the integer
+   */
+  public Integer save(int tenantId, int userId, String moduleCode, String currentUrl, int type, String content);
 	
    	/**
 	 * Update.

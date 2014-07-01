@@ -5,9 +5,9 @@
 <html lang="en">
   <head>		
 	<!-- jquery datatables -->
-	<link href="${contextPath}/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
-	<script src="${contextPath }/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
+	<link href="${contextPath}/static/widgets/jquery-datatables/css/jquery.dataTables.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.min.js"></script>
+	<script src="${contextPath }/static/widgets/jquery-datatables/js/jquery.dataTables.bootstrap.js"></script>	
 	</head>
 	<body> 		
 		<!-- form filter -->	

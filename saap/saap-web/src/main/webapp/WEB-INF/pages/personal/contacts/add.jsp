@@ -4,8 +4,8 @@
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
   <head>
-  	<link href="${contextPath }/widgets/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
-  	<script src="${contextPath }/widgets/bootstrap-select/bootstrap-select.min.js"></script>		
+  	<link href="${contextPath }/static/widgets/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+  	<script src="${contextPath }/static/widgets/bootstrap-select/bootstrap-select.min.js"></script>		
 	</head>
 	<body> 			
 			<form id="theform" action="save.json" method="post" class="form-horizontal">

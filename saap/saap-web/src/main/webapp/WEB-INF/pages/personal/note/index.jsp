@@ -6,8 +6,8 @@
   <head>
 	<script type="text/javascript" src="${contextPath }/theme/default/js/angular.js"></script>		
 	<!-- jquery inline editor -->
-	<link href="${contextPath}/widgets/x-editable/css/bootstrap-editable.css" rel="stylesheet" />	
-	<script src="${contextPath }/widgets/x-editable/js/bootstrap-editable.min.js"></script>	
+	<link href="${contextPath}/static/widgets/x-editable/css/bootstrap-editable.css" rel="stylesheet" />	
+	<script src="${contextPath }/static/widgets/x-editable/js/bootstrap-editable.min.js"></script>	
 	</head>
 	<body> 	
 		<!-- todo list -->
