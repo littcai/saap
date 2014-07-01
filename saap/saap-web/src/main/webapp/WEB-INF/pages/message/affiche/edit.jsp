@@ -96,7 +96,7 @@
             editor.sync();
           },
           success : function(reply) {
-            //location.href = <h:returnUrl value="index.do"></h:returnUrl>;
+            location.href = <h:returnUrl value="index.do"></h:returnUrl>;
           }
         });
       });

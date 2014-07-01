@@ -43,7 +43,8 @@ public class AfficheServiceImpl implements IAfficheService
 	public Integer save(Affiche affiche)
 	{
 	  //using jsoup to avoid xss
-	  String content = Jsoup.clean(affiche.getContent(), Whitelist.basic());
+	  Whitelist whitelist = Whitelist.relaxed().addTags("embed","object","param","span","div").addAttributes("span", "style","css");
+	  String content = Jsoup.clean(affiche.getContent(), whitelist);
 	  affiche.setContent(content);
 	  
 	  affiche.setCreateDatetime(new Date());
@@ -61,8 +62,9 @@ public class AfficheServiceImpl implements IAfficheService
 		//校验租户权限
 		LoginUtils.validateTenant(affiche.getTenantId());
 		//using jsoup to avoid xss
-    String content = Jsoup.clean(affiche.getContent(), Whitelist.basic());
-    affiche.setContent(content);
+		Whitelist whitelist = Whitelist.relaxed().addTags("embed","object","param","span","div").addAttributes("span", "style","css");
+	    String content = Jsoup.clean(affiche.getContent(), whitelist);
+	    affiche.setContent(content);
 		
 		affiche.setUpdateDatetime(affiche.getCreateDatetime());
 		afficheDao.update(affiche);

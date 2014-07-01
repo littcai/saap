@@ -66,11 +66,12 @@
       </div>
 
     </fieldset>
-
+ 
     <div class="form-actions">
       <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> <s:message code="btn.save" /></button>
       <button type="button" class="btn" onclick="history.back();"> <s:message code="btn.cancel" /></button>
     </div>
+
 
   </form>
   <!--page specific plugin scripts-->
@@ -101,7 +102,7 @@
       });
       
       KindEditor.ready(function(K) {
-        window.editor = K.create('#content', {
+        editor = K.create('#content', {
 					resizeType : 1,
 					allowPreviewEmoticons : false,
 					allowImageUpload : false,
