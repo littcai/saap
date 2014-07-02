@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<field-metadata>
+	<!-- 属性元数据 -->
+	<fieldset name="device" title="设备信息">
+		<field key="commonName" data-type="string">
+			<display-name>中文通用名</display-name>
+			<items provider="dictparam"></items>
+			<input type="autocomplete">	
+				<scripts><![CDATA[
+					$(document).ready(function(){
+						//如果存在值，则填充DisplaName
+						var commonName = $("#commonName").val();
+						if(commonName!=null && ""!=commonName)
+						{
+							$.post("../assetDictParam/getByValue.json",{"typeCode": "commonName", "dictValue": commonName},function(reply){
+								var assetDictParam = reply.assetDictParam;
+								$('#commonNameDisplayName').val(assetDictParam.dictContent);
+							});
+						}
+						
+						$('#commonNameDisplayName').autocomplete({
+								source:function(query,process){
+									var matchCount = this.options.items;
+									$.post("../assetDictParam/getByFilter.json",{"filter": query, "typeCode": "commonName"},function(reply){
+										return process(reply.assetDictParamList);
+									});
+								},
+								formatItem:function(item){
+									return item["dictContent"];
+								},
+								setValue:function(item){
+									return {'data-value':item["dictContent"],'real-value':item["dictValue"]};
+								},
+								updater:function(item, value) {
+									$("#commonName").val(value);
+									return item;
+								}
+							});
+						
+					});
+				]]></scripts>
+		    </input> 
+		</field>
+		<field key="measureCode" data-type="string" handler="measureCodeHandler">
+			<display-name>计量编号</display-name>
+			<input type="text">
+				<comment>(留空则自动生成)</comment>
+			
+			</input>
+		</field>
+		<field key="serialNo" data-type="string">
+			<display-name>序列号</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="model" data-type="string">
+			<display-name>规格型号</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="unit" data-type="string">
+			<display-name>计量单位</display-name>
+			<items provider="dictparam"></items>	
+			<input type="select" default-value="1">		    
+		    </input> 
+		</field>
+		
+		<field key="gainMode" data-type="string">
+			<display-name>取得方式</display-name>
+			<items provider="dictparam"></items>	
+			<input type="select" default-value="1">		    
+		    </input> 
+		</field>
+		<field key="location" data-type="string">
+			<display-name>存放地点</display-name>
+			<items provider="dictparam"></items>	
+			<input type="select">		    
+		    </input> 
+		</field>
+
+		<field key="isImport" data-type="int">
+			<display-name>进口/国产</display-name>
+			<items provider="static">
+				<item name="进口" value="1"></item>	
+				<item name="国产" value="0"></item>	
+			</items>
+			<input type="radio" default-value="1">
+		    </input> 
+		</field>
+		<field key="manuNation" data-type="string">
+			<display-name>生产国</display-name>
+			<items provider="dictparam"></items>	
+			<input type="select" default-value="">		    
+		    </input> 
+		</field>
+		<field key="purchaseCode" data-type="string">
+			<display-name>采购编号</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="remark" data-type="string">
+			<display-name>备注</display-name>
+			<input type="textarea" block="true">
+				<validator>
+					<required>false</required>
+				</validator>
+			</input>
+		</field>
+</fieldset>
+<fieldset name="finance" title="财务信息">
+		<field key="originalValue" data-type="decimal" format="######.##">
+			<display-name>总原值</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="deviceValue" data-type="decimal" format="######.##">
+			<display-name>设备原值</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="partsValue" data-type="decimal" format="######.##">
+			<display-name>配件原值</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="moneyFrom" data-type="string">
+			<display-name>资金来源</display-name>
+			<items provider="dictparam"></items>	
+			<input type="select" default-value="1">		    
+		    </input> 
+		</field>		
+		<field key="financeDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>财务入账日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="financeCode" data-type="string">
+			<display-name>会计凭证号</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="billDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>发票日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="storageDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>入库日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="acceptDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>验收日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="toExpiredDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>待报废日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="expiredDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>报废日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="warrantyDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>保修期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="remarkFinance" data-type="string">
+			<display-name>备注</display-name>
+			<input type="textarea" block="true">
+				<validator>
+					<required>false</required>
+				</validator>
+			</input>
+		</field>
+		
+  </fieldset>
+  <fieldset name="business" title="业务信息">
+		
+		<!-- 计量类 -->
+		<field key="isNeedCheck" data-type="int">
+			<display-name>是否送检</display-name>
+			<items provider="static">
+				<item name="是" value="1"></item>	
+				<item name="否" value="0"></item>	
+			</items>
+			<input type="radio" default-value="0">
+		    </input> 
+		</field>
+		<field key="checkUserId" data-type="int">
+			<display-name>送检人</display-name>
+			<items provider="user"></items>
+			<input type="autocomplete"> 
+				<scripts><![CDATA[
+					$(document).ready(function(){
+						//如果存在值，则填充DisplaName
+						var checkUserId = $("#checkUserId").val();
+						if(checkUserId!=null && ""!=checkUserId)
+						{
+							$.post("../assetInfo/getUserById.json",{"id": checkUserId},function(reply){
+								var userInfo = reply.userInfo;
+								$('#checkUserIdDisplayName').val(userInfo.userName);
+							});
+						}
+
+							$('#checkUserIdDisplayName').autocomplete({
+								source:function(query,process){
+									var matchCount = this.options.items;
+									$.post("../assetInfo/getUserByFilter.json",{"filter": query},function(reply){
+										return process(reply.userInfoList);
+									});
+								},
+								formatItem:function(item){
+									return item["userName"]+ " - "+item["loginId"];
+								},
+								setValue:function(item){
+									return {'data-value':item["userName"],'real-value':item["id"]};
+								},
+								updater:function(item, value) {
+									$("#checkUserId").val(value);
+									return item;
+								}
+							});
+					});
+				]]></scripts>
+		    </input> 
+		</field>
+
+		<field key="checkDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>计量检定日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="checkPeriod" data-type="int">
+			<display-name>计量检定周期</display-name>
+			<input type="text"> 
+				
+		    </input> 
+		</field>
+		<field key="checkValidDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>计量检定有效期</display-name>
+			<input type="datepicker">
+				<scripts><![CDATA[
+				$(document).ready(function(){
+				
+					$("#checkPeriod").blur(function(){
+					
+						var checkDateVal = $("#checkDate").val();
+						var checkPeriodVal = parseInt($("#checkPeriod").val());
+
+						if(checkDateVal==null || ""==checkDateVal || checkPeriodVal==null || 0==checkPeriodVal)
+							return false;
+							
+						var checkDate = $.webtools.parseDate(checkDateVal, "yyyy-MM-dd");
+						
+						checkDate.setMonth(checkDate.getMonth()+checkPeriodVal);
+						
+						var checkValidDate = checkDate.format("yyyy-MM-dd");
+						$("#checkValidDate").val(checkValidDate);
+					});
+				});
+				]]></scripts>
+		    </input> 
+		</field>
+		<field key="checkCompanyId" data-type="int">
+			<display-name>计量检定单位</display-name>
+			<items provider="assetOrg"></items>
+			<input type="autocomplete"> 
+				<scripts><![CDATA[
+					$(document).ready(function(){
+						//如果存在值，则填充DisplaName
+						var checkCompanyId = $("#checkCompanyId").val();
+						if(checkCompanyId!=null && ""!=checkCompanyId)
+						{
+							$.post("../assetOrg/getById.json",{"id": checkCompanyId},function(reply){
+								var assetOrg = reply.assetOrg;
+								$('#checkCompanyIdDisplayName').val(assetOrg.name);
+							});
+						}
+
+							$('#checkCompanyIdDisplayName').autocomplete({
+								source:function(query,process){
+									var matchCount = this.options.items;
+									$.post("../assetOrg/getByFilter.json",{"filter": query, "type": "check_company"},function(reply){
+										return process(reply.assetOrgList);
+									});
+								},
+								formatItem:function(item){
+									return item["name"]+"(" + item["fullName"]+") - "+item["code"];
+								},
+								setValue:function(item){
+									return {'data-value':item["name"],'real-value':item["id"]};
+								},
+								updater:function(item, value) {
+									$("#checkCompanyId").val(value);
+									return item;
+								}
+							});
+					});
+				]]></scripts>
+		    </input> 
+		</field>
+
+
+		<field key="reportCode" data-type="string">
+			<display-name>报告书编号</display-name>
+			<input type="text">
+			</input>
+		</field>
+		<field key="reportKind" data-type="string">
+			<display-name>报告书性质</display-name>
+			<items provider="dictparam"></items>
+			<input type="select">
+		   
+		    </input> 
+		</field>
+
+		<!-- 期间核查类 -->
+		<field key="isPeriodCheck" data-type="int">
+			<display-name>是否期间核查</display-name>
+			<items provider="static">
+				<item name="是" value="1"></item>	
+				<item name="否" value="0"></item>	
+			</items>
+			<input type="radio" default-value="0">
+		    </input> 
+		</field>
+
+		<field key="periodCheckDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>期间核查日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="periodCheckPeriod" data-type="int">
+			<display-name>期间核查周期</display-name>
+			<input type="text"> 
+				
+		    </input> 
+		</field>
+		<field key="periodCheckValidDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>期间核查有效期</display-name>
+			<input type="datepicker">
+				<scripts><![CDATA[
+				$(document).ready(function(){
+				
+					$("#periodCheckPeriod").blur(function(){
+					
+						var periodCheckDateVal = $("#periodCheckDate").val();
+						var periodCheckPeriodVal = parseInt($("#periodCheckPeriod").val());
+
+						if(periodCheckDateVal==null || ""==periodCheckDateVal || periodCheckPeriodVal==null || 0==periodCheckPeriodVal)
+							return false;
+							
+						var periodCheckDate = $.webtools.parseDate(periodCheckDateVal, "yyyy-MM-dd");
+						
+						periodCheckDate.setMonth(periodCheckDate.getMonth()+periodCheckPeriodVal);
+						
+						var periodCheckValidDate = periodCheckDate.format("yyyy-MM-dd");
+						$("#periodCheckValidDate").val(periodCheckValidDate);
+					});
+				});
+				]]></scripts>
+		    </input> 
+		</field>
+
+		<!-- 测试日期 -->
+		<field key="testDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>测试日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="testPeriod" data-type="int">
+			<display-name>测试周期</display-name>
+			<input type="text"> 
+				
+		    </input> 
+		</field>
+
+		<field key="whiteMarkValidDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>白标效期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+
+		<!-- 维护保养 -->
+		<field key="maintainDate" data-type="date" format="yyyy-mm-dd">
+			<display-name>维护保养日期</display-name>
+			<input type="datepicker"> 
+		    </input> 
+		</field>
+		<field key="maintainPeriod" data-type="int">
+			<display-name>维护保养周期</display-name>
+			<input type="text"> 
+				
+		    </input> 
+		</field>
+
+		<field key="techIndicator" data-type="string">
+			<display-name>主要技术指标</display-name>
+			<input type="textarea" block="true"> 
+				
+		    </input> 
+		</field>
+		<field key="remarkBusiness" data-type="string">
+			<display-name>备注</display-name>
+			<input type="textarea" block="true">
+				<validator>
+					<required>false</required>
+				</validator>
+			</input>
+		</field>
+	</fieldset>
+	
+</field-metadata>

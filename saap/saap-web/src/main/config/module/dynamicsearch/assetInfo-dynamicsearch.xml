@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dynamicsearch>
+		<field-group name="assetInfo">
+			<table name="ASSET_INFO" where="IS_DELETED=0">
+				<column name="ID" title="序号" data-type="int"></column>
+				<column name="CODE" title="编号" data-type="string"></column>
+				<column name="NAME" title="名称" data-type="string"></column>
+				<column name="CREATE_DATETIME" title="创建时间" data-type="date" hide="true"></column>
+				<column name="UPDATE_DATETIME" title="更新时间" data-type="date" hide="true"></column>
+				<column name="REMARK" title="备注" data-type="string" hide="true"></column>
+			</table>
+			<field key="CODE" data-type="string">
+				<display-name>编号</display-name>
+				<input type="text"></input>
+			</field>
+			<field key="NAME" data-type="string">
+				<display-name>名称</display-name>
+				<input type="text"></input>
+			</field>
+			<field key="TYPE_ID" data-type="int">
+				<display-name>资产类型</display-name>
+				<items provider="assetType"></items>
+				<input type="select"></input>
+			</field>
+			<field key="STATE" data-type="string">
+				<display-name>资产状态</display-name>
+				<items provider="dictparam"></items>
+				<input type="select"></input>
+			</field>
+		</field-group>
+		<field-group name="assetType">
+			<table name="ASSET_TYPE" join-type="inner join" join-on="assetInfo.TYPE_ID=assetType.ID">
+				<column name="NAME" title="资产类型" data-type="string"></column>
+			</table>
+			<field key="CODE" data-type="string">
+				<display-name>类型编号</display-name>
+				<input type="text"></input>
+			</field>
+		</field-group>
+		<field-group name="department">
+			<table name="HrmDepartment" join-type="inner join" join-on="assetInfo.DEPARTMENT_ID=department.id">
+				<column name="DEPARTMENTNAME" alias="DEPARTMENT_NAME" title="所属部门" data-type="string"></column>
+			</table>
+			<field key="DEPARTMENTNAME" data-type="string">
+				<display-name>所属部门</display-name>
+				<input type="text">
+					
+				</input>
+			</field>
+		</field-group>	
+		<field-group name="chargeUser">
+			<table name="HrmResource" join-type="inner join" join-on="assetInfo.CHARGE_BY=chargeUser.id">
+				<column name="LASTNAME" alias="CHARGE_USER_NAME" title="保管人" data-type="string"></column>
+			</table>
+			<field key="LASTNAME" data-type="string">
+				<display-name>保管人</display-name>
+				<input type="text">
+					
+				</input>
+			</field>
+		</field-group>
+		<field-group name="manufacturer" dynamic="true">
+			<table name="ASSET_ORG" join-type="left join" join-on="assetInfo.MANUFACTURER_ID=manufacturer.id" where="TYPE='manufacturer'">
+				<column name="ID" alias="MANUFACTURER_ID" title="制造商ID" data-type="int"></column>
+				<column name="CODE" alias="MANUFACTURER_CODE" title="制造商编号" data-type="string"></column>
+				<column name="NAME" alias="MANUFACTURER_NAME" title="制造商名称" data-type="string"></column>
+			</table>
+			<field key="CODE" data-type="string">
+				<display-name>制造商编号</display-name>
+				<input type="text"></input>
+			</field>
+			<field key="NAME" data-type="string">
+				<display-name>制造商名称</display-name>
+				<input type="text"></input>
+			</field>
+		</field-group>	
+		<field-group name="commonName" dynamic="true">
+			<table name="ASSET_ATTR" join-type="inner join" join-on="assetInfo.id=commonName.ASSET_ID" where="ATTR_KEY='commonName'">
+				<column name="ATTR_VALUE" alias="COMMON_NAME" title="中文通用名" data-type="string"></column>
+			</table>
+			<field key="ATTR_VALUE" data-type="string">
+				<display-name>中文通用名</display-name>
+				<input type="text">
+				</input>
+			</field>
+		</field-group>
+		<field-group name="storageDate" dynamic="true">
+			<table name="ASSET_ATTR" join-type="inner join" join-on="assetInfo.id=storageDate.ASSET_ID" where="ATTR_KEY='storageDate'">
+				<column name="ATTR_VALUE_DATE" alias="STORAGE_DATE" title="入库日期" data-type="string"></column>
+			</table>
+			<field key="ATTR_VALUE_DATE" data-type="string">
+				<display-name>入库日期</display-name>
+				<input type="datepicker">
+				</input>
+			</field>
+		</field-group>
+		
+</dynamicsearch>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quickview>
+	<search>
+		<param-group>
+			<field key="code" data-type="string">
+				<display-name>编号</display-name>
+				<input type="text"></input>
+			</field>
+			<field key="name" data-type="string">
+				<display-name>名称</display-name>
+				<input type="text"></input>
+			</field>
+			<field key="typeId" data-type="int">
+				<display-name>类型</display-name>
+				<items provider="assetType"></items>
+				<input type="select"></input>
+			</field>
+			<field key="state" data-type="string">
+				<display-name>状态</display-name>
+				<items provider="dictparam"></items>
+				<input type="select"></input>
+			</field>
+		</param-group>
+		<param-group>
+			<field key="departmentId" data-type="int">
+				<display-name>所属部门</display-name>
+				<items provider="department"></items>
+				<input type="autocomplete">
+					<scripts>
+						$(document).ready(function(){
+							var departmentId = $("#departmentId").val();
+							var departmentIdDisplayName = $("#departmentIdDisplayName").val();
+							if(departmentIdDisplayName!=null &amp;&amp; ""!=departmentIdDisplayName &amp;&amp; departmentId!=null &amp;&amp; ""!=departmentId)
+							{
+								$.post("../assetInfo/getDepartmentById.json",{"id": departmentId},function(reply){
+									var department = reply.department;
+									$('#departmentIdDisplayName').val(department.name);
+								});
+							}
+						
+							$('#departmentIdDisplayName').autocomplete({
+								source:function(query,process){
+									var matchCount = this.options.items;
+									$.post("getDepartmentByFilter.json",{"filter": query},function(reply){
+										return process(reply.departmentList);
+									});
+								},
+								formatItem:function(item){
+									return item["name"]+ " - "+item["code"];
+								},
+								setValue:function(item){
+									return {'data-value':item["name"],'real-value':item["id"]};
+								},
+								updater:function(item, value) {
+									$("#departmentId").val(value);
+									return item;
+								}
+							});
+						});	
+					</scripts>	
+				</input>
+			</field>
+			<field key="chargeBy" data-type="int">
+				<display-name>保管人</display-name>
+				<items provider="user"></items>
+				<input type="autocomplete">
+					<scripts>
+						$(document).ready(function(){
+							var chargeBy = $("#chargeBy").val();
+							var chargeByDisplayName = $("#chargeByDisplayName").val();
+							if(chargeByDisplayName!=null &amp;&amp; ""!=chargeByDisplayName &amp;&amp; chargeBy!=null &amp;&amp; ""!=chargeBy)
+							{
+								$.post("../assetInfo/getUserById.json",{"id": chargeBy},function(reply){
+									var userInfo = reply.userInfo;
+									$('#chargeByDisplayName').val(userInfo.userName);
+								});
+							}
+							
+							$('#chargeByDisplayName').autocomplete({
+								source:function(query,process){
+									var matchCount = this.options.items;
+									$.post("getUserByFilter.json",{"filter": query},function(reply){
+										return process(reply.userInfoList);
+									});
+								},
+								formatItem:function(item){
+									return item["userName"]+ " - "+item["loginId"];
+								},
+								setValue:function(item){
+									return {'data-value':item["userName"],'real-value':item["id"]};
+								},
+								updater:function(item, value) {
+									$("#chargeBy").val(value);
+									return item;
+								}
+							});
+					});
+					</scripts>	
+				</input>
+			</field>
+		</param-group>	
+	</search>
+	<dataset id="default">
+		<sql>
+			SELECT T.*, T1.CODE AS TYPE_CODE, T1.NAME AS TYPE_NAME, T3.DICT_CONTENT AS STATE_NAME FROM ASSET_INFO T, ASSET_TYPE T1, ASSET_DICT_PARAM T3
+			-- AND T.CODE LIKE {code%}
+			-- AND T.NAME LIKE {%name%}
+			-- AND T.TYPE_ID={typeId}
+			-- AND T.STATE={state}
+			-- AND T.DEPARTMENT_ID={departmentId}
+			-- AND T.CHARGE_BY={chargeBy}
+			-- AND T.IS_DELETED={isDeleted}
+			-- AND T.TYPE_ID=T1.ID
+			-- AND T.STATE=T3.DICT_VALUE AND T3.DICT_TYPE='state'
+			-- ORDER BY T.ID DESC
+		</sql>
+	</dataset>	
+	<table id="assetInfoGrid" title="资产清单" dataset="default" primary-key="ID">
+		<column name="ID" title="序号" data-type="int" format="checkbox"></column>
+		<column name="CODE" title="编号" data-type="string"></column>
+		<column name="NAME" title="名称" data-type="string"></column>
+		<column name="TYPE_NAME" title="类型" data-type="string"></column>
+		<column name="STATE_NAME" title="状态" data-type="string"></column>
+		<column name="DEPARTMENT_NAME" title="所属部门" data-type="string"></column>
+		<column name="CHARGE_USER_NAME" title="保管人" data-type="string"></column>
+		<column name="MANUFACTURER_NAME" title="制造商" data-type="string" hide="true"></column>
+		<column name="MANUFACTURER_CONTACTS_NAME" title="制造商联系人" data-type="string" hide="true"></column>
+		<column name="SUPPLIER_NAME" title="供应商" data-type="string" hide="true"></column>
+		<column name="SUPPLIER_CONTACTS_NAME" title="供应商联系人" data-type="string" hide="true"></column>
+		<column name="CREATE_DATETIME" title="创建时间" data-type="date" hide="true"></column>
+		<column name="UPDATE_DATETIME" title="更新时间" data-type="date" hide="true"></column>
+		<column name="REMARK" title="备注" data-type="string" hide="true"></column>
+	</table>
+</quickview>

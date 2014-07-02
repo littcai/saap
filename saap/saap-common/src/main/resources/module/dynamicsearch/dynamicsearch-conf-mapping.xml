@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+	<class name="com.litt.saap.core.module.dynamicsearch.model.DynamicSearch">
+	  	<map-to xml="dynamicsearch" />
+	    <field name="fieldGroupList" type="com.litt.saap.core.module.dynamicsearch.model.FieldGroup" collection="arraylist">
+	    	<bind-xml name="field-group"></bind-xml>
+	    </field> 
+	</class>
+
+    <class name="com.litt.saap.core.module.dynamicsearch.model.FieldGroup">
+  		<map-to xml="field-group" /> 
+  		<field name="name" type="java.lang.String" required="true">
+	     	<bind-xml name="name" node="attribute" />
+	    </field> 
+	    <field name="dynamic" type="boolean" required="false">
+	     	<bind-xml name="dynamic" node="attribute" />
+	    </field> 
+  		<field name="table" type="com.litt.saap.core.module.dynamicsearch.model.Table">
+	    	<bind-xml name="table" node="element"></bind-xml>
+	    </field> 
+	    <field name="fieldList" type="com.litt.saap.core.module.dynamicform.model.Field" collection="arraylist">
+	    	<bind-xml name="field"></bind-xml>
+	    </field> 	    
+    </class>
+    
+    <class name="com.litt.saap.core.module.dynamicsearch.model.Table">
+  		<map-to xml="table" />
+  		<field name="name" type="java.lang.String" required="true">
+	     	<bind-xml name="name" node="attribute" />
+	    </field> 
+	    <field name="joinType" type="java.lang.String" required="false">
+	     	<bind-xml name="join-type" node="attribute" />
+	    </field> 
+	    <field name="joinOn" type="java.lang.String" required="false">
+	     	<bind-xml name="join-on" node="attribute" />
+	    </field> 
+	    <field name="where" type="java.lang.String" required="false">
+	     	<bind-xml name="where" node="attribute" />
+	    </field> 
+	    <field name="columnList" type="com.litt.saap.core.module.dynamicsearch.model.Column" collection="arraylist">
+	    	<bind-xml name="column"></bind-xml>
+	    </field> 	    
+    </class>	
+    
+    <class name="com.litt.saap.core.module.dynamicsearch.model.Column">
+	 	<map-to xml="column" /> 
+	  	<field name="name" type="java.lang.String" required="true">
+	    	<bind-xml name="name" node="attribute" />
+	    </field>
+	    <field name="alias" type="java.lang.String" required="false">
+	    	<bind-xml name="alias" node="attribute" />
+	    </field>
+	    <field name="dataType" type="java.lang.String" required="true">
+	    	<bind-xml name="data-type" node="attribute" />
+	    </field> 
+	 </class> 
+    
+    <class name="com.litt.saap.core.module.dynamicform.model.Field" identity="Key">
+  		<map-to xml="field" />
+  		<field name="Key" type="java.lang.String" required="true">
+	     	<bind-xml name="key" node="attribute" />
+	    </field> 
+	    <field name="dataType" type="java.lang.String" required="true">
+	     	<bind-xml name="data-type" node="attribute" />
+	    </field> 
+	    <field name="format" type="java.lang.String" required="false">
+	     	<bind-xml name="format" node="attribute" />
+	    </field> 
+	     <field name="displayName" type="java.lang.String" required="true">
+	     	<bind-xml name="display-name" node="element" />
+	     </field> 	
+	     <field name="hide" type="java.lang.Boolean" required="false">
+	    	<bind-xml name="hide" node="attribute" />
+	    </field>   
+	    <field name="Editable" type="java.lang.Boolean" required="false">
+	    	<bind-xml name="editable" node="attribute" />
+	    </field>   
+	    <field name="descr" type="java.lang.String" required="false">
+	    	<bind-xml name="descr" node="element" />
+	    </field>
+	    <field name="dataUnit" type="java.lang.String" required="false">
+	    	<bind-xml name="dataUnit" node="attribute" />
+	    </field>
+	    <field name="handler" type="java.lang.String" required="false">
+	     	<bind-xml name="handler" node="attribute" />
+	    </field> 
+	    <field name="items" type="com.litt.saap.core.module.dynamicform.model.FieldItems" required="false">
+	    	<bind-xml name="items"></bind-xml>
+	    </field> 
+		<field name="input" type="com.litt.saap.core.module.dynamicform.model.Input" >
+	    	<bind-xml name="input" node="element" required="false"/>
+	    </field>	    
+    </class>	
+  
+	<class name="com.litt.saap.core.module.dynamicform.model.Input">
+	 	<map-to xml="input" /> 
+	  	<field name="type" type="java.lang.String" required="false">
+	    	<bind-xml name="type" node="attribute" />
+	    </field>
+	    <field name="defaultValue" type="java.lang.String" required="false">
+	    	<bind-xml name="default-value" node="attribute" />
+	    </field> 
+	    <field name="block" type="java.lang.Boolean" required="false">
+	    	<bind-xml name="block" node="attribute" />
+	    </field> 
+	    <field name="comment" type="java.lang.String" required="false">
+	    	<bind-xml name="comment" node="element" />
+	    </field>
+	    <field name="styles" type="java.lang.String" required="false">
+	    	<bind-xml name="styles" node="element" />
+	    </field>
+	    <field name="scripts" type="java.lang.String" required="false">
+	    	<bind-xml name="scripts" node="element" />
+	    </field>
+		<field name="validator" type="com.litt.saap.core.module.dynamicform.model.Validator">
+		    <bind-xml name="validator" node="element"/>
+		</field> 
+	 </class>   
+	 
+	 <class name="com.litt.saap.core.module.dynamicform.model.FieldItems">	 
+	  	<map-to xml="items" /> 
+	  	<field name="provider" type="java.lang.String" required="false">
+	    	<bind-xml name="provider" node="attribute" />
+	    </field> 	
+	    <field name="itemList" type="com.litt.saap.core.module.dynamicform.model.FieldItem" collection="arraylist">
+	    	<bind-xml name="item"></bind-xml>
+	    </field> 
+	</class> 
+	
+	<class name="com.litt.saap.core.module.dynamicform.model.FieldItem">	 
+	  	<map-to xml="item" /> 
+	  	<field name="name" type="java.lang.String">
+	    	<bind-xml name="name" node="attribute" />
+	    </field> 	
+	    <field name="value" type="java.lang.String">
+	    	<bind-xml name="value" node="attribute" />
+	    </field> 
+	</class> 	
+
+	<class name="com.litt.saap.core.module.quickview.model.dataset.SQLDataset">  		
+		<map-to xml="dataset" />
+		<field name="id" type="java.lang.String" required="true">
+	     	<bind-xml name="id" node="attribute" />
+	    </field> 
+		<field name="sql" type="java.lang.String" required="true">
+	     	<bind-xml name="sql" node="element" />
+	    </field> 
+    </class>	
+    
+	<class name="com.litt.saap.core.module.quickview.model.table.Table" identity="id">
+  		<map-to xml="table" />
+  		<field name="id" type="java.lang.String" required="true">
+	     	<bind-xml name="id" node="attribute" />
+	    </field> 
+	    <field name="title" type="java.lang.String" required="true">
+	     	<bind-xml name="title" node="attribute" />
+	    </field> 
+	    <field name="dataset" type="java.lang.String" required="true">
+	     	<bind-xml name="dataset" node="attribute" />
+	    </field> 
+	    <field name="primaryKey" type="java.lang.String" required="false">
+	     	<bind-xml name="primary-key" node="attribute" />
+	    </field> 
+	    <field name="columnList" type="com.litt.saap.core.module.quickview.model.table.Column" collection="arraylist">
+	    	<bind-xml name="column"></bind-xml>
+	    </field> 	    
+    </class>	
+  
+	<class name="com.litt.saap.core.module.quickview.model.table.Column">
+	 	<map-to xml="column" /> 
+	  	<field name="name" type="java.lang.String" required="true">
+	    	<bind-xml name="name" node="attribute" />
+	    </field>
+	    <field name="title" type="java.lang.String" required="true">
+	    	<bind-xml name="title" node="attribute" />
+	    </field> 
+	    <field name="dataType" type="java.lang.String" required="true">
+	    	<bind-xml name="data-type" node="attribute" />
+	    </field> 
+	    <field name="format" type="java.lang.String" required="false">
+	    	<bind-xml name="format" node="attribute" />
+	    </field>
+	    <field name="hide" type="boolean" required="false">
+	    	<bind-xml name="hide" node="attribute" />
+	    </field>
+	    <field name="custom" type="java.lang.String" required="false">
+	    	<bind-xml name="custom" node="element" />
+	    </field>
+	 </class>   
+	 
+</mapping>
