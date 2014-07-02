@@ -1,6 +1,7 @@
 package com.litt.saap.system.webservice;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.litt.saap.system.vo.DictParamVo;
 
@@ -54,6 +55,15 @@ public interface IDictParamWebService {
 	 * @return List 参数字典对象
 	 */
 	public List<DictParamVo> findByType(String dictType);
+	
+	/**
+	 * Find by type.
+	 *
+	 * @param dictType the dict type
+	 * @param locale the locale
+	 * @return the list
+	 */
+	public List<DictParamVo> findByType(String dictType, Locale locale) ;
 	
 	/**
 	 * 根据类型和过滤条件过滤.

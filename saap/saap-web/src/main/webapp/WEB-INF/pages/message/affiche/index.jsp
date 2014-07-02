@@ -12,7 +12,7 @@
  <body>
  	<!-- form filter -->	
 	<div>
-	  <form class="form-search" id="search-form" name="search-form" action="index.do" method="get">				
+	  <form class="search-form" id="search-form" name="search-form" action="index.do" method="get">				
 		<input type="hidden" id="pageIndex" name="pageIndex" value="${pageParam.pageIndex }" />
 		<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 		<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
@@ -33,9 +33,9 @@
 	<!-- toolbar -->
 	<div class="toolbar">
 		<div class="pull-left">
-		  <button class="btn btn-small btn-primary" style="margin-top:2px;" onclick="javascript:location.href='add.do'">
+		  <button class="btn btn-small btn-primary"  onclick="javascript:location.href='add.do'">
 		    <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
-		  <button class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete();">
+		  <button class="btn btn-small btn-danger" onclick="javascript:return batchDelete();">
 		    <i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button> 				
        	</div> 	
        	<div class="clear"></div> 	 		  

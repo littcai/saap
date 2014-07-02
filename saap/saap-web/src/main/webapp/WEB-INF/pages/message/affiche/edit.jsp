@@ -104,6 +104,7 @@
       KindEditor.ready(function(K) {
         window.editor = K.create('#content', {
 			resizeType : 1,
+			//urlType: 'relative',
 			allowPreviewEmoticons : false,
 			allowImageUpload : false,
 			items : [

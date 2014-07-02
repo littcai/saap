@@ -3,6 +3,8 @@ package com.litt.saap.core.module.quickview.model.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.litt.core.util.StringUtils;
+
 
 public class Table
 {
@@ -77,6 +79,22 @@ public class Table
 				return column;
 		}
 		return null;
+	}
+	
+	/**
+	 * Take converter column list.
+	 *
+	 * @return the list
+	 */
+	public List<Column> takeConverterColumnList() {
+		List<Column> retList = new ArrayList<Column>();
+		for (Column column : columnList) {
+			if(!StringUtils.isEmpty(column.getConverter()))
+			{
+				retList.add(column);
+			}
+		}
+		return retList;
 	}
 
 	/**

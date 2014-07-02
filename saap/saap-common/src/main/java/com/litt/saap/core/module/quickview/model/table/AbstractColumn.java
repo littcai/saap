@@ -20,6 +20,9 @@ public class AbstractColumn implements Serializable {
 	/** The format. */
 	private String format;
 	
+	/** The converter. */
+	private String converter;
+	
 	/** The data type. */
 	private String dataType;
 	
@@ -220,6 +223,20 @@ public class AbstractColumn implements Serializable {
 	 */
 	public void setCustom(String custom) {
 		this.custom = custom;
+	}
+
+	/**
+	 * @return the converter
+	 */
+	public String getConverter() {
+		return converter;
+	}
+
+	/**
+	 * @param converter the converter to set
+	 */
+	public void setConverter(String converter) {
+		this.converter = converter;
 	}
 
 }

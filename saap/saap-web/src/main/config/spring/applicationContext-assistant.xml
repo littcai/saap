@@ -16,4 +16,7 @@
 		<property name="homePath" value="${home.path}"></property>
 	</bean>	
 	
+	<bean id="quickViewService" class="com.litt.saap.assistant.service.impl.QuickViewServiceImpl">
+	</bean>
+	
 </beans>

@@ -1,20 +1,17 @@
 package com.litt.saap.core.web.listener;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.litt.core.common.BeanManager;
+import com.litt.core.common.ConfigManager;
 import com.litt.core.common.CoreConstants;
-import com.litt.core.license.LicenseException;
-import com.litt.core.license.LicenseManager;
-import com.litt.core.util.PropertiesUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.vo.SystemInfoVo;
@@ -27,7 +24,7 @@ import com.litt.saap.system.vo.SystemInfoVo;
  * </pre>
  * 
  * <pre><b>修改记录：</b>
- *    
+ *    2014-07-02 通过ConfigManager统一读取，classpath下至少要有config.xml, init.properties, system-config.xml
  * </pre>
  * 
  * @author <a href="mailto:littcai@hotmail.com">蔡源</a>
@@ -49,24 +46,24 @@ public class InitSystemListener extends
 		super.contextInitialized(event);
 		ServletContext application = event.getServletContext();
 		//HOME初始化
-		String homePath;
-		try
-		{			
-			Properties props = PropertiesUtils.loadProperties("init.properties", PropertiesUtils.BY_CLASSLOADER);
-			homePath = props.getProperty("home.path");
-			SaapConstants.HOME_PATH = homePath;		//保存到静态常量，方便使用
-			logger.info("系统数据存储路径："+homePath);
-			File homeFile = new File(homePath);			
-			if(!homeFile.exists())	//如果目录不存在则创建，并且复制配置文件到该目录
-			{
-				homeFile.mkdirs();					
-			}			
-		}
-		catch (IOException e)
+		Configuration config = ConfigManager.getInstance().getConfig();
+		if(config.isEmpty())
 		{
-			logger.error("初始化配置文件未找到！",e);
-			throw new java.lang.RuntimeException("初始化配置文件未找到！",e);
+			logger.error("初始化配置文件未找到！");
+			throw new java.lang.RuntimeException("初始化配置文件未找到！");
 		}
+		//homePath = props.getProperty("home.path");
+		String homePath = config.getString("home.path");
+		CoreConstants.IS_DEBUG = config.getBoolean("debug", false);
+		
+		SaapConstants.HOME_PATH = homePath;		//保存到静态常量，方便使用
+		logger.info("系统数据存储路径："+homePath);
+		File homeFile = new File(homePath);			
+		if(!homeFile.exists())	//如果目录不存在则创建，并且复制配置文件到该目录
+		{
+			homeFile.mkdirs();					
+		}			
+		
 		
 		//read license.
 //		File licensePath = new File(homePath, "license");
