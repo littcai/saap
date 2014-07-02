@@ -1,4 +1,4 @@
 saap
 ====
 
-Software as a Platform
+SaaS模式的企业融合业务支撑平台，采用共享数据库，共享Schema模式的多访客。
