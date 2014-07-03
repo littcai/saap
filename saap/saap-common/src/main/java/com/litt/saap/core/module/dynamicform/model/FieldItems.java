@@ -29,6 +29,8 @@ public class FieldItems {
 	
 	private String provider;
 	
+	private String filter;
+	
 	private List<FieldItem> itemList = new ArrayList<FieldItem>();
 
 	/**
@@ -58,5 +60,23 @@ public class FieldItems {
 	public void setItemList(List<FieldItem> itemList) {
 		this.itemList = itemList;
 	}
+
+  
+  /**
+   * @return the filter
+   */
+  public String getFilter()
+  {
+    return filter;
+  }
+
+  
+  /**
+   * @param filter the filter to set
+   */
+  public void setFilter(String filter)
+  {
+    this.filter = filter;
+  }
 
 }

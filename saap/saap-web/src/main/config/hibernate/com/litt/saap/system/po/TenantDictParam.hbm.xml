@@ -15,7 +15,7 @@
             </column>
         </property>
         <property name="dictType" type="string">
-            <column name="DICT_TYPE" length="20" not-null="true">
+            <column name="DICT_TYPE" length="50" not-null="true">
                 <comment>参数类型</comment>
             </column>
         </property>
