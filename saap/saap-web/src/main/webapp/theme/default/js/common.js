@@ -27,6 +27,13 @@ $(document).ready(function(){
 	    }, 1500);
 	});
 	
+	/*
+	 * checkbox in dropdown-menu which can be clicked and won't hide menu
+	 */
+	$("ul.dropdown-menu").on("click", "[data-stopPropagation]", function(e) {
+    e.stopPropagation();
+	});
+	
 	$.ajaxSetup({
 		
 		error : function (XMLHttpRequest, textStatus, errorThrown) {  		
@@ -47,7 +54,7 @@ $(document).ready(function(){
 		jQuery.validator.setDefaults({
 			errorElement: 'div',
 			//errorClass: 'help-block',
-		    errorPlacement: function(error, element) {     
+		  errorPlacement: function(error, element) {     
 		    	
 		      // if the input has a prepend or append element, put the validation msg after the parent div
 		      if(element.parent().hasClass('input-prepend') || element.parent().hasClass('input-append')) {
@@ -68,15 +75,15 @@ $(document).ready(function(){
 		    //}
 		    
 		    highlight : function(element) {
-				$(element).closest('.control-group')
-						.removeClass('success')
-						.addClass('error');
+//		      $(element).closest('.control-group')
+//						.removeClass('success')
+//						.addClass('error');
+		      $(element).removeClass('success').addClass('error');
 			},
 			success : function(element) {
-				element.addClass('valid')
-						.closest('.control-group')
-						.removeClass('error').addClass(
-								'success');
+				//element.closest('.control-group').removeClass('error').addClass('success');
+				//element.removeClass('error').addClass('success');
+				element.remove();
 			}
 		    
 		    
@@ -87,15 +94,16 @@ $(document).ready(function(){
 	if($.fn.dataTable)
 	{
 		$.extend( true, $.fn.dataTable.defaults, {	
-			"bPaginate": false,
-			"bLengthChange": false, 
-	        "bFilter": false,
-	        "bInfo": false,
-	        "bSort": false,
+		  "ordering": false,
+			"paging": false,
+			"lengthChange": false, 
+	        "searching": false,
+	        "info": false,
+	        "ordering": false,
 	        //"sDom": "<'row-fluid'r>t<'row-fluid'<'span6'il><'span6'p>>",
-	        "sDom": "t",
-			"oLanguage": {
-	            //"sUrl": "${contextPath}/widgets/jquery-datatables/i18n/zh_CN.txt"
+	        "dom": "t",
+			"language": {
+	            //"url": "${contextPath}/widgets/jquery-datatables/i18n/zh_CN.txt"
 	        }		
 		});	
 	}

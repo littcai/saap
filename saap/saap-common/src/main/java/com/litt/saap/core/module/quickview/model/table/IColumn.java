@@ -43,12 +43,12 @@ public interface IColumn
 	/**
 	 * @return the width.
 	 */
-	public int getWidth();
+	public String getWidth();
 	
 	/**
 	 * @param width the width to set.
 	 */
-	public void setWidth(int width);
+	public void setWidth(String width);
 	
 	/**
 	 * @param dataType the dataType to set

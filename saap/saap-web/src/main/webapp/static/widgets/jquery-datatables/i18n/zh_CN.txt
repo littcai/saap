@@ -1,17 +1,17 @@
 {
-    "sProcessing":   "处理中...",
-    "sLengthMenu":   "每页显示: _MENU_ 项",
-    "sZeroRecords":  "没有匹配结果",
-    "sInfo":         "显示 _START_ - _END_ ，共 _TOTAL_ 项",
-    "sInfoEmpty":    "结果为空",
-    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-    "sInfoPostFix":  "",
-    "sSearch":       "搜索:",
-    "sUrl":          "",
-    "oPaginate": {
-        "sFirst":    "首页",
-        "sPrevious": "上页",
-        "sNext":     "下页",
-        "sLast":     "末页"
+    "processing":   "处理中...",
+    "lengthMenu":   "每页显示: _MENU_ 项",
+    "zeroRecords":  "没有匹配结果",
+    "info":         "显示 _START_ - _END_ ，共 _TOTAL_ 项",
+    "infoEmpty":    "结果为空",
+    "infoFiltered": "(由 _MAX_ 项结果过滤)",
+    "infoPostFix":  "",
+    "search":       "搜索:",
+    "url":          "",
+    "paginate": {
+        "first":    "首页",
+        "previous": "上页",
+        "next":     "下页",
+        "last":     "末页"
     }
 }

@@ -32,7 +32,7 @@ public class AbstractColumn implements Serializable {
 	/** The hide. */
 	private boolean hide;	
 	
-	private int width;	
+	private String width;	
 	
 	private boolean htmlEnabled = true;	
 	
@@ -137,7 +137,7 @@ public class AbstractColumn implements Serializable {
 	 *
 	 * @return the width.
 	 */
-	public int getWidth()
+	public String getWidth()
 	{
 		return width;
 	}
@@ -147,7 +147,7 @@ public class AbstractColumn implements Serializable {
 	 *
 	 * @param width the width to set.
 	 */
-	public void setWidth(int width)
+	public void setWidth(String width)
 	{
 		this.width = width;
 	}

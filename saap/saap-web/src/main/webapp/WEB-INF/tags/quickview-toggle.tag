@@ -9,9 +9,7 @@
   <ul class="dropdown-menu dropdown-checkbox-menu">
     <!-- dropdown menu links -->
     <c:forEach items="${table.columnList }" var="column"  varStatus="_status">
-      <c:if test="${column.hide}">
-        <li><label data-stopPropagation="true"><input type="checkbox" value="${column.name }" class="quickview-column-toggle" />&nbsp;<s:message code="${column.title }"/></label></li>
-      </c:if>
+      <li><label data-stopPropagation="true"><input type="checkbox" value="${column.name }" data-column="${_status.index }" class="quickview-column-toggle" ${column.hide?"":"checked=\"checked\"" } />&nbsp;<s:message code="${column.title }"/></label></li>
     </c:forEach>
   </ul>
 </div>
@@ -20,7 +18,6 @@ $(document).ready(function(){
   $(".quickview-column-toggle").click(function(){
     var columnName = $(this).val();
     $(".column_"+columnName).toggle();
-    
   });
   
 });
