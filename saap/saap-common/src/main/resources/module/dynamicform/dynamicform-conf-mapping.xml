@@ -40,7 +40,7 @@
 	     <field name="hide" type="java.lang.Boolean" required="false">
 	    	<bind-xml name="hide" node="attribute" />
 	    </field>   
-	    <field name="Editable" type="java.lang.Boolean" required="false">
+	    <field name="editable" type="java.lang.Boolean" required="false">
 	    	<bind-xml name="editable" node="attribute" />
 	    </field>   
 	    <field name="descr" type="java.lang.String" required="false">
@@ -80,6 +80,9 @@
 	    <field name="scripts" type="java.lang.String" required="false">
 	    	<bind-xml name="scripts" node="element" />
 	    </field>
+	    <field name="readonly" type="boolean" required="false">
+	    	<bind-xml name="readonly" node="attribute" />
+	    </field> 
 		<field name="validator" type="com.litt.saap.core.module.dynamicform.model.Validator">
 		    <bind-xml name="validator" node="element"/>
 		</field> 
