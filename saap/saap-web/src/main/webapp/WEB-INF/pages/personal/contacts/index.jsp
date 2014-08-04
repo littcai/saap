@@ -43,8 +43,8 @@
 			</div>
 			<div class="clear"></div> 		
 			<!-- toolbar -->
-			<div style="margin-top:2px;padding-top:7px;margin-bottom:8px;border-top:2px solid #0088CC;">
-				<div class="pull-left" style="margin-bottom:5px;">
+			<div class="toolbar">
+				<div class="pull-left">
 	                <button class="btn btn-small btn-primary" onclick="javascript:location.href='add.do'">
 	                  <i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
 	                <button class="btn btn-small btn-danger" onclick="javascript:return batchDelete();">
@@ -57,9 +57,10 @@
 				        <!-- The file input field used as target for the file upload widget -->
 				        <input id="btnImport" type="file" name="files[]" multiple>
 				    </span>	                 
-	            </div>      
+	            </div> 
+                <div class="clear"></div>      
 			</div>	
-			<div class="clear"></div> 	
+				
 			<!-- message notify -->
 			<h:notify content="${messageBox.content }" type="${messageBox.type }"></h:notify>	
 			<!-- datatable -->

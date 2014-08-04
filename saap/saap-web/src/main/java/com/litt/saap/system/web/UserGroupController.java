@@ -1,5 +1,9 @@
 package com.litt.saap.system.web;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -14,9 +18,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.common.vo.TenantUserVo;
+import com.litt.saap.core.model.CheckItem;
+import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.po.UserGroup;
+import com.litt.saap.system.po.UserGroupMember;
 import com.litt.saap.system.service.IUserGroupService;
-
+import com.litt.saap.system.service.impl.IUserGroupMemberService;
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
 import com.litt.core.web.util.WebUtils;
@@ -43,6 +52,10 @@ public class UserGroupController extends BaseController
 
 	@Resource
 	private IUserGroupService userGroupService;
+	@Resource
+	private IUserGroupMemberService userGroupMemberService;
+	@Resource
+	private IUserBizService userBizService;
 	
 	/**
 	 * default page.
@@ -174,5 +187,99 @@ public class UserGroupController extends BaseController
 	{
 		userGroupService.deleteBatch(ids);
 	}
+	
+	@RequestMapping 
+	public ModelAndView getTenantMembers(@RequestParam Integer userGroupId)
+	{
+	  int tenantId = LoginUtils.getTenantId();
+	  
+	  List<TenantUserVo> tenantUserList = userBizService.findByTenant(tenantId);
+	  List<UserGroupMember> memberList = userGroupMemberService.listByGroup(userGroupId);
+	  	  
+    List<CheckItem<TenantUserVo>> tenantUserCheckItemList = new ArrayList<CheckItem<TenantUserVo>>();
+    for (TenantUserVo tenantUser : tenantUserList) {
+      boolean isChecked = false;
+      for (UserGroupMember userGroupMember : memberList) {
+        if(tenantUser.getId().equals(userGroupMember.getUserId()))
+        {
+          isChecked = true;
+          break;
+        } 
+      }
+      CheckItem<TenantUserVo> checkItem = new CheckItem<TenantUserVo>(isChecked, tenantUser);
+      tenantUserCheckItemList.add(checkItem);
+    }
+    return new ModelAndView("jsonView").addObject("tenantUserList", tenantUserCheckItemList);
+	}
+	
+	/**
+   * Add Page.
+   * 
+   * @return ModelAndView
+   */ 
+  @Func(funcCode="01", moduleCode="9003", enableLog=false)  
+  @RequestMapping
+  public ModelAndView addMember() 
+  {        
+    return new ModelAndView("/system/userGroup/addMember");
+  }  
+  
+  /**
+   * Show Page.
+   * 
+   * @param id 
+   * 
+   * @return ModelAndView
+   */
+  @Func(funcCode="04", moduleCode="9003", enableLog=false)  
+  @RequestMapping 
+  public ModelAndView showMembers(@RequestParam Integer id) 
+  { 
+    UserGroup userGroup = userGroupService.load(id);
+    
+    List<Map<String, Object>> memberList = userGroupMemberService.listWithUserInfoByGroup(id);
+    
+    return new ModelAndView("/system/userGroup/showMembers")
+            .addObject("userGroup", userGroup)
+            .addObject("memberList", memberList);
+  }   
+  
+  /**
+   * Save.
+   * @param request 
+   * @param modelMap
+   * @throws Exception 
+   */
+  @Func(funcCode="01",moduleCode="9003")
+  @RequestMapping 
+  public void saveMemberBatch(@RequestParam Integer groupId, @RequestParam(value="userIds[]") Integer[] userIds) throws Exception
+  { 
+    userGroupMemberService.saveBatch(groupId, userIds);
+  }
+  
+  /**
+   * Delete.
+   * @param id id
+   * @throws Exception 
+   */
+  @Func(funcCode="03",moduleCode="9003")
+  @RequestMapping 
+  public void deleteMember(@RequestParam Integer id) throws Exception
+  {
+    userGroupMemberService.delete(id);
+  }
+  
+
+  /**
+   * Delete Batch.
+   * @param id id
+   * @throws Exception 
+   */
+  @Func(funcCode="03",moduleCode="9003")
+  @RequestMapping 
+  public void deleteMemberBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
+  {
+    userGroupMemberService.deleteBatch(ids);
+  }
 
 }

@@ -18,13 +18,10 @@
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
 				<input type="hidden" id="sortOrder" name="sortOrder"  value="${pageParam.sortOrder}"/>
                 <select name="searchField" id="searchField" style="width:130px">
-                    <option label="姓名" value="accountname">姓名</option>	
-                    <option label="性别" value="accountname">性别</option>	
-                    <option label="手机号码" value="phone">手机号码</option>				
-					<option label="Email" value="email">Email</option>
-					<option label="联系人" value="membername">电话</option>
-					<option label="职位" value="title">职位</option>
-					
+                    <option label="<s:message code="contacts.name" />" value="accountname"><s:message code="contacts.name" /></option>	
+                    <option label="<s:message code="contacts.gender" />" value="gender"><s:message code="contacts.gender" /></option>	
+                    <option label="<s:message code="contacts.mobile" />" value="mobile"><s:message code="contacts.mobile" /></option>				
+					<option label="<s:message code="contacts.email" />" value="email"><s:message code="contacts.email" /></option>					
                 </select>                      
                       <input type="text" class="input-large search-query" value="" name="search_text">
                       <button type="button" class="btn btn-small" onClick="callSearch('Basic');"><i class="icon-search"></i>&nbsp;搜索</button>

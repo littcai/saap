@@ -6,7 +6,7 @@
   <head>		
   </head>
   <body>   
-  <form id="theform" action="updateRole.json" method="post" class="form-horizontal">
+  <form id="theform" action="updateUserGroup.json" method="post" class="form-horizontal">
   	<input type="hidden" name="tenantMemberId" value="${tenantMember.id }" />
   	<input type="hidden" name="userId" value="${userInfo.id }" />
 		<fieldset>
@@ -49,21 +49,21 @@
 					</div>
 		</fieldset>					
 		<fieldset>
-			<legend><s:message code="tenantMember.ui.fieldset.role" /></legend>
+			<legend><s:message code="userGroup" /></legend>
 			<table class="table table-striped table-bordered table-hover datatable">				
 				<thead>
 				  <tr>
 					<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>
-					<th width="30%"><s:message code="role.name"/></th>
-					<th><s:message code="role.remark"/></th>
+					<th width="30%"><s:message code="userGroup.code"/></th>
+					<th><s:message code="userGroup.name"/></th>
 				  </tr>	
 				</thead>
 				<tbody>
-				  <c:forEach items="${roleCheckItemList }" var="row">
+				  <c:forEach items="${userGroupCheckItemList }" var="row">
 				    <tr>
-				    	<td class="checkCol"><input type="checkbox" class="checkItem" name="roleIds[]" value="${row.obj.id }" <c:if test="${row.checked }">checked="checked"</c:if>  /></td>
+				    	<td class="checkCol"><input type="checkbox" class="checkItem" name="groupIds[]" value="${row.obj.id }" <c:if test="${row.checked }">checked="checked"</c:if>  /></td>
+				    	<td><c:out value="${row.obj.code }"></c:out></td>
 				    	<td><c:out value="${row.obj.name }"></c:out></td>
-				    	<td><c:out value="${row.obj.remark }"></c:out></td>
 				    </tr>
 				  </c:forEach>
 				</tbody>
@@ -79,15 +79,15 @@
 	<!--page specific plugin scripts-->				
 		<script type="text/javascript">
 		$(document).ready(function(){	
-		  
+			
 		  var checkboxs = $.webtools.checkboxs({
 				checkAll: "#checkAll",
 				checkItem: ".checkItem"				
 			});
-			
+		  
 			$('#theform').littFormSubmit({
 				rules : {					
-					roleIds : {
+					groupIds : {
 						required : true
 					}
 				},			

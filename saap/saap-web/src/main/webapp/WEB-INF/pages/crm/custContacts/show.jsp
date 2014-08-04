@@ -3,7 +3,8 @@
 <%@ include file="/common/common.jspf"%>
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
-  <head>		
+  <head>	
+  	
   </head>
   <body>   
   <form id="theform" action="show.do" method="post" class="form-horizontal">

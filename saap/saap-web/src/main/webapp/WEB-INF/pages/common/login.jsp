@@ -84,7 +84,7 @@
 					</div>						  					 
 				</fieldset>	
 				<div>
-					<a id="register-btn"" href="javascript:;">&nbsp;<s:message code="login.func.register" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="forget-password-btn" href="javascript:;"><s:message code="login.func.forgetPassword" />&nbsp;</a>
+					<a id="register-btn" href="javascript:;">&nbsp;<s:message code="login.func.register" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="forget-password-btn" href="javascript:;"><s:message code="login.func.forgetPassword" />&nbsp;</a>
 				</div>
 			</form>
 			<!-- END LOGIN FORM -->        
@@ -180,14 +180,11 @@
 		
 		<div id="login-extra">
 			<p>
-
 			</p>
+			<br>
+            <p>Copyright &copy; 2004~2014 <a href="www.littcore.com" target="_blank">LITTCORE</a>, all rights reserved.</p>
 			
-             <br>
-             <p>Copyright &copy; 2004~2013 <a href=" target="_blank">LITTCORE</a>, all rights reserved.</p>
-			<!--<p>我能用它做什么？让系统自动的帮您跟踪客户，真正的实现销售自动化(SFA)，</p>
-			<p>让您感觉销售是件非常Easy的事情！还不心动吗，赶紧试试吧！</p>-->
-			<p>联系电话：12345678 &nbsp;&nbsp;E-mail: <a href="mailto:littcai@gmail.com">littcai@gmail.com</a></p>
+			<p>联系电话：13818143407 &nbsp;&nbsp;E-mail: <a href="mailto:littcai@gmail.com">littcai@gmail.com</a></p>
 		</div> <!-- /login-extra -->
 	
 </div> <!-- /login-wrapper -->

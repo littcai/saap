@@ -3,7 +3,10 @@
 <%@ include file="/common/common.jspf"%>
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
-  <head>		
+  <head>	
+    <c:if test="${not empty param.decorator  }">
+    <meta name="decorator" content="${param.decorator }" />	
+    </c:if>
   </head>
   <body> 
   	<ul class="nav nav-tabs">
@@ -107,12 +110,7 @@
 							</div>
 						</div>								
 					</div>
-				</fieldset>					
-						
-				<div class="form-actions">					
-					<button type="button" class="btn" onclick="history.back();"><s:message code="btn.back" /></button>
-				</div>					
-				
+				</fieldset>	
 			</form>	
 		</div>
 		
@@ -136,10 +134,31 @@
 		 </div>
 		 
 		 <div class="tab-pane" id="userGroup">    
-		 
+		  <table class="table table-striped table-bordered table-hover datatable">        
+            <thead>
+              <tr>
+              <th width="30%"><s:message code="userGroup.code"/></th>
+              <th><s:message code="userGroup.name"/></th>
+              </tr> 
+            </thead>
+            <tbody>
+              <c:forEach items="${userGroupList }" var="row">
+                <tr>              
+                  <td><c:out value="${row.code }"></c:out></td>
+                  <td><c:out value="${row.name }"></c:out></td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </table>
 		 </div>
-		
-	  </div>				
-			  
+		<div class="form-actions"> 
+          <c:if test="${'popup' eq param.decorator  }">         
+            <button type="button" class="btn" onclick="window.opener=null;window.open('','_self');window.close();"><s:message code="btn.close" /></button>
+          </c:if>
+          <c:if test="${'popup' ne param.decorator  }">         
+            <button type="button" class="btn" onclick="history.back();"><s:message code="btn.back" /></button>
+          </c:if>
+        </div>  
+	  </div>  
   </body>	
 </html>

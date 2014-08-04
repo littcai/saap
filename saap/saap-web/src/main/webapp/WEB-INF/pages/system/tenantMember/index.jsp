@@ -12,7 +12,7 @@
  <body>
  	<!-- form filter -->	
 		<div>
-			<form class="form-search" style="margin-bottom:5px;" id="search-form" name="search-form" action="index.do" method="GET">				
+			<form class="search-form" id="search-form" name="search-form" action="index.do" method="GET">				
 				<input type="hidden" id="pageIndex" name="pageIndex" value="${pageParam.pageIndex }" />
 				<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 				<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
@@ -38,17 +38,15 @@
 		</div>
 		<div class="clear"></div> 		
 		<!-- toolbar -->
-		<div style="margin-top:2px;padding-top:5px;margin-bottom:8px;border-top:2px solid #0088CC;">
-			<div class="pull-left" style="margin-bottom:5px;">
-      	<button type="button" class="btn btn-small btn-primary" style="margin-top:2px;" onclick="javascript:location.href='add.do'">
-        	<i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
-        <button type="button" class="btn btn-small btn-danger" style="margin-top:2px;" onclick="javascript:return batchDelete();">
-        	<i class="icon-trash icon-white"></i> <s:message code="btn.delete" /></button>
-       </div> 	 		  
-		</div>	
-		<div class="clear"></div> 	
-		<!-- message notify -->
-		<h:notify content="${messageBox.content }" type="${messageBox.type }"></h:notify>
+		<div class="toolbar">
+  		  <div class="pull-left">
+          	  <button type="button" class="btn btn-small btn-primary" onclick="javascript:location.href='add.do'">
+            	<i class="icon-plus icon-white"></i> <s:message code="btn.add" /></button>
+              <button type="button" class="btn btn-small btn-danger" onclick="javascript:return batchDelete();">
+            	<i class="icon-trash icon-white"></i> <s:message code="btn.deleteBatch" /></button>
+          </div> 	
+          <div class="clear"></div>   		  
+		</div>			
 		<!-- datatable -->
 		<div>
 			<table class="table table-striped table-bordered table-hover datatable">
@@ -84,7 +82,7 @@
 							<a href="editRole.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-cog"></i>
 							</a>&nbsp;	
-							<a href="editGroup.do?id=${row.tenantMember.id }" class="blue" >
+							<a href="editUserGroup.do?id=${row.tenantMember.id }" class="blue" >
 								<i class="icon-group"></i>
 							</a>&nbsp;		
 							<c:if test="${row.tenantMember.status==-1 }">

@@ -5,8 +5,8 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator"%>
 <html lang="en">
 <head>
-<title><decorator:title default="${SYSTEM_TITLE}" /></title>
 <%@ include file="/common/meta.jspf"%>
+<title><c:if test="${empty SESSION_USER.tenant }" >SaaP</c:if><c:if test="${not empty SESSION_USER.tenant }">${SESSION_USER.tenant.tenantAlias }</c:if></title>
 <decorator:head />
 </head>
 <body>

@@ -1,6 +1,7 @@
 package com.litt.saap.common.rest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * .
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
  * @version 1.0
  */
 @Controller
+@RequestMapping("/rest") 
 public class UserInfoRestService {
 
 }

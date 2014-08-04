@@ -72,12 +72,14 @@ public interface IUserGroupService {
 	 * @see com.litt.saap.system.service.IUserGroupService#listPage(com.litt.core.dao.ql.PageParam)
 	 */
 	public abstract IPageList listPage(PageParam pageParam);
+	
+	public List<UserGroup> listByTenant(int tenantId);
 
 	/**
 	 * @param userId
 	 * @return
 	 * @see com.litt.saap.system.service.IUserGroupService#listByContacts(int)
 	 */
-	public abstract List<UserGroup> listByUser(int userId);
+	public abstract List<UserGroup> listByTenantAndUser(int tenantId, int userId);
 
 }

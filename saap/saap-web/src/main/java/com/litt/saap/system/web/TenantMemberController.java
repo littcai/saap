@@ -21,11 +21,10 @@ import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.module.annotation.Func;
-import com.litt.core.util.ArrayUtils;
-import com.litt.core.util.StringUtils;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.model.CheckItem;
 import com.litt.saap.core.web.util.LoginUtils;
@@ -33,6 +32,7 @@ import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserGroup;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantMemberService;
@@ -150,14 +150,51 @@ public class TenantMemberController extends BaseController
 		TenantMember tenantMember = tenantMemberService.load(id);		
 		UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
 		
-		List<Role> userRoleList = userBizService.listUserRoleByTenant(tenantMember.getUserId(), tenantMember.getTenantId());
+		List<Role> userRoleList = userBizService.listByUserRoleAndTenant(tenantMember.getUserId(), tenantMember.getTenantId());
+		List<UserGroup> userGroupList = userGroupService.listByTenantAndUser(tenantMember.getTenantId(), tenantMember.getUserId());
 		
         return new ModelAndView("/system/tenantMember/show")
 					.addObject("tenantMember", tenantMember)
 					.addObject("userInfo", userInfo)
 					.addObject("userRoleList", userRoleList)
+					.addObject("userGroupList", userGroupList)
 					;
-    }   
+    } 
+	
+	/**
+   * Show Page.
+   * 
+   * @param id 
+   * 
+   * @return ModelAndView
+   */
+  @Func(funcCode="04", moduleCode="9002", enableLog=false)  
+  @RequestMapping 
+  public ModelAndView showByUserId(@RequestParam Integer userId) 
+  { 
+    int tenantId = LoginUtils.getTenantId();
+    TenantMember tenantMember = tenantMemberService.load(tenantId, userId);
+    UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
+    
+    List<Role> userRoleList = userBizService.listByUserRoleAndTenant(tenantMember.getUserId(), tenantMember.getTenantId());
+    List<UserGroup> userGroupList = userGroupService.listByTenantAndUser(tenantMember.getTenantId(), tenantMember.getUserId());
+    
+        return new ModelAndView("/system/tenantMember/show")
+          .addObject("tenantMember", tenantMember)
+          .addObject("userInfo", userInfo)
+          .addObject("userRoleList", userRoleList)
+          .addObject("userGroupList", userGroupList)
+          ;
+  } 
+	
+	@RequestMapping 
+  public ModelAndView getAll() 
+  {     
+	  int tenantId = LoginUtils.getTenantId();
+	  List<TenantUserVo> tenantUserList = userBizService.findByTenant(tenantId);
+	  
+	  return new ModelAndView("jsonView").addObject("tenantUserList", tenantUserList);
+  }  
     
     /**
 	 * Save.
@@ -246,7 +283,7 @@ public class TenantMemberController extends BaseController
 		List<Role> roleList = roleService.listByTenant(tenantMember.getTenantId());
 		
 		//查询用户在该租户下的角色
-		List<Role> userRoleList = userBizService.listUserRoleByTenant(tenantMember.getUserId(), tenantMember.getTenantId());
+		List<Role> userRoleList = userBizService.listByUserRoleAndTenant(tenantMember.getUserId(), tenantMember.getTenantId());
 		
 		List<CheckItem<Role>> roleCheckItemList = new ArrayList<CheckItem<Role>>();
 		for (Role role : roleList) {
@@ -281,5 +318,58 @@ public class TenantMemberController extends BaseController
 	{			
 		userBizService.updateUserRoleByTenant(userId, LoginUtils.getTenantId(), roleIds);
 	}
+	
+	/**
+   * Edit Page.
+   * 
+   * @param id 
+   * 
+   * @return ModelAndView
+   */
+  @Func(funcCode="02", moduleCode="9002", enableLog=false)  
+  @RequestMapping 
+  public ModelAndView editUserGroup(@RequestParam Integer id) 
+  { 
+    TenantMember tenantMember = tenantMemberService.load(id);   
+    UserInfo userInfo = userInfoService.load(tenantMember.getUserId());
+    //查询租户所有用户组
+    List<UserGroup> allUserGroupList = userGroupService.listByTenant(tenantMember.getTenantId());
+    
+    List<UserGroup> userGroupList = userGroupService.listByTenantAndUser(tenantMember.getTenantId(), tenantMember.getUserId());
+    
+    List<CheckItem<UserGroup>> userGroupCheckItemList = new ArrayList<CheckItem<UserGroup>>();
+    for (UserGroup userGroup : allUserGroupList) {
+      boolean isChecked = false;
+      for (UserGroup curUserGroup : userGroupList) {
+        if(userGroup.getId().equals(curUserGroup.getId()))
+        {
+          isChecked = true;
+          break;
+        } 
+      }
+      CheckItem<UserGroup> checkItem = new CheckItem<UserGroup>(isChecked, userGroup);
+      userGroupCheckItemList.add(checkItem);
+    }
+    
+        return new ModelAndView("/system/tenantMember/editUserGroup")
+              .addObject("tenantMember", tenantMember)
+              .addObject("userInfo", userInfo)
+              .addObject("userGroupCheckItemList", userGroupCheckItemList)
+              ;
+    }
+  
+  /**
+   * Update.
+   * @param request 
+   * @param modelMap
+   * @throws Exception 
+   */
+  @Func(funcCode="02",moduleCode="9002")
+  @RequestMapping 
+  public void updateUserGroup(@RequestParam Integer tenantMemberId, @RequestParam Integer userId, @RequestParam(required=false, value="groupIds[]")Integer[] groupIds) throws Exception
+  {     
+    int tenantId = LoginUtils.getTenantId();
+    userBizService.updateUserGroupByTenant(userId, tenantId, groupIds);
+  }
 
 }

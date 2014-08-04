@@ -48,11 +48,17 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	@Override
 	public Integer save(UserGroup userGroup) throws NotLoginException
 	{
+	  this.validate(0, userGroup.getCode(), userGroup.getName());
+	  
 		ILoginVo loginVo = LoginUtils.getLoginVo();
+		userGroup.setParentId(0);
+		userGroup.setType(1);
+		userGroup.setStatus(1);
 		
 		userGroup.setTenantId(LoginUtils.getTenantId());
 		userGroup.setCreateBy(loginVo.getOpId().intValue());
 		userGroup.setCreateDatetime(new Date());
+		userGroup.setUpdateBy(userGroup.getCreateBy());
 		userGroup.setUpdateDatetime(userGroup.getCreateDatetime());
 		
 		return userGroupDao.save(userGroup);
@@ -66,7 +72,8 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	@Override
 	public void update(UserGroup userGroup) throws NotLoginException
 	{				
-		this.validatePermission(userGroup);		
+		this.validatePermission(userGroup);	
+		this.validate(userGroup.getId(), userGroup.getCode(), userGroup.getName());
 		
 		userGroup.setUpdateDatetime(new Date());
 		userGroupDao.update(userGroup);
@@ -90,7 +97,7 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	 * @see com.litt.saap.system.service.IUserGroupService#delete(com.litt.saap.system.po.UserGroup)
 	 */
 	@Override
-	public void delete(UserGroup userGroup) throws NotLoginException 
+	public void delete(UserGroup userGroup)
 	{		
 		this.validatePermission(userGroup);	
 		
@@ -117,15 +124,40 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	 * @param todo
 	 * @throws NotLoginException
 	 */
-	private void validatePermission(UserGroup userGroup) throws NotLoginException 
+	private void validatePermission(UserGroup userGroup)
 	{
 		ILoginVo loginVo = LoginUtils.getLoginVo();		
 		
-		if(userGroup.getCreateBy()!=loginVo.getOpId().intValue())
+		if(userGroup.getTenantId()!=LoginUtils.getTenantId())
 		{
 			throw new BusiCodeException("error.biz.permissionDenied", loginVo.toLocale());
 		}
 	}		
+	
+	/**
+   * 数据有效性检查.
+   *
+   * @param id the id
+   * @param name the name
+   */
+  private void validate(Integer id, String code, String name)
+  {   
+    int tenantId = LoginUtils.getTenantId();
+    
+    String countHql = "select count(*) from UserGroup where tenantId=? and code=? and (id>? or id<?)";
+    boolean invalid = userGroupDao.count(countHql, new Object[]{tenantId, code, id, id})>0;    
+    if(invalid)
+    {
+      throw new BusiCodeException("userGroup.error.codeDuplicated");
+    }
+    
+    countHql = "select count(*) from UserGroup where tenantId=? and name=? and (id>? or id<?)";
+    invalid = userGroupDao.count(countHql, new Object[]{tenantId, name, id, id})>0;    
+    if(invalid)
+    {
+      throw new BusiCodeException("userGroup.error.nameDuplicated");
+    }
+  }
 	
 	/**
 	 * @param id
@@ -147,22 +179,30 @@ public class UserGroupServiceImpl implements IUserGroupService {
 	public IPageList listPage(PageParam pageParam)
 	{
 		String listHql = "select obj from UserGroup obj"
-			+ "-- and obj.createUserId={userId}"
+			+ "-- and obj.code={code}"
 			+ "-- and obj.name={name}"
 			;	
 		return userGroupDao.listPage(listHql, pageParam);
 	}
 	
+	public List<UserGroup> listByTenant(int tenantId)
+  {
+    String listHql = "select a from UserGroup a where a.tenantId=?";
+    return userGroupDao.listAll(listHql, new Object[]{tenantId});
+  }
+	
 	/**
-	 * @param userId
-	 * @return
-	 * @see com.litt.saap.system.service.IUserGroupService#listByUser(int)
+	 * List by tenant and user.
+	 *
+	 * @param tenantId the tenant id
+	 * @param userId the user id
+	 * @return the list
 	 */
 	@Override
-	public List<UserGroup> listByUser(int userId)
+	public List<UserGroup> listByTenantAndUser(int tenantId, int userId)
 	{
-		String listHql = "select a from UserGroup a, UserGroupMember b where b.userId=? and a.id=b.groupId";
-		return userGroupDao.listAll(listHql, new Object[]{userId});
+		String listHql = "select a from UserGroup a, UserGroupMember b where b.tenantId=? and b.userId=? and a.id=b.groupId";
+		return userGroupDao.listAll(listHql, new Object[]{tenantId, userId});
 	}
 
 }

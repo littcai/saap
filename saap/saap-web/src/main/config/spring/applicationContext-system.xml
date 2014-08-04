@@ -33,9 +33,10 @@
 	
 	<!-- 用户组 -->
 	<bean id="userGroupDao" class="com.litt.saap.system.dao.UserGroupDao" parent="baseDao"/>
-	<bean id="userGroupMemberDao" class="com.litt.saap.system.dao.UserGroupMemberDao" parent="baseDao"/>	
-		
 	<bean id="userGroupService" class="com.litt.saap.system.service.impl.UserGroupServiceImpl"/>
+	
+	<bean id="userGroupMemberDao" class="com.litt.saap.system.dao.UserGroupMemberDao" parent="baseDao"/>	
+	<bean id="userGroupMemberService" class="com.litt.saap.system.service.impl.UserGroupMemberServiceImpl"/>
 	
 	<!-- 角色 -->
 	<bean id="roleDao" class="com.litt.saap.system.dao.RoleDao" parent="baseDao"/>

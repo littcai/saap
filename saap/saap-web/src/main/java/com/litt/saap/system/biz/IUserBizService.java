@@ -133,6 +133,15 @@ public interface IUserBizService {
 	public void updateUserRoleByTenant(int userId, int tenantId, Integer[] roleIds);
 	
 	/**
+	 * Update user group by tenant.
+	 *
+	 * @param userId the user id
+	 * @param tenantId the tenant id
+	 * @param groupIds the group ids
+	 */
+	public void updateUserGroupByTenant(int userId, int tenantId, Integer[] groupIds);
+	
+	/**
 	 * Do login.
 	 *
 	 * @param loginId the login id
@@ -179,7 +188,7 @@ public interface IUserBizService {
 	 * @param tenantId the tenant id
 	 * @return the list
 	 */
-	public List<Role> listUserRoleByTenant(int userId, int tenantId);
+	public List<Role> listByUserRoleAndTenant(int userId, int tenantId);
 	
 	
 

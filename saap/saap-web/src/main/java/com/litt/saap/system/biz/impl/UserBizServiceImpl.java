@@ -2,6 +2,7 @@ package com.litt.saap.system.biz.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +40,7 @@ import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
 import com.litt.saap.system.dao.UserGroupDao;
+import com.litt.saap.system.dao.UserGroupMemberDao;
 import com.litt.saap.system.dao.UserGroupRoleDao;
 import com.litt.saap.system.dao.UserInfoDao;
 import com.litt.saap.system.dao.UserRoleDao;
@@ -48,6 +50,7 @@ import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.RoleFuncPermission;
 import com.litt.saap.system.po.Tenant;
 import com.litt.saap.system.po.TenantMember;
+import com.litt.saap.system.po.UserGroupMember;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.po.UserState;
@@ -55,6 +58,7 @@ import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.service.impl.IActivationCodeService;
+import com.litt.saap.system.service.impl.IUserGroupMemberService;
 import com.litt.saap.system.vo.SystemInfoVo;
 import com.litt.saap.system.vo.TenantVo;
 
@@ -90,7 +94,8 @@ public class UserBizServiceImpl implements IUserBizService {
 	
 	@Resource
 	private UserGroupDao userGroupDao;
-	
+	@Resource
+	private IUserGroupMemberService userGroupMemberService;
 	@Resource
 	private UserGroupRoleDao userGroupRoleDao;
 	
@@ -520,7 +525,7 @@ public class UserBizServiceImpl implements IUserBizService {
 			for (UserRole userRole : userRoleList) {
 				boolean isExist = false;
 				for (Integer roleId : roleIds) {
-					if(userRole.getId().equals(roleId))
+					if(userRole.getRoleId() == roleId)
 					{
 						isExist = true;
 						break;
@@ -538,7 +543,7 @@ public class UserBizServiceImpl implements IUserBizService {
 				boolean isExist = false;
 				for (UserRole userRole : userRoleList) 
 				{					
-					if(userRole.getId().equals(roleId))
+					if(userRole.getRoleId() == roleId )
 					{
 						isExist = true;
 						break;
@@ -556,6 +561,65 @@ public class UserBizServiceImpl implements IUserBizService {
 			userRoleDao.saveBatch(addList);
 		}
 	}
+	
+	public void updateUserGroupByTenant(int userId, int tenantId, Integer[] groupIds)
+  {
+    int createBy = LoginUtils.getLoginOpId().intValue();
+    if(ArrayUtils.isEmpty(groupIds)) //所有都被删除
+    {
+      userGroupMemberService.deleteByUser(tenantId, userId);
+    }
+    else 
+    {
+      List<UserGroupMember> memberList = userGroupMemberService.listByUser(tenantId, userId);
+      
+      List<UserGroupMember> addList = new ArrayList<UserGroupMember>(); //追加的
+      List<UserGroupMember> deleteList = new ArrayList<UserGroupMember>(); //删除的
+      
+      for (UserGroupMember userGroupMember : memberList) {
+        boolean isExist = false;
+        for (Integer groupId : groupIds) {
+          if(userGroupMember.getGroupId() == groupId)
+          {
+            isExist = true;
+            break;
+          }
+        }
+        if(!isExist)
+        {
+          logger.debug("UserGroup:{} will be deleted from user:{} on workspace:{}", new Object[]{userGroupMember.getGroupId(), userGroupMember.getUserId(), userGroupMember.getTenantId()});
+          deleteList.add(userGroupMember);
+        }
+      }
+      //新增
+      for (Integer groupId : groupIds) 
+      {
+        boolean isExist = false;
+        for (UserGroupMember userGroupMember : memberList) 
+        {         
+          if(userGroupMember.getGroupId() == groupId)
+          {
+            isExist = true;
+            break;
+          }
+        }
+        if(!isExist)
+        {
+          logger.debug("UserGroup:{} will be added to user:{} on workspace:{}", new Object[]{groupId, userId, tenantId});
+          UserGroupMember newUserGroupMember = new UserGroupMember();
+          newUserGroupMember.setTenantId(tenantId);
+          newUserGroupMember.setGroupId(groupId);
+          newUserGroupMember.setUserId(userId);
+          newUserGroupMember.setCreateBy(createBy);
+          newUserGroupMember.setCreateDatetime(new Date());
+          addList.add(newUserGroupMember);
+        } 
+      }
+      //执行具体操作
+      userGroupMemberService.deleteBatch(deleteList);
+      userGroupMemberService.saveBatch(addList);
+    }
+  }
 	
 	/**
 	 * Do login.
@@ -698,7 +762,7 @@ public class UserBizServiceImpl implements IUserBizService {
 	 * @param tenantId the tenant id
 	 * @return the list
 	 */
-	public List<Role> listUserRoleByTenant(int userId, int tenantId)
+	public List<Role> listByUserRoleAndTenant(int userId, int tenantId)
 	{
 		//获取用户直接角色的权限
 		String listHql = "select r from UserRole ur, Role r where ur.tenantId=? and ur.userId=? and ur.roleId=r.id and r.tenantId=ur.tenantId";

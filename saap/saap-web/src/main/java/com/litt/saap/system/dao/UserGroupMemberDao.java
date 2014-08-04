@@ -20,20 +20,21 @@ import com.litt.saap.system.po.UserGroupMember;
  * @version 1.0
  */
 public class UserGroupMemberDao extends GenericHibernateDao<UserGroupMember, Integer> {
-
-	/**
-	 * Delete by contacts.
-	 *
-	 * @param contactsId the contacts id
-	 */
-	public void deleteByUser(int userId)
-	{
-		this.delete(UserGroupMember.class, "userId", userId);
-	}
 	
 	public void deleteByUserGroup(int groupId)
 	{
 		this.delete(UserGroupMember.class, "groupId", groupId);
+	}
+	
+	public void deleteByUser(int tenantId, int userId)
+  {
+    super.execute("delete from UserGroupMember where tenantId=? and userId=?", new Object[]{tenantId, userId});
+  }
+	
+	public int countByGroupAndUserId(int tenantId, int groupId, int userId)
+	{
+	  String countHql = "select count(t) from UserGroupMember t where t.tenantId=? and t.groupId=? and t.userId=?";
+	  return super.count(countHql, new Object[]{tenantId, groupId, userId});
 	}
 	
 }

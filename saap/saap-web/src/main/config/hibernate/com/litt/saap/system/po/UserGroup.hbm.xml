@@ -35,7 +35,7 @@
             </column>
         </property>
         <property name="description" type="string">
-            <column name="DESCRIPTION" length="500" not-null="true">
+            <column name="DESCRIPTION" length="500">
                 <comment>描述</comment>
             </column>
         </property>

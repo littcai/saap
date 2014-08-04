@@ -5,6 +5,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.litt.core.common.CoreConstants;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.saap.core.common.SaapConstants;
 
 /** 
  * 
@@ -33,7 +34,7 @@ public class PermissionTag extends BodyTagSupport
 	private String code;
 	
 	/** 对象在会话中的键名. */
-	private String sessionKey = CoreConstants.SESSION_OPER;
+	private String sessionKey = SaapConstants.SESSION_USER;
 
 	/**
 	 * 在解析标签时判断权限.
