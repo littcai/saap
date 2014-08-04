@@ -3,8 +3,8 @@
                          "http://castor.exolab.org/mapping.dtd">
 <mapping>
 
-	<class name="com.litt.saap.core.module.dynamicsearch.model.DynamicSearch">
-	  	<map-to xml="dynamicsearch" />
+	<class name="com.litt.saap.core.module.dynamicsearch.model.DynamicSearchConfig">
+	  	<map-to xml="dynamicsearch-config" />
 	    <field name="fieldGroupList" type="com.litt.saap.core.module.dynamicsearch.model.FieldGroup" collection="arraylist">
 	    	<bind-xml name="field-group"></bind-xml>
 	    </field> 
@@ -31,6 +31,9 @@
   		<field name="name" type="java.lang.String" required="true">
 	     	<bind-xml name="name" node="attribute" />
 	    </field> 
+	    <field name="alias" type="java.lang.String" required="false">
+	    	<bind-xml name="alias" node="attribute" />
+	    </field>
 	    <field name="joinType" type="java.lang.String" required="false">
 	     	<bind-xml name="join-type" node="attribute" />
 	    </field> 
@@ -39,6 +42,9 @@
 	    </field> 
 	    <field name="where" type="java.lang.String" required="false">
 	     	<bind-xml name="where" node="attribute" />
+	    </field> 
+	    <field name="subQuery" type="java.lang.String" required="false">
+	     	<bind-xml name="sub-query" node="attribute" />
 	    </field> 
 	    <field name="columnList" type="com.litt.saap.core.module.dynamicsearch.model.Column" collection="arraylist">
 	    	<bind-xml name="column"></bind-xml>
@@ -50,12 +56,30 @@
 	  	<field name="name" type="java.lang.String" required="true">
 	    	<bind-xml name="name" node="attribute" />
 	    </field>
-	    <field name="alias" type="java.lang.String" required="false">
-	    	<bind-xml name="alias" node="attribute" />
+	    <field name="title" type="java.lang.String" required="true">
+	    	<bind-xml name="title" node="attribute" />
 	    </field>
 	    <field name="dataType" type="java.lang.String" required="true">
 	    	<bind-xml name="data-type" node="attribute" />
 	    </field> 
+	    <field name="alias" type="java.lang.String" required="false">
+	    	<bind-xml name="alias" node="attribute" />
+	    </field>
+	    <field name="format" type="java.lang.String" required="false">
+	    	<bind-xml name="format" node="attribute" />
+	    </field>
+	    <field name="hide" type="boolean" required="false">
+	    	<bind-xml name="hide" node="attribute" />
+	    </field>
+	    <field name="sortable" type="boolean" required="false">
+	    	<bind-xml name="sortable" node="attribute" />
+	    </field>
+	    <field name="display" type="boolean" required="false">
+	    	<bind-xml name="display" node="attribute" />
+	    </field>
+	    <field name="custom" type="java.lang.String" required="false">
+	    	<bind-xml name="custom" node="element" />
+	    </field>
 	 </class> 
     
     <class name="com.litt.saap.core.module.dynamicform.model.Field" identity="Key">
@@ -148,47 +172,6 @@
 		<field name="sql" type="java.lang.String" required="true">
 	     	<bind-xml name="sql" node="element" />
 	    </field> 
-    </class>	
-    
-	<class name="com.litt.saap.core.module.quickview.model.table.Table" identity="id">
-  		<map-to xml="table" />
-  		<field name="id" type="java.lang.String" required="true">
-	     	<bind-xml name="id" node="attribute" />
-	    </field> 
-	    <field name="title" type="java.lang.String" required="true">
-	     	<bind-xml name="title" node="attribute" />
-	    </field> 
-	    <field name="dataset" type="java.lang.String" required="true">
-	     	<bind-xml name="dataset" node="attribute" />
-	    </field> 
-	    <field name="primaryKey" type="java.lang.String" required="false">
-	     	<bind-xml name="primary-key" node="attribute" />
-	    </field> 
-	    <field name="columnList" type="com.litt.saap.core.module.quickview.model.table.Column" collection="arraylist">
-	    	<bind-xml name="column"></bind-xml>
-	    </field> 	    
-    </class>	
-  
-	<class name="com.litt.saap.core.module.quickview.model.table.Column">
-	 	<map-to xml="column" /> 
-	  	<field name="name" type="java.lang.String" required="true">
-	    	<bind-xml name="name" node="attribute" />
-	    </field>
-	    <field name="title" type="java.lang.String" required="true">
-	    	<bind-xml name="title" node="attribute" />
-	    </field> 
-	    <field name="dataType" type="java.lang.String" required="true">
-	    	<bind-xml name="data-type" node="attribute" />
-	    </field> 
-	    <field name="format" type="java.lang.String" required="false">
-	    	<bind-xml name="format" node="attribute" />
-	    </field>
-	    <field name="hide" type="boolean" required="false">
-	    	<bind-xml name="hide" node="attribute" />
-	    </field>
-	    <field name="custom" type="java.lang.String" required="false">
-	    	<bind-xml name="custom" node="element" />
-	    </field>
-	 </class>   
+    </class>
 	 
 </mapping>
