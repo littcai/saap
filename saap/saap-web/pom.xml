@@ -587,6 +587,9 @@
        </resource>
        <resource>  
           <directory>src/main/resources</directory>  
+          <excludes>
+          	<exclude>environment/**</exclude>
+          </excludes>
        </resource> 
        <resource>  
           <directory>src/main/config</directory>  
@@ -637,6 +640,7 @@
 				<!--增加这两行，可在打包时相关的类会被独立打成jar--> 			  
 			  	<attachClasses>true</attachClasses> 			  
 			  	<classesClassifier>api</classesClassifier>
+			  	<packagingExcludes>environment/**,scripts/**</packagingExcludes>
 				<archive>
 					<addMavenDescriptor>false</addMavenDescriptor>
 					<manifest>  
@@ -709,17 +713,17 @@
 			</configuration>	
 		</plugin>
 		<plugin>
-				<groupId>org.apache.maven.plugins</groupId> 
-		       	<artifactId>maven-release-plugin</artifactId> 
-		        <version>2.2.1</version> 
-		        <configuration> 		
+			<groupId>org.apache.maven.plugins</groupId> 
+		    <artifactId>maven-release-plugin</artifactId> 
+		    <version>2.2.1</version> 
+		    <configuration> 		
 		           <tagBase>http://localhost:9999/svn/paas/tags/paas</tagBase> 	
 		           <branchBase>http://localhost:9999/svn/paas/branches/paas</branchBase>	
 		           <username>${svn.name}</username>	
 		           <password>${svn.password}</password> 		
 		           <releaseProfiles>release</releaseProfiles> 		
 		           <autoVersionSubmodules>true</autoVersionSubmodules>
-		        </configuration> 		
+		   </configuration> 		
 		</plugin>	
 		<plugin>
 			<groupId>com.atlassian.maven.plugins</groupId>
@@ -751,8 +755,29 @@
 	            <username>root</username>
 	            <password>000000</password>
   			</configuration>
-		</plugin>		
-    </plugins>    
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>2.4.1</version>
+			<executions>
+				<execution>
+					<id>make-assembly</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+					<configuration>
+						<descriptors>
+							<descriptor>assembly-static.xml</descriptor>
+							<descriptor>assembly-dbscripts.xml</descriptor>
+							<descriptor>assembly-all.xml</descriptor>
+						</descriptors>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+     </plugins>    
     
   </build>
   

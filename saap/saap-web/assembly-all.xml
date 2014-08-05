@@ -1,0 +1,32 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>all</id>
+	<formats>
+		<format>zip</format>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory> 
+	<fileSets>
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>package</outputDirectory>
+			<includes>
+				<include>${project.build.finalName}.war</include>
+				<include>${project.build.finalName}-dbscripts.zip</include>
+				<include>${project.build.finalName}-static.zip</include>
+			</includes>
+		</fileSet>				
+		<fileSet>
+			<directory>src/main/scripts</directory>
+			<outputDirectory>bin</outputDirectory>			
+			<includes>
+				<include>deploy.sh</include>
+				<include>upgrade.sh</include>
+				<include>startup.sh</include>
+				<include>startup.bat</include>
+				<include>shutdown.sh</include>
+				<include>shutdown.bat</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>

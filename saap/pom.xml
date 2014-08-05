@@ -39,7 +39,7 @@
 	                       <manifestEntries>
 				                <Built-At>${maven.build.timestamp}</Built-At>
 				                <Version>${project.version}</Version>
-				                <Copyright>Copyright (c) 2004-2013 The LITT-CORE.  All rights reserved.</Copyright>
+				                <Copyright>Copyright (c) 2004-2014 The LITTCORE.  All rights reserved.</Copyright>
 				            </manifestEntries>
 	                    </archive>
 	                </configuration>
@@ -96,12 +96,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId> 
 		       	<artifactId>maven-release-plugin</artifactId> 
-		        <version>2.2.1</version> 
+		        <version>2.5</version> 
 		        <configuration> 		
-		           <tagBase>http://127.0.0.1:9999/svn/cidp/tags/</tagBase> 	
-		           <branchBase>http://127.0.0.1:9999/svn/cidp/branches/</branchBase>	
-		           <username>caiyuan</username> 		
-		           <password>caiyuan</password> 		
+		          <tagNameFormat>v@{project.version}</tagNameFormat>
+		           <tagBase>https://git.oschina.net/littcore/saap/tags/</tagBase> 	
+		           <branchBase>https://git.oschina.net/littcore/saap/branches/</branchBase>	
+		           <username>littcai@gmail.com</username> 		
+		           <password>Cai810802</password> 		
 		           <releaseProfiles>release</releaseProfiles> 		
 		           <autoVersionSubmodules>true</autoVersionSubmodules>
 		        </configuration> 		
@@ -125,4 +126,14 @@
 		</plugins>
   </build>
   
+  <organization>
+  	<name>littcore</name>
+  	<url>www.littcore.com</url>
+  </organization>
+  <scm>
+  	<url>scm:git:https://git.oschina.net/littcore/saap</url>
+  	<connection>scm:git:https://git.oschina.net/littcore/saap</connection>
+  	<developerConnection>scm:git:https://git.oschina.net/littcore/saap</developerConnection>
+  	<tag>scm:git:https://git.oschina.net/littcore/saap/tags</tag>
+  </scm>
 </project>

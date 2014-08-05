@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.databene.jdbacl.sql.parser.SQLParser.null_comparison_return;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,7 +35,6 @@ import com.litt.saap.personal.po.Contacts;
 import com.litt.saap.personal.service.IContactsGroupService;
 import com.litt.saap.personal.service.IContactsService;
 import com.litt.saap.system.biz.IUserBizService;
-import com.litt.saap.system.po.TenantMember;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantMemberService;
 
