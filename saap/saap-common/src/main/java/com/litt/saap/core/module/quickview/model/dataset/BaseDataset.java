@@ -31,16 +31,6 @@ public abstract class BaseDataset implements IDataset
 	{
 		this.id = id;
 	}
-	
-	/**
-	 * Instantiates a new base dataset model.
-	 *
-	 * @param datasetNode the dataset node
-	 */
-	public BaseDataset(Element datasetNode)
-	{
-		this.id = datasetNode.attributeValue("id");
-	}
 
 	/**
 	 * @return the id.

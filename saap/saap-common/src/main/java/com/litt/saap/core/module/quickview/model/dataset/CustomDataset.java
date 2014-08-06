@@ -31,12 +31,6 @@ public class CustomDataset extends BaseDataset implements IDataset
 		super(name);
 	}
 	
-	public CustomDataset(Element datasetNode)
-	{
-		super(datasetNode);
-		this.impl = datasetNode.attributeValue("impl");
-	}
-
 	/**
 	 * @return the impl.
 	 */
