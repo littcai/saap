@@ -12,15 +12,7 @@
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<timestamp>${maven.build.timestamp}</timestamp>
   	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-  	<package.environment>product</package.environment>
-  	<com.litt.core.littcore.version>3.2.2</com.litt.core.littcore.version>
-  	<org.slf4j.version>1.5.11</org.slf4j.version>
-	<dom4j.version>1.6.1</dom4j.version>
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
-	<log4j.version>1.2.16</log4j.version>
-	<junit.version>4.8.2</junit.version>
-	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-	<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 	<org.codehaus.castor.version>1.3.3</org.codehaus.castor.version>
   </properties>
   
@@ -51,21 +43,12 @@
   		<type>jar</type>
   	</dependency>
   	<dependency>
-		<groupId>com.litt.core</groupId>
-		<artifactId>littcore-common</artifactId>
-		<version>${com.litt.core.littcore.version}</version>
-		<exclusions>
-			<exclusion>
-				<groupId>org.directwebremoting</groupId>
-				<artifactId>dwr</artifactId>
-			</exclusion>
-		</exclusions>
-  	</dependency>  
-  	<dependency>
-		<groupId>com.litt.core</groupId>
-		<artifactId>littcore-io</artifactId>
-		<version>${com.litt.core.littcore.version}</version>		
-	</dependency>	
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>${dom4j.version}</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>	 
 	<!--
 	<dependency>
   		<groupId>com.litt.core</groupId>
@@ -89,6 +72,20 @@
 			</exclusion>
 		</exclusions>
 	</dependency>
+	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>	
   	<dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
