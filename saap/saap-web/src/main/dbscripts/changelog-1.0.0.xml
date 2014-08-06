@@ -5,6 +5,11 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">     
+	
+	<preConditions>
+		<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt;= '2.0.0'</sqlCheck>
+	</preConditions>
+	
 	<changeSet id="v1.0.5" author="dba">    	
     	<sqlFile path="upgrade/v1.0.5.sql"/>	
     </changeSet> 

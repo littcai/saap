@@ -52,27 +52,7 @@
 	 	<property name="cacheSeconds" value="10" />
 	 	<property name="useCodeAsDefaultMessage" value="true" /> 
 	</bean>	
-	 -->
-	<!-- c3p0 -->
-	<!-- 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="${jdbc.driverClassName}"/>	
-		<property name="jdbcUrl" value="${jdbc.url}"/>
-		<property name="user" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>	
-		
-		<property name="initialPoolSize"><value>${jdbc.pool.c3p0.initial_pool_size}</value></property>
-		<property name="minPoolSize"><value>${jdbc.pool.c3p0.min_pool_size}</value></property>
-        <property name="maxPoolSize"><value>${jdbc.pool.c3p0.max_pool_size}</value></property>
-        <property name="maxIdleTime"><value>${jdbc.pool.c3p0.max_idle_time}</value></property>
-        <property name="acquireIncrement"><value>${jdbc.pool.c3p0.acquire_increment}</value></property>
-        <property name="acquireRetryAttempts"><value>${jdbc.pool.c3p0.acquire_retry_attempts}</value></property>   
-        <property name="maxStatements"><value>${jdbc.pool.c3p0.max_statements}</value></property>
-        <property name="idleConnectionTestPeriod"><value>18000</value></property>        
-        <property name="breakAfterAcquireFailure"><value>false</value></property>
-        <property name="testConnectionOnCheckout"><value>true</value></property>
-	</bean>	
-	 -->
+	 -->	
 	 
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
 	    <property name="slowSqlMillis" value="10000" />
@@ -86,9 +66,9 @@
       <property name="username" value="${jdbc.username}" />
       <property name="password" value="${jdbc.password}" />
       <property name="filters" value="config,slf4j" />
-      <property name="maxActive"><value>${jdbc.pool.c3p0.max_pool_size}</value></property>
-      <property name="initialSize"><value>${jdbc.pool.c3p0.initial_pool_size}</value></property>
-      <property name="minIdle"><value>${jdbc.pool.c3p0.min_pool_size}</value></property>
+      <property name="maxActive"><value>${jdbc.pool.max_pool_size}</value></property>
+      <property name="initialSize"><value>${jdbc.pool.initial_pool_size}</value></property>
+      <property name="minIdle"><value>${jdbc.pool.min_pool_size}</value></property>
       <!-- 
       <property name="connectionProperties" value="config.decrypt=true" />
        -->
