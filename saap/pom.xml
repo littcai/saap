@@ -16,6 +16,32 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 	</properties>
   
+  <repositories>
+  		
+  		<repository>
+            <id>nexus-osc</id>
+            <name>oschina nexus</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>            
+        </repository> 
+        <repository>
+            <id>nexus-osc-thirdparty</id>
+            <name>oschina nexus</name>
+            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>            
+        </repository> 
+        		
+	</repositories>
+	
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://172.16.10.57:8081/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://172.16.10.57:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+  
   <build>
   	<pluginManagement>
 			<plugins>
@@ -101,8 +127,8 @@
 		          <tagNameFormat>v@{project.version}</tagNameFormat>
 		           <tagBase>https://git.oschina.net/littcore/saap/tags/</tagBase> 	
 		           <branchBase>https://git.oschina.net/littcore/saap/branches/</branchBase>	
-		           <username>littcai@gmail.com</username> 		
-		           <password>Cai810802</password> 		
+		           <username>${git.username}</username> 		
+		           <password>${git.password}</password> 		
 		           <releaseProfiles>release</releaseProfiles> 		
 		           <autoVersionSubmodules>true</autoVersionSubmodules>
 		        </configuration> 		

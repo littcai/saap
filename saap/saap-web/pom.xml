@@ -18,7 +18,7 @@
   	<timestamp>${maven.build.timestamp}</timestamp>
   	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
   	<package.environment>dev</package.environment>
-  	<com.litt.core.littcore.version>3.2.2-SNAPSHOT</com.litt.core.littcore.version>
+  	<com.litt.core.littcore.version>3.2.2</com.litt.core.littcore.version>
   	<org.slf4j.version>1.5.11</org.slf4j.version>
 	<dom4j.version>1.6.1</dom4j.version>
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
@@ -554,27 +554,6 @@
 	  <version>1.7.3</version>
 	</dependency>
   </dependencies>
-  
-  <repositories>
-  		
-  		<repository>
-            <id>nexus</id>
-            <name>local private nexus</name>
-            <url>http://maven.oschina.net/content/groups/public/</url>            
-        </repository> 
-        		
-	</repositories>
-	
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<url>http://172.16.10.57:8081/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://172.16.10.57:8081/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
   
   <build>
     <finalName>saap</finalName>

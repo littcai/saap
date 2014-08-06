@@ -10,7 +10,7 @@
 	
 	<appender name="FILE_DEBUG"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/usr/local/saapData/log_debug.log" />
+		<param name="File" value="../logs/log_debug.log" />
 		<param name="Append" value="false" />
 		<param name="MaxFileSize" value="102400KB"/>      
      	<param name="MaxBackupIndex" value="10"/> 
@@ -27,7 +27,7 @@
 	
 	<appender name="FILE_ERROR"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/usr/local/saapData/log_error.log" />
+		<param name="File" value="../logs/log_error.log" />
 		<param name="Append" value="false" />
 		<param name="MaxFileSize" value="102400KB"/>      
      	<param name="MaxBackupIndex" value="10"/> 
@@ -44,7 +44,7 @@
 	
 	<appender name="FILE_log"
 		class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/usr/local/saapData/log_log.log" />
+		<param name="File" value="../logs/log_log.log" />
 		<param name="Append" value="false" />
 		<param name="MaxFileSize" value="102400KB"/>      
      	<param name="MaxBackupIndex" value="10"/> 
