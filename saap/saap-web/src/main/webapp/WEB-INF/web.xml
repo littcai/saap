@@ -126,8 +126,8 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>
-				/WEB-INF/applicationContext-servlet.xml,/WEB-INF/applicationContext-rest.xml
-			</param-value>
+				/WEB-INF/applicationContext-*.xml
+	  </param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>

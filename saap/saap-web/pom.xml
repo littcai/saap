@@ -16,9 +16,7 @@
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<timestamp>${maven.build.timestamp}</timestamp>
-  	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-  	<package.environment>dev</package.environment>
-  	
+  	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>  	
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
 	<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 	<org.hibernate.version>3.6.10.Final</org.hibernate.version>
@@ -487,6 +485,7 @@
 	  <artifactId>jsoup</artifactId>
 	  <version>1.7.3</version>
 	</dependency>
+	
   </dependencies>
   
   <build>
@@ -510,7 +509,7 @@
        <resource>  
           <directory>src/main/dbscripts</directory>  
        </resource>       
-    </resources> 
+    </resources>
     
      <plugins>    	
     	<plugin>
@@ -577,6 +576,7 @@
 				</webResources>
 			</configuration>
     	</plugin>
+    	
     	<plugin>
     		<groupId>org.apache.maven.plugins</groupId>
     		<artifactId>maven-eclipse-plugin</artifactId>
