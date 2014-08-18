@@ -7,6 +7,7 @@ import java.util.TimeZone;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,21 @@ import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.common.SaapConstants.IsolatedMode;
+import com.litt.saap.core.common.SaapConstants.TenantOrderType;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
+import com.litt.saap.system.bo.TenantActiveBo;
 import com.litt.saap.system.bo.TenantQuitBo;
 import com.litt.saap.system.po.Role;
+import com.litt.saap.system.po.TenantOrder;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserState;
 import com.litt.saap.system.service.IRoleService;
+import com.litt.saap.system.service.ITenantOrderService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.TenantVo;
@@ -56,19 +62,16 @@ public class UserController {
 	
 	@Resource
 	private IUserInfoService userInfoService;
-	
 	@Resource
 	private IUserBizService userBizService;
-	
 	@Resource
 	private ITenantService tenantService;
-	
 	@Resource
 	private ITenantBizService tenantBizService;
-	
+	@Resource
+	private ITenantOrderService tenantOrderService;
 	@Resource
 	private IRoleService roleService;
-	
 	@Resource
 	private MessageSource messageSource;
 	
@@ -234,15 +237,46 @@ public class UserController {
           .addObject("tenantDefList", tenantDefList);   
   }
 	
-	@RequestMapping(value="order.do")
-  public ModelAndView order(@RequestParam String tenantTypeCode
-      , @RequestParam String tenantCode, @RequestParam String tenantAlias, @RequestParam int count) throws Exception
+  @RequestMapping(value="order.do")
+  public ModelAndView order(@RequestParam String tenantTypeCode) throws Exception
   {           
     TenantDefConfig tenantDef = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenantTypeCode);
-    //检查tenantCode是否重复
     
     return new ModelAndView("/common/order")
           .addObject("tenantDef", tenantDef);   
+  }
+  
+  @RequestMapping(value="saveOrder.json")
+  public ModelAndView saveOrder(@RequestParam String tenantTypeCode
+      , @RequestParam String tenantCode, @RequestParam String tenantAlias, @RequestParam int quantity
+      , HttpServletRequest request) throws Exception
+  {          
+	  LoginUserVo loginUser = (LoginUserVo)LoginUtils.getLoginVo();	
+	  int userId = LoginUtils.getLoginOpId().intValue();
+	  
+	TenantDefConfig tenantDef = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenantTypeCode);
+    //TODO 隔离级别暂时为共享，后续可在页面增加选项，同时价格上需要区分
+    Integer orderId = tenantOrderService.save(TenantOrderType.NEW, tenantCode, tenantAlias, tenantTypeCode, IsolatedMode.NO_ISOLATION, tenantDef.getPrice(), quantity, userId);
+    TenantOrder tenantOrder = tenantOrderService.load(orderId);
+    
+    String orderNo = tenantOrder.getOrderNo();
+    //FIXME 模拟付费
+    tenantOrderService.doPaid(orderNo, "alipay");
+    
+    //FIXME 激活租户
+	TenantActiveBo tenantActiveBo = tenantBizService.doActivate(orderNo, userId, loginUser.toLocale());		
+	if(loginUser.getTenant()==null)	//如果当前用户尚未加入某个租户空间，则以开通的为准
+	{
+		//如果当前登录用户是开通租户的用户，则立即更新登录用户的租户权限，不必再重新登录
+		if(loginUser.getOpId().intValue()==userId)
+		{
+			loginUser.setTenant(tenantActiveBo.getTenant());
+			loginUser.addRoleId(tenantActiveBo.getRoleId());
+			loginUser.addPermissions(tenantActiveBo.getPermissionCodes());
+		}
+		LoginUtils.setLoginSession(request.getSession(), loginUser);
+	}
+    return new ModelAndView("jsonView");   
   }
 	
 	/**

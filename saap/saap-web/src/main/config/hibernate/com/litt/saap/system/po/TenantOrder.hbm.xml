@@ -78,5 +78,10 @@
                 <comment>付款时间</comment>
             </column>
         </property>
+        <property name="activateDatetime" type="timestamp">
+            <column name="ACTIVATE_DATETIME" length="19">
+                <comment>生效时间</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

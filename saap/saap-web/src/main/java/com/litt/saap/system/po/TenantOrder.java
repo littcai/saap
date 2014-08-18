@@ -91,6 +91,11 @@ public class TenantOrder implements Serializable {
 	 * 付款时间.
 	 */
 	private Date payDatetime;
+	
+	/**
+	 * 生效时间.
+	 */
+	private Date activateDatetime;
 
 	public TenantOrder() {
 	}
@@ -372,6 +377,20 @@ public class TenantOrder implements Serializable {
 	 */
 	public void setPayDatetime(Date payDatetime) {
 		this.payDatetime = payDatetime;
+	}
+
+	/**
+	 * @return the activateDatetime
+	 */
+	public Date getActivateDatetime() {
+		return activateDatetime;
+	}
+
+	/**
+	 * @param activateDatetime the activateDatetime to set
+	 */
+	public void setActivateDatetime(Date activateDatetime) {
+		this.activateDatetime = activateDatetime;
 	}
 
 }

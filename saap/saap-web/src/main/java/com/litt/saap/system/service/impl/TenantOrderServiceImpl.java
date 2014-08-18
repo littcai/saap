@@ -13,6 +13,7 @@ import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.BusiCodeException;
 import com.litt.core.format.FormatDateTime;
 import com.litt.saap.core.common.SaapConstants.TenantOrderStatus;
+import com.litt.saap.core.common.SaapConstants.TenantOrderType;
 import com.litt.saap.system.dao.TenantOrderDao;
 import com.litt.saap.system.po.TenantOrder;
 import com.litt.saap.system.service.ITenantOrderService;
@@ -67,12 +68,9 @@ public class TenantOrderServiceImpl implements ITenantOrderService
 		tenantOrder.setCreateBy(createBy);
 		tenantOrder.setCreateDatetime(curDate);
 		
-		//TODO模拟付费
-		tenantOrder.setStatus(TenantOrderStatus.TOBE_ACTIVATE);
-		tenantOrder.setPayChannel("alipay");
-		tenantOrder.setPayDatetime(new Date());
+		Integer id = tenantOrderDao.save(tenantOrder);
 		
-		return tenantOrderDao.save(tenantOrder);
+		return id;
 	}
 	
    	/**
@@ -128,6 +126,7 @@ public class TenantOrderServiceImpl implements ITenantOrderService
 		if(tenantOrder==null)
 			throw new BusiCodeException("tenantOrder.error.notExist");
 		
+		tenantOrder.setStatus(TenantOrderStatus.TOBE_ACTIVATE);
 		tenantOrder.setPayChannel(payChannel);
 		tenantOrder.setPayDatetime(new Date());
 		this.update(tenantOrder);
@@ -154,6 +153,7 @@ public class TenantOrderServiceImpl implements ITenantOrderService
 			throw new BusiCodeException("tenantOrder.func.activate.error.invalid");
 		
 		tenantOrder.setStatus(TenantOrderStatus.ACTIVATED);
+		tenantOrder.setActivateDatetime(new Date());
 		this.update(tenantOrder);
 	}
 	
