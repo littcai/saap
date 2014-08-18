@@ -25,12 +25,12 @@
             </column>
         </property>
         <property name="moduleCode" type="string">
-            <column name="MODULE_CODE" length="10" not-null="true">
+            <column name="MODULE_CODE" length="50" not-null="true">
                 <comment>模块编号</comment>
             </column>
         </property>
         <property name="funcCode" type="string">
-            <column name="FUNC_CODE" length="2" not-null="true">
+            <column name="FUNC_CODE" length="50" not-null="true">
                 <comment>功能编号</comment>
             </column>
         </property>

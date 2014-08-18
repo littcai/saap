@@ -10,6 +10,7 @@ import com.litt.core.exception.BusiCodeException;
 import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
+import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.dao.RoleDao;
 import com.litt.saap.system.dao.TenantDao;
 import com.litt.saap.system.dao.TenantMemberDao;
@@ -50,6 +51,14 @@ public class TenantServiceImpl implements ITenantService {
 	@Resource
 	private RoleDao roleDao;
 	
+	public void save(Tenant tenant)
+	{
+	  //有效性检查
+	  this.validate(0, tenant.getTenantCode(), tenant.getTenantAlias());
+	  
+	  tenantDao.save(tenant);
+	}
+	
 	/**
 	 * Update.
 	 *
@@ -57,6 +66,9 @@ public class TenantServiceImpl implements ITenantService {
 	 */
 	public void update(Tenant tenant)
 	{
+	  //有效性检查
+    this.validate(tenant.getId(), tenant.getTenantCode(), tenant.getTenantAlias());
+	  
 		tenant.setUpdateDatetime(new Date());
 		tenantDao.update(tenant);
 	}
@@ -73,6 +85,29 @@ public class TenantServiceImpl implements ITenantService {
 		tenant.setTenantAlias(tenantAlias);
 		this.update(tenant);
 	}
+	
+	/**
+   * 数据有效性检查.
+   *
+   * @param id the id
+   * @param name the name
+   */
+  public void validate(Integer id, String tenantCode, String tenantAlias)
+  {       
+    String countHql = "select count(*) from Tenant where tenantCode=? and (id>? or id<?)";
+    boolean invalid = tenantDao.count(countHql, new Object[]{tenantCode, id, id})>0;    
+    if(invalid)
+    {
+      throw new BusiCodeException("tenant.error.codeDuplicated");
+    }
+    
+    countHql = "select count(*) from Tenant where tenantAlias=? and (id>? or id<?)";
+    invalid = tenantDao.count(countHql, new Object[]{tenantAlias, id, id})>0;    
+    if(invalid)
+    {
+      throw new BusiCodeException("tenant.error.aliasDuplicated");
+    }
+  }
 	
 	
 	/* (non-Javadoc)

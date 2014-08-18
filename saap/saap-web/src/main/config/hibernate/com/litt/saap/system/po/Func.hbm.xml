@@ -16,7 +16,7 @@
             </column>
         </property>
         <property name="funcCode" type="java.lang.String">
-            <column name="FUNC_CODE" length="2" not-null="true">
+            <column name="FUNC_CODE" length="50" not-null="true">
                 <comment>功能点编号</comment>
             </column>
         </property>

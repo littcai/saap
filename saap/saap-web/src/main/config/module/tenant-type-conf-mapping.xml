@@ -4,23 +4,35 @@
 <mapping>
   <class name="com.litt.saap.core.module.tenant.config.TenantTypeConfig">
   	<map-to xml="tenant-type-config" />
-    <field name="tenantDefMap" type="com.litt.saap.core.module.tenant.config.TenantDefConfig" collection="map">
+  	<field name="tenantDefList" type="com.litt.saap.core.module.tenant.config.TenantDefConfig" collection="array">
     	<bind-xml name="tenant"></bind-xml>
-    </field> 
+    </field>    
   </class>
   
-  <class name="com.litt.saap.core.module.tenant.config.TenantDefConfig" identity="Code">
+  <class name="com.litt.saap.core.module.tenant.config.TenantDefConfig" identity="code">
   	<map-to xml="tenant" />
-  	<field name="Code" type="java.lang.String" required="true">
+  	<field name="code" type="java.lang.String" required="true">
     	<bind-xml name="code" node="attribute" />
     </field>
-    <field name="MaxMembers" type="int" required="true">
-    	<bind-xml name="maxMembers" node="element" />
+    <field name="price" type="java.math.BigDecimal" required="true">
+    	<bind-xml name="price" node="element" />
     </field>
-    <field name="Permissions" collection="array" type="string">
+    <field name="maxMembers" type="int" required="true">
+    	<bind-xml name="maxMembers" node="element" />
+    </field>    
+    <field name="maxStorage" type="int" required="true">
+    	<bind-xml name="maxStorage" node="element" />
+    </field>
+    <field name="modules" type="int" required="true">
+    	<bind-xml name="modules" node="element" />
+    </field>    
+    <field name="support" type="string" required="true">
+    	<bind-xml name="support" node="element" />
+    </field>
+    <field name="permissions" collection="array" type="string">
     	<bind-xml name="code" node="element" location="permissions" />
     </field>
-    <field name="Roles" collection="array" type="com.litt.saap.core.module.tenant.config.TenantRoleConfig">
+    <field name="roles" collection="array" type="com.litt.saap.core.module.tenant.config.TenantRoleConfig">
     	<bind-xml name="role" node="element"/>
     </field>
   </class>

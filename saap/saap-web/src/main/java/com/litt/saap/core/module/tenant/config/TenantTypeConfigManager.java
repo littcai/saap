@@ -50,6 +50,7 @@ public class TenantTypeConfigManager {
 	public static void main(String[] args) throws Exception {
 		TenantTypeConfig config = TenantTypeConfigManager.getInstance().getConfig();
 		System.out.println(config.getTenantDef("basic"));
+		System.out.println(config.getTenantDefList().length);
 	}
 	
 	private static class SingletonClassInstance { 

@@ -133,7 +133,7 @@
 		  			<c:forEach items="${tenantList }" var="row">
 					<tr>
 						<td><c:out value="${row.tenantCode }"/></td>
-						<td><c:out value="${row.tenantAlias }"></c:out>&nbsp;[<a href="javascript:;" class="blue" onclick="switchTenant(${row.id});"><s:message code="tenant.action.switch" /></a>]</td>
+						<td><c:out value="${row.tenantAlias }"></c:out>&nbsp;[<a href="javascript:;" class="blue" onclick="switchTenant(${row.id});"><s:message code="tenant.func.switch" /></a>]</td>
 						<td style="text-align: center"><s:message code="tenant.status.${row.status }"/></td>
 						<td style="text-align: right"><c:out value="${row.maxMembers }"></c:out></td>
 						<td style="text-align: center"><c:out value="${li:formatDate(row.expiredDate) }"></c:out></td>

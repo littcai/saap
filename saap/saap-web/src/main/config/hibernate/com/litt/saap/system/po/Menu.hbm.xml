@@ -11,7 +11,7 @@
             <generator class="assigned" />
         </id>
         <property name="menuCode" type="java.lang.String">
-            <column name="MENU_CODE" length="8" not-null="true">
+            <column name="MENU_CODE" length="50" not-null="true">
                 <comment>菜单编号</comment>
             </column>
         </property>

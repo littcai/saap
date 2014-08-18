@@ -75,9 +75,11 @@ public class InitSystemListener extends
 //			logger.error("Can't read license file.", e);
 //		}
 		
+		String contextPath = application.getContextPath();
 		//读取系统配置信息，存入APPLICATION
 		ISystemInfoService systemInfoService = BeanManager.getBean("systemInfoService", ISystemInfoService.class);
 		SystemInfoVo systemInfoVo = systemInfoService.getSystemInfo();	
+		systemInfoVo.setBaseUrl(config.getString("baseUrl")+contextPath);
 		systemInfoVo.setHomePath(homePath);
 		application.setAttribute(CoreConstants.APP_SYSTEMINFO, systemInfoVo);	//缓存到servlet容器供页面使用
 	}

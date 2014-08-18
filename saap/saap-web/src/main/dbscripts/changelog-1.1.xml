@@ -5,18 +5,12 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">     
-
-	
-    <include file="changelog-1.0.0.xml"/>
-    
-    <include file="changelog-1.1.xml"/>  
-    
-    <include file="changelog-1.2.xml"/>     
-    
-    <!-- If version changed, update system_info -->
-    <changeSet id="000_UPDATE_SYSTEM_VERSION" author="superadmin" runOnChange="true">
-  		<sql>UPDATE SYSTEM_INFO SET SYSTEM_VERSION='${system.version}', LAST_UPDATE_DATETIME=now()</sql> 
-  	</changeSet>
-    
+				
+	<changeSet id="v1.1.0" author="dba">    
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.2.0'</sqlCheck>
+		</preConditions>	
+    	<sqlFile path="upgrade/v1.1.0.sql"/>	
+    </changeSet> 
     
 </databaseChangeLog>

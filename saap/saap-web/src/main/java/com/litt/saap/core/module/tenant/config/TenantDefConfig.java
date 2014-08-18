@@ -1,5 +1,6 @@
 package com.litt.saap.core.module.tenant.config;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.litt.core.util.ArrayUtils;
@@ -22,10 +23,22 @@ import com.litt.core.util.ArrayUtils;
 public class TenantDefConfig {
 	
 	/** 编号（唯一）. */
-	private String code;
+	private String code;	
+	
+	/** 价格. */
+	private BigDecimal price;
 	
 	/** 最大成员数. */
 	private int maxMembers;
+	
+	/** 最大存储容量. */
+	private int maxStorage;
+	
+	/** 模块数. */
+	private int modules;
+	
+	/** 支持. */
+	private String support;
 	
 	/** 拥有功能模块权限. */
 	private String[] permissions;
@@ -122,6 +135,78 @@ public class TenantDefConfig {
 	public void setRoles(TenantRoleConfig[] roles) {
 		this.roles = roles;
 	}
+
+  
+  /**
+   * @return the price
+   */
+  public BigDecimal getPrice()
+  {
+    return price;
+  }
+
+  
+  /**
+   * @param price the price to set
+   */
+  public void setPrice(BigDecimal price)
+  {
+    this.price = price;
+  }
+
+  
+  /**
+   * @return the maxStorage
+   */
+  public int getMaxStorage()
+  {
+    return maxStorage;
+  }
+
+  
+  /**
+   * @param maxStorage the maxStorage to set
+   */
+  public void setMaxStorage(int maxStorage)
+  {
+    this.maxStorage = maxStorage;
+  }
+
+  
+  /**
+   * @return the support
+   */
+  public String getSupport()
+  {
+    return support;
+  }
+
+  
+  /**
+   * @param support the support to set
+   */
+  public void setSupport(String support)
+  {
+    this.support = support;
+  }
+
+  
+  /**
+   * @return the modules
+   */
+  public int getModules()
+  {
+    return modules;
+  }
+
+  
+  /**
+   * @param modules the modules to set
+   */
+  public void setModules(int modules)
+  {
+    this.modules = modules;
+  }
 
 	
 

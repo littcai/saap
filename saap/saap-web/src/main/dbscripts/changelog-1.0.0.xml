@@ -5,32 +5,46 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">     
-	
-	<preConditions>
-		<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt;= '2.0.0'</sqlCheck>
-	</preConditions>
-	
-	<changeSet id="v1.0.5" author="dba">    	
+		
+	<changeSet id="v1.0.5" author="dba">    
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>	
     	<sqlFile path="upgrade/v1.0.5.sql"/>	
     </changeSet> 
 
-	<changeSet id="v1.0.4" author="dba">    	
+	<changeSet id="v1.0.4" author="dba">    
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>		
     	<sqlFile path="upgrade/v1.0.4.sql"/>	
     </changeSet> 
 
-	<changeSet id="v1.0.3" author="dba">    	
+	<changeSet id="v1.0.3" author="dba">  
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>	  	
     	<sqlFile path="upgrade/v1.0.3.sql"/>	
     </changeSet> 
     
-    <changeSet id="v1.0.2" author="dba">    	
+    <changeSet id="v1.0.2" author="dba"> 
+    	<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>	   	
     	<sqlFile path="upgrade/v1.0.2.sql"/>	
     </changeSet> 
     
-    <changeSet id="v1.0.1" author="dba">    	
+    <changeSet id="v1.0.1" author="dba">    
+    	<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>		
     	<sql>RENAME TABLE ATTACHEMENT TO ATTACHMENT</sql>
     </changeSet>   
 	
-    <changeSet id="v1.0.0" author="dba">    	
+    <changeSet id="v1.0.0" author="dba">    
+    	<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.1.0'</sqlCheck>
+		</preConditions>		
     	<sqlFile path="upgrade/v1.0.0.sql"/>	
     </changeSet>     
     

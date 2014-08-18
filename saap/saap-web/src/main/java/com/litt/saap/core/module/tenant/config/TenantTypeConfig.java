@@ -1,6 +1,8 @@
 package com.litt.saap.core.module.tenant.config;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,8 @@ import java.util.Map;
 public class TenantTypeConfig {
 	
 	private Map<String, TenantDefConfig> tenantDefMap = new HashMap<String, TenantDefConfig>();
+	
+	private TenantDefConfig[] tenantDefList;
 
 	/**
 	 * 获得租户定义.
@@ -46,6 +50,28 @@ public class TenantTypeConfig {
 	public void setTenantDefMap(Map<String, TenantDefConfig> tenantDefMap) {
 		this.tenantDefMap = tenantDefMap;
 	}
+
+  
+  /**
+   * @return the tenantDefList
+   */
+  public TenantDefConfig[] getTenantDefList()
+  {
+    return tenantDefList;
+  }
+
+  
+  /**
+   * @param tenantDefList the tenantDefList to set
+   */
+  public void setTenantDefList(TenantDefConfig[] tenantDefList)
+  {
+    this.tenantDefList = tenantDefList;
+    for (TenantDefConfig tenantDefConfig : tenantDefList)
+    {
+      tenantDefMap.put(tenantDefConfig.getCode(), tenantDefConfig);
+    }
+  }
 	
 	
 	

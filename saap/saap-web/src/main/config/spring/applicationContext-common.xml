@@ -96,8 +96,10 @@
 	<!-- MySQL、DB2、MS SQL Server、Oracle 10g use this conf -->
 	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
 
+
+	<!-- org.springframework.orm.hibernate3.LocalSessionFactoryBean -->
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="hibernateProperties">
 			<props>
 				 <prop key="hibernate.dialect">
@@ -131,7 +133,8 @@
 		</property>	
 		<property name="dataSource">
 			<ref local="dataSource" />
-		</property>			
+		</property>		
+		<property name="packagesToScan" value="com.littcore.**.hibernate" />  	
 		<property name="mappingLocations">
 			<list>
 				<value>classpath:hibernate/**/*.hbm.xml</value>
@@ -146,12 +149,11 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-
+	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
 
 	<bean id="transactionInterceptor"
 		class="org.springframework.transaction.interceptor.TransactionInterceptor">

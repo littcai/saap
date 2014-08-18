@@ -33,10 +33,8 @@ public class SystemInfoServiceImpl implements ISystemInfoService {
 	 */
 	public SystemInfoVo getSystemInfo()
 	{
-		SystemInfoVo vo = new SystemInfoVo();
-		vo.setSystemName("SaaS平台");
-		vo.setBaseUrl("http://localhost:98/saap");
-		
+		SystemInfoVo vo = new SystemInfoVo();		
+		//这里应读取数据最新信息
 		return vo;
 	}
 

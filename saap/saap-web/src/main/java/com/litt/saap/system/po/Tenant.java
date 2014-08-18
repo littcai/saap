@@ -55,7 +55,7 @@ public class Tenant implements Serializable {
 	/**
 	 * 创建用户ID.
 	 */
-	private int createUserId;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -97,7 +97,7 @@ public class Tenant implements Serializable {
 		this.bagCode = bagCode;
 		this.isolatedMode = isolatedMode;
 		this.status = status;
-		this.createUserId = createUserId;
+		this.createBy = createUserId;
 		this.createDatetime = createDatetime;
 		this.updateDatetime = updateDatetime;
 		this.maxMembers = maxMembers;
@@ -221,16 +221,16 @@ public class Tenant implements Serializable {
 	 * 取得 创建用户ID.
 	 * @return 创建用户ID
 	 */
-	public int getCreateUserId() {
-		return this.createUserId;
+	public int getCreateBy() {
+		return this.createBy;
 	}
 
 	/**
 	 * 设置 创建用户ID.
-	 * @param createUserId 创建用户ID
+	 * @param createBy 创建用户ID
 	 */
-	public void setCreateUserId(int createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateBy(int createBy) {
+		this.createBy = createBy;
 	}
 
 	/**  

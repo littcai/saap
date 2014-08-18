@@ -34,8 +34,8 @@
                 <comment>状态 -3：到期 -2：禁用 -1：删除 0：尚未激活 1：启用</comment>
             </column>
         </property>
-        <property name="createUserId" type="int">
-            <column name="CREATE_USER_ID" not-null="true">
+        <property name="createBy" type="int">
+            <column name="CREATE_BY" not-null="true">
                 <comment>创建用户ID</comment>
             </column>
         </property>

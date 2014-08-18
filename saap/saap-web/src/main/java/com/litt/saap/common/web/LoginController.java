@@ -438,7 +438,7 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
-		String message = messageSource.getMessage("tenant.action.activate.success", new Object[]{tenantActiveBo.getTenant().getTenantAlias()}, locale);
+		String message = messageSource.getMessage("tenant.func.activate.success", new Object[]{tenantActiveBo.getTenant().getTenantAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("/common/message").addObject("message", message).addObject("redirectUrl", redirectUrl);

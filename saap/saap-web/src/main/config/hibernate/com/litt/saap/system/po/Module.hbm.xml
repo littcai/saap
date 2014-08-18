@@ -11,7 +11,7 @@
             <generator class="assigned" />
         </id>
         <property name="moduleCode" type="java.lang.String">
-            <column name="MODULE_CODE" length="8" not-null="true">
+            <column name="MODULE_CODE" length="50" not-null="true">
                 <comment>模块编号</comment>
             </column>
         </property>

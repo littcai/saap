@@ -199,13 +199,13 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		tenant.setTenantAlias(tenantOrder.getTenantAlias());	
 		tenant.setBagCode(bagCode);
 		tenant.setStatus(TenantStatus.NORMAL);	//直接激活		
-		tenant.setId(tenant.getCreateUserId());
+		tenant.setId(tenant.getCreateBy());
 		tenant.setMaxMembers(tenantDefConfig.getMaxMembers());	
 		tenant.setIsolatedMode(tenantOrder.getIsolatedMode());
 		tenant.setTrialDays(30);	//默认试用30天
 		Date expiredDate = DateUtils.getBeAfMonth(tenantOrder.getQuantity());	//单位一个月，数量为时长
 		tenant.setExpiredDate(expiredDate);		
-		tenant.setCreateUserId(userId);
+		tenant.setCreateBy(userId);
 		tenant.setCreateDatetime(new Date());
 		tenant.setUpdateDatetime(tenant.getCreateDatetime());
 		
@@ -354,9 +354,9 @@ public class TenantBizServiceImpl implements ITenantBizService {
 	public TenantQuitBo doDeactivate(Integer userId, Integer tenantId)
 	{		
 		Tenant tenant = tenantDao.load(tenantId);
-		if(tenant==null || tenant.getCreateUserId()!=userId)	
+		if(tenant==null || tenant.getCreateBy()!=userId)	
 		{
-			throw new BusiCodeException("tenant.action.deactivate.error.notCreator");
+			throw new BusiCodeException("tenant.func.deactivate.error.notCreator");
 		}
 		//退出用户是租户创建人，则允许是解散租户
 		TenantVo tenantVo = BeanCopier.copy(tenant, TenantVo.class);

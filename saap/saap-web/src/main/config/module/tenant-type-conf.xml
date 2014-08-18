@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tenant-type-config>
 	<tenant code="basic" descr="基础租户，仅包含基本功能">
+		<price>299</price>
 		<maxMembers>5</maxMembers>
+		<maxStorage>10</maxStorage>
+		<modules>5</modules>
+		<support>8x7</support>
 		<!-- 对应功能权限 -->
 		<permissions>
 			<!-- crm -->
@@ -264,7 +268,11 @@
 		</role>
 	</tenant>
 	<tenant code="standard" descr="标准用户，包含常规功能">
+		<price>599</price>
 		<maxMembers>10</maxMembers>
+		<maxStorage>100</maxStorage>
+		<modules>10</modules>
+		<support>24x7</support>
 		<permissions>
 		
 		</permissions>
@@ -367,7 +375,11 @@
 		</role>
 	</tenant>
 	<tenant code="business" descr="商业用户，包含所有功能，但有数据容量和成员数限制">
+		<price>2099</price>
 		<maxMembers>100</maxMembers>
+		<maxStorage>500</maxStorage>
+		<modules>15</modules>
+		<support>24x7</support>
 		<permissions>
 		</permissions>
 		<role code="admin">
@@ -469,7 +481,11 @@
 		</role>
 	</tenant>
 	<tenant code="ultimate" descr="终极用户，包含所有功能，且数据容量和成员数无限制">
-		<maxMembers>-1</maxMembers>	
+		<price>9999</price>
+		<maxMembers>-1</maxMembers>
+		<maxStorage>-1</maxStorage>
+		<modules>-1</modules>
+		<support>24x7</support>
 		<permissions>
 		</permissions>
 		<role code="admin">

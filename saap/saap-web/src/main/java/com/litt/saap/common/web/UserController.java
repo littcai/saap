@@ -21,6 +21,8 @@ import com.litt.core.shield.vo.ILoginVo;
 import com.litt.core.util.ValidateUtils;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.module.tenant.config.TenantDefConfig;
+import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.ITenantBizService;
 import com.litt.saap.system.biz.IUserBizService;
@@ -183,7 +185,7 @@ public class UserController {
 		//HttpSession session = request.getSession();
 		//LoginUtils.setLoginSession(session, loginUser);
 		//跳转到消息页面，显示激活成功的信息
-		String message = messageSource.getMessage("tenant.action.quit.success", new Object[]{tenantQuitBo.getTenant().getTenantAlias()}, locale);
+		String message = messageSource.getMessage("tenant.func.quit.success", new Object[]{tenantQuitBo.getTenant().getTenantAlias()}, locale);
 		String redirectUrl = "index";	//跳转到首页
 		
 		return new ModelAndView("jsonView").addObject("message", message).addObject("redirectUrl", redirectUrl);
@@ -216,6 +218,32 @@ public class UserController {
 					.addObject("currentTenant", currentTenant)
 					.addObject("tenantList", tenantList);		
 	}
+	
+	/**
+	 * 工作空间价格表.
+	 *
+	 * @return the model and view
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value="priceTable.do")
+  public ModelAndView priceTable() throws Exception
+  {           
+    TenantDefConfig[] tenantDefList = TenantTypeConfigManager.getInstance().getConfig().getTenantDefList();    
+    
+    return new ModelAndView("/common/priceTable")
+          .addObject("tenantDefList", tenantDefList);   
+  }
+	
+	@RequestMapping(value="order.do")
+  public ModelAndView order(@RequestParam String tenantTypeCode
+      , @RequestParam String tenantCode, @RequestParam String tenantAlias, @RequestParam int count) throws Exception
+  {           
+    TenantDefConfig tenantDef = TenantTypeConfigManager.getInstance().getTenantDefConfig(tenantTypeCode);
+    //检查tenantCode是否重复
+    
+    return new ModelAndView("/common/order")
+          .addObject("tenantDef", tenantDef);   
+  }
 	
 	/**
 	 * 更新登录用户信息.
