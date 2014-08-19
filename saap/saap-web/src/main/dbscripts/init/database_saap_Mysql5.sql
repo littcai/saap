@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/8/18 17:33:17                           */
+/* Created on:     2014/8/19 14:54:02                           */
 /*==============================================================*/
 
 
@@ -1210,6 +1210,7 @@ CREATE TABLE TENANT
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
    MAX_MEMBERS          INT NOT NULL DEFAULT 1 COMMENT '最大成员数',
+   MAX_STORAGE          INT NOT NULL DEFAULT 1 COMMENT '最大存储容量',
    TRIAL_DAYS           INT(3) NOT NULL DEFAULT 30 COMMENT '试用期限',
    EXPIRED_DATE         DATE NOT NULL COMMENT '到期日',
    PRICE                INT NOT NULL DEFAULT 0 COMMENT '购买价格',

@@ -54,7 +54,7 @@ public class TenantVo implements Serializable {
 	/**
 	 * 创建用户ID.
 	 */
-	private int createUserId;
+	private int createBy;
 
 	/**
 	 * 创建时间.
@@ -71,14 +71,19 @@ public class TenantVo implements Serializable {
 	 */
 	private int maxMembers;	
 	
+	/**
+   * 最大存储容量.
+   */
+  private int maxStorage;
+	
 	/** 租赁到期日. */
 	private Date expiredDate;
 	
 	/**
-	 * 购买价格.
-	 */
-	private int price;
-	
+   * 试用期限.
+   */
+  private int trialDays;
+		
 	/** The logo url. */
 	private String logoUrl;
 
@@ -223,15 +228,15 @@ public class TenantVo implements Serializable {
 	/**
 	 * @return the createUserId
 	 */
-	public int getCreateUserId() {
-		return createUserId;
+	public int getCreateBy() {
+		return createBy;
 	}
 
 	/**
 	 * @param createUserId the createUserId to set
 	 */
-	public void setCreateUserId(int createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateBy(int createUserId) {
+		this.createBy = createUserId;
 	}
 
 	/**
@@ -277,20 +282,6 @@ public class TenantVo implements Serializable {
 	}
 
 	/**
-	 * @return the price
-	 */
-	public int getPrice() {
-		return price;
-	}
-
-	/**
-	 * @param price the price to set
-	 */
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	/**
 	 * @return the logoUrl
 	 */
 	public String getLogoUrl() {
@@ -303,5 +294,41 @@ public class TenantVo implements Serializable {
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
+
+  
+  /**
+   * @return the maxStorage
+   */
+  public int getMaxStorage()
+  {
+    return maxStorage;
+  }
+
+  
+  /**
+   * @param maxStorage the maxStorage to set
+   */
+  public void setMaxStorage(int maxStorage)
+  {
+    this.maxStorage = maxStorage;
+  }
+
+  
+  /**
+   * @return the trialDays
+   */
+  public int getTrialDays()
+  {
+    return trialDays;
+  }
+
+  
+  /**
+   * @param trialDays the trialDays to set
+   */
+  public void setTrialDays(int trialDays)
+  {
+    this.trialDays = trialDays;
+  }
 	
 }

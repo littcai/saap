@@ -71,6 +71,11 @@ public class Tenant implements Serializable {
 	 * 最大成员数.
 	 */
 	private int maxMembers;
+	
+	/**
+   * 最大存储容量.
+   */
+  private int maxStorage;
 
 	/**
 	 * 试用期限.
@@ -340,5 +345,23 @@ public class Tenant implements Serializable {
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
+
+  
+  /**
+   * @return the maxStorage
+   */
+  public int getMaxStorage()
+  {
+    return maxStorage;
+  }
+
+  
+  /**
+   * @param maxStorage the maxStorage to set
+   */
+  public void setMaxStorage(int maxStorage)
+  {
+    this.maxStorage = maxStorage;
+  }
 
 }

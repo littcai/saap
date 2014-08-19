@@ -54,6 +54,11 @@
                 <comment>最大成员数</comment>
             </column>
         </property>
+        <property name="maxStorage" type="int">
+            <column name="MAX_STORAGE" not-null="true">
+                <comment>最大存储容量</comment>
+            </column>
+        </property>
         <property name="trialDays" type="int">
             <column name="TRIAL_DAYS" not-null="true">
                 <comment>试用期限</comment>

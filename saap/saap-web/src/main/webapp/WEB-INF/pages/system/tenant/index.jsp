@@ -44,9 +44,9 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.createUserId' /></label>
+						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.createBy' /></label>
 						<div class="controls">							
-							<input type="text" name="createUserId" value='<c:out value="${li:getUser(tenant.createUserId).userName }"/>' readonly="readonly" />
+							<input type="text" name="createUserId" value='<c:out value="${li:getUser(tenant.createBy).userName }"/>' readonly="readonly" />
 						</div>
 					</div>
 					<div class="control-group">
@@ -59,8 +59,16 @@
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.maxMembers' /></label>
 						<div class="controls">				
 							<input type="text" name="maxMembers" value='<c:out value="${tenant.maxMembers }"/>' readonly="readonly" />
+                            &nbsp;<button type="button" class="btn btn-primary"><s:message code="tenant.func.upgrade" /></button>
 						</div>
 					</div>
+                    <div class="control-group">
+                      <label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.maxStorage' /></label>
+                      <div class="controls">        
+                        <input type="text" name="maxStorage" value='<c:out value="${tenant.maxStorage }"/> (GB)' readonly="readonly" />
+                        &nbsp;<button type="button" class="btn btn-primary"><s:message code="tenant.func.upgrade" /></button>
+                      </div>
+                    </div>
 					<div class="control-group">
 						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.trialDays' /></label>
 						<div class="controls">							
@@ -73,13 +81,7 @@
 							<input type="text" name="expiredDate" value='<c:out value="${li:formatDate(tenant.expiredDate) }"/>' readonly="readonly" />
 							&nbsp;<button type="button" class="btn btn-primary"><s:message code="tenant.func.recharge" /></button>
 						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label visible-ie8 visible-ie9"><s:message code='tenant.price' /></label>
-						<div class="controls">							
-							<input type="text" name="price" value='<c:out value="${price }"/>' readonly="readonly" />
-						</div>
-					</div>
+					</div>					
 		  		</fieldset>		  		
 		  	</form>
 		  </div>	
