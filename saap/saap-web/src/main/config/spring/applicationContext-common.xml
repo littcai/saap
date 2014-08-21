@@ -134,7 +134,7 @@
 		<property name="dataSource">
 			<ref local="dataSource" />
 		</property>		
-		<property name="packagesToScan" value="com.littcore.**.hibernate" />  	
+		<property name="packagesToScan" value="com.littcore.**.po" />  	
 		<property name="mappingLocations">
 			<list>
 				<value>classpath:hibernate/**/*.hbm.xml</value>

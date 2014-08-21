@@ -51,7 +51,7 @@ public class ContactsGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04",moduleCode="0305", enableLog=false)
+	@Func(funcCode="query",moduleCode="personal.contacts", enableLog=false)
 	@RequestMapping 
 	public ModelAndView index(Locale locale, WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -74,7 +74,7 @@ public class ContactsGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="0305", enableLog=false)  
+	@Func(funcCode="add", moduleCode="personal.contacts", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -88,7 +88,7 @@ public class ContactsGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="0305", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="personal.contacts", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -103,7 +103,7 @@ public class ContactsGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="0305", enableLog=false)  
+	@Func(funcCode="query", moduleCode="personal.contacts", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -117,7 +117,7 @@ public class ContactsGroupController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="0305")
+	@Func(funcCode="add",moduleCode="personal.contacts")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -132,7 +132,7 @@ public class ContactsGroupController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="0305")
+	@Func(funcCode="edit",moduleCode="personal.contacts")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -146,7 +146,7 @@ public class ContactsGroupController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0305")
+	@Func(funcCode="delete",moduleCode="personal.contacts")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -158,7 +158,7 @@ public class ContactsGroupController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0305")
+	@Func(funcCode="delete",moduleCode="personal.contacts")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

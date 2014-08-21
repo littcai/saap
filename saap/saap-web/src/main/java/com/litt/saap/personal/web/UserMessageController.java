@@ -50,7 +50,7 @@ public class UserMessageController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="0307", enableLog=false) 
+	@Func(funcCode="query", moduleCode="personal.userMessage", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -82,7 +82,7 @@ public class UserMessageController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="0307", enableLog=false)  
+	@Func(funcCode="add", moduleCode="personal.userMessage", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -96,7 +96,7 @@ public class UserMessageController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="0307", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="personal.userMessage", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -111,7 +111,7 @@ public class UserMessageController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="0307", enableLog=false)  
+	@Func(funcCode="query", moduleCode="personal.userMessage", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -125,7 +125,7 @@ public class UserMessageController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="0307")
+	@Func(funcCode="add",moduleCode="personal.userMessage")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -140,7 +140,7 @@ public class UserMessageController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="0307")
+	@Func(funcCode="edit",moduleCode="personal.userMessage")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -154,7 +154,7 @@ public class UserMessageController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0307")
+	@Func(funcCode="delete",moduleCode="personal.userMessage")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{

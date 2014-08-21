@@ -16,6 +16,11 @@
 		<property name="homePath" value="${home.path}"></property>
 	</bean>	
 	
+	<!-- Document -->	
+	<bean id="documentDao" class="com.litt.saap.assistant.dao.DocumentDao" parent="baseDao"/>	
+	
+	<bean id="documentService" class="com.litt.saap.assistant.service.impl.DocumentServiceImpl"></bean>	
+	
 	<bean id="quickViewService" class="com.litt.saap.assistant.service.impl.QuickViewServiceImpl">
 	</bean>
 	

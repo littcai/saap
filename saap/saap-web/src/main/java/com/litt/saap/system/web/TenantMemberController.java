@@ -76,7 +76,7 @@ public class TenantMemberController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="9002", enableLog=false) 
+	@Func(funcCode="query", moduleCode="tenant.tenantMember", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -109,7 +109,7 @@ public class TenantMemberController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="9002", enableLog=false)  
+	@Func(funcCode="add", moduleCode="tenant.tenantMember", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -123,7 +123,7 @@ public class TenantMemberController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="9002", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="tenant.tenantMember", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -143,7 +143,7 @@ public class TenantMemberController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="9002", enableLog=false)  
+	@Func(funcCode="query", moduleCode="tenant.tenantMember", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -168,7 +168,7 @@ public class TenantMemberController extends BaseController
    * 
    * @return ModelAndView
    */
-  @Func(funcCode="04", moduleCode="9002", enableLog=false)  
+  @Func(funcCode="query", moduleCode="tenant.tenantMember", enableLog=false)  
   @RequestMapping 
   public ModelAndView showByUserId(@RequestParam Integer userId) 
   { 
@@ -202,7 +202,7 @@ public class TenantMemberController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="9002")
+	@Func(funcCode="add",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -217,7 +217,7 @@ public class TenantMemberController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="9002")
+	@Func(funcCode="edit",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -235,7 +235,7 @@ public class TenantMemberController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9002")
+	@Func(funcCode="delete",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -247,7 +247,7 @@ public class TenantMemberController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9002")
+	@Func(funcCode="delete",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{
@@ -255,11 +255,11 @@ public class TenantMemberController extends BaseController
 	}
 	
 	/**
-	 * Delete.
+	 * Resume.
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="05",moduleCode="9002")
+	@Func(funcCode="resume",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void resume(@RequestParam Integer id) throws Exception
 	{
@@ -273,7 +273,7 @@ public class TenantMemberController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="9002", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="tenant.tenantMember", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView editRole(@RequestParam Integer id) 
 	{ 
@@ -312,7 +312,7 @@ public class TenantMemberController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="9002")
+	@Func(funcCode="edit",moduleCode="tenant.tenantMember")
 	@RequestMapping 
 	public void updateRole(@RequestParam Integer tenantMemberId, @RequestParam Integer userId, @RequestParam(required=false, value="roleIds[]")Integer[] roleIds) throws Exception
 	{			
@@ -326,7 +326,7 @@ public class TenantMemberController extends BaseController
    * 
    * @return ModelAndView
    */
-  @Func(funcCode="02", moduleCode="9002", enableLog=false)  
+  @Func(funcCode="edit", moduleCode="tenant.tenantMember", enableLog=false)  
   @RequestMapping 
   public ModelAndView editUserGroup(@RequestParam Integer id) 
   { 
@@ -364,7 +364,7 @@ public class TenantMemberController extends BaseController
    * @param modelMap
    * @throws Exception 
    */
-  @Func(funcCode="02",moduleCode="9002")
+  @Func(funcCode="edit",moduleCode="tenant.tenantMember")
   @RequestMapping 
   public void updateUserGroup(@RequestParam Integer tenantMemberId, @RequestParam Integer userId, @RequestParam(required=false, value="groupIds[]")Integer[] groupIds) throws Exception
   {     

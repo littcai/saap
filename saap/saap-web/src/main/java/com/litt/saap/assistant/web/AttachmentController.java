@@ -66,7 +66,7 @@ public class AttachmentController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="0202", enableLog=false) 
+	@Func(funcCode="query", moduleCode="assistant.attachment", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -98,7 +98,7 @@ public class AttachmentController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="0202", enableLog=false)  
+	@Func(funcCode="add", moduleCode="assistant.attachment", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -112,7 +112,7 @@ public class AttachmentController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="0202", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="assistant.attachment", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -127,7 +127,7 @@ public class AttachmentController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="0202", enableLog=false)  
+	@Func(funcCode="query", moduleCode="assistant.attachment", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -141,7 +141,7 @@ public class AttachmentController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="0202")
+	@Func(funcCode="add",moduleCode="assistant.attachment")
 	@RequestMapping 
 	public ModelAndView save(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{	
@@ -211,7 +211,7 @@ public class AttachmentController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="0202")
+	@Func(funcCode="edit",moduleCode="assistant.attachment")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -225,7 +225,7 @@ public class AttachmentController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0202")
+	@Func(funcCode="delete",moduleCode="assistant.attachment")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -237,7 +237,7 @@ public class AttachmentController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0202")
+	@Func(funcCode="delete",moduleCode="assistant.attachment")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

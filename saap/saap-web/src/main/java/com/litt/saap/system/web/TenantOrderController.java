@@ -56,7 +56,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="9005", enableLog=false, enablePermission=false) 
+	@Func(funcCode="query", moduleCode="tenant.tenantOrder", enableLog=false, enablePermission=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -88,7 +88,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="9005", enableLog=false, enablePermission=false)  
+	@Func(funcCode="add", moduleCode="tenant.tenantOrder", enableLog=false, enablePermission=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -102,7 +102,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="9005", enableLog=false, enablePermission=false)  
+	@Func(funcCode="edit", moduleCode="tenant.tenantOrder", enableLog=false, enablePermission=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -117,7 +117,7 @@ public class TenantOrderController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="9005", enableLog=false, enablePermission=false)  
+	@Func(funcCode="query", moduleCode="tenant.tenantOrder", enableLog=false, enablePermission=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -131,7 +131,7 @@ public class TenantOrderController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="9005", enablePermission=false)
+	@Func(funcCode="add",moduleCode="tenant.tenantOrder", enablePermission=false)
 	@RequestMapping 
 	public ModelAndView save(@RequestParam String tenantCode, @RequestParam String tenantAlias, @RequestParam String bagCode
 			, @RequestParam BigDecimal price, @RequestParam int quantity) throws Exception
@@ -150,7 +150,7 @@ public class TenantOrderController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="9005", enablePermission=false)
+	@Func(funcCode="edit",moduleCode="tenant.tenantOrder", enablePermission=false)
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -164,7 +164,7 @@ public class TenantOrderController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9005", enablePermission=false)
+	@Func(funcCode="delete",moduleCode="tenant.tenantOrder", enablePermission=false)
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -176,7 +176,7 @@ public class TenantOrderController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9005", enablePermission=false)
+	@Func(funcCode="delete",moduleCode="tenant.tenantOrder", enablePermission=false)
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

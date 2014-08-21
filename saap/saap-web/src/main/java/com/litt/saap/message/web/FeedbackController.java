@@ -55,7 +55,7 @@ public class FeedbackController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="8004", enableLog=false) 
+	@Func(funcCode="query", moduleCode="message.feedback", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -87,7 +87,7 @@ public class FeedbackController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="8004", enableLog=false)  
+	@Func(funcCode="add", moduleCode="message.feedback", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -101,7 +101,7 @@ public class FeedbackController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="8004", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="message.feedback", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -116,7 +116,7 @@ public class FeedbackController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="8004", enableLog=false)  
+	@Func(funcCode="query", moduleCode="message.feedback", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -136,7 +136,7 @@ public class FeedbackController extends BaseController
     return new ModelAndView("jsonView").addObject("feedbackList", pageList.getRsList());
   } 
 
-	@Func(funcCode="01",moduleCode="8004")
+	@Func(funcCode="add",moduleCode="message.feedback")
 	@RequestMapping 
 	public void save(@RequestParam(required=false) String moduleCode, @RequestParam String currentUrl, @RequestParam int type, @RequestParam String content) throws Exception
 	{
@@ -152,7 +152,7 @@ public class FeedbackController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="8004")
+	@Func(funcCode="edit",moduleCode="message.feedback")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -166,7 +166,7 @@ public class FeedbackController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8004")
+	@Func(funcCode="delete",moduleCode="message.feedback")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -178,7 +178,7 @@ public class FeedbackController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8004")
+	@Func(funcCode="delete",moduleCode="message.feedback")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

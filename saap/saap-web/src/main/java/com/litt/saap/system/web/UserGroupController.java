@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.litt.core.common.Utility;
+import com.litt.core.dao.page.IPageList;
+import com.litt.core.dao.ql.PageParam;
+import com.litt.core.exception.NotLoginException;
+import com.litt.core.module.annotation.Func;
+import com.litt.core.web.mvc.action.BaseController;
+import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
 import com.litt.saap.common.vo.TenantUserVo;
 import com.litt.saap.core.model.CheckItem;
@@ -26,13 +32,6 @@ import com.litt.saap.system.po.UserGroup;
 import com.litt.saap.system.po.UserGroupMember;
 import com.litt.saap.system.service.IUserGroupService;
 import com.litt.saap.system.service.impl.IUserGroupMemberService;
-import com.litt.core.dao.page.IPageList;
-import com.litt.core.common.Utility;
-import com.litt.core.web.util.WebUtils;
-import com.litt.core.dao.ql.PageParam;
-import com.litt.core.exception.NotLoginException;
-import com.litt.core.module.annotation.Func;
-import com.litt.core.web.mvc.action.BaseController;
 
 /**
  * 
@@ -65,7 +64,7 @@ public class UserGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="9003", enableLog=false) 
+	@Func(funcCode="query", moduleCode="tenant.userGroup", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -97,7 +96,7 @@ public class UserGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="9003", enableLog=false)  
+	@Func(funcCode="add", moduleCode="tenant.userGroup", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -111,7 +110,7 @@ public class UserGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="9003", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="tenant.userGroup", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -126,7 +125,7 @@ public class UserGroupController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="9003", enableLog=false)  
+	@Func(funcCode="query", moduleCode="tenant.userGroup", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -140,7 +139,7 @@ public class UserGroupController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="9003")
+	@Func(funcCode="add",moduleCode="tenant.userGroup")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -155,7 +154,7 @@ public class UserGroupController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="9003")
+	@Func(funcCode="edit",moduleCode="tenant.userGroup")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -169,7 +168,7 @@ public class UserGroupController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9003")
+	@Func(funcCode="delete",moduleCode="tenant.userGroup")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -181,7 +180,7 @@ public class UserGroupController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="9003")
+	@Func(funcCode="delete",moduleCode="tenant.userGroup")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{
@@ -217,7 +216,7 @@ public class UserGroupController extends BaseController
    * 
    * @return ModelAndView
    */ 
-  @Func(funcCode="01", moduleCode="9003", enableLog=false)  
+  @Func(funcCode="add", moduleCode="tenant.userGroup", enableLog=false)  
   @RequestMapping
   public ModelAndView addMember() 
   {        
@@ -231,7 +230,7 @@ public class UserGroupController extends BaseController
    * 
    * @return ModelAndView
    */
-  @Func(funcCode="04", moduleCode="9003", enableLog=false)  
+  @Func(funcCode="query", moduleCode="tenant.userGroup", enableLog=false)  
   @RequestMapping 
   public ModelAndView showMembers(@RequestParam Integer id) 
   { 
@@ -250,7 +249,7 @@ public class UserGroupController extends BaseController
    * @param modelMap
    * @throws Exception 
    */
-  @Func(funcCode="01",moduleCode="9003")
+  @Func(funcCode="add",moduleCode="tenant.userGroup")
   @RequestMapping 
   public void saveMemberBatch(@RequestParam Integer groupId, @RequestParam(value="userIds[]") Integer[] userIds) throws Exception
   { 
@@ -262,7 +261,7 @@ public class UserGroupController extends BaseController
    * @param id id
    * @throws Exception 
    */
-  @Func(funcCode="03",moduleCode="9003")
+  @Func(funcCode="delete",moduleCode="tenant.userGroup")
   @RequestMapping 
   public void deleteMember(@RequestParam Integer id) throws Exception
   {
@@ -275,7 +274,7 @@ public class UserGroupController extends BaseController
    * @param id id
    * @throws Exception 
    */
-  @Func(funcCode="03",moduleCode="9003")
+  @Func(funcCode="delete",moduleCode="tenant.userGroup")
   @RequestMapping 
   public void deleteMemberBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
   {

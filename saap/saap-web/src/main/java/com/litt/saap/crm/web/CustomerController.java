@@ -73,7 +73,7 @@ public class CustomerController extends BaseController {
 	 * 
 	 * @return 视图
 	 */	
-	@Func(funcCode="04",moduleCode="1101", enableLog=false)
+	@Func(funcCode="query",moduleCode="crm.customer", enableLog=false)
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -99,7 +99,7 @@ public class CustomerController extends BaseController {
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01",moduleCode="1101", enableLog=false)
+	@Func(funcCode="add",moduleCode="crm.customer", enableLog=false)
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -115,7 +115,7 @@ public class CustomerController extends BaseController {
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02",moduleCode="1101", enableLog=false)
+	@Func(funcCode="edit",moduleCode="crm.customer", enableLog=false)
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) throws NotLoginException 
 	{ 
@@ -145,7 +145,7 @@ public class CustomerController extends BaseController {
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04",moduleCode="1101", enableLog=false)
+	@Func(funcCode="query",moduleCode="crm.customer", enableLog=false)
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) throws NotLoginException
 	{ 
@@ -176,7 +176,7 @@ public class CustomerController extends BaseController {
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="1101")
+	@Func(funcCode="add",moduleCode="crm.customer")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -195,7 +195,7 @@ public class CustomerController extends BaseController {
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="1101")
+	@Func(funcCode="edit",moduleCode="crm.customer")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -213,7 +213,7 @@ public class CustomerController extends BaseController {
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="1101")
+	@Func(funcCode="delete",moduleCode="crm.customer")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{

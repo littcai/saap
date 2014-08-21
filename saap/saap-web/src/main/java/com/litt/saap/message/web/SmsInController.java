@@ -54,7 +54,7 @@ public class SmsInController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="8002", enableLog=false) 
+	@Func(funcCode="query", moduleCode="message.smsIn", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -90,7 +90,7 @@ public class SmsInController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="8002", enableLog=false)  
+	@Func(funcCode="add", moduleCode="message.smsIn", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -104,7 +104,7 @@ public class SmsInController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="8002", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="message.smsIn", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -119,7 +119,7 @@ public class SmsInController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="8002", enableLog=false)  
+	@Func(funcCode="query", moduleCode="message.smsIn", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -133,7 +133,7 @@ public class SmsInController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="8002")
+	@Func(funcCode="add",moduleCode="message.smsIn")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -148,7 +148,7 @@ public class SmsInController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="8002")
+	@Func(funcCode="edit",moduleCode="message.smsIn")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -162,7 +162,7 @@ public class SmsInController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8002")
+	@Func(funcCode="delete",moduleCode="message.smsIn")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -174,7 +174,7 @@ public class SmsInController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8002")
+	@Func(funcCode="delete",moduleCode="message.smsIn")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

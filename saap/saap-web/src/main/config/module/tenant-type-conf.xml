@@ -9,113 +9,91 @@
 		<!-- 对应功能权限 -->
 		<permissions>
 			<!-- crm -->
-			<code>11</code>
-			<code>1101</code>
-			<code>110101</code>
-			<code>110102</code>
-			<code>110103</code>
-			<code>110104</code>
-			<code>1102</code>
-			<code>110201</code>
-			<code>110202</code>
-			<code>110203</code>
-			<code>110204</code>
-			<!-- teamwork -->
-			<code>12</code>
-			<code>1201</code>
-			<code>120101</code>
-			<code>120102</code>
-			<code>120103</code>
-			<code>120104</code>
-			<code>1202</code>
-			<code>120201</code>
-			<code>120202</code>
-			<code>120203</code>
-			<code>120204</code>
-			<!-- Discussion -->
-			<code>1203</code>
-			<code>120301</code>
-			<code>120302</code>
-			<code>120303</code>
-			<code>120304</code>
-			<!-- Files -->
-			<code>1204</code>
-			<code>120401</code>
-			<code>120402</code>
-			<code>120403</code>
-			<code>120404</code>
-			<!-- KnowledgeSpace -->
-			<code>1209</code>
-			<code>120901</code>
-			<code>120902</code>
-			<code>120903</code>
-			<code>120904</code>
-			<!-- KnowledgePage -->
-			<code>1210</code>
-			<code>121001</code>
-			<code>121002</code>
-			<code>121003</code>
-			<code>121004</code>
+			<code>crm</code>
+			<!-- customer -->
+			<code>crm.customer</code>
+			<code>crm.customer.add</code>
+			<code>crm.customer.edit</code>
+			<code>crm.customer.delete</code>
+			<code>crm.customer.query</code>
+			<!-- customer contacts -->
+			<code>crm.custContacts</code>
+			<code>crm.custContacts.add</code>
+			<code>crm.custContacts.edit</code>
+			<code>crm.custContacts.delete</code>
+			<code>crm.custContacts.query</code>
+			<!-- customer activity -->
+			<code>crm.custActivity</code>
+			<code>crm.custActivity.add</code>
+			<code>crm.custActivity.edit</code>
+			<code>crm.custActivity.delete</code>
+			<code>crm.custActivity.query</code>
+			<!-- customer event -->
+			<code>crm.custEvent</code>
+			<code>crm.custEvent.add</code>
+			<code>crm.custEvent.edit</code>
+			<code>crm.custEvent.delete</code>
+			<code>crm.custEvent.query</code>			
 			<!-- message center -->
-			<code>80</code>
+			<code>message</code>
 			<!-- sms out -->
-			<code>8001</code>
-			<code>800101</code>
-			<code>800102</code>
-			<code>800103</code>
-			<code>800104</code>
+			<code>message.smsOut</code>
+			<code>message.smsOut.add</code>
+			<code>message.smsOut.edit</code>
+			<code>message.smsOut.delete</code>
+			<code>message.smsOut.query</code>
 			<!-- sms in -->
-			<code>8002</code>			
-			<code>800203</code>
-			<code>800204</code>
+			<code>message.smsIn</code>
+			<code>message.smsIn.delete</code>
+			<code>message.smsIn.query</code>
 			<!-- affiche -->
-			<code>8003</code>
-			<code>800301</code>
-			<code>800302</code>
-			<code>800303</code>
-			<code>800304</code>
-			<code>800305</code>
+			<code>message.affiche</code>
+			<code>message.affiche.add</code>
+			<code>message.affiche.edit</code>
+			<code>message.affiche.delete</code>
+			<code>message.affiche.query</code>
+			<code>message.affiche.check</code>
 			<!-- feedback -->
-			<code>8004</code>
-			<code>800401</code>
-			<code>800402</code>
-			<code>800403</code>
-			<code>800404</code>
-			<code>800405</code>
+			<code>message.feedback</code>
+			<code>message.feedback.add</code>
+			<code>message.feedback.edit</code>
+			<code>message.feedback.delete</code>
+			<code>message.feedback.query</code>
+			<code>message.feedback.reply</code>
 			<!-- ***************************  -->
 			<!-- system management for tenant -->
-			<code>90</code>
+			<code>tenant</code>
 			<!-- tenant  -->
-			<code>9001</code>
-			<code>900102</code>
-			<code>900103</code>
-			<code>900104</code>
-			<code>900105</code>
-			<code>900106</code>
+			<code>tenant.tenant</code>
+			<code>tenant.tenant.edit</code>
+			<code>tenant.tenant.delete</code>
+			<code>tenant.tenant.query</code>
+			<code>tenant.tenant.lock</code>
+			<code>tenant.tenant.deactivate</code>
 			<!-- tenant members  -->
-			<code>9002</code>
-			<code>900201</code>
-			<code>900202</code>
-			<code>900203</code>
-			<code>900204</code>
+			<code>tenant.tenantMember</code>
+			<code>tenant.tenantMember.add</code>
+			<code>tenant.tenantMember.edit</code>
+			<code>tenant.tenantMember.delete</code>
+			<code>tenant.tenantMember.query</code>
 			<!-- tenant groups  -->
-			<code>9003</code>
-			<code>900301</code>
-			<code>900302</code>
-			<code>900303</code>
-			<code>900304</code>
+			<code>tenant.userGroup</code>
+			<code>tenant.userGroup.add</code>
+			<code>tenant.userGroup.edit</code>
+			<code>tenant.userGroup.delete</code>
+			<code>tenant.userGroup.query</code>
 			<!-- tenant roles  -->
-			<code>9004</code>
-			<code>900401</code>
-			<code>900402</code>
-			<code>900403</code>
-			<code>900404</code>
+			<code>tenant.role</code>
+			<code>tenant.role.add</code>
+			<code>tenant.role.edit</code>
+			<code>tenant.role.delete</code>
+			<code>tenant.role.query</code>
 			<!-- tenant order  -->
-			<code>9005</code>
-			<code>900501</code>
-			<code>900502</code>
-			<code>900503</code>
-			<code>900504</code>
+			<code>tenant.tenantOrder</code>
+			<code>tenant.tenantOrder.add</code>
+			<code>tenant.tenantOrder.edit</code>
+			<code>tenant.tenantOrder.delete</code>
+			<code>tenant.tenantOrder.query</code>
 		</permissions>
 		<!-- 默认角色及其对应的权限
 			注：role的code需要在国际化文件中有映射，以实现数据库存储的国际化
@@ -123,157 +101,138 @@
 		 -->
 		<role code="admin">
 			<permissions>
-				<code>11</code>
-				<code>1101</code>
-				<code>110101</code>
-				<code>110102</code>
-				<code>110103</code>
-				<code>110104</code>
-				<code>1102</code>
-				<code>110201</code>
-				<code>110202</code>
-				<code>110203</code>
-				<code>110204</code>
-				<!-- teamwork -->
-				<code>12</code>
-				<code>1201</code>
-				<code>120101</code>
-				<code>120102</code>
-				<code>120103</code>
-				<code>120104</code>
-				<code>1202</code>
-				<code>120201</code>
-				<code>120202</code>
-				<code>120203</code>
-				<code>120204</code>
-				<!-- Discussion -->
-				<code>1203</code>
-				<code>120301</code>
-				<code>120302</code>
-				<code>120303</code>
-				<code>120304</code>
-				<!-- Files -->
-				<code>1204</code>
-				<code>120401</code>
-				<code>120402</code>
-				<code>120403</code>
-				<code>120404</code>
-				<!-- KnowledgeSpace -->
-				<code>1209</code>
-				<code>120901</code>
-				<code>120902</code>
-				<code>120903</code>
-				<code>120904</code>
-				<!-- KnowledgePage -->
-				<code>1210</code>
-				<code>121001</code>
-				<code>121002</code>
-				<code>121003</code>
-				<code>121004</code>
+				<!-- crm -->
+				<code>crm</code>
+				<!-- customer -->
+				<code>crm.customer</code>
+				<code>crm.customer.add</code>
+				<code>crm.customer.edit</code>
+				<code>crm.customer.delete</code>
+				<code>crm.customer.query</code>
+				<!-- customer contacts -->
+				<code>crm.custContacts</code>
+				<code>crm.custContacts.add</code>
+				<code>crm.custContacts.edit</code>
+				<code>crm.custContacts.delete</code>
+				<code>crm.custContacts.query</code>
+				<!-- customer activity -->
+				<code>crm.custActivity</code>
+				<code>crm.custActivity.add</code>
+				<code>crm.custActivity.edit</code>
+				<code>crm.custActivity.delete</code>
+				<code>crm.custActivity.query</code>
+				<!-- customer event -->
+				<code>crm.custEvent</code>
+				<code>crm.custEvent.add</code>
+				<code>crm.custEvent.edit</code>
+				<code>crm.custEvent.delete</code>
+				<code>crm.custEvent.query</code>
 				<!-- message center -->
-				<code>80</code>
-				<code>8001</code>
-				<code>800101</code>
-				<code>800102</code>
-				<code>800103</code>
-				<code>800104</code>
-				<code>8002</code>			
-				<code>800203</code>
-				<code>800204</code>
+				<code>message</code>
+				<!-- sms out -->
+				<code>message.smsOut</code>
+				<code>message.smsOut.add</code>
+				<code>message.smsOut.edit</code>
+				<code>message.smsOut.delete</code>
+				<code>message.smsOut.query</code>
+				<!-- sms in -->
+				<code>message.smsIn</code>
+				<code>message.smsIn.delete</code>
+				<code>message.smsIn.query</code>
 				<!-- affiche -->
-				<code>8003</code>
-				<code>800301</code>
-				<code>800302</code>
-				<code>800303</code>
-				<code>800304</code>
-				<code>800305</code>
+				<code>message.affiche</code>
+				<code>message.affiche.add</code>
+				<code>message.affiche.edit</code>
+				<code>message.affiche.delete</code>
+				<code>message.affiche.query</code>
+				<code>message.affiche.check</code>
 				<!-- feedback -->
-				<code>8004</code>
-				<code>800401</code>
-				<code>800402</code>
-				<code>800403</code>
-				<code>800404</code>
-				<code>800405</code>
+				<code>message.feedback</code>
+				<code>message.feedback.add</code>
+				<code>message.feedback.edit</code>
+				<code>message.feedback.delete</code>
+				<code>message.feedback.query</code>
+				<code>message.feedback.reply</code>
 				<!-- ***************************  -->
 				<!-- system management for tenant -->
-				<code>90</code>
+				<code>tenant</code>
 				<!-- tenant  -->
-				<code>9001</code>
-				<code>900102</code>
-				<code>900103</code>
-				<code>900104</code>				
-				<code>900105</code>
-				<code>900106</code>
+				<code>tenant.tenant</code>
+				<code>tenant.tenant.edit</code>
+				<code>tenant.tenant.delete</code>
+				<code>tenant.tenant.query</code>
+				<code>tenant.tenant.lock</code>
+				<code>tenant.tenant.deactivate</code>
 				<!-- tenant members  -->
-				<code>9002</code>
-				<code>900201</code>
-				<code>900202</code>
-				<code>900203</code>
-				<code>900204</code>
+				<code>tenant.tenantMember</code>
+				<code>tenant.tenantMember.add</code>
+				<code>tenant.tenantMember.edit</code>
+				<code>tenant.tenantMember.delete</code>
+				<code>tenant.tenantMember.query</code>
 				<!-- tenant groups  -->
-				<code>9003</code>
-				<code>900301</code>
-				<code>900302</code>
-				<code>900303</code>
-				<code>900304</code>
+				<code>tenant.userGroup</code>
+				<code>tenant.userGroup.add</code>
+				<code>tenant.userGroup.edit</code>
+				<code>tenant.userGroup.delete</code>
+				<code>tenant.userGroup.query</code>
 				<!-- tenant roles  -->
-				<code>9004</code>
-				<code>900401</code>
-				<code>900402</code>
-				<code>900403</code>
-				<code>900404</code>
+				<code>tenant.role</code>
+				<code>tenant.role.add</code>
+				<code>tenant.role.edit</code>
+				<code>tenant.role.delete</code>
+				<code>tenant.role.query</code>
 				<!-- tenant order  -->
-				<code>9005</code>
-				<code>900501</code>
-				<code>900502</code>
-				<code>900503</code>
-				<code>900504</code>
+				<code>tenant.tenantOrder</code>
+				<code>tenant.tenantOrder.add</code>
+				<code>tenant.tenantOrder.edit</code>
+				<code>tenant.tenantOrder.delete</code>
+				<code>tenant.tenantOrder.query</code>
 			</permissions>
 		</role>
 		<role code="member">
 			<permissions>
-				<code>11</code>
-				<code>1101</code>
-				<code>110101</code>
-				<code>110102</code>
-				<code>110103</code>
-				<code>110104</code>	
-				<!-- teamwork -->
-				<code>12</code>
-				<code>1201</code>
-				<code>120101</code>
-				<code>120102</code>
-				<code>120103</code>
-				<code>120104</code>
-				<code>1202</code>
-				<code>120201</code>
-				<code>120202</code>
-				<code>120203</code>
-				<code>120204</code>	
-				<!-- Discussion -->
-				<code>1203</code>
-				<code>120301</code>
-				<code>120302</code>
-				<code>120303</code>
-				<code>120304</code>
-				<!-- Files -->
-				<code>1204</code>
-				<code>120401</code>
-				<code>120402</code>
-				<code>120403</code>
-				<code>120404</code>
-				<!-- KnowledgeSpace -->
-				<code>1209</code>
-				<code>120901</code>
-				<code>120902</code>
-				<code>120903</code>
-				<code>120904</code>
-				<!-- KnowledgePage -->
-				<code>1210</code>
-				<code>121001</code>
-				<code>121002</code>
-				<code>121003</code>
-				<code>121004</code>	
+				<!-- crm -->
+				<code>crm</code>
+				<!-- customer -->
+				<code>crm.customer</code>
+				<code>crm.customer.add</code>
+				<code>crm.customer.edit</code>
+				<code>crm.customer.delete</code>
+				<code>crm.customer.query</code>
+				<!-- customer contacts -->
+				<code>crm.custContacts</code>
+				<code>crm.custContacts.add</code>
+				<code>crm.custContacts.edit</code>
+				<code>crm.custContacts.delete</code>
+				<code>crm.custContacts.query</code>
+				<!-- customer activity -->
+				<code>crm.custActivity</code>
+				<code>crm.custActivity.add</code>
+				<code>crm.custActivity.edit</code>
+				<code>crm.custActivity.delete</code>
+				<code>crm.custActivity.query</code>
+				<!-- customer event -->
+				<code>crm.custEvent</code>
+				<code>crm.custEvent.add</code>
+				<code>crm.custEvent.edit</code>
+				<code>crm.custEvent.delete</code>
+				<code>crm.custEvent.query</code>
+				<!-- message center -->
+				<code>message</code>			
+				<!-- affiche -->
+				<code>message.affiche</code>
+				<code>message.affiche.add</code>
+				<code>message.affiche.edit</code>
+				<code>message.affiche.delete</code>
+				<code>message.affiche.query</code>
+				<code>message.affiche.check</code>
+				<!-- feedback -->
+				<code>message.feedback</code>
+				<code>message.feedback.add</code>
+				<code>message.feedback.edit</code>
+				<code>message.feedback.delete</code>
+				<code>message.feedback.query</code>
+				<code>message.feedback.reply</code>
 			</permissions>
 		</role>
 	</tenant>

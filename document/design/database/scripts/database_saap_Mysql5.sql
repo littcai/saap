@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/8/19 14:54:02                           */
+/* Created on:     2014/8/21 9:39:32                            */
 /*==============================================================*/
 
 
@@ -21,8 +21,6 @@ DROP INDEX IDX_AS_KEY ON APP_STORE;
 DROP TABLE IF EXISTS APP_STORE;
 
 DROP INDEX IDX_ATTACHMENT ON ATTACHMENT;
-
-DROP INDEX IDX_ATTACHMENT_UID ON ATTACHMENT;
 
 DROP TABLE IF EXISTS ATTACHMENT;
 
@@ -71,6 +69,14 @@ DROP TABLE IF EXISTS DICT_PARAM;
 DROP INDEX IDX_DPT_CODE ON DICT_PARAM_TYPE;
 
 DROP TABLE IF EXISTS DICT_PARAM_TYPE;
+
+DROP INDEX IDX_DOCUMENT_CODE ON DOCUMENT;
+
+DROP TABLE IF EXISTS DOCUMENT;
+
+DROP INDEX IDX_DOC_HIS ON DOCUMENT_HISTORY;
+
+DROP TABLE IF EXISTS DOCUMENT_HISTORY;
 
 DROP TABLE IF EXISTS DYNAMIC_SEARCH;
 
@@ -307,7 +313,6 @@ CREATE UNIQUE INDEX IDX_AS_KEY ON APP_STORE
 /*==============================================================*/
 CREATE TABLE ATTACHMENT
 (
-   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    UID                  VARCHAR(32) NOT NULL COMMENT '唯一ID',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
    RECORD_ID            INT NOT NULL COMMENT '记录ID',
@@ -320,19 +325,11 @@ CREATE TABLE ATTACHMENT
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
    UPDATE_BY            INT NOT NULL COMMENT '更新人',
-   PRIMARY KEY (ID)
+   PRIMARY KEY (UID)
 )
 ENGINE = INNODB;
 
 ALTER TABLE ATTACHMENT COMMENT '附件表';
-
-/*==============================================================*/
-/* Index: IDX_ATTACHMENT_UID                                    */
-/*==============================================================*/
-CREATE INDEX IDX_ATTACHMENT_UID ON ATTACHMENT
-(
-   UID
-);
 
 /*==============================================================*/
 /* Index: IDX_ATTACHMENT                                        */
@@ -749,6 +746,73 @@ CREATE TABLE DICT_PARAM
 );
 
 ALTER TABLE DICT_PARAM COMMENT '参数字典表';
+
+/*==============================================================*/
+/* Table: DOCUMENT                                              */
+/*==============================================================*/
+CREATE TABLE DOCUMENT
+(
+   UID                  VARCHAR(36) NOT NULL COMMENT 'UID',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
+   RECORD_ID            INT NOT NULL COMMENT '记录ID',
+   ATTACHMENT_ID        VARCHAR(36) NOT NULL COMMENT '附件ID',
+   CODE                 VARCHAR(50) NOT NULL COMMENT '编号',
+   NAME                 VARCHAR(100) NOT NULL COMMENT '名称',
+   EXT                  VARCHAR(10) NOT NULL COMMENT '类型',
+   BRIEF                VARCHAR(200) COMMENT '文档摘要',
+   REVISION             INT NOT NULL DEFAULT 1 COMMENT '修订号',
+   CREATE_BY            INT NOT NULL COMMENT '创建人',
+   CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   UPDATE_BY            INT NOT NULL COMMENT '更新人',
+   UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
+   PRIMARY KEY (UID),
+   KEY AK_DOCUMENT_UID (UID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE DOCUMENT COMMENT '文档';
+
+/*==============================================================*/
+/* Index: IDX_DOCUMENT_CODE                                     */
+/*==============================================================*/
+CREATE INDEX IDX_DOCUMENT_CODE ON DOCUMENT
+(
+   TENANT_ID,
+   MODULE_CODE,
+   CODE
+);
+
+/*==============================================================*/
+/* Table: DOCUMENT_HISTORY                                      */
+/*==============================================================*/
+CREATE TABLE DOCUMENT_HISTORY
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   DOC_ID               VARCHAR(36) NOT NULL COMMENT '文档ID',
+   ATTACHMENT_ID        VARCHAR(36) NOT NULL COMMENT '附件ID',
+   CODE                 VARCHAR(50) NOT NULL COMMENT '编号',
+   NAME                 VARCHAR(100) NOT NULL COMMENT '名称',
+   EXT                  VARCHAR(10) NOT NULL COMMENT '类型',
+   BRIEF                VARCHAR(200) COMMENT '文档摘要',
+   REVISION             INT NOT NULL DEFAULT 1 COMMENT '修订号',
+   CREATE_BY            INT NOT NULL COMMENT '创建人',
+   CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE DOCUMENT_HISTORY COMMENT '文档历史';
+
+/*==============================================================*/
+/* Index: IDX_DOC_HIS                                           */
+/*==============================================================*/
+CREATE INDEX IDX_DOC_HIS ON DOCUMENT_HISTORY
+(
+   TENANT_ID,
+   DOC_ID
+);
 
 /*==============================================================*/
 /* Table: DYNAMIC_SEARCH                                        */
@@ -1210,7 +1274,6 @@ CREATE TABLE TENANT
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
    MAX_MEMBERS          INT NOT NULL DEFAULT 1 COMMENT '最大成员数',
-   MAX_STORAGE          INT NOT NULL DEFAULT 1 COMMENT '最大存储容量',
    TRIAL_DAYS           INT(3) NOT NULL DEFAULT 30 COMMENT '试用期限',
    EXPIRED_DATE         DATE NOT NULL COMMENT '到期日',
    PRICE                INT NOT NULL DEFAULT 0 COMMENT '购买价格',

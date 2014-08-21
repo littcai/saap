@@ -52,7 +52,7 @@ public class CustActivityController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="1103", enableLog=false) 
+	@Func(funcCode="query", moduleCode="crm.custActivity", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -84,7 +84,7 @@ public class CustActivityController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="1103", enableLog=false)  
+	@Func(funcCode="add", moduleCode="crm.custActivity", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -98,7 +98,7 @@ public class CustActivityController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="1103", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="crm.custActivity", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -113,7 +113,7 @@ public class CustActivityController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="1103", enableLog=false)  
+	@Func(funcCode="query", moduleCode="crm.custActivity", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -127,7 +127,7 @@ public class CustActivityController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="1103")
+	@Func(funcCode="add",moduleCode="crm.custActivity")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -149,7 +149,7 @@ public class CustActivityController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="1103")
+	@Func(funcCode="edit",moduleCode="crm.custActivity")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -165,7 +165,7 @@ public class CustActivityController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="1103")
+	@Func(funcCode="delete",moduleCode="crm.custActivity")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -177,7 +177,7 @@ public class CustActivityController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="1103")
+	@Func(funcCode="delete",moduleCode="crm.custActivity")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

@@ -42,7 +42,7 @@ public class NoteController extends BaseController {
 	@Resource
 	private INoteService noteService;
 	
-	@Func(funcCode="04",moduleCode="0301", enableLog=false)
+	@Func(funcCode="query",moduleCode="personal.note", enableLog=false)
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -63,7 +63,7 @@ public class NoteController extends BaseController {
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="0301")
+	@Func(funcCode="add",moduleCode="personal.note")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -78,7 +78,7 @@ public class NoteController extends BaseController {
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="0301")
+	@Func(funcCode="edit",moduleCode="personal.note")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -92,7 +92,7 @@ public class NoteController extends BaseController {
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="0301")
+	@Func(funcCode="delete",moduleCode="personal.note")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{

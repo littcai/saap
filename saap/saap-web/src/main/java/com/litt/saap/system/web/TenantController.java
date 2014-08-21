@@ -48,7 +48,7 @@ public class TenantController extends BaseController
 	@Resource
 	private ITenantService tenantService;
 	
-	@Func(funcCode="04",moduleCode="9001", enableLog=false)
+	@Func(funcCode="query",moduleCode="tenant.tenant", enableLog=false)
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -68,7 +68,7 @@ public class TenantController extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@Func(funcCode="02",moduleCode="9001")
+	@Func(funcCode="edit",moduleCode="tenant.tenant")
 	public ModelAndView config(@RequestParam String tenantAlias
 			, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{				

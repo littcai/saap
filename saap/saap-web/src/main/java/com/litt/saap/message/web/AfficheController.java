@@ -54,7 +54,7 @@ public class AfficheController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="04", moduleCode="8003", enableLog=false) 
+	@Func(funcCode="query", moduleCode="message.affiche", enableLog=false) 
 	@RequestMapping 
 	public ModelAndView index(WebRequest request, ModelMap modelMap) throws NotLoginException
 	{	
@@ -90,7 +90,7 @@ public class AfficheController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */	
-	@Func(funcCode="01", moduleCode="8003", enableLog=false)  
+	@Func(funcCode="add", moduleCode="message.affiche", enableLog=false)  
 	@RequestMapping
 	public ModelAndView add() 
 	{        
@@ -104,7 +104,7 @@ public class AfficheController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="02", moduleCode="8003", enableLog=false)  
+	@Func(funcCode="edit", moduleCode="message.affiche", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView edit(@RequestParam Integer id) 
 	{ 
@@ -119,7 +119,7 @@ public class AfficheController extends BaseController
 	 * 
 	 * @return ModelAndView
 	 */
-	@Func(funcCode="04", moduleCode="8003", enableLog=false)  
+	@Func(funcCode="query", moduleCode="message.affiche", enableLog=false)  
 	@RequestMapping 
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
@@ -153,7 +153,7 @@ public class AfficheController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="01",moduleCode="8003")
+	@Func(funcCode="add",moduleCode="message.affiche")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
@@ -175,7 +175,7 @@ public class AfficheController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="02",moduleCode="8003")
+	@Func(funcCode="edit",moduleCode="message.affiche")
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
@@ -194,7 +194,7 @@ public class AfficheController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8003")
+	@Func(funcCode="delete",moduleCode="message.affiche")
 	@RequestMapping 
 	public void delete(@RequestParam Integer id) throws Exception
 	{
@@ -206,7 +206,7 @@ public class AfficheController extends BaseController
 	 * @param id id
 	 * @throws Exception 
 	 */
-	@Func(funcCode="03",moduleCode="8003")
+	@Func(funcCode="delete",moduleCode="message.affiche")
 	@RequestMapping 
 	public void deleteBatch(@RequestParam(value="ids[]") Integer[] ids) throws Exception
 	{

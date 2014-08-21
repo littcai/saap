@@ -1,16 +1,27 @@
 package com.litt.saap.assistant.po;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import java.io.Serializable;
 
 /**
  * <br>
- * Table:attachement<br>
+ * Table:attachment<br>
  * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
- * @since 2014-4-23 11:01:42
+ * @since 2014-8-21 8:13:18
  */
+@Entity
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+@Table(name = "attachment")
 public class Attachment implements Serializable {
 	/**
 	 * UID
@@ -20,8 +31,10 @@ public class Attachment implements Serializable {
 	 * 序号.
 	 */
 	private Integer id;
-	
-	/** The uid. */
+
+	/**
+	 * 唯一ID.
+	 */
 	private String uid;
 
 	/**
@@ -53,8 +66,10 @@ public class Attachment implements Serializable {
 	 * 文件路径.
 	 */
 	private String filePath;
-	
-	/** The file size. */
+
+	/**
+	 * 文件大小.
+	 */
 	private String fileSize;
 
 	/**
@@ -80,9 +95,10 @@ public class Attachment implements Serializable {
 	public Attachment() {
 	}
 
-	public Attachment(String uid, int tenantId, int recordId, String moduleCode,
-			String displayName, String fileName, String filePath, String fileSize,
-			Date createDatetime, int createBy, Date updateDatetime, int updateBy) {
+	public Attachment(String uid, int tenantId, int recordId,
+			String moduleCode, String displayName, String fileName,
+			String filePath, String fileSize, Date createDatetime,
+			int createBy, Date updateDatetime, int updateBy) {
 		this.uid = uid;
 		this.tenantId = tenantId;
 		this.recordId = recordId;
@@ -101,6 +117,9 @@ public class Attachment implements Serializable {
 	 * Get 序号.
 	 * @return 序号
 	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "ID", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -114,9 +133,29 @@ public class Attachment implements Serializable {
 	}
 
 	/**  
+	 * Get 唯一ID.
+	 * @return 唯一ID
+	 */
+
+	@Column(name = "UID", nullable = false, length = 36)
+	public String getUid() {
+		return this.uid;
+	}
+
+	/**
+	 * Set 唯一ID.
+	 * @param uid 唯一ID
+	 */
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	/**  
 	 * Get 租户ID.
 	 * @return 租户ID
 	 */
+
+	@Column(name = "TENANT_ID", nullable = false)
 	public int getTenantId() {
 		return this.tenantId;
 	}
@@ -133,6 +172,8 @@ public class Attachment implements Serializable {
 	 * Get 记录ID.
 	 * @return 记录ID
 	 */
+
+	@Column(name = "RECORD_ID", nullable = false)
 	public int getRecordId() {
 		return this.recordId;
 	}
@@ -149,6 +190,8 @@ public class Attachment implements Serializable {
 	 * Get 模块编号.
 	 * @return 模块编号
 	 */
+
+	@Column(name = "MODULE_CODE", nullable = false, length = 50)
 	public String getModuleCode() {
 		return this.moduleCode;
 	}
@@ -165,6 +208,8 @@ public class Attachment implements Serializable {
 	 * Get 显示名称.
 	 * @return 显示名称
 	 */
+
+	@Column(name = "DISPLAY_NAME", nullable = false, length = 100)
 	public String getDisplayName() {
 		return this.displayName;
 	}
@@ -181,6 +226,8 @@ public class Attachment implements Serializable {
 	 * Get 文件名.
 	 * @return 文件名
 	 */
+
+	@Column(name = "FILE_NAME", nullable = false, length = 100)
 	public String getFileName() {
 		return this.fileName;
 	}
@@ -197,6 +244,8 @@ public class Attachment implements Serializable {
 	 * Get 文件路径.
 	 * @return 文件路径
 	 */
+
+	@Column(name = "FILE_PATH", nullable = false, length = 500)
 	public String getFilePath() {
 		return this.filePath;
 	}
@@ -210,9 +259,30 @@ public class Attachment implements Serializable {
 	}
 
 	/**  
+	 * Get 文件大小.
+	 * @return 文件大小
+	 */
+
+	@Column(name = "FILE_SIZE", nullable = false, length = 50)
+	public String getFileSize() {
+		return this.fileSize;
+	}
+
+	/**
+	 * Set 文件大小.
+	 * @param fileSize 文件大小
+	 */
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	/**  
 	 * Get 创建时间.
 	 * @return 创建时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATETIME", nullable = false, length = 19)
 	public Date getCreateDatetime() {
 		return this.createDatetime;
 	}
@@ -229,6 +299,8 @@ public class Attachment implements Serializable {
 	 * Get 创建人.
 	 * @return 创建人
 	 */
+
+	@Column(name = "CREATE_BY", nullable = false)
 	public int getCreateBy() {
 		return this.createBy;
 	}
@@ -245,6 +317,9 @@ public class Attachment implements Serializable {
 	 * Get 更新时间.
 	 * @return 更新时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
 	public Date getUpdateDatetime() {
 		return this.updateDatetime;
 	}
@@ -261,6 +336,8 @@ public class Attachment implements Serializable {
 	 * Get 更新人.
 	 * @return 更新人
 	 */
+
+	@Column(name = "UPDATE_BY", nullable = false)
 	public int getUpdateBy() {
 		return this.updateBy;
 	}
@@ -271,34 +348,6 @@ public class Attachment implements Serializable {
 	 */
 	public void setUpdateBy(int updateBy) {
 		this.updateBy = updateBy;
-	}
-
-	/**
-	 * @return the fileSize
-	 */
-	public String getFileSize() {
-		return fileSize;
-	}
-
-	/**
-	 * @param fileSize the fileSize to set
-	 */
-	public void setFileSize(String fileSize) {
-		this.fileSize = fileSize;
-	}
-
-	/**
-	 * @return the uid
-	 */
-	public String getUid() {
-		return uid;
-	}
-
-	/**
-	 * @param uid the uid to set
-	 */
-	public void setUid(String uid) {
-		this.uid = uid;
 	}
 
 }

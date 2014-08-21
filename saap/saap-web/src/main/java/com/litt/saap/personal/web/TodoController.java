@@ -46,7 +46,7 @@ public class TodoController extends BaseController {
 	@Resource
 	private ITodoService todoService;
 	
-	@Func(moduleCode="0302", funcCode="04", enableLog=false)
+	@Func(moduleCode="personal.todo", funcCode="query", enableLog=false)
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws NotLoginException
 	{
