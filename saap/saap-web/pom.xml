@@ -20,7 +20,6 @@
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
 	<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 	<org.hibernate.version>3.6.10.Final</org.hibernate.version>
-	<org.apache.poi.version>3.8</org.apache.poi.version>
 	<org.freemarker.version>2.3.18</org.freemarker.version>
 	<org.unitils.version>3.3</org.unitils.version>
 	
@@ -154,31 +153,7 @@
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
-  	
-  	<dependency>
-  		<groupId>org.apache.poi</groupId>
-  		<artifactId>poi</artifactId>
-  		<version>${org.apache.poi.version}</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  		<exclusions>
-  			<exclusion>
-  				<artifactId>commons-logging</artifactId>
-  				<groupId>commons-logging</groupId>
-  			</exclusion>
-  		</exclusions>
-  	</dependency>
-  	<!-- 为POI支持Office Open XML -->  
-	<dependency>  
-	    <groupId>org.apache.poi</groupId>  
-	    <artifactId>poi-ooxml</artifactId>  
-	    <version>${org.apache.poi.version}</version>  
-	</dependency>  
-	<dependency>  
-	    <groupId>org.apache.poi</groupId>  
-	    <artifactId>poi-ooxml-schemas</artifactId>  
-	    <version>${org.apache.poi.version}</version>  
-	</dependency>    	
+  	   	
   	<dependency>
   		<groupId>org.codehaus.jackson</groupId>
   		<artifactId>jackson-core-lgpl</artifactId>

@@ -54,11 +54,11 @@ import com.litt.saap.system.po.UserGroupMember;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserRole;
 import com.litt.saap.system.po.UserState;
+import com.litt.saap.system.service.IActivationCodeService;
 import com.litt.saap.system.service.ISystemInfoService;
 import com.litt.saap.system.service.ITenantService;
+import com.litt.saap.system.service.IUserGroupMemberService;
 import com.litt.saap.system.service.IUserInfoService;
-import com.litt.saap.system.service.impl.IActivationCodeService;
-import com.litt.saap.system.service.impl.IUserGroupMemberService;
 import com.litt.saap.system.vo.SystemInfoVo;
 import com.litt.saap.system.vo.TenantVo;
 

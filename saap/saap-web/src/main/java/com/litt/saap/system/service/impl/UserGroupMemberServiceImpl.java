@@ -16,6 +16,7 @@ import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.dao.UserGroupMemberDao;
 import com.litt.saap.system.po.UserGroupMember;
 import com.litt.saap.system.po.UserGroupMember;
+import com.litt.saap.system.service.IUserGroupMemberService;
 
 /**
  * .
@@ -40,7 +41,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	/**
    * @param userGroupMember
    * @return
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#save(com.litt.saap.system.po.UserGroupMember)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#save(com.litt.saap.system.po.UserGroupMember)
    */
 	@Override
   public Integer save(UserGroupMember userGroupMember)
@@ -105,7 +106,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
    
 	/**
    * @param id
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#delete(java.lang.Integer)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#delete(java.lang.Integer)
    */
 	@Override
   public void delete(Integer id)
@@ -116,7 +117,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	
 	/**
    * @param userGroupMember
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#delete(com.litt.saap.system.po.UserGroupMember)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#delete(com.litt.saap.system.po.UserGroupMember)
    */
 	@Override
   public void delete(UserGroupMember userGroupMember) 
@@ -126,7 +127,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	
 	/**
    * @param ids
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#deleteBatch(java.lang.Integer[])
+   * @see com.litt.saap.system.service.IUserGroupMemberService#deleteBatch(java.lang.Integer[])
    */
 	@Override
   public void deleteBatch(Integer[] ids) 
@@ -155,7 +156,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	/**
    * @param id
    * @return
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#load(java.lang.Integer)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#load(java.lang.Integer)
    */
 	@Override
   public UserGroupMember load(Integer id)
@@ -166,7 +167,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	/**
    * @param userGroupId
    * @return
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#listByGroup(int)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#listByGroup(int)
    */
 	@Override
   public List<UserGroupMember> listByGroup(int userGroupId)
@@ -184,7 +185,7 @@ public class UserGroupMemberServiceImpl implements IUserGroupMemberService{
 	/**
    * @param userGroupId
    * @return
-   * @see com.litt.saap.system.service.impl.IUserGroupMemberService#listWithUserInfoByGroup(int)
+   * @see com.litt.saap.system.service.IUserGroupMemberService#listWithUserInfoByGroup(int)
    */
 	@Override
   public List<Map<String, Object>> listWithUserInfoByGroup(int userGroupId)

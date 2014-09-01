@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import com.litt.saap.system.dao.ActivationCodeDao;
 import com.litt.saap.system.po.ActivationCode;
+import com.litt.saap.system.service.IActivationCodeService;
 
 /**
  * .

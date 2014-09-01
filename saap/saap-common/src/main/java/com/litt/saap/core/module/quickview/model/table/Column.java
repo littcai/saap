@@ -2,7 +2,6 @@ package com.litt.saap.core.module.quickview.model.table;
 
 import java.io.Serializable;
 
-import com.litt.core.util.ArrayUtils;
 import com.litt.core.util.StringUtils;
 
 
@@ -34,13 +33,8 @@ public class Column implements Serializable {
 	
 	private String width;	
 	
-	private boolean htmlEnabled = true;	
-	
-	private boolean excelEnabled = true;	
-	
-	private boolean csvEnabled = true;	
-	
-	private boolean pdfEnabled = true;
+	/** 是否允许排序. */
+  private boolean sortable;	
 	
 	/**
 	 * 
@@ -189,5 +183,23 @@ public class Column implements Serializable {
 	public void setConverter(String converter) {
 		this.converter = converter;
 	}
+
+  
+  /**
+   * @return the sortable
+   */
+  public boolean isSortable()
+  {
+    return sortable;
+  }
+
+  
+  /**
+   * @param sortable the sortable to set
+   */
+  public void setSortable(boolean sortable)
+  {
+    this.sortable = sortable;
+  }
 
 }

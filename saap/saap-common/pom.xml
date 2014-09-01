@@ -14,6 +14,7 @@
   	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
 	<org.codehaus.castor.version>1.3.3</org.codehaus.castor.version>
+	<org.apache.poi.version>3.8</org.apache.poi.version>
   </properties>
   
   <dependencies>
@@ -79,7 +80,31 @@
 			<version>${org.springframework.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
-		</dependency>	
+		</dependency>
+		<dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi</artifactId>
+  		<version>${org.apache.poi.version}</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  		<exclusions>
+  			<exclusion>
+  				<artifactId>commons-logging</artifactId>
+  				<groupId>commons-logging</groupId>
+  			</exclusion>
+  		</exclusions>
+  	</dependency>
+  	<!-- 为POI支持Office Open XML -->  
+	<dependency>  
+	    <groupId>org.apache.poi</groupId>  
+	    <artifactId>poi-ooxml</artifactId>  
+	    <version>${org.apache.poi.version}</version>  
+	</dependency>  
+	<dependency>  
+	    <groupId>org.apache.poi</groupId>  
+	    <artifactId>poi-ooxml-schemas</artifactId>  
+	    <version>${org.apache.poi.version}</version>  
+	</dependency> 	
   	<dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>

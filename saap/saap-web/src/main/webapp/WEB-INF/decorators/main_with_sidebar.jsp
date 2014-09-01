@@ -143,7 +143,7 @@
 							  				<c:forEach items="${menu.subList }" var="subMenu">	
 							  					<c:if test="${subMenu.isLeaf }">
 							  						<c:choose>
-									              		<c:when test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">
+									              		<c:when test="${subMenu.menuCode eq __moduleCode }">
 									              			<c:set var="subActiveCss" value="active"></c:set>
 									              		</c:when>
 									              		<c:otherwise>

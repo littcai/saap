@@ -38,11 +38,11 @@ import com.litt.saap.system.po.ActivationCode;
 import com.litt.saap.system.po.Role;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.po.UserState;
+import com.litt.saap.system.service.IActivationCodeService;
 import com.litt.saap.system.service.IMenuService;
 import com.litt.saap.system.service.IRoleService;
 import com.litt.saap.system.service.ITenantService;
 import com.litt.saap.system.service.IUserInfoService;
-import com.litt.saap.system.service.impl.IActivationCodeService;
 import com.litt.saap.system.vo.MenuTreeNodeVo;
 import com.litt.saap.system.vo.TenantVo;
 

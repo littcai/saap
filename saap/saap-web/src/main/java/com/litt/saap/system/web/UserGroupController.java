@@ -30,8 +30,8 @@ import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.po.UserGroup;
 import com.litt.saap.system.po.UserGroupMember;
+import com.litt.saap.system.service.IUserGroupMemberService;
 import com.litt.saap.system.service.IUserGroupService;
-import com.litt.saap.system.service.impl.IUserGroupMemberService;
 
 /**
  * 

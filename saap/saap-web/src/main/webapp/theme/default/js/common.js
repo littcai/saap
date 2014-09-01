@@ -274,7 +274,8 @@ $(document).ready(function(){
 					delay: 1500,
 					sticker: false,
 					closeable: true,
-					position: 'top-right'	//top-left,top-center,top-right, center, bottom-left, bottom-center, bottm-right
+					position: 'top-right',	//top-left,top-center,top-right, center, bottom-left, bottom-center, bottm-right
+					callback: null
 			};
 			
 			options = $.extend({}, defaults, options);
@@ -297,7 +298,11 @@ $(document).ready(function(){
 		  		    	"left": ($(window).width() / 2) - (pnotify.width() / 2)
 		  		      });
 	  		    	}  
-	  		    }
+	  		    },
+            before_close: function(pnotify) {
+              var callback = options.callback;                 
+              (callback && typeof(callback) === "function") && callback();
+            }
 	  		});				
 		}
 	});
