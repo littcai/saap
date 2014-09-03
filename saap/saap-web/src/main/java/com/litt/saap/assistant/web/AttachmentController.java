@@ -305,7 +305,7 @@ public class AttachmentController extends BaseController
 	{
 		int tenantId = LoginUtils.getTenantId();
 		
-		attachmentService.deleteByName(moduleCode, tenantId, recordId, fileName);		
+		attachmentService.deleteByName(tenantId, moduleCode, recordId, fileName);		
 		return new ModelAndView("jsonView");
 	}
 	

@@ -43,6 +43,18 @@ public interface IAttachmentService
 	 */
 	public AttachmentVo save(File srcFile, String moduleCode, int tenantId, int recordId);
 	
+	/**
+   * 保存文件到租户.
+   *
+   * @param srcFile the src file
+   * @param srcName the src name
+   * @param moduleCode the module code
+   * @param tenantId the tenant id
+   * @param recordId the record id
+   * @return the attachment vo
+   */
+  public AttachmentVo save(File srcFile, String srcName, String moduleCode, int tenantId, int recordId);
+	
    	/**
 	 * Update.
 	 * @param attachement Attachement
@@ -91,7 +103,7 @@ public interface IAttachmentService
 	 * @param recordId the record id
 	 * @param fileName the file name
 	 */
-	public void deleteByName(String moduleCode, Integer tenantId, Integer recordId, String fileName);
+	public void deleteByName(Integer tenantId, String moduleCode, Integer recordId, String fileName);
 	
 	/**
 	 * Delete by.
@@ -99,6 +111,15 @@ public interface IAttachmentService
 	 * @param uid the uid
 	 */
 	public void deleteByUid(String uid);
+	
+	/**
+   * Delete by record.
+   *
+   * @param moduleCode the module code
+   * @param tenantId the tenant id
+   * @param recordId the record id
+   */
+  public void deleteByRecord(Integer tenantId, String moduleCode, Integer recordId);
 	
 	/**
 	 * Load by id.

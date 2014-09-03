@@ -63,15 +63,23 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 		return this.save(srcFile, moduleCode, tenantId, 0);
 	}
 	
+	public AttachmentVo save(File srcFile, String moduleCode, int tenantId, int recordId)
+	{
+	  return this.save(srcFile, srcFile.getName(), moduleCode, tenantId, recordId);
+	}
+	
+	
 	/**
 	 * 保存文件到租户.
-	 * @param srcFile
-	 * @param tenantId
-	 * @param recordId
-	 * @param moduleCode
-	 * @return
+	 *
+	 * @param srcFile the src file
+	 * @param srcName the src name
+	 * @param moduleCode the module code
+	 * @param tenantId the tenant id
+	 * @param recordId the record id
+	 * @return the attachment vo
 	 */
-	public AttachmentVo save(File srcFile, String moduleCode, int tenantId, int recordId)
+	public AttachmentVo save(File srcFile, String srcName, String moduleCode, int tenantId, int recordId)
 	{
 		if(StringUtils.isEmpty(moduleCode))
 			throw new IllegalArgumentException("Module code is not assigned");
@@ -80,7 +88,7 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 		
 		//将文件保存到附件目录
 		//计算文件的文件名，根据时间+3随机数+用户ID生成，确保唯一性
-		String srcFileName = srcFile.getName();
+		String srcFileName = StringUtils.isEmpty(srcName)?srcFile.getName():srcName;
 		String fileSuffix = Utility.getFileNameSuffix(srcFileName);
 		String destFileName = moduleCode + "-" + recordId + "-" + createBy + "-" + FileUtils.currentToFileName();
 		if(!StringUtils.isEmpty(fileSuffix))
@@ -250,7 +258,7 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 	 * @param recordId the record id
 	 * @param fileName the file name
 	 */
-	public void deleteByName(String moduleCode, Integer tenantId, Integer recordId, String fileName)
+	public void deleteByName(Integer tenantId, String moduleCode, Integer recordId, String fileName)
 	{
 		String listHql = "from Attachment where tenantId=? and recordId=? and moduleCode=? and fileName=?";
 		List<Attachment> poList = attachmentDao.listAll(listHql, new Object[]{tenantId, recordId, moduleCode, fileName});
@@ -265,6 +273,22 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 		Attachment attachment = attachmentDao.uniqueResult(listHql, new Object[]{uid}, Attachment.class);
 		this.delete(attachment);
 	}
+	
+	/**
+	 * Delete by record.
+	 *
+	 * @param moduleCode the module code
+	 * @param tenantId the tenant id
+	 * @param recordId the record id
+	 */
+	public void deleteByRecord(Integer tenantId, String moduleCode, Integer recordId)
+  {
+    String listHql = "from Attachment where tenantId=? and recordId=? and moduleCode=?";
+    List<Attachment> poList = attachmentDao.listAll(listHql, new Object[]{tenantId, recordId, moduleCode});
+    for (Attachment attachment : poList) {
+      this.delete(attachment);
+    }
+  }
 	
 	/**
 	 * Load by id.

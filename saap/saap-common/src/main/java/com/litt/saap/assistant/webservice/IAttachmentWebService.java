@@ -39,6 +39,42 @@ public interface IAttachmentWebService
 	 * @return the integer
 	 */
 	public AttachmentVo save(File srcFile, String moduleCode, int tenantId, int recordId);		
+	
+	/**
+   * 保存文件到租户.
+   *
+   * @param srcFile the src file
+   * @param srcName the src name
+   * @param moduleCode the module code
+   * @param tenantId the tenant id
+   * @param recordId the record id
+   * @return the attachment vo
+   */
+  public AttachmentVo save(File srcFile, String srcName, String moduleCode, int tenantId, int recordId);
+	
+	/**
+	 * Update record id.
+	 *
+	 * @param id the id
+	 * @param recordId the record id
+	 */
+	public void updateRecordId(Integer id, Integer recordId);
+	
+	/**
+	 * Update record id batch.
+	 *
+	 * @param attachmentIds the attachment ids
+	 * @param recordId the record id
+	 */
+	public void updateRecordIdBatch(Integer[] attachmentIds, Integer recordId);
+	
+	/**
+   * 批量更新附件的关联记录值.
+   *
+   * @param attachmentIds the attachment ids
+   * @param recordId the record id
+   */
+  public void updateRecordIdBatch(String[] attachmentUids, Integer recordId);
    
    	/**
 	 * Delete by id.
@@ -60,7 +96,7 @@ public interface IAttachmentWebService
 	 * @param recordId the record id
 	 * @param fileName the file name
 	 */
-	public void deleteByName(String moduleCode, Integer tenantId, Integer recordId, String fileName);
+	public void deleteByName(Integer tenantId, String moduleCode, Integer recordId, String fileName);
 	
 	/**
 	 * Delete by.
@@ -68,6 +104,15 @@ public interface IAttachmentWebService
 	 * @param uid the uid
 	 */
 	public void deleteByUid(String uid);
+	
+	/**
+   * Delete by record.
+   *
+   * @param moduleCode the module code
+   * @param tenantId the tenant id
+   * @param recordId the record id
+   */
+  public void deleteByRecord(Integer tenantId, String moduleCode, Integer recordId);
 	
 	/**
 	 * Find by record.
