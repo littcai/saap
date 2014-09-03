@@ -1,16 +1,20 @@
 package com.litt.saap.assistant.po;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <br>
@@ -53,11 +57,6 @@ public class Document implements Serializable {
 	private int recordId;
 
 	/**
-	 * 附件ID.
-	 */
-	private int attachmentId;
-
-	/**
 	 * 编号.
 	 */
 	private String code;
@@ -76,6 +75,14 @@ public class Document implements Serializable {
 	 * 文档摘要.
 	 */
 	private String brief;
+	
+	private String srcFileName;
+	
+	private String fileName;
+	
+	private String filePath;
+	
+	private BigDecimal fileSize = new BigDecimal(0);
 
 	/**
 	 * 修订号.
@@ -106,14 +113,13 @@ public class Document implements Serializable {
 	}
 
 	public Document(String uid, int tenantId, String moduleCode, int recordId,
-			int attachmentId, String code, String name, String ext,
+			String code, String name, String ext,
 			int revision, int createBy, Date createDatetime, int updateBy,
 			Date updateDatetime) {
 		this.uid = uid;
 		this.tenantId = tenantId;
 		this.moduleCode = moduleCode;
 		this.recordId = recordId;
-		this.attachmentId = attachmentId;
 		this.code = code;
 		this.name = name;
 		this.ext = ext;
@@ -125,14 +131,13 @@ public class Document implements Serializable {
 	}
 
 	public Document(String uid, int tenantId, String moduleCode, int recordId,
-			int attachmentId, String code, String name, String ext,
+			String code, String name, String ext,
 			String brief, int revision, int createBy, Date createDatetime,
 			int updateBy, Date updateDatetime) {
 		this.uid = uid;
 		this.tenantId = tenantId;
 		this.moduleCode = moduleCode;
 		this.recordId = recordId;
-		this.attachmentId = attachmentId;
 		this.code = code;
 		this.name = name;
 		this.ext = ext;
@@ -233,24 +238,6 @@ public class Document implements Serializable {
 	 */
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
-	}
-
-	/**  
-	 * Get 附件ID.
-	 * @return 附件ID
-	 */
-
-	@Column(name = "ATTACHMENT_ID", nullable = false)
-	public int getAttachmentId() {
-		return this.attachmentId;
-	}
-
-	/**
-	 * Set 附件ID.
-	 * @param attachmentId 附件ID
-	 */
-	public void setAttachmentId(int attachmentId) {
-		this.attachmentId = attachmentId;
 	}
 
 	/**  
@@ -415,6 +402,66 @@ public class Document implements Serializable {
 	 */
 	public void setUpdateDatetime(Date updateDatetime) {
 		this.updateDatetime = updateDatetime;
+	}
+
+	/**
+	 * @return the srcFileName
+	 */
+	@Column(name = "SRC_FILE_NAME", nullable = false, length = 100)
+	public String getSrcFileName() {
+		return srcFileName;
+	}
+
+	/**
+	 * @param srcFileName the srcFileName to set
+	 */
+	public void setSrcFileName(String srcFileName) {
+		this.srcFileName = srcFileName;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	@Column(name = "FILE_NAME", nullable = false, length = 100)
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/**
+	 * @return the filePath
+	 */
+	@Column(name = "FILE_PATH", nullable = false, length = 200)
+	public String getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * @param filePath the filePath to set
+	 */
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	/**
+	 * @return the fileSize
+	 */
+	@Column(name = "FILE_SIZE", nullable = false, length = 10, precision=2)
+	public BigDecimal getFileSize() {
+		return fileSize;
+	}
+
+	/**
+	 * @param fileSize the fileSize to set
+	 */
+	public void setFileSize(BigDecimal fileSize) {
+		this.fileSize = fileSize;
 	}
 
 }

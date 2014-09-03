@@ -1,5 +1,7 @@
 package com.litt.saap.assistant.service;
 
+import java.io.File;
+
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.saap.assistant.po.Document;
@@ -18,6 +20,21 @@ import com.litt.saap.assistant.po.Document;
 public interface IDocumentService
 { 
 
+	/**
+	 * Save.
+	 *
+	 * @param code the code
+	 * @param name the name
+	 * @param brief the brief
+	 * @param srcFile the src file
+	 * @param moduleCode the module code
+	 * @param recordId the record id
+	 * @param tenantId the tenant id
+	 * @param userId the user id
+	 * @return the integer
+	 */
+	public Integer save(String code, String name, String brief, File srcFile, String moduleCode, int recordId, int tenantId, int userId);
+	
    	/**
 	 * Save.
 	 * @param document Document

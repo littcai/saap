@@ -327,7 +327,7 @@ public class AttachmentController extends BaseController
 		//TODO 这里如果为了节省时间，可以用模块名+记录ID生成持久化目录，压缩好的ZIP保存在那，下次可直接用
 		File destPath = new File(homePath, Integer.toString(tenantId) 
 					+ File.separator + "tmp" 
-					+ File.separator + moduleCode+recordId);	//原始文件需要放到这里进行重命名
+					+ File.separator + moduleCode+File.separator +recordId);	//原始文件需要放到这里进行重命名
 		if(!destPath.exists())
 			FileUtils.createDirectory(destPath);
 		

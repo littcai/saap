@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +90,7 @@ public class AttachmentServiceImpl implements IAttachmentService, IAttachmentWeb
 		//将文件保存到附件目录
 		//计算文件的文件名，根据时间+3随机数+用户ID生成，确保唯一性
 		String srcFileName = StringUtils.isEmpty(srcName)?srcFile.getName():srcName;
-		String fileSuffix = Utility.getFileNameSuffix(srcFileName);
+		String fileSuffix = FilenameUtils.getExtension(srcFileName);
 		String destFileName = moduleCode + "-" + recordId + "-" + createBy + "-" + FileUtils.currentToFileName();
 		if(!StringUtils.isEmpty(fileSuffix))
 			destFileName += "."+fileSuffix;
