@@ -1,9 +1,9 @@
-<%@ tag language="java" pageEncoding="UTF-8" import="com.litt.core.dao.page.IPageList" %>  
+<%@ tag language="java" pageEncoding="UTF-8"  import="com.litt.core.dao.page.IPageList" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ attribute name="formId" required="true" rtexprvalue="true" %>
-<%@ attribute name="funcName" required="false" description="调用跳转的js的函数名" %> 
+<%@ attribute name="funcName" required="false" description="js function name" %> 
 <%@ attribute name="params" required="true" rtexprvalue="true" type="com.litt.core.dao.page.IPageList"%>
 <c:if test="${empty funcName }">
 	<c:set var="funcName" value="jumpPage" />
@@ -14,11 +14,18 @@ int DEFAULT_PAGE_SIZE = 15;
 IPageList pageList = (IPageList)jspContext.getAttribute("params");
 String funcName = jspContext.getAttribute("funcName").toString();
 
-int curPageNo = pageList.getPageIndex();
-int totalPage = pageList.getTotalPage();
-int pageSize = pageList.getPageSize();
-int totalSize = pageList.getTotalSize();
+int curPageNo = 1;
+int totalPage = 1;
+int pageSize = DEFAULT_PAGE_SIZE;
+int totalSize = 0;
 
+if(pageList!=null)
+{
+	curPageNo = pageList.getPageIndex();
+	totalPage = pageList.getTotalPage();
+	pageSize = pageList.getPageSize();
+	totalSize = pageList.getTotalSize();
+}
 int displayLinkCount = totalPage<10?totalPage:10;	//显示10个页码跳转
 
 int countBeforeCurrent = displayLinkCount / 2;
@@ -66,11 +73,13 @@ sb.append("</select>");
 %>
 <c:set var="firstRow" value="<%=firstRow %>"></c:set>
 <c:set var="lastRow" value="<%=lastRow %>"></c:set>
+<c:set var="totalPage" value="<%=totalPage %>"></c:set>
 <c:set var="pagerLength" value="<%=sb.toString() %>"></c:set>
+<c:if test="${not empty params || totalPage==0 }">
 <div class="row-fluid" style="margin: 8px 0 8px 0;">  
 	<div class="span6">
-		<div class="pull-left"  style="margin: 0 0 0 12px;"><s:message code="pager.info" arguments="${firstRow },${lastRow },${params.totalSize}" />&nbsp;&nbsp;
-			<s:message code="pager.length" arguments="${pagerLength }" argumentSeparator="~" />
+		<div class="pull-left"  style="margin: 0 0 0 12px;">第 ${firstRow } - ${lastRow }  / 共  <%=totalSize %> 项&nbsp;&nbsp;
+			每页显示: ${pagerLength } 项
 		</div>
 	</div>
 	<div class="span6">
@@ -78,18 +87,18 @@ sb.append("</select>");
 			<ul>
 				<!-- first page -->
 				<c:if test="${params.pageIndex>1 }">
-					<li><a href="javascript:${funcName }(1, <%=pageSize%>);"><s:message code="pager.first" /></a></li>  
+					<li><a href="javascript:${funcName }(1, <%=pageSize%>);">首页</a></li>  
 				</c:if>
 				<c:if test="${params.pageIndex<=0 }">
-					<li class="disabled"><span><s:message code="pager.first" /></span></li>  
+					<li class="disabled"><span>首页</span></li>  
 				</c:if>
 				
 				<!-- 前一页按钮 -->  
 		        <c:if test="${params.pageIndex <= 1 }">  
-		            <li class="disabled"><span><s:message code="pager.previous" /></span></li>  
+		            <li class="disabled"><span>上一页</span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex > 1 }">  
-		            <li><a href="javascript:${funcName }(<%=curPageNo-1%>, <%=pageSize%>);"><s:message code="pager.previous" /></a></li>  
+		            <li><a href="javascript:${funcName }(<%=curPageNo-1%>, <%=pageSize%>);">上一页</a></li>  
 		        </c:if>         
 		        
 		        <!-- 页码 -->
@@ -99,18 +108,18 @@ sb.append("</select>");
 		  
 		        <!-- 下一页按钮 -->  
 		        <c:if test="${params.pageIndex >= params.totalPage}">  
-		            <li class="disabled"><span><s:message code="pager.next" /></span></li>  
+		            <li class="disabled"><span>下一页</span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex < params.totalPage}">  
-		            <li><a href="javascript:${funcName }(<%=curPageNo+1%>, <%=pageSize%>);"><s:message code="pager.next" /></a></li>  
+		            <li><a href="javascript:${funcName }(<%=curPageNo+1%>, <%=pageSize%>);">下一页</a></li>  
 		        </c:if>  
 		  
 		        <!-- 分页尾页按钮 -->  
 		        <c:if test="${params.pageIndex > params.totalPage}">  
-		            <li class="disabled"><span><s:message code="pager.last" /></span></li>  
+		            <li class="disabled"><span>末页</span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex < params.totalPage}">  
-		            <li><a href="javascript:${funcName }(<%=totalPage%>, <%=pageSize%>);"><s:message code="pager.last" /></a></li>  
+		            <li><a href="javascript:${funcName }(<%=totalPage%>, <%=pageSize%>);">末页</a></li>  
 		        </c:if>  
 			</ul>	
 		</div>	
@@ -151,3 +160,4 @@ function jumpPage(pageNo, pageSize)
 }
 //-->
 </script>
+</c:if>

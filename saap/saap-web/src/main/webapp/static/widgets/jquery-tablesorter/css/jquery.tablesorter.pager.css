@@ -1,0 +1,70 @@
+/* pager wrapper, div */
+.tablesorter-pager {
+	padding: 5px;
+}
+/* pager wrapper, in thead/tfoot */
+td.tablesorter-pager {
+	background-color: #e6eeee;
+	margin: 0; /* needed for bootstrap .pager gets a 18px bottom margin */
+}
+/* pager navigation arrows */
+.tablesorter-pager button {
+	vertical-align: middle;
+	margin-right: 2px;
+	cursor: pointer;
+	border: 0;
+	padding: 0 0 0 0;
+	background-color: #fff;
+}
+
+.tablesorter-pager button.first {
+	width: 16px;
+	height: 16px;
+	background-image: url(../imgs/first.png);
+}
+
+.tablesorter-pager button.prev {
+	width: 16px;
+	height: 16px;
+	background-image: url(../imgs/prev.png);
+}
+
+.tablesorter-pager button.next {
+	width: 16px;
+	height: 16px;
+	background-image: url(../imgs/next.png);
+}
+
+.tablesorter-pager button.last {
+	width: 16px;
+	height: 16px;
+	background-image: url(../imgs/last.png);
+}
+
+/* pager output text */
+.tablesorter-pager .pagedisplay {
+	padding: 0 5px 0 5px;
+	width: auto;
+	white-space: nowrap;
+	text-align: center;
+}
+
+/* pager element reset (needed for bootstrap) */
+.tablesorter-pager select {
+	margin: 0;
+	padding: 0;
+	width: 50px;
+}
+
+/*** css used when "updateArrows" option is true ***/
+/* the pager itself gets a disabled class when the number of rows is less than the size */
+.tablesorter-pager.disabled {
+	display: none;
+}
+/* hide or fade out pager arrows when the first or last row is visible */
+.tablesorter-pager .disabled {
+	/* visibility: hidden */
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	cursor: default;
+}
