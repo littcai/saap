@@ -13,4 +13,11 @@
     	<sqlFile path="upgrade/v1.2.0.sql"/>	
     </changeSet> 
     
+    <changeSet id="v1.2.1" author="dba">    
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="1">SELECT COUNT(1) FROM SYSTEM_INFO WHERE SYSTEM_VERSION &lt; '1.2.2'</sqlCheck>
+		</preConditions>	
+    	<sqlFile path="upgrade/v1.2.1.sql"/>	
+    </changeSet> 
+    
 </databaseChangeLog>
