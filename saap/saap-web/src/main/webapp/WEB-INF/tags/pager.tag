@@ -50,25 +50,25 @@ sb.append("<select size=\"1\" ")
 .append(" style=\"width:70px;height:25px;padding:2px 3px;margin:0 4px;\"")
 .append(" onchange=\"javascript:" + funcName + "(" + curPageNo + ", this.value);\" >");
 if(pageSize==DEFAULT_PAGE_SIZE)
-	sb.append("<option selected>"+ DEFAULT_PAGE_SIZE +"</option>");
+	sb.append("<option selected value='"+DEFAULT_PAGE_SIZE+"'>"+ DEFAULT_PAGE_SIZE +"</option>");
 else 
-	sb.append("<option>"+ DEFAULT_PAGE_SIZE +"</option>");
+	sb.append("<option value='"+DEFAULT_PAGE_SIZE+"'>"+ DEFAULT_PAGE_SIZE +"</option>");
 if(pageSize==20)
-	sb.append("<option selected>20</option>");
+	sb.append("<option selected value='20'>20</option>");
 else 
-	sb.append("<option>20</option>");
+	sb.append("<option value='20'>20</option>");
 if(pageSize==50)
-	sb.append("<option selected>50</option>");
+	sb.append("<option selected value='50'>50</option>");
 else 
-	sb.append("<option>50</option>");
+	sb.append("<option value='50'>50</option>");
 if(pageSize==100)
-	sb.append("<option selected>100</option>");
+	sb.append("<option selected value='100'>100</option>");
 else 
-	sb.append("<option>100</option>");
+	sb.append("<option value='100'>100</option>");
 if(pageSize==200)
-	sb.append("<option selected>200</option>");
+	sb.append("<option selected value='200'>200</option>");
 else 
-	sb.append("<option>200</option>");
+	sb.append("<option value='200'>200</option>");
 sb.append("</select>"); 
 %>
 <c:set var="firstRow" value="<%=firstRow %>"></c:set>
