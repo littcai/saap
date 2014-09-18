@@ -40,7 +40,7 @@
         <div class="control-group">
           <label class="control-label" for="expiredDate"><s:message code="affiche.expiredDate" /></label>
           <div class="controls">
-            <div class="input-append date datepicker" id="expiredDate" data-date-format="yyyy-mm-dd">
+            <div class="input-append date datepicker" data-date-format="yyyy-mm-dd">
                 <input id="expiredDate" name="expiredDateFmt" type="text"/>
                 <span class="add-on"><i class="icon-calendar"></i></span>
               </div>

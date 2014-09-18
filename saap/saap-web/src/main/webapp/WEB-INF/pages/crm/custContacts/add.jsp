@@ -3,7 +3,13 @@
 <%@ include file="/common/common.jspf"%>
 <%@ include file="/common/taglibs.jspf"%>
 <html lang="en">
-  <head>		
+  <head>	
+    <!-- bootstrap-datepicker -->
+    <link href="${contextPath}/static/widgets/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="${contextPath }/static/widgets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <c:if test="${!empty SESSION_USER && !empty SESSION_USER.locale && !fn:startsWith(SESSION_USER.locale, 'en') }">
+      <script src="${contextPath }/static/widgets/bootstrap-datepicker/js/locales/bootstrap-datepicker.${SESSION_USER.locale }.js"></script>
+    </c:if> 	
   </head>
   <body>   
   <form id="theform" action="save.json" method="post" class="form-horizontal">
@@ -45,9 +51,12 @@
 						</div>								
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custContacts.mobile"><s:message code="custContacts.mobile" /></label>
+								<label class="control-label" for="birthday"><s:message code="custContacts.birthday" /></label>
 								<div class="controls">
-									<input id="mobile" name="mobile" placeholder="" type="text" />
+									<div class="input-append date datepicker" data-date-format="yyyy-mm-dd">
+						                <input id="birthday" name="birthdayFmt" type="text"/>
+						                <span class="add-on"><i class="icon-calendar"></i></span>
+						            </div>
 								</div>
 							</div>
 						</div>								
@@ -55,12 +64,12 @@
 					<div class="row-fluid">
 						<div class="span6">
 							<div class="control-group">
-								<label class="control-label" for="custContacts.email"><s:message code="custContacts.email" /></label>
+								<label class="control-label" for="custContacts.mobile"><s:message code="custContacts.mobile" /></label>
 								<div class="controls">
-									<input id="email" name="email" placeholder="" type="text" />
+									<input id="mobile" name="mobile" placeholder="" type="text" />
 								</div>
 							</div>
-						</div>								
+						</div>						
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custContacts.phone"><s:message code="custContacts.phone" /></label>
@@ -71,6 +80,14 @@
 						</div>								
 					</div>
 					<div class="row-fluid">
+					    <div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="custContacts.email"><s:message code="custContacts.email" /></label>
+								<div class="controls">
+									<input id="email" name="email" placeholder="" type="text" />
+								</div>
+							</div>
+						</div>	
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label" for="custContacts.fax"><s:message code="custContacts.fax" /></label>
@@ -78,15 +95,7 @@
 									<input id="fax" name="fax" placeholder="" type="text" />
 								</div>
 							</div>
-						</div>								
-						<div class="span6">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.address"><s:message code="custContacts.address" /></label>
-								<div class="controls">
-									<input id="address" name="address" placeholder="" type="text" />
-								</div>
-							</div>
-						</div>								
+						</div>				
 					</div>
 					<div class="row-fluid">
 						<div class="span6">
@@ -96,17 +105,23 @@
 									<input id="zipCode" name="zipCode" placeholder="" type="text" />
 								</div>
 							</div>
+						</div>
+					</div>		
+					<div class="row-fluid">	
+						<div class="control-group">
+							<label class="control-label" for="custContacts.address"><s:message code="custContacts.address" /></label>
+							<div class="controls">
+								<input id="address" name="address" placeholder="" type="text" class="input-block-level limited"/>
+							</div>
 						</div>					
 					</div>					
 					<div class="row-fluid">
-						<div class="span12">
-							<div class="control-group">
-								<label class="control-label" for="custContacts.remark"><s:message code="custContacts.remark" /></label>
-								<div class="controls">
-									<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited"></textarea>
-								</div>
+						<div class="control-group">
+							<label class="control-label" for="custContacts.remark"><s:message code="custContacts.remark" /></label>
+							<div class="controls">
+								<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level"></textarea>
 							</div>
-						</div>								
+						</div>
 					</div>
 				</fieldset>					
 						
@@ -119,6 +134,10 @@
 		<!--page specific plugin scripts-->				
 		<script type="text/javascript">
 		$(document).ready(function(){	
+			$('.datepicker').datepicker({
+		  		  todayBtn: true,
+		  		  todayHighlight: true
+		  	});
 			
 			$("#customerId").select2();				
 			

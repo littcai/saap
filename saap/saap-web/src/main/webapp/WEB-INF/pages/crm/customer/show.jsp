@@ -53,21 +53,19 @@
 							<div class="control-group">
 								<label class="control-label" for="chargeUser"><s:message code="customer.chargeUser" /></label>
 								<div class="controls">
-									<input id="chargeUser" name="chargeUser" placeholder="" type="text" value="${li:out(chargeUser.name)}" readonly="readonly" />								
+									<input id="chargeUser" name="chargeUser" placeholder="" type="text" value="${li:out(chargeUser.userName)}" readonly="readonly" />								
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row-fluid">
-							<div class="span12">
-								<div class="control-group">
-									<label class="control-label" for="remark"><s:message code="customer.remark" /></label>
-									<div class="controls">
-										<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited" readonly="readonly" ><c:out value="${customer.remark }"></c:out></textarea>
-									</div>
-								</div>
+						<div class="control-group">
+							<label class="control-label" for="remark"><s:message code="customer.remark" /></label>
+							<div class="controls">
+								<textarea rows="3" cols="8" id="remark" name="remark" class="input-block-level limited" readonly="readonly" ><c:out value="${customer.remark }"></c:out></textarea>
 							</div>
 						</div>
+					</div>
 				</fieldset>
 				<fieldset>
 						<legend><s:message code="customer.ui.fieldset.contactInfo" /></legend>
@@ -129,7 +127,83 @@
 							</div>
 						</div>
 					</div>
-				</fieldset>	
+				</fieldset>
+				
+				<fieldset>
+						<legend><s:message code="customer.ui.fieldset.financeInfo" /></legend>
+						<div class="row-fluid">	
+						  <div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="paymentDays"><s:message code="customer.paymentDays" /></label>
+								<div class="controls">
+									<input id="paymentDays" name="customer_paymentDays" type="text" value="<c:out value='${customer.paymentDays }'/>"  readonly="readonly" />
+								</div>
+								</div>
+							</div>
+							<div class="span6">
+								<div class="control-group">
+									<label class="control-label" for="billingFullName"><s:message code="customer.billingFullName" /></label>
+									<div class="controls">
+										<input id="billingFullName" name="customer_billingFullName" type="text" value="<c:out value='${customer.billingFullName }'/>" readonly="readonly"  />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row-fluid">	
+						  <div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="accountNo"><s:message code="customer.accountNo" /></label>
+								<div class="controls">
+									<input id="accountNo" name="customer_accountNo" type="text" value="<c:out value='${customer.accountNo }'/>" readonly="readonly"  />
+								</div>
+								</div>
+							</div>
+							<div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="bankName"><s:message code="customer.bankName" /></label>
+								<div class="controls">
+									<input id="bankName" name="customer_bankName" type="text" value="<c:out value='${customer.bankName }'/>" readonly="readonly"  />
+								</div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="row-fluid">	
+						  <div class="span6">
+								<div class="control-group">
+									<label class="control-label" for="taxNo"><s:message code="customer.taxNo" /></label>
+									<div class="controls">
+										<input id="taxNo" name="customer_taxNo" type="text" value="<c:out value='${customer.taxNo }'/>"  readonly="readonly" />
+									</div>
+								</div>
+						  </div>
+						</div>
+						<div class="row-fluid">	
+							<div class="control-group">
+								<label class="control-label" for="billingAddress"><s:message code="customer.billingAddress" /></label>
+								<div class="controls">
+									<input id="billingAddress" name="customer_billingAddress" type="text" class="input-block-level" value="<c:out value='${customer.billingAddress }'/>" readonly="readonly"  />
+								</div>
+							</div>
+						</div>
+						<div class="row-fluid">	
+							<div class="control-group">
+								<label class="control-label" for="mailingAddress"><s:message code="customer.mailingAddress" /></label>
+								<div class="controls">
+									<input id="mailingAddress" name="customer_mailingAddress" type="text" class="input-block-level" value="<c:out value='${customer.mailingAddress }'/>" readonly="readonly"  />
+								</div>
+							</div>
+						</div>
+						
+						<div class="row-fluid">
+							<div class="control-group">
+								<label class="control-label" for="billingRemark"><s:message code="customer.billingRemark" /></label>
+								<div class="controls">
+									<textarea rows="3" cols="8" id="billingRemark" name="customer_billingRemark" class="input-block-level" readonly="readonly" ><c:out value="${customer.billingRemark }"></c:out></textarea>
+								</div>
+							</div>
+						</div>
+					</fieldset>	
 				
 				<fieldset>
 						<legend><s:message code="customer.ui.fieldset.attachment" /></legend>

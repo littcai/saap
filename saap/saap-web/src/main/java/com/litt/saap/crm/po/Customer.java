@@ -1,6 +1,14 @@
 package com.litt.saap.crm.po;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import java.io.Serializable;
 
@@ -9,8 +17,11 @@ import java.io.Serializable;
  * Table:customer<br>
  * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
- * @since 2014-5-19 13:46:04
+ * @since 2014-9-18 22:14:38
  */
+@Entity
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+@Table(name = "customer")
 public class Customer implements Serializable {
 	/**
 	 * UID
@@ -140,12 +151,53 @@ public class Customer implements Serializable {
 	 */
 	private boolean isDeleted;
 
+	/**
+	 * 账期.
+	 */
+	private int paymentDays;
+
+	/**
+	 * 发票邮寄地址.
+	 */
+	private String mailingAddress;
+
+	/**
+	 * 开票地址.
+	 */
+	private String billingAddress;
+
+	/**
+	 * 开票全称.
+	 */
+	private String billingFullName;
+
+	/**
+	 * 银行名称.
+	 */
+	private String bankName;
+
+	/**
+	 * 帐号.
+	 */
+	private String accountNo;
+
+	/**
+	 * 税号.
+	 */
+	private String taxNo;
+
+	/**
+	 * 开票注意点.
+	 */
+	private String billingRemark;
+
 	public Customer() {
 	}
 
 	public Customer(int tenantId, String code, int parentId, boolean isLeaf,
 			String name, int chargeBy, int createBy, Date createDatetime,
-			int updateBy, Date updateDatetime, boolean isDeleted) {
+			int updateBy, Date updateDatetime, boolean isDeleted,
+			int paymentDays) {
 		this.tenantId = tenantId;
 		this.code = code;
 		this.parentId = parentId;
@@ -157,6 +209,7 @@ public class Customer implements Serializable {
 		this.updateBy = updateBy;
 		this.updateDatetime = updateDatetime;
 		this.isDeleted = isDeleted;
+		this.paymentDays = paymentDays;
 	}
 
 	public Customer(int tenantId, String code, int parentId, boolean isLeaf,
@@ -164,7 +217,10 @@ public class Customer implements Serializable {
 			String address, String zipCode, String website, String remark,
 			int chargeBy, Integer contactsId, int createBy,
 			Date createDatetime, int updateBy, Date updateDatetime,
-			Integer grade, Integer status, String logoUrl, boolean isDeleted) {
+			Integer grade, Integer status, String logoUrl, boolean isDeleted,
+			int paymentDays, String mailingAddress, String billingAddress,
+			String billingFullName, String bankName, String accountNo,
+			String taxNo, String billingRemark) {
 		this.tenantId = tenantId;
 		this.code = code;
 		this.parentId = parentId;
@@ -187,12 +243,23 @@ public class Customer implements Serializable {
 		this.status = status;
 		this.logoUrl = logoUrl;
 		this.isDeleted = isDeleted;
+		this.paymentDays = paymentDays;
+		this.mailingAddress = mailingAddress;
+		this.billingAddress = billingAddress;
+		this.billingFullName = billingFullName;
+		this.bankName = bankName;
+		this.accountNo = accountNo;
+		this.taxNo = taxNo;
+		this.billingRemark = billingRemark;
 	}
 
 	/**  
 	 * Get 序号.
 	 * @return 序号
 	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "ID", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -209,6 +276,8 @@ public class Customer implements Serializable {
 	 * Get 租户ID.
 	 * @return 租户ID
 	 */
+
+	@Column(name = "TENANT_ID", nullable = false)
 	public int getTenantId() {
 		return this.tenantId;
 	}
@@ -225,6 +294,8 @@ public class Customer implements Serializable {
 	 * Get 编号.
 	 * @return 编号
 	 */
+
+	@Column(name = "CODE", nullable = false, length = 50)
 	public String getCode() {
 		return this.code;
 	}
@@ -241,6 +312,8 @@ public class Customer implements Serializable {
 	 * Get 上级单位：通过该字段形成客户关系网.
 	 * @return 上级单位：通过该字段形成客户关系网
 	 */
+
+	@Column(name = "PARENT_ID", nullable = false)
 	public int getParentId() {
 		return this.parentId;
 	}
@@ -257,7 +330,9 @@ public class Customer implements Serializable {
 	 * Get 是否叶子节点.
 	 * @return 是否叶子节点
 	 */
-	public boolean isIsLeaf() {
+
+	@Column(name = "IS_LEAF", nullable = false)
+	public boolean getIsLeaf() {
 		return this.isLeaf;
 	}
 
@@ -273,6 +348,8 @@ public class Customer implements Serializable {
 	 * Get 名称.
 	 * @return 名称
 	 */
+
+	@Column(name = "NAME", nullable = false, length = 400)
 	public String getName() {
 		return this.name;
 	}
@@ -289,6 +366,8 @@ public class Customer implements Serializable {
 	 * Get 联系电话.
 	 * @return 联系电话
 	 */
+
+	@Column(name = "PHONE", length = 100)
 	public String getPhone() {
 		return this.phone;
 	}
@@ -305,6 +384,8 @@ public class Customer implements Serializable {
 	 * Get 电子邮件.
 	 * @return 电子邮件
 	 */
+
+	@Column(name = "EMAIL", length = 100)
 	public String getEmail() {
 		return this.email;
 	}
@@ -321,6 +402,8 @@ public class Customer implements Serializable {
 	 * Get 传真.
 	 * @return 传真
 	 */
+
+	@Column(name = "FAX", length = 100)
 	public String getFax() {
 		return this.fax;
 	}
@@ -337,6 +420,8 @@ public class Customer implements Serializable {
 	 * Get 联系地址.
 	 * @return 联系地址
 	 */
+
+	@Column(name = "ADDRESS", length = 400)
 	public String getAddress() {
 		return this.address;
 	}
@@ -353,6 +438,8 @@ public class Customer implements Serializable {
 	 * Get 邮政编码.
 	 * @return 邮政编码
 	 */
+
+	@Column(name = "ZIP_CODE", length = 6)
 	public String getZipCode() {
 		return this.zipCode;
 	}
@@ -369,6 +456,8 @@ public class Customer implements Serializable {
 	 * Get 网址.
 	 * @return 网址
 	 */
+
+	@Column(name = "WEBSITE", length = 400)
 	public String getWebsite() {
 		return this.website;
 	}
@@ -385,6 +474,8 @@ public class Customer implements Serializable {
 	 * Get 备注.
 	 * @return 备注
 	 */
+
+	@Column(name = "REMARK", length = 2000)
 	public String getRemark() {
 		return this.remark;
 	}
@@ -399,6 +490,8 @@ public class Customer implements Serializable {
 
 	/**  
 	 */
+
+	@Column(name = "CHARGE_BY", nullable = false)
 	public int getChargeBy() {
 		return this.chargeBy;
 	}
@@ -413,6 +506,8 @@ public class Customer implements Serializable {
 	 * Get 默认联系人ID.
 	 * @return 默认联系人ID
 	 */
+
+	@Column(name = "CONTACTS_ID")
 	public Integer getContactsId() {
 		return this.contactsId;
 	}
@@ -427,6 +522,8 @@ public class Customer implements Serializable {
 
 	/**  
 	 */
+
+	@Column(name = "CREATE_BY", nullable = false)
 	public int getCreateBy() {
 		return this.createBy;
 	}
@@ -441,6 +538,9 @@ public class Customer implements Serializable {
 	 * Get 创建时间.
 	 * @return 创建时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATETIME", nullable = false, length = 19)
 	public Date getCreateDatetime() {
 		return this.createDatetime;
 	}
@@ -455,6 +555,8 @@ public class Customer implements Serializable {
 
 	/**  
 	 */
+
+	@Column(name = "UPDATE_BY", nullable = false)
 	public int getUpdateBy() {
 		return this.updateBy;
 	}
@@ -469,6 +571,9 @@ public class Customer implements Serializable {
 	 * Get 上次修改时间.
 	 * @return 上次修改时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
 	public Date getUpdateDatetime() {
 		return this.updateDatetime;
 	}
@@ -495,6 +600,8 @@ public class Customer implements Serializable {
 	        4：4星
 	        5：5星
 	 */
+
+	@Column(name = "GRADE")
 	public Integer getGrade() {
 		return this.grade;
 	}
@@ -535,6 +642,8 @@ public class Customer implements Serializable {
 	        6：维护
 	        7：重点维护
 	 */
+
+	@Column(name = "STATUS")
 	public Integer getStatus() {
 		return this.status;
 	}
@@ -565,6 +674,8 @@ public class Customer implements Serializable {
 	 * Get LOGO存放路径.
 	 * @return LOGO存放路径
 	 */
+
+	@Column(name = "LOGO_URL", length = 200)
 	public String getLogoUrl() {
 		return this.logoUrl;
 	}
@@ -581,7 +692,9 @@ public class Customer implements Serializable {
 	 * Get 是否已删除.
 	 * @return 是否已删除
 	 */
-	public boolean isIsDeleted() {
+
+	@Column(name = "IS_DELETED", nullable = false)
+	public boolean getIsDeleted() {
 		return this.isDeleted;
 	}
 
@@ -591,6 +704,150 @@ public class Customer implements Serializable {
 	 */
 	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	/**  
+	 * Get 账期.
+	 * @return 账期
+	 */
+
+	@Column(name = "PAYMENT_DAYS", nullable = false)
+	public int getPaymentDays() {
+		return this.paymentDays;
+	}
+
+	/**
+	 * Set 账期.
+	 * @param paymentDays 账期
+	 */
+	public void setPaymentDays(int paymentDays) {
+		this.paymentDays = paymentDays;
+	}
+
+	/**  
+	 * Get 发票邮寄地址.
+	 * @return 发票邮寄地址
+	 */
+
+	@Column(name = "MAILING_ADDRESS", length = 400)
+	public String getMailingAddress() {
+		return this.mailingAddress;
+	}
+
+	/**
+	 * Set 发票邮寄地址.
+	 * @param mailingAddress 发票邮寄地址
+	 */
+	public void setMailingAddress(String mailingAddress) {
+		this.mailingAddress = mailingAddress;
+	}
+
+	/**  
+	 * Get 开票地址.
+	 * @return 开票地址
+	 */
+
+	@Column(name = "BILLING_ADDRESS", length = 400)
+	public String getBillingAddress() {
+		return this.billingAddress;
+	}
+
+	/**
+	 * Set 开票地址.
+	 * @param billingAddress 开票地址
+	 */
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	/**  
+	 * Get 开票全称.
+	 * @return 开票全称
+	 */
+
+	@Column(name = "BILLING_FULL_NAME", length = 100)
+	public String getBillingFullName() {
+		return this.billingFullName;
+	}
+
+	/**
+	 * Set 开票全称.
+	 * @param billingFullName 开票全称
+	 */
+	public void setBillingFullName(String billingFullName) {
+		this.billingFullName = billingFullName;
+	}
+
+	/**  
+	 * Get 银行名称.
+	 * @return 银行名称
+	 */
+
+	@Column(name = "BANK_NAME", length = 100)
+	public String getBankName() {
+		return this.bankName;
+	}
+
+	/**
+	 * Set 银行名称.
+	 * @param bankName 银行名称
+	 */
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	/**  
+	 * Get 帐号.
+	 * @return 帐号
+	 */
+
+	@Column(name = "ACCOUNT_NO", length = 100)
+	public String getAccountNo() {
+		return this.accountNo;
+	}
+
+	/**
+	 * Set 帐号.
+	 * @param accountNo 帐号
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	/**  
+	 * Get 税号.
+	 * @return 税号
+	 */
+
+	@Column(name = "TAX_NO", length = 100)
+	public String getTaxNo() {
+		return this.taxNo;
+	}
+
+	/**
+	 * Set 税号.
+	 * @param taxNo 税号
+	 */
+	public void setTaxNo(String taxNo) {
+		this.taxNo = taxNo;
+	}
+
+	/**  
+	 * Get 开票注意点.
+	 * @return 开票注意点
+	 */
+
+	@Column(name = "BILLING_REMARK", length = 2000)
+	public String getBillingRemark() {
+		return this.billingRemark;
+	}
+
+	/**
+	 * Set 开票注意点.
+	 * @param billingRemark 开票注意点
+	 */
+	public void setBillingRemark(String billingRemark) {
+		this.billingRemark = billingRemark;
 	}
 
 }

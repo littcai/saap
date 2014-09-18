@@ -1,5 +1,6 @@
 package com.litt.saap.crm.web;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,12 +23,10 @@ import com.litt.core.module.annotation.Func;
 import com.litt.core.web.mvc.action.BaseController;
 import com.litt.core.web.util.WebUtils;
 import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.po.Customer;
 import com.litt.saap.crm.service.ICustContactsService;
 import com.litt.saap.crm.service.ICustomerService;
-import com.litt.saap.personal.po.Contacts;
 
 /**
  * 
@@ -152,8 +151,11 @@ public class CustContactsController extends BaseController
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
+		Date birthday = Utility.parseDate(request.getParameter("birthdayFmt"));
+		
 		CustContacts custContacts = new CustContacts();
 		BeanUtils.populate(custContacts, request.getParameterMap());			
+		custContacts.setBirthday(birthday);
 		custContactsService.save(custContacts);
 	}
 	
@@ -167,8 +169,11 @@ public class CustContactsController extends BaseController
 	@RequestMapping 
 	public void update(WebRequest request, ModelMap modelMap) throws Exception
 	{
+		Date birthday = Utility.parseDate(request.getParameter("birthdayFmt"));
+		
 		CustContacts custContacts = custContactsService.load(Utility.parseInt(request.getParameter("id")));
 		BeanUtils.populate(custContacts, request.getParameterMap());
+		custContacts.setBirthday(birthday);
 		custContactsService.update(custContacts);
 	}
 	

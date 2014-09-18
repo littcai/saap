@@ -1,6 +1,14 @@
 package com.litt.saap.crm.po;
 
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import java.io.Serializable;
 
@@ -9,8 +17,11 @@ import java.io.Serializable;
  * Table:cust_contacts<br>
  * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
- * @since 2014-5-19 13:46:04
+ * @since 2014-9-18 22:38:41
  */
+@Entity
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+@Table(name = "cust_contacts")
 public class CustContacts implements Serializable {
 	/**
 	 * UID
@@ -45,6 +56,11 @@ public class CustContacts implements Serializable {
 	private byte gender;
 
 	/**
+	 * 生日.
+	 */
+	private Date birthday;
+
+	/**
 	 * 手机号.
 	 */
 	private String mobile;
@@ -75,6 +91,12 @@ public class CustContacts implements Serializable {
 	private String zipCode;
 
 	/**
+	 * 头像URL.
+	 */
+	private String headImgUrl;
+
+	/**
+	 * 创建人.
 	 */
 	private int createBy;
 
@@ -82,6 +104,11 @@ public class CustContacts implements Serializable {
 	 * 创建时间.
 	 */
 	private Date createDatetime;
+
+	/**
+	 * 更新人.
+	 */
+	private int updateBy;
 
 	/**
 	 * 更新时间.
@@ -93,18 +120,13 @@ public class CustContacts implements Serializable {
 	 */
 	private String remark;
 
-	/**
-	 * 头像URL.
-	 */
-	private String headImgUrl;
-
 	public CustContacts() {
 	}
 
 	public CustContacts(int tenantId, int customerId, String name, byte gender,
 			String mobile, String email, String phone, String fax,
 			String address, String zipCode, int createBy, Date createDatetime,
-			Date updateDatetime) {
+			int updateBy, Date updateDatetime) {
 		this.tenantId = tenantId;
 		this.customerId = customerId;
 		this.name = name;
@@ -117,34 +139,41 @@ public class CustContacts implements Serializable {
 		this.zipCode = zipCode;
 		this.createBy = createBy;
 		this.createDatetime = createDatetime;
+		this.updateBy = updateBy;
 		this.updateDatetime = updateDatetime;
 	}
 
 	public CustContacts(int tenantId, int customerId, String name, byte gender,
-			String mobile, String email, String phone, String fax,
-			String address, String zipCode, int createBy, Date createDatetime,
-			Date updateDatetime, String remark, String headImgUrl) {
+			Date birthday, String mobile, String email, String phone,
+			String fax, String address, String zipCode, String headImgUrl,
+			int createBy, Date createDatetime, int updateBy,
+			Date updateDatetime, String remark) {
 		this.tenantId = tenantId;
 		this.customerId = customerId;
 		this.name = name;
 		this.gender = gender;
+		this.birthday = birthday;
 		this.mobile = mobile;
 		this.email = email;
 		this.phone = phone;
 		this.fax = fax;
 		this.address = address;
 		this.zipCode = zipCode;
+		this.headImgUrl = headImgUrl;
 		this.createBy = createBy;
 		this.createDatetime = createDatetime;
+		this.updateBy = updateBy;
 		this.updateDatetime = updateDatetime;
 		this.remark = remark;
-		this.headImgUrl = headImgUrl;
 	}
 
 	/**  
 	 * Get 序号.
 	 * @return 序号
 	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "ID", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -161,6 +190,8 @@ public class CustContacts implements Serializable {
 	 * Get 租户ID.
 	 * @return 租户ID
 	 */
+
+	@Column(name = "TENANT_ID", nullable = false)
 	public int getTenantId() {
 		return this.tenantId;
 	}
@@ -177,6 +208,8 @@ public class CustContacts implements Serializable {
 	 * Get 客户ID.
 	 * @return 客户ID
 	 */
+
+	@Column(name = "CUSTOMER_ID", nullable = false)
 	public int getCustomerId() {
 		return this.customerId;
 	}
@@ -193,6 +226,8 @@ public class CustContacts implements Serializable {
 	 * Get 名称.
 	 * @return 名称
 	 */
+
+	@Column(name = "NAME", nullable = false, length = 200)
 	public String getName() {
 		return this.name;
 	}
@@ -215,6 +250,8 @@ public class CustContacts implements Serializable {
 	        1:male
 	        2:female
 	 */
+
+	@Column(name = "GENDER", nullable = false)
 	public byte getGender() {
 		return this.gender;
 	}
@@ -234,9 +271,30 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
+	 * Get 生日.
+	 * @return 生日
+	 */
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "BIRTHDAY", length = 10)
+	public Date getBirthday() {
+		return this.birthday;
+	}
+
+	/**
+	 * Set 生日.
+	 * @param birthday 生日
+	 */
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	/**  
 	 * Get 手机号.
 	 * @return 手机号
 	 */
+
+	@Column(name = "MOBILE", nullable = false, length = 50)
 	public String getMobile() {
 		return this.mobile;
 	}
@@ -253,6 +311,8 @@ public class CustContacts implements Serializable {
 	 * Get 电子邮件.
 	 * @return 电子邮件
 	 */
+
+	@Column(name = "EMAIL", nullable = false, length = 100)
 	public String getEmail() {
 		return this.email;
 	}
@@ -269,6 +329,8 @@ public class CustContacts implements Serializable {
 	 * Get 联系电话.
 	 * @return 联系电话
 	 */
+
+	@Column(name = "PHONE", nullable = false, length = 50)
 	public String getPhone() {
 		return this.phone;
 	}
@@ -285,6 +347,8 @@ public class CustContacts implements Serializable {
 	 * Get 传真号.
 	 * @return 传真号
 	 */
+
+	@Column(name = "FAX", nullable = false, length = 50)
 	public String getFax() {
 		return this.fax;
 	}
@@ -301,6 +365,8 @@ public class CustContacts implements Serializable {
 	 * Get 地址.
 	 * @return 地址
 	 */
+
+	@Column(name = "ADDRESS", nullable = false, length = 200)
 	public String getAddress() {
 		return this.address;
 	}
@@ -317,6 +383,8 @@ public class CustContacts implements Serializable {
 	 * Get 邮编.
 	 * @return 邮编
 	 */
+
+	@Column(name = "ZIP_CODE", nullable = false, length = 20)
 	public String getZipCode() {
 		return this.zipCode;
 	}
@@ -330,12 +398,36 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
+	 * Get 头像URL.
+	 * @return 头像URL
 	 */
+
+	@Column(name = "HEAD_IMG_URL", length = 100)
+	public String getHeadImgUrl() {
+		return this.headImgUrl;
+	}
+
+	/**
+	 * Set 头像URL.
+	 * @param headImgUrl 头像URL
+	 */
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	/**  
+	 * Get 创建人.
+	 * @return 创建人
+	 */
+
+	@Column(name = "CREATE_BY", nullable = false)
 	public int getCreateBy() {
 		return this.createBy;
 	}
 
 	/**
+	 * Set 创建人.
+	 * @param createBy 创建人
 	 */
 	public void setCreateBy(int createBy) {
 		this.createBy = createBy;
@@ -345,6 +437,9 @@ public class CustContacts implements Serializable {
 	 * Get 创建时间.
 	 * @return 创建时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATETIME", nullable = false, length = 19)
 	public Date getCreateDatetime() {
 		return this.createDatetime;
 	}
@@ -358,9 +453,30 @@ public class CustContacts implements Serializable {
 	}
 
 	/**  
+	 * Get 更新人.
+	 * @return 更新人
+	 */
+
+	@Column(name = "UPDATE_BY", nullable = false)
+	public int getUpdateBy() {
+		return this.updateBy;
+	}
+
+	/**
+	 * Set 更新人.
+	 * @param updateBy 更新人
+	 */
+	public void setUpdateBy(int updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	/**  
 	 * Get 更新时间.
 	 * @return 更新时间
 	 */
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATE_DATETIME", nullable = false, length = 19)
 	public Date getUpdateDatetime() {
 		return this.updateDatetime;
 	}
@@ -377,6 +493,8 @@ public class CustContacts implements Serializable {
 	 * Get 备注.
 	 * @return 备注
 	 */
+
+	@Column(name = "REMARK", length = 200)
 	public String getRemark() {
 		return this.remark;
 	}
@@ -387,22 +505,6 @@ public class CustContacts implements Serializable {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	/**  
-	 * Get 头像URL.
-	 * @return 头像URL
-	 */
-	public String getHeadImgUrl() {
-		return this.headImgUrl;
-	}
-
-	/**
-	 * Set 头像URL.
-	 * @param headImgUrl 头像URL
-	 */
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = headImgUrl;
 	}
 
 }

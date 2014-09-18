@@ -5,4 +5,43 @@ ALTER TABLE CUSTOMER ADD COLUMN BILLING_FULL_NAME    VARCHAR(100) COMMENT '开�
 ALTER TABLE CUSTOMER ADD COLUMN BANK_NAME            VARCHAR(100) COMMENT '银行名称';
 ALTER TABLE CUSTOMER ADD COLUMN ACCOUNT_NO           VARCHAR(100) COMMENT '帐号';
 ALTER TABLE CUSTOMER ADD COLUMN TAX_NO               VARCHAR(100) COMMENT '税号';
-ALTER TABLE CUSTOMER ADD COLUMN BILLING_NOTICE       VARCHAR(2000) COMMENT '开票注意点';
+ALTER TABLE CUSTOMER ADD COLUMN BILLING_REMARK       VARCHAR(2000) COMMENT '开票备注';
+
+DROP INDEX IDX_CUST_CONTACTS_USER ON CUST_CONTACTS;
+
+DROP TABLE IF EXISTS CUST_CONTACTS;
+
+/*==============================================================*/
+/* Table: CUST_CONTACTS                                         */
+/*==============================================================*/
+CREATE TABLE CUST_CONTACTS
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   CUSTOMER_ID          INT NOT NULL COMMENT '客户ID',
+   NAME                 VARCHAR(200) NOT NULL COMMENT '名称',
+   GENDER               TINYINT NOT NULL DEFAULT 0 COMMENT '性别(0002)
+            0:unknown
+            1:male
+            2:female',
+   BIRTHDAY             DATE COMMENT '生日',
+   MOBILE               VARCHAR(50) NOT NULL COMMENT '手机号',
+   EMAIL                VARCHAR(100) NOT NULL COMMENT '电子邮件',
+   PHONE                VARCHAR(50) NOT NULL COMMENT '联系电话',
+   FAX                  VARCHAR(50) NOT NULL COMMENT '传真号',
+   ADDRESS              VARCHAR(200) NOT NULL COMMENT '地址',
+   ZIP_CODE             VARCHAR(20) NOT NULL COMMENT '邮编',
+   HEAD_IMG_URL         VARCHAR(100) COMMENT '头像URL',
+   CREATE_BY            INT NOT NULL COMMENT '创建人',
+   CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   UPDATE_BY            INT NOT NULL COMMENT '更新人',
+   UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
+   REMARK               VARCHAR(200) COMMENT '备注',
+   PRIMARY KEY (ID)
+);
+
+CREATE INDEX IDX_CUST_CONTACTS_CUSTOMER ON CUST_CONTACTS
+(
+   TENANT_ID,
+   CUSTOMER_ID
+);
