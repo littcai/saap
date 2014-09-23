@@ -17,7 +17,7 @@
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<timestamp>${maven.build.timestamp}</timestamp>
   	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>  	
-	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
+	<net.sf.ehcache.version>2.4.7</net.sf.ehcache.version>
 	<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 	<org.hibernate.version>3.6.10.Final</org.hibernate.version>
 	<org.freemarker.version>2.3.18</org.freemarker.version>

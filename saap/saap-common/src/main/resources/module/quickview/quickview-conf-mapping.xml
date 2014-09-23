@@ -99,6 +99,9 @@
 	  	<map-to xml="items" /> 
 	  	<field name="provider" type="java.lang.String" required="false">
 	    	<bind-xml name="provider" node="attribute" />
+	    </field> 
+	    <field name="filter" type="java.lang.String" required="false">
+	    	<bind-xml name="filter" node="attribute" />
 	    </field> 	
 	    <field name="itemList" type="com.litt.saap.core.module.dynamicform.model.FieldItem" collection="arraylist">
 	    	<bind-xml name="item"></bind-xml>
@@ -163,6 +166,9 @@
 	    </field>
 	    <field name="hide" type="boolean" required="false">
 	    	<bind-xml name="hide" node="attribute" />
+	    </field>
+	    <field name="converter" type="string" required="false">
+	    	<bind-xml name="converter" node="attribute" />
 	    </field>
 	    <field name="custom" type="java.lang.String" required="false">
 	    	<bind-xml name="custom" node="element" />
