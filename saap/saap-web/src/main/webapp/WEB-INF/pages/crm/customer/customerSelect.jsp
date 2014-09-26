@@ -8,7 +8,7 @@
   <div class="modal-body">
   	<div>
   		<!-- form filter -->
-  		<form class="form-search" id="search-form" name="search-form" method="POST">				
+  		<form class="search-form" id="search-form" name="search-form" method="POST">				
 			<input type="hidden" id="pageIndex" name="pageIndex" value="${pageParam.pageIndex }" />
 			<input type="hidden" id="pageSize" name="pageSize" value="${pageParam.pageSize }" />
 			<input type="hidden" id="sortField" name="sortField"  value="${pageParam.sortField}"/>
