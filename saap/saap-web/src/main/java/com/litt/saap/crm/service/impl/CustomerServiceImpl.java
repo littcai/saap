@@ -15,12 +15,16 @@ import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.BusiCodeException;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.shield.vo.ILoginVo;
+import com.litt.core.util.ArrayUtils;
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.assistant.po.Attachment;
 import com.litt.saap.assistant.service.IAttachmentService;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.dao.CustomerDao;
 import com.litt.saap.crm.po.Customer;
 import com.litt.saap.crm.service.ICustomerService;
+import com.litt.saap.crm.vo.CustomerVo;
+import com.litt.saap.crm.webservice.ICustomerWebService;
 
 /**
  * 客户基本信息管理.
@@ -37,7 +41,7 @@ import com.litt.saap.crm.service.ICustomerService;
  * @since 2013-10-15
  * @version 1.0
  */
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerServiceImpl implements ICustomerService, ICustomerWebService {
 	
 	/** 日志工具. */
     private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
@@ -195,7 +199,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * @param customerId the customer id
 	 * @return the list
 	 */
-	public List<Customer> listAll(String code, String name, boolean includeMe, Integer customerId) 
+	public List<Customer> listBy(String code, String name, boolean includeMe, Integer customerId) 
 	{
 		int tenantId = LoginUtils.getTenantId();
 		
@@ -216,6 +220,13 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 		return customerDao.listAll(listHql, condParam);
 	}	
+	
+	public List<CustomerVo> findBy(String code, String name, boolean includeMe, Integer customerId)
+	{
+	  List<Customer> poList = this.listBy(code, name, includeMe, customerId);
+	  List<CustomerVo> voList = BeanCopier.copyList(poList, CustomerVo.class);
+	  return voList;
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.litt.saap.crm.service.impl.ICustomerService#listPage(com.litt.core.dao.ql.PageParam)

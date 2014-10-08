@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
-import com.litt.core.exception.NotLoginException;
 import com.litt.saap.crm.po.Customer;
+import com.litt.saap.crm.vo.CustomerVo;
 
 /**
  * .
@@ -85,7 +85,9 @@ public interface ICustomerService {
 	 * @param customerId the customer id
 	 * @return the list
 	 */
-	public List<Customer> listAll(String code, String name, boolean includeMe, Integer customerId) ;
+	public List<Customer> listBy(String code, String name, boolean includeMe, Integer customerId) ;
+	
+	public List<CustomerVo> findBy(String code, String name, boolean includeMe, Integer customerId) ;
 	
 
 	/**

@@ -139,7 +139,9 @@
 		  		  todayHighlight: true
 		  	});
 			
-			$("#customerId").select2();				
+			$("#customerId").select2({
+			  width: 'resolve'
+			});				
 			
 			$('#theform').littFormSubmit({
 				rules : {

@@ -28,6 +28,7 @@ import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.po.Customer;
 import com.litt.saap.crm.service.ICustContactsService;
 import com.litt.saap.crm.service.ICustomerService;
+import com.litt.saap.crm.vo.CustomerVo;
 import com.litt.saap.system.biz.IUserBizService;
 import com.litt.saap.system.po.UserInfo;
 import com.litt.saap.system.service.IUserInfoService;
@@ -224,7 +225,7 @@ public class CustomerController extends BaseController {
 	public ModelAndView query(@RequestParam(required=false) String code, @RequestParam(required=false) String name
 			, @RequestParam(required=false) Integer customerId) throws Exception
 	{
-		List<Customer> customerList = customerService.listAll(code, name, false, customerId);
+		List<CustomerVo> customerList = customerService.findBy(code, name, false, customerId);
 		return new ModelAndView("jsonView").addObject("customers", customerList);
 	}
 

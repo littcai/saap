@@ -14,6 +14,7 @@ import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.dao.CustContactsDao;
 import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.service.ICustContactsService;
+import com.litt.saap.crm.webservice.ICustContactsWebService;
 
 /**
  * 
@@ -26,7 +27,7 @@ import com.litt.saap.crm.service.ICustContactsService;
  * @since 2013-10-29
  * @version 1.0
  */
-public class CustContactsServiceImpl implements ICustContactsService
+public class CustContactsServiceImpl implements ICustContactsService, ICustContactsWebService
 { 
 	/** Logger. */
     private static final Logger logger = LoggerFactory.getLogger(CustContactsServiceImpl.class);
