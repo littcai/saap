@@ -35,7 +35,10 @@ $(document).ready(function(){
 	});
 	
 	$.ajaxSetup({
-		
+	  statusCode: {404: function() {
+	      alert('Service not available');
+	    }
+	  },
 		error : function (XMLHttpRequest, textStatus, errorThrown) {  		
 			//如果用户未登录，则跳转到登录页面
 			$.pnotify({    			

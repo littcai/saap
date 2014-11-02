@@ -167,7 +167,7 @@ public class CustomerServiceImpl implements ICustomerService, ICustomerWebServic
 	 * @param id id
 	 * @return Customer
 	 */
-	public Customer load(Integer id)throws NotLoginException
+	public Customer load(Integer id)
 	{
 		Customer customer = customerDao.load(id);
 		
@@ -175,6 +175,18 @@ public class CustomerServiceImpl implements ICustomerService, ICustomerWebServic
 		LoginUtils.validateTenant(customer.getTenantId());
 		
 		return customer;
+	}
+	
+	/**
+	 * Find.
+	 *
+	 * @param id the id
+	 * @return the customer vo
+	 */
+	public CustomerVo find(Integer id)
+	{
+	  Customer customer = this.load(id);
+	  return customer.toVo(CustomerVo.class);
 	}
 	
 	/**
@@ -211,7 +223,7 @@ public class CustomerServiceImpl implements ICustomerService, ICustomerWebServic
 		String listHql = "from Customer"
 				+"-- and tenantId={tenantId}"
 				+"-- and code like {code%}"
-				+"-- and name like {name%}"
+				+"-- and name like {%name%}"
 				+"-- and id>{customerId} and id<{customerId}"
 				;
 		if(!includeMe)	//过滤掉自己

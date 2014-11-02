@@ -22,6 +22,13 @@ import com.litt.saap.crm.vo.CustomerVo;
  */
 public interface ICustomerWebService {
   
+  /**
+   * Find.
+   *
+   * @param id the id
+   * @return the customer vo
+   */
+  public CustomerVo find(Integer id);  
   
   public List<CustomerVo> findBy(String code, String name, boolean includeMe, Integer customerId) ;
 

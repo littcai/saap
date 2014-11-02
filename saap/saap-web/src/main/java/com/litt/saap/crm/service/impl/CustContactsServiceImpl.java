@@ -10,10 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
+import com.litt.core.util.BeanCopier;
 import com.litt.saap.core.web.util.LoginUtils;
 import com.litt.saap.crm.dao.CustContactsDao;
 import com.litt.saap.crm.po.CustContacts;
 import com.litt.saap.crm.service.ICustContactsService;
+import com.litt.saap.crm.vo.CustContactsVo;
 import com.litt.saap.crm.webservice.ICustContactsWebService;
 
 /**
@@ -113,6 +115,18 @@ public class CustContactsServiceImpl implements ICustContactsService, ICustConta
 	}
 	
 	/**
+   * Find.
+   *
+   * @param id the id
+   * @return CustContactsVo
+   */
+  public CustContactsVo find(Integer id)
+  {
+    CustContacts custContacts = this.load(id);
+    return custContacts.toVo(CustContactsVo.class);
+  }
+	
+	/**
 	 * list by page.
 	 * 
 	 * @param pageParam params
@@ -141,5 +155,11 @@ public class CustContactsServiceImpl implements ICustContactsService, ICustConta
 	{
 		String listHql = "from CustContacts where tenantId=? and customerId=?";
 		return custContactsDao.listAll(listHql, new Object[]{LoginUtils.getTenantId(), customerId});
+	}
+	
+	public List<CustContactsVo> findByCustomer(Integer customerId)
+	{
+	  List<CustContacts> poList = this.listByCustomer(customerId);
+	  return BeanCopier.copyList(poList, CustContactsVo.class);
 	}
 }

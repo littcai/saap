@@ -1,5 +1,9 @@
 package com.litt.saap.crm.webservice;
 
+import java.util.List;
+
+import com.litt.saap.crm.vo.CustContactsVo;
+
 
 /**
  * ICustContactsWebService.
@@ -18,4 +22,13 @@ package com.litt.saap.crm.webservice;
  */
 public interface ICustContactsWebService {
 
+  /**
+   * Find.
+   *
+   * @param id the id
+   * @return CustContactsVo
+   */
+  public CustContactsVo find(Integer id);
+  
+  public List<CustContactsVo> findByCustomer(Integer customerId);
 }

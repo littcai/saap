@@ -222,6 +222,13 @@ public class CustomerController extends BaseController {
 	}
 	
 	@RequestMapping 
+  public ModelAndView getById(@RequestParam Integer customerId) throws Exception
+  {
+    Customer customer = customerService.load(customerId);
+    return new ModelAndView("jsonView").addObject("customer", customer);
+  }
+	
+	@RequestMapping 
 	public ModelAndView query(@RequestParam(required=false) String code, @RequestParam(required=false) String name
 			, @RequestParam(required=false) Integer customerId) throws Exception
 	{
