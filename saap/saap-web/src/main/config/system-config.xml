@@ -5,14 +5,14 @@
 		<name>SaaS平台</name>		
 		<companyName>LITTCORE</companyName>
 		<copyright>Copyright © 2004-2014 LITTCORE Corporation, All Rights Reserved</copyright>
-		<version>0.1.0</version>
-		<lastUpdateDatetime>2013-09-01 00:00:00</lastUpdateDatetime>
+		<version>1.2.2</version>
+		<lastUpdateDatetime>2014-11-05 00:00:00</lastUpdateDatetime>
 	</baseInfo>
 	<smtpServer>
 		<host>smtp.qq.com</host>
 		<port>25</port>
-		<username>service@webestlife.com</username>
-		<password enctypted="true">Service810802</password>
+		<username>noreply@littcore.com</username>
+		<password enctypted="true">littcore2014</password>
 	</smtpServer>
 	<smsServer>
 		<sender></sender>	<!-- 发件人手机号 -->

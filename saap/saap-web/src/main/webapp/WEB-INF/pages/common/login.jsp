@@ -181,7 +181,7 @@
 		<div id="login-extra">			<br>
             <p>Copyright &copy; 2004~2014 <a href="www.littcore.com" target="_blank">LITTCORE</a>, all rights reserved.</p>
 			
-			<p>联系电话：13818143407 &nbsp;&nbsp;E-mail: <a href="mailto:littcai@gmail.com">littcai@gmail.com</a></p>
+			<p>联系电话：13818143407 &nbsp;&nbsp;E-mail: <a href="mailto:services@littcore.com">services@littcore.com</a></p>
           <p><a href="https://www.upyun.com/"><img src="http://upfiles.b0.upaiyun.com/logo/90x45.png" alt="UPYUN"></a></p>
 		</div> <!-- /login-extra -->
 	

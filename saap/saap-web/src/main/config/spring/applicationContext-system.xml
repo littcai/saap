@@ -17,7 +17,9 @@
  	<bean id="userMessageBizService" class="com.litt.saap.system.biz.impl.UserMessageBizServiceImpl"/>		
 	
 	<!-- 系统信息及参数 -->
-	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl"/>
+	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl">
+		<property name="baseUrl" value="${baseUrl}"></property>
+	</bean>
 	
 	<!-- 激活码 -->
 	<bean id="activationCodeDao" class="com.litt.saap.system.dao.ActivationCodeDao" parent="baseDao"/>	
