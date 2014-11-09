@@ -170,7 +170,8 @@ public class CustomerServiceImpl implements ICustomerService, ICustomerWebServic
 	public Customer load(Integer id)
 	{
 		Customer customer = customerDao.load(id);
-		
+		if(customer==null)
+			return null;
 		//校验租户权限
 		LoginUtils.validateTenant(customer.getTenantId());
 		
