@@ -12,7 +12,7 @@
     </c:if>	
   </head>
   <body>   
-  <form id="theform" action="update.json" method="post" class="form-horizontal">
+  <form id="theform" action="show.do" method="post" class="form-horizontal">
   	<input type="hidden" name="id" value="${custContacts.id}" />
 				<fieldset>
 					<legend><s:message code="custContacts.ui.fieldset.base" /></legend>					

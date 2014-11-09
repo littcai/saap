@@ -64,7 +64,7 @@
 	              		  	<c:forEach items="${menu.subList }" var="subMenu">	
 	              		  		<c:if test="${subMenu.isLeaf }">
 	              		  			<c:choose> 
-					              		<c:when test="${fn:startsWith(__moduleCode, subMenu.menuCode) }">
+					              		<c:when test="${subMenu.menuCode eq __moduleCode }">
 					              			<c:set var="subActiveCss" value="active"></c:set>
 					              		</c:when>
 					              		<c:otherwise>
@@ -79,7 +79,7 @@
 									    <ul class="dropdown-menu">
 									    	<c:forEach items="${subMenu.subList }" var="subsubMenu">	
 										    	<c:choose> 
-								              		<c:when test="${fn:startsWith(__moduleCode, subsubMenu.menuCode) }">
+								              		<c:when test="${subsubMenu.menuCode eq __moduleCode}">
 								              			<c:set var="subActiveCss" value="active"></c:set>
 								              		</c:when>
 								              		<c:otherwise>
@@ -163,7 +163,7 @@
 														<ul class="nav nav-list">
 														<c:forEach items="${subMenu.subList }" var="subsubMenu">	              		  		
 											              	<c:choose>
-											              		<c:when test="${fn:startsWith(__moduleCode, subsubMenu.menuCode) }">
+											              		<c:when test="${subsubMenu.menuCode eq __moduleCode }">
 											              			<c:set var="subActiveCss" value="active"></c:set>
 											              		</c:when>
 											              		<c:otherwise>
