@@ -22,7 +22,6 @@ import com.litt.core.util.DateUtils;
 import com.litt.core.util.StringUtils;
 import com.litt.saap.core.common.SaapConstants;
 import com.litt.saap.core.common.SaapConstants.TenantMemberStatus;
-import com.litt.saap.core.common.SaapConstants.TenantOrderStatus;
 import com.litt.saap.core.common.SaapConstants.TenantStatus;
 import com.litt.saap.core.module.tenant.config.TenantDefConfig;
 import com.litt.saap.core.module.tenant.config.TenantRoleConfig;
