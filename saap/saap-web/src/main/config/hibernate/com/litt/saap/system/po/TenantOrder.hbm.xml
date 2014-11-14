@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+"classpath://org/hibernate/hibernate-mapping-3.0.dtd">
 <!-- Generated 2014-5-9 12:39:34 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.litt.saap.system.po.TenantOrder" dynamic-insert="true" dynamic-update="true" table="tenant_order">
