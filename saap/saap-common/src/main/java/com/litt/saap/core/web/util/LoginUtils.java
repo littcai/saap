@@ -155,6 +155,19 @@ public class LoginUtils
 	}
 	
 	/**
+	 * Get Local from loginUser
+	 * @return
+	 */
+	public static Locale getLocale()
+	{
+		ILoginVo loginVo = getLoginVo();
+		if(loginVo==null)
+			return Locale.getDefault();
+		else
+			return loginVo.toLocale();
+	}
+	
+	/**
 	 * Gets the locale.
 	 *
 	 * @param lang the lang
