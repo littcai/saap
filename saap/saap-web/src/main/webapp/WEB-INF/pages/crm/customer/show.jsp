@@ -28,8 +28,15 @@
 					</div>
 				</div>
 				<div class="row-fluid">	
-					<!-- new line -->
-					<div class="span12">
+					<div class="span6">
+						<div class="control-group">
+							<label class="control-label" for="fullName"><s:message code="customer.fullName" /></label>
+							<div class="controls">
+								<input id="fullName" name="customer_fullName" placeholder="" type="text" value="${li:out(customer.fullName)}" readonly="readonly" />
+							</div>
+						</div>
+					</div>
+					<div class="span6">
 						<div class="control-group">
 							<label class="control-label" for="parentName"><s:message code="customer.parent" /></label>
 							<div class="controls">							

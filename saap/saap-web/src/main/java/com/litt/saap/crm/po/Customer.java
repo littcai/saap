@@ -61,6 +61,11 @@ public class Customer extends BasePo implements Serializable {
 	 * 名称.
 	 */
 	private String name;
+	
+	/**
+   * 全称.
+   */
+  private String fullName;
 
 	/**
 	 * 联系电话.
@@ -218,7 +223,7 @@ public class Customer extends BasePo implements Serializable {
 	}
 
 	public Customer(int tenantId, String code, int parentId, boolean isLeaf,
-			String name, String phone, String email, String fax,
+			String name, String fullName, String phone, String email, String fax,
 			String address, String zipCode, String website, String remark,
 			int chargeBy, Integer contactsId, int createBy,
 			Date createDatetime, int updateBy, Date updateDatetime,
@@ -231,6 +236,7 @@ public class Customer extends BasePo implements Serializable {
 		this.parentId = parentId;
 		this.isLeaf = isLeaf;
 		this.name = name;
+		this.fullName = fullName;
 		this.phone = phone;
 		this.email = email;
 		this.fax = fax;
@@ -359,13 +365,31 @@ public class Customer extends BasePo implements Serializable {
 		return this.name;
 	}
 
-	/**
-	 * Set 名称.
-	 * @param name 名称
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * Set 名称.
+   * @param name 名称
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  /**
+   * Set 名称.
+   * @param fullName 名称
+   */
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+  
+  /**  
+   * Get 名称.
+   * @return 名称
+   */
+
+  @Column(name = "FULL_NAME", length = 500)
+  public String getFullName() {
+    return this.fullName;
+  }
 
 	/**  
 	 * Get 联系电话.

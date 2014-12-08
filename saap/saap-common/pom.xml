@@ -14,7 +14,7 @@
   	<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 	<net.sf.ehcache.version>2.3.2</net.sf.ehcache.version>
 	<org.codehaus.castor.version>1.3.3</org.codehaus.castor.version>
-	<org.apache.poi.version>3.8</org.apache.poi.version>
+	<org.apache.poi.version>3.9</org.apache.poi.version>
   </properties>
   
   <dependencies>
@@ -105,11 +105,26 @@
 	    <artifactId>poi-ooxml-schemas</artifactId>  
 	    <version>${org.apache.poi.version}</version>  
 	</dependency> 	
-  	<dependency>
-      <groupId>com.google.oauth-client</groupId>
-      <artifactId>google-oauth-client</artifactId>
-      <version>1.16.0-rc</version>
+	<dependency>
+	    <groupId>net.sf.jxls</groupId>
+	    <artifactId>jxls-core</artifactId>
+	    <version>1.0.6</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.sf.jxls</groupId>
+	    <artifactId>jxls-reader</artifactId>
+	    <version>1.0.6</version>
+	</dependency>
+	<dependency>
+    	<groupId>xerces</groupId>
+    	<artifactId>xercesImpl</artifactId>
+    	<version>2.10.0</version>
     </dependency>
+    <dependency>
+  		<groupId>xml-apis</groupId>
+  		<artifactId>xml-apis</artifactId>
+  		<version>1.4.01</version>
+  	</dependency>
   	<dependency>
   		<groupId>org.scribe</groupId>
   		<artifactId>scribe</artifactId>
@@ -121,6 +136,7 @@
   		<artifactId>unbescape</artifactId>
   		<version>1.1.0.RELEASE</version>
   	</dependency>
+  	
   </dependencies>
   	
   	<repositories>

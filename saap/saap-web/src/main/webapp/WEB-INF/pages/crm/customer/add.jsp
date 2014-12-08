@@ -26,7 +26,7 @@
 						<div class="control-group">
 							<label class="control-label" for="name"><s:message code="customer.name" /></label>
 							<div class="controls">
-								<input id="name" name="customer_name" placeholder="" type="text" />
+								<input id="name" name="customer_name" type="text" />
 							</div>
 						</div>
 					</div>
@@ -34,19 +34,27 @@
 						<div class="control-group">
 							<label class="control-label" for="code"><s:message code="customer.code" /></label>
 							<div class="controls">
-								<input id="code" name="customer_code" placeholder="" type="text" />
+								<input id="code" name="customer_code" type="text" />
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row-fluid">	
+                    <div class="span6">
+                      <div class="control-group">
+                        <label class="control-label" for="fullName"><s:message code="customer.fullName" /></label>
+                        <div class="controls">
+                          <input id="fullName" name="customer_fullName" type="text" />
+                        </div>
+                      </div>
+                    </div>
 					<!-- new line -->
-					<div class="span12">
+					<div class="span6">
 						<div class="control-group">
 							<label class="control-label" for="parentName"><s:message code="customer.parent" /></label>
 							<div class="controls">								
 								<div class="input-append">
-								  <input id="parentName" name="customer_parentName" placeholder="" type="text" readonly="readonly">
+								  <input id="parentName" name="customer_parentName" type="text" readonly="readonly">
 								  <button class="btn" type="button" onclick="selectParent(this);"><i class="icon-search"></i></button>  
 								</div>								
 							</div> 
@@ -98,7 +106,7 @@
 							<div class="control-group">
 								<label class="control-label" for="phone"><s:message code="customer.phone" /></label>
 								<div class="controls">
-									<input id="phone" name="customer_phone" placeholder="" type="text" />
+									<input id="phone" name="customer_phone" type="text" />
 								</div>
 								</div>
 							</div>
@@ -106,7 +114,7 @@
 								<div class="control-group">
 									<label class="control-label" for="fax"><s:message code="customer.fax" /></label>
 									<div class="controls">
-										<input id="fax" name="customer_fax" placeholder="" type="text" />
+										<input id="fax" name="customer_fax" type="text" />
 									</div>
 								</div>
 							</div>
@@ -117,7 +125,7 @@
 								<div class="control-group">
 									<label class="control-label" for="email"><s:message code="customer.email" /></label>
 									<div class="controls">
-										<input id="email" name="customer_email" placeholder="" type="text" />
+										<input id="email" name="customer_email" type="text" />
 									</div>
 								</div>
 							</div>
@@ -127,7 +135,7 @@
 									<div class="controls">
 										<div class="input-prepend">
 	  										<span class="add-on">http://</span>
-											<input id="website" name="customer_website" placeholder="" type="text" />
+											<input id="website" name="customer_website" type="text" />
 										</div>	
 									</div>
 								</div>
@@ -137,7 +145,7 @@
 							<div class="control-group">
 								<label class="control-label" for="zipCode"><s:message code="customer.zipCode" /></label>
 								<div class="controls">
-									<input id="zipCode" name="customer_zipCode" placeholder="" type="text" />
+									<input id="zipCode" name="customer_zipCode" type="text" />
 								</div>
 							</div>
 						</div>
@@ -145,7 +153,7 @@
 							<div class="control-group">
 								<label class="control-label" for="address"><s:message code="customer.address" /></label>
 								<div class="controls">
-									<input id="address" name="customer_addess" placeholder="" type="text" class="input-block-level"/>
+									<input id="address" name="customer_addess" type="text" class="input-block-level"/>
 								</div>
 							</div>
 						</div>				

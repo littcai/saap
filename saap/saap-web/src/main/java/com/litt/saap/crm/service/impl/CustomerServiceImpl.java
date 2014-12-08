@@ -187,6 +187,8 @@ public class CustomerServiceImpl implements ICustomerService, ICustomerWebServic
 	public CustomerVo find(Integer id)
 	{
 	  Customer customer = this.load(id);
+	  if(customer==null)
+	    return null;
 	  return customer.toVo(CustomerVo.class);
 	}
 	

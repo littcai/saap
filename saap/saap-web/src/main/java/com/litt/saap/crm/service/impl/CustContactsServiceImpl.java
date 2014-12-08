@@ -109,6 +109,8 @@ public class CustContactsServiceImpl implements ICustContactsService, ICustConta
 	public CustContacts load(Integer id)
 	{
 		CustContacts custContacts = custContactsDao.load(id);
+		if(custContacts==null)
+		  return null;
 		//校验租户权限
 		LoginUtils.validateTenant(custContacts.getTenantId());
 		return custContacts;
@@ -123,6 +125,8 @@ public class CustContactsServiceImpl implements ICustContactsService, ICustConta
   public CustContactsVo find(Integer id)
   {
     CustContacts custContacts = this.load(id);
+    if(custContacts==null)
+      return null;
     return custContacts.toVo(CustContactsVo.class);
   }
 	

@@ -54,6 +54,11 @@ public class CustomerVo implements Serializable {
    * 名称.
    */
   private String name;
+  
+  /**
+   * 全称.
+   */
+  private String fullName;
 
   /**
    * 联系电话.
@@ -807,6 +812,24 @@ public class CustomerVo implements Serializable {
   public void setBillingRemark(String billingRemark)
   {
     this.billingRemark = billingRemark;
+  }
+
+  
+  /**
+   * @return the fullName
+   */
+  public String getFullName()
+  {
+    return fullName;
+  }
+
+  
+  /**
+   * @param fullName the fullName to set
+   */
+  public void setFullName(String fullName)
+  {
+    this.fullName = fullName;
   }
   
 }
