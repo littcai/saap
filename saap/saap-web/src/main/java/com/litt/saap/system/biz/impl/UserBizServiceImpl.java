@@ -61,6 +61,7 @@ import com.litt.saap.system.service.IUserGroupMemberService;
 import com.litt.saap.system.service.IUserInfoService;
 import com.litt.saap.system.vo.SystemInfoVo;
 import com.litt.saap.system.vo.TenantVo;
+import com.litt.saap.system.webservice.IUserWebService;
 
 /**
  * .
@@ -77,7 +78,7 @@ import com.litt.saap.system.vo.TenantVo;
  * @since 2013-10-17
  * @version 1.0
  */
-public class UserBizServiceImpl implements IUserBizService {
+public class UserBizServiceImpl implements IUserBizService, IUserWebService {
 	/**
 	 * Logger for this class
 	 */
@@ -825,7 +826,13 @@ public class UserBizServiceImpl implements IUserBizService {
 	/* (non-Javadoc)
 	 * @see com.litt.saap.system.biz.IUserBizService#findByTenant(int)
 	 */
-	public List<TenantUserVo> findByTenant(int tenantId)
+	/**
+   * @param tenantId
+   * @return
+   * @see com.litt.saap.system.webservice.IUserWebService#findByTenant(int)
+   */
+	@Override
+  public List<TenantUserVo> findByTenant(int tenantId)
 	{
 		String listHql = "select new map(userInfo as userInfo, tenantMember as tenantMember) from UserInfo userInfo, TenantMember tenantMember where tenantMember.tenantId=? and userInfo.id=tenantMember.userId";
 		List<Map<String, Object>> rsList = userInfoDao.listAll(listHql, new Object[]{tenantId});		
@@ -846,6 +853,20 @@ public class UserBizServiceImpl implements IUserBizService {
 			retList.add(tenantUser);
 		}
 		return retList;
+	}
+	
+	public TenantUserVo findById(int tenantId, int userId)
+	{
+	  IUserInfo userInfo = userInfoService.find(userId);
+	  TenantMember tenantMember = tenantMemberDao.loadByUserAndTenant(userId, tenantId);
+	  
+	  TenantUserVo tenantUser = new TenantUserVo();
+    BeanCopier.copy(userInfo, tenantUser);
+    
+    tenantUser.setTenantId(tenantId);
+    tenantUser.setIsAdmin(tenantMember.getIsAdmin());
+    tenantUser.setMemberStatus(tenantMember.getStatus());
+    return tenantUser;
 	}
 
 }

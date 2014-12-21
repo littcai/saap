@@ -101,6 +101,32 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
+  <!-- XSS Filter -->
+  <!-- 可能会影响正常内容的录入，暂不启用，改用输出时根据需要进行转换
+  <filter>  
+        <filter-name>XssFilter</filter-name>  
+        <filter-class>  
+            com.litt.core.web.filter.XssFilter
+        </filter-class>  
+        <init-param>  
+            <param-name>enableXssLog</param-name>  
+            <param-value>1</param-value>  
+        </init-param>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>XssFilter</filter-name>  
+        <url-pattern>*.jsp</url-pattern>  
+    </filter-mapping>  
+    <filter-mapping>  
+        <filter-name>XssFilter</filter-name>  
+        <url-pattern>*.do</url-pattern>  
+    </filter-mapping>
+    <filter-mapping>  
+        <filter-name>XssFilter</filter-name>  
+        <url-pattern>*.json</url-pattern>  
+    </filter-mapping>
+   --> 
+  
   <!-- Sitemesh -->
   <filter>
     <filter-name>sitemesh</filter-name>

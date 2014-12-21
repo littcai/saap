@@ -3,7 +3,7 @@
 "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
 <!-- Generated 2013-10-15 11:44:09 by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
-    <class name="com.litt.saap.system.po.DictParam" dynamic-insert="true" dynamic-update="true" table="dict_param">
+    <class name="com.litt.saap.system.po.DictParam" dynamic-insert="true" dynamic-update="true" table="dict_param" polymorphism="explicit">
         <comment>参数字典表</comment>
         <id name="id" type="java.lang.Integer">
             <column name="ID" />

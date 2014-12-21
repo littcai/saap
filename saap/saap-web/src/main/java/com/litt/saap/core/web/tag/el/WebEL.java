@@ -30,7 +30,7 @@ public class WebEL {
 	{
 		if(loginVo==null)
 			return null;		
-		IMenuService menuService = BeanManager.getBean("menuService", IMenuService.class);
+		IMenuService menuService = BeanManager.getBean("menuService", IMenuService.class);		
 		MenuTreeNodeVo ret = menuService.findTreeByOpPermission(loginVo);		
 		return ret.getSubList();
 	}
@@ -40,7 +40,6 @@ public class WebEL {
 		if(loginVo==null)
 			return null;		
 		IMenuService menuService = BeanManager.getBean("menuService", IMenuService.class);
-		
 		MenuTreeNodeVo ret = menuService.findDomainTreeByOpPermission(loginVo, moduleCode);		
 		return ret;
 	}
