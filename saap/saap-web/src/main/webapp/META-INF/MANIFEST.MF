@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Class-Path: standard-1.1.2.jar jstl-1.1.2.jar littcore-log-3.2.3-SNAPS
+ HOT.jar littcore-common-3.2.3-SNAPSHOT.jar littcore-security-3.2.3-SN
+ APSHOT.jar commons-codec-1.6.jar commons-io-1.4.jar slf4j-api-1.7.6.j
+ ar slf4j-log4j12-1.7.6.jar log4j-1.2.16.jar jcl-over-slf4j-1.7.6.jar 
+ commons-beanutils-1.8.3.jar commons-logging-1.1.1.jar commons-collect
+ ions-3.2.1.jar commons-lang-2.5.jar commons-configuration-1.8.jar jac
+ kson-core-lgpl-1.9.5.jar jackson-mapper-lgpl-1.9.5.jar joda-time-2.2.
+ jar oro-2.0.8.jar spring-aop-3.1.4.RELEASE.jar aopalliance-1.0.jar sp
+ ring-asm-3.1.4.RELEASE.jar spring-beans-3.1.4.RELEASE.jar spring-core
+ -3.1.4.RELEASE.jar spring-jdbc-3.1.4.RELEASE.jar spring-tx-3.1.4.RELE
+ ASE.jar spring-context-3.1.4.RELEASE.jar spring-expression-3.1.4.RELE
+ ASE.jar spring-orm-3.1.4.RELEASE.jar spring-web-3.1.4.RELEASE.jar spr
+ ing-webmvc-3.1.4.RELEASE.jar spring-context-support-3.1.4.RELEASE.jar
+  freemarker-2.3.18.jar mirror-1.6.1.jar commons-validator-1.4.0.jar c
+ ommons-digester-2.0.jar guava-13.0.1.jar dozer-5.3.2.jar mvel2-2.1.3.
+ Final.jar hibernate-core-3.6.10.Final.jar antlr-2.7.6.jar dom4j-1.6.1
+ .jar hibernate-commons-annotations-3.2.0.Final.jar hibernate-jpa-2.0-
+ api-1.0.1.Final.jar jta-1.1.jar littcore-net-3.2.3-SNAPSHOT.jar littc
+ ore-io-3.2.3-SNAPSHOT.jar commons-fileupload-1.3.jar commons-net-2.2.
+ jar commons-httpclient-3.1.jar sitemesh-2.4.2.jar perf4j-0.9.14.jar a
+ sm-3.1.jar mysql-connector-java-5.1.18.jar ehcache-core-2.4.7.jar jav
+ assist-3.13.0-GA.jar spring-jms-3.1.4.RELEASE.jar spring-security-cry
+ pto-3.1.0.RELEASE.jar jaxen-1.1.1.jar jdom-1.0.jar xml-apis-1.3.02.ja
+ r xercesImpl-2.6.2.jar xom-1.0.jar xmlParserAPIs-2.6.2.jar xalan-2.6.
+ 0.jar mail-1.4.5.jar activation-1.1.1.jar itextpdf-5.2.0.jar beanio-2
+ .0.3.jar cglib-2.2.jar liquibase-core-3.0.2.jar snakeyaml-1.12.jar po
+ i-3.9.jar saap-common.jar castor-core-1.3.3.jar castor-xml-1.3.3.jar 
+ javax.inject-1.jar stax-1.2.0.jar stax-api-1.0.1.jar poi-ooxml-3.9.ja
+ r poi-ooxml-schemas-3.9.jar xmlbeans-2.3.0.jar jxls-core-1.0.6.jar co
+ mmons-jexl-2.0.1.jar jxls-reader-1.0.6.jar scribe-1.3.5.jar unbescape
+ -1.1.0.RELEASE.jar commons-email-1.3.2.jar druid-1.0.1.jar core-2.3.0
+ .jar javase-2.3.0.jar jsoup-1.7.3.jar
+

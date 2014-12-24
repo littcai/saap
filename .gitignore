@@ -1,7 +1,13 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-.settings
+bin/
+target/
+.settings/
+*.eclipse.*
+target-eclipse/
+/.classpath
+/.project
+/*/.classpath
+/*/.project
+/*/*/.classpath
+/*/*/.project
+/*/*/*/.classpath
+/*/*/*/.project
