@@ -4,13 +4,28 @@ import java.io.Serializable;
 
 import com.litt.core.util.StringUtils;
 
-
 /**
- * The Class AbstractColumn.
+ * 
+ * 表格列输出定义.
+ * 
+ * <pre><b>描述：</b>
+ *    定义表格列的输出方式
+ * </pre>
+ * 
+ * <pre><b>修改记录：</b>
+ *    
+ * </pre>
+ * 
+ * @author <a href="mailto:littcai@hotmail.com">蔡源</a>
+ * @since 2014年12月24日
+ * @version 1.0
  */
 public class Column implements Serializable {
 	
-	/** The name. */
+	/** The Constant serialVersionUID. */
+  private static final long serialVersionUID = 1L;
+
+  /** The name. */
 	private String name;
 	
 	/** The title. */
@@ -31,13 +46,20 @@ public class Column implements Serializable {
 	/** The hide. */
 	private boolean hide;	
 	
+	/** The width. */
 	private String width;	
 	
 	/** 是否允许排序. */
   private boolean sortable;	
+  
+  /** 
+   * 排序字段.
+   * 对于非原生输入的列，需要指定排序字段
+   */
+  private String sortField;
 	
 	/**
-	 * 
+	 * Gets the checks if is custom.
 	 *
 	 * @return the checks if is custom
 	 */
@@ -143,6 +165,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Checks if is hide.
+	 *
 	 * @return the hide
 	 */
 	public boolean isHide() {
@@ -150,6 +174,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Sets the hide.
+	 *
 	 * @param hide the hide to set
 	 */
 	public void setHide(boolean hide) {
@@ -157,6 +183,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Gets the custom.
+	 *
 	 * @return the custom
 	 */
 	public String getCustom() {
@@ -164,6 +192,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Sets the custom.
+	 *
 	 * @param custom the custom to set
 	 */
 	public void setCustom(String custom) {
@@ -171,6 +201,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Gets the converter.
+	 *
 	 * @return the converter
 	 */
 	public String getConverter() {
@@ -178,6 +210,8 @@ public class Column implements Serializable {
 	}
 
 	/**
+	 * Sets the converter.
+	 *
 	 * @param converter the converter to set
 	 */
 	public void setConverter(String converter) {
@@ -186,6 +220,8 @@ public class Column implements Serializable {
 
   
   /**
+   * Checks if is sortable.
+   *
    * @return the sortable
    */
   public boolean isSortable()
@@ -195,11 +231,35 @@ public class Column implements Serializable {
 
   
   /**
+   * Sets the sortable.
+   *
    * @param sortable the sortable to set
    */
   public void setSortable(boolean sortable)
   {
     this.sortable = sortable;
+  }
+
+  
+  /**
+   * Gets the sort field.
+   *
+   * @return the sortField
+   */
+  public String getSortField()
+  {
+    return sortField;
+  }
+
+  
+  /**
+   * Sets the sort field.
+   *
+   * @param sortField the sortField to set
+   */
+  public void setSortField(String sortField)
+  {
+    this.sortField = sortField;
   }
 
 }

@@ -99,7 +99,7 @@
 	              </c:forEach>	              
 	            </ul>
 	            <ul class="pull-right nav">
-	            	<li><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
+	            	
 	            	<li><a href="javascript:;"  id="feedbackBtn"><i class="icon-comment"></i> <s:message code="common.ui.feedback" /></a></li>
 	            	<li class="dropdown">
 					      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">
@@ -109,6 +109,7 @@
 					      </a>
 	              		  <ul class="dropdown-menu"> 
 	              		  	<li ><a href="${contextPath }/user/profile.do"><i class="icon-user"></i>&nbsp;<s:message code="common.ui.profile" /></a></li>
+                            <li><a href="${contextPath }/personal/shortMessage/index.do"><i class="icon-envelope"></i> <s:message code="common.ui.shortMessage" /></a></li>
                             <li><a href="${contextPath }/user/priceTable.do"><i class="icon-shopping-cart"></i>&nbsp;<s:message code="common.ui.buy" /></a></li>
                             <c:if test="${not empty SESSION_USER.tenant }">
 			            	<li ><a href="${contextPath }/user/invite.do"><i class="icon-group"></i>&nbsp;<s:message code="common.ui.invite" /></a></li>
