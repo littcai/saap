@@ -3,12 +3,12 @@ package com.litt.saap.core.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.commons.io.IOUtils;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.xml.MarshalException;
@@ -47,14 +47,16 @@ public class ConfigUtils {
 	 */
 	public static <T> T loadByCastor(Class<T> clazz, String mappingFilePath, String confFilePath)
 	{
+		InputStream input = null;
+		InputStreamReader reader = null;
 		try {
-			InputStream input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
+			input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
 			File confFile = ResourceUtils.getFile(confFilePath);
 			
 			Mapping mapping = new Mapping();
 			InputSource is = new InputSource(new InputStreamReader(input));
 			mapping.loadMapping(is);
-			InputStreamReader reader = new InputStreamReader(new FileInputStream(confFile));
+			reader = new InputStreamReader(new FileInputStream(confFile), "utf-8");
 			Unmarshaller unmarshaller = new Unmarshaller(clazz);
 			unmarshaller.setProperty("org.exolab.castor.xml.lenient.id.validation", "true");	//禁用ID校验，castor对于局部对象的Identity属性有误
 			unmarshaller.setMapping(mapping);
@@ -62,7 +64,10 @@ public class ConfigUtils {
 			return config;
 		} catch (Exception e) {
 			throw new RuntimeException("加载配置文件异常！", e);
-		} 
+		} finally {
+			IOUtils.closeQuietly(input);
+			IOUtils.closeQuietly(reader);
+		}
 	}
 	
 	public static <T> void updateByCastor(T object, String mappingFilePath, String confFilePath) 
@@ -99,7 +104,6 @@ public class ConfigUtils {
 	
 
 	/**
-	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
