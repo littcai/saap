@@ -472,37 +472,44 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		Map<String, PermissionTreeVo> cache = new HashMap<String, PermissionTreeVo>(permissions.length);
 		
 		for (String code : permissions) {
+			String[] codeArr = {""};
+			if(code.indexOf(".") <= 0)
+				codeArr[0] = code;
+			else
+				codeArr = code.split("\\.");
+			
 			//如果是两位的，则肯定是domain
-			if(StringUtils.length(code)==2)
+			if(codeArr.length == 1)
 			{
 				PermissionTreeVo domain = PermissionTreeVo.newDomain(code);
 				tree.add(domain);
 				cache.put(code, domain);
 			}
-			else if(StringUtils.length(code)==4)	//4位可能是module，也可能是二层domain
+			else if(codeArr.length == 2)	//4位可能是module，也可能是二层domain
 			{
 				PermissionTreeVo module = PermissionTreeVo.newModule(code);
-				String domainCode = StringUtils.substring(code, 0, 2);
-				PermissionTreeVo domain = cache.get(domainCode);
+				//String domainCode = StringUtils.substring(code, 0, 2);
+				PermissionTreeVo domain = cache.get(codeArr[0]);
 				if(domain!=null)
 				{
 					domain.add(module);
 					cache.put(code, module);
 				}
 			}
-			else if(StringUtils.length(code)==6)	//6位可能是func，也可能是module
+			else if(codeArr.length == 3)	//6位可能是func，也可能是module
 			{
 				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
-				String domainCode = StringUtils.substring(code, 0, 2);
-				String moduleCode = StringUtils.substring(code, 0, 4);
-				PermissionTreeVo module = cache.get(moduleCode);
+				String domainCode = codeArr[0];
+				String moduleCode = codeArr[1];
+				PermissionTreeVo module = cache.get(domainCode + "." + moduleCode);
+				//PermissionTreeVo module = cache.get(domain);
 				if(module!=null)
 				{
 					module.add(func);
 					cache.put(code, func);
 				}
 			}
-			else if(StringUtils.length(code)==8)	//8位只能是func（目前仅支持3层菜单）
+			else if(codeArr.length == 4)	//8位只能是func（目前仅支持3层菜单）
 			{
 				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
 				String domainCode = StringUtils.substring(code, 0, 2);
