@@ -265,7 +265,7 @@
       		<entry key="system.version" value="${system.version}" />
       	</map>
       </property>
-  	</bean> 
+  	</bean>
 	 	 
 	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="${smtp.host}"/>

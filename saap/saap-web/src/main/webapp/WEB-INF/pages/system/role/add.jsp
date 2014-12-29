@@ -40,19 +40,19 @@
 							<tbody>
 							<c:forEach items="${permissionTree.subList }" var="domain">
 								<tr>
-									<td class="checkCol"><input type="checkbox" class="checkItem" id="domain${domain.code }" name="permissionCodes" value="${domain.code }" /></td>						
+									<td class="checkCol"><input type="checkbox" class="checkItem" id="domain${domain.idCode }" name="permissionCodes" value="${domain.code }" /></td>						
 									<td><s:message code="domain.${domain.code }"></s:message></td>									
 								</tr>
 								<c:forEach items="${domain.subList }" var="level2">
 									<c:if test="${level2.type == 2 }">
 										<tr>
 											<td>&nbsp;</td>						
-											<td><input type="checkbox" class="checkItem domain${domain.code }" id="module${level2.code }" name="permissionCodes" value="${level2.code }" />&nbsp;<s:message code="module.${level2.code }"></s:message></td>									
+											<td><input type="checkbox" class="checkItem domain${domain.idCode }" id="module${level2.idCode }" name="permissionCodes" value="${level2.code }" />&nbsp;<s:message code="module.${level2.code }"></s:message></td>									
 										</tr>
 										<tr>
 											<td>&nbsp;</td>						
 											<td>&nbsp;&nbsp;&nbsp;<c:forEach items="${level2.subList }" var="func">											
-											<input type="checkbox" class="checkItem  domain${domain.code } module${level2.code }" name="permissionCodes" value="${func.code }" />&nbsp;<s:message code="func.${func.code }"></s:message>&nbsp;
+											<input type="checkbox" class="checkItem  domain${domain.idCode } module${level2.idCode }" name="permissionCodes" value="${func.code }" />&nbsp;<s:message code="func.${func.code }"></s:message>&nbsp;
 											</c:forEach>
 											</td>									
 										</tr>
@@ -60,17 +60,17 @@
 									<c:if test="${level2.type == 1 }">
 										<tr>
 											<td>&nbsp;</td>						
-											<td><input type="checkbox" class="checkItem domain${domain.code }" id="domain${level2.code }" name="permissionCodes" value="${level2.code }" />&nbsp;<s:message code="domain.${level2.code }"></s:message></td>									
+											<td><input type="checkbox" class="checkItem domain${domain.idCode }" id="domain${level2.idCode }" name="permissionCodes" value="${level2.code }" />&nbsp;<s:message code="domain.${level2.code }"></s:message></td>									
 										</tr>
 										<c:forEach items="${level2.subList }" var="level3">
 											<tr>
 												<td>&nbsp;</td>						
-												<td>&nbsp;&nbsp;&nbsp;<input type="checkbox" class="checkItem domain${domain.code } domain${level2.code }" id="module${level3.code }" name="permissionCodes" value="${level3.code }" />&nbsp;<s:message code="module.${level3.code }"></s:message></td>									
+												<td>&nbsp;&nbsp;&nbsp;<input type="checkbox" class="checkItem domain${domain.idCode } domain${level2.idCode }" id="module${level3.idCode }" name="permissionCodes" value="${level3.code }" />&nbsp;<s:message code="module.${level3.code }"></s:message></td>									
 											</tr>
 											<tr>
 												<td>&nbsp;</td>							
 												<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:forEach items="${level3.subList }" var="func">											
-												<input type="checkbox" class="checkItem domain${domain.code } domain${level2.code } module${level3.code }" name="permissionCodes" value="${func.code }" />&nbsp;<s:message code="func.${func.code }"></s:message>&nbsp;
+												<input type="checkbox" class="checkItem domain${domain.idCode } domain${level2.idCode } module${level3.idCode }" name="permissionCodes" value="${func.code }" />&nbsp;<s:message code="func.${func.code }"></s:message>&nbsp;
 												</c:forEach>
 												</td>									
 											</tr>
@@ -98,7 +98,7 @@
 				<c:forEach items="${domain.subList }" var="level2">
 					<c:if test="${level2.type == 2 }">
 					{
-						var code = "module"+"${level2.code}"; 
+						var code = "module"+"${level2.idCode}"; 
 						$.webtools.checkboxs({
 							checkAll: "#"+code,
 							checkItem: "."+code				
@@ -108,7 +108,7 @@
 					<c:if test="${level2.type == 1 }">						
 						<c:forEach items="${level2.subList }" var="level3">
 						{
-							var code = "module"+"${level3.code}"; 
+							var code = "module"+"${level3.idCode}"; 
 							$.webtools.checkboxs({
 								checkAll: "#"+code,
 								checkItem: "."+code				
@@ -117,7 +117,7 @@
 						</c:forEach>
 						
 						{
-							var code = "domain"+"${level2.code}"; 
+							var code = "domain"+"${level2.idCode}"; 
 							$.webtools.checkboxs({
 								checkAll: "#"+code,
 								checkItem: "."+code				
@@ -126,7 +126,7 @@
 					</c:if>	
 				</c:forEach>
 				
-				var code = "domain"+"${domain.code}"; 
+				var code = "domain"+"${domain.idCode}"; 
 				var checkboxs = $.webtools.checkboxs({
 					checkAll: "#"+code,
 					checkItem: "."+code				

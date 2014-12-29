@@ -324,20 +324,21 @@ $(document).ready(function(){
 				checkItem: ".checkItem"
 			};				
 			var setting = $.extend({}, defaults, options);	
-		
+			
 			//绑定全选和单选对象
 			var checkAll;
 			if(setting.checkAll instanceof jQuery)
 				checkAll = setting.checkAll;
-			else
+			else{
 				checkAll = $(setting.checkAll);
+			}
 			
 			checkAll.bind("click", function(){
 				$(setting.checkItem).prop("checked", $(this).is(':checked'));				
 			});
+			
 			$(setting.checkItem).each(function(){
 				$(this).bind("click", function(){
-					
 //					if ($(setting.checkItem+":checked").length == $(setting.checkItem).length) 
 //					{
 //						checkAll.prop("checked", true);
@@ -349,7 +350,7 @@ $(document).ready(function(){
 					{
 						checkAll.prop("checked", false);
 					}
-					else{						
+					else{
 						checkAll.prop("checked", true);
 					}
 						
