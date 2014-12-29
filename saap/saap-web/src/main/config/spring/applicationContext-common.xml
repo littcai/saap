@@ -26,7 +26,7 @@
 
 	<!-- i18n -->
 	<bean id="messageSource" 
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" abstract="false">	 	
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 	 	<property name="useCodeAsDefaultMessage" value="true" /> 
 	 	<property name="cacheSeconds" value="10" />
 	 	<property name="basenames">
@@ -57,7 +57,7 @@
 	</bean>	
 	 -->	
 	 
-	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+	<bean id="statFilter" class="com.alibaba.druid.filter.stat.StatFilter">
 	    <property name="slowSqlMillis" value="10000" />
 	    <property name="logSlowSql" value="true" />
 	    <property name="mergeSql" value="true" />
@@ -69,15 +69,15 @@
       <property name="username" value="${jdbc.username}" />
       <property name="password" value="${jdbc.password}" />
       <property name="filters" value="config,slf4j" />
-      <property name="maxActive"><value>${jdbc.pool.max_pool_size}</value></property>
-      <property name="initialSize"><value>${jdbc.pool.initial_pool_size}</value></property>
-      <property name="minIdle"><value>${jdbc.pool.min_pool_size}</value></property>
+      <property name="maxActive" value="${jdbc.pool.max_pool_size}" />
+      <property name="initialSize" value="${jdbc.pool.initial_pool_size}" />
+      <property name="minIdle" value="${jdbc.pool.min_pool_size}" />
       <!-- 
       <property name="connectionProperties" value="config.decrypt=true" />
        -->
        <property name="proxyFilters">
         <list>
-            <ref bean="stat-filter" />
+            <ref bean="statFilter" />
         </list>
     	</property>
   	</bean>	
@@ -153,9 +153,7 @@
 
 	<bean id="hibernateTemplate"
 		class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
 	<bean id="transactionManager"
@@ -196,10 +194,10 @@
 		</property>
 	</bean>
  
-	<bean id="ServiceAutoProxyCreator"
+	<bean id="serviceAutoProxyCreator"
 		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-		<property name="proxyTargetClass" value="true"></property>	<!-- CGLIB -->	
-		<property name="exposeProxy" value="true"></property>	
+		<property name="proxyTargetClass" value="true" />	<!-- CGLIB -->
+		<property name="exposeProxy" value="true" />
 		<property name="beanNames">
 			<list>
 				<value>*Service</value>
@@ -251,7 +249,7 @@
 	</bean>
 	
 	<!-- EventBus -->
-	<bean id="eventBus" class="com.litt.core.eventbus.SpringEventBus"></bean>
+	<bean id="eventBus" class="com.litt.core.eventbus.SpringEventBus" />
 	
 	<bean id="eventBusRegistration" class="com.litt.core.eventbus.EventBusRegisterBeanPostProcessor">
 		<property name="eventBus" ref="eventBus"/>
@@ -259,9 +257,9 @@
 	
 	<!-- Database migration -->	
 	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
-      <property ref="dataSource" name="dataSource"></property>
-      <property name="changeLog" value="classpath:changelog.xml"></property>
-      <property name="contexts" value="test, production"></property>
+      <property ref="dataSource" name="dataSource" />
+      <property name="changeLog" value="classpath:changelog.xml" />
+      <property name="contexts" value="test, production" />
       <property name="changeLogParameters">
       	<map>
       		<entry key="system.version" value="${system.version}" />
@@ -271,29 +269,28 @@
 	 	 
 	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="${smtp.host}"/>
-	 	<property name="port" value="${smtp.port}"/>	 	
+	 	<property name="port" value="${smtp.port}"/>
 	 	<property name="username" value="${smtp.username}"/>
 	 	<property name="password" value="${smtp.password}"/>
-	 	<property name="defaultEncoding" value="UTF-8"></property> 
+	 	<property name="defaultEncoding" value="UTF-8" />
 	 	<!-- SSL -->
-	 	<!-- 
-	 	<property name="protocol" value="smtps" />		 	
+	 	<!--<property name="protocol" value="smtps" />-->
 	 	<property name="javaMailProperties">
 	        <props>
-	        	<prop key="mail.debug">true</prop> 
-	            <prop key="mail.smtps.auth">true</prop>	
-	            <prop key="mail.smtp.ssl.enable">true</prop>
-	            <prop key="mail.transport.protocol">smtps</prop>
-	            <prop key="mail.smtp.starttls.enable">true</prop>
-            	<prop key="mail.smtp.starttls.required">true</prop>  	
+	        	<prop key="mail.debug">true</prop>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <!--<prop key="mail.smtps.auth">true</prop>	-->
+	            <!--<prop key="mail.smtp.ssl.enable">true</prop>-->
+	            <!--<prop key="mail.transport.protocol">smtps</prop>-->
+	            <!--<prop key="mail.smtp.starttls.enable">false</prop>-->
+            	<!--<prop key="mail.smtp.starttls.required">false</prop>-->
 	        </props>
     	</property>
-	 	 -->
 	 </bean>
 	 
 	 <!-- Email Service -->
 	 <bean id="emailService" class="com.litt.saap.common.service.impl.EmailServiceImpl">
-	 	<property name="from" value="${smtp.from}"/>	
+	 	<property name="from" value="${smtp.from}"/>
 	 </bean>
 	 
 	 <!-- Gen content from template -->
