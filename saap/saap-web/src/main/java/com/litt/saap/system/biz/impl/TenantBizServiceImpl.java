@@ -563,43 +563,56 @@ public class TenantBizServiceImpl implements ITenantBizService {
 		Map<String, PermissionTreeVo> cache = new HashMap<String, PermissionTreeVo>(permissions.length);
 		
 		for (String code : permissions) {
-			//如果是两位的，则肯定是domain
-			if(StringUtils.length(code)==2)
+			String[] codeArr = {""};
+			if(code.indexOf(".") <= 0)
+				codeArr[0] = code;
+			else
+				codeArr = code.split("\\.");
+			
+			//域（domain）
+			if(codeArr.length == 1)
 			{
 				PermissionTreeVo domain = PermissionTreeVo.newDomain(code);
 				tree.add(domain);
 				cache.put(code, domain);
 			}
-			else if(StringUtils.length(code)==4)	//4位可能是module，也可能是二层domain
+			
+			//模块(module/subDomain)
+			else if(codeArr.length == 2)	//4位可能是module，也可能是二层domain
 			{
 				PermissionTreeVo module = PermissionTreeVo.newModule(code);
-				String domainCode = StringUtils.substring(code, 0, 2);
-				PermissionTreeVo domain = cache.get(domainCode);
+				//String domainCode = StringUtils.substring(code, 0, 2);
+				PermissionTreeVo domain = cache.get(codeArr[0]);
 				if(domain!=null)
 				{
 					domain.add(module);
 					cache.put(code, module);
 				}
 			}
-			else if(StringUtils.length(code)==6)	//6位可能是func，也可能是module
+			
+			//操作功能（func/module）
+			else if(codeArr.length == 3)	//6位可能是func，也可能是module
 			{
 				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
-				String domainCode = StringUtils.substring(code, 0, 2);
-				String moduleCode = StringUtils.substring(code, 0, 4);
-				PermissionTreeVo module = cache.get(moduleCode);
+				String domainCode = codeArr[0];
+				String moduleCode = codeArr[1];
+				PermissionTreeVo module = cache.get(domainCode + "." + moduleCode);
 				if(module!=null)
 				{
 					module.add(func);
 					cache.put(code, func);
 				}
 			}
-			else if(StringUtils.length(code)==8)	//8位只能是func（目前仅支持3层菜单）
+			
+			//操作功能（func）
+			else if(codeArr.length == 4)	//8位只能是func（目前仅支持3层菜单）
 			{
 				PermissionTreeVo func = PermissionTreeVo.newFunc(code);
-				String domainCode = StringUtils.substring(code, 0, 2);
-				String subDomainCode = StringUtils.substring(code, 0, 4);
-				String moduleCode = StringUtils.substring(code, 0, 6);
-				PermissionTreeVo subDomain = cache.get(subDomainCode);
+				String domainCode = codeArr[0];
+				String subDomainCode = codeArr[1];
+				String moduleCode = codeArr[2];
+				
+				PermissionTreeVo subDomain = cache.get(domainCode + "." + subDomainCode);
 				if(subDomain!=null)
 				{
 					if(subDomain.getType()!=PermissionTreeVo.DOMAIN)	//更新类型为domain
@@ -607,7 +620,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 						subDomain.setType(PermissionTreeVo.DOMAIN);
 					}
 					
-					PermissionTreeVo module = cache.get(moduleCode);
+					PermissionTreeVo module = cache.get(domainCode + "." + subDomainCode + "." + moduleCode);
 					if(module!=null)
 					{
 						if(module.getType()!=PermissionTreeVo.MODULE)	//更新类型为domain
@@ -620,6 +633,7 @@ public class TenantBizServiceImpl implements ITenantBizService {
 				}
 			}
 		}
+		
 		//读取角色已经拥有的权限，设置选中状态
 		List<RoleFuncPermission> dbPermissionList = roleFuncPermissionDao.listByTenantAndRole(tenantId, roleId);
 				
