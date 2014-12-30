@@ -37,6 +37,9 @@ public class PermissionTreeVo implements Serializable {
 	/** 编号. */
 	private String code = "";
 	
+	/**用于页面展示，id或class中不能带.号**/
+	private String idCode = "";
+	
 	private boolean isChecked = false;
 	
 	/** 子节点集合. */
@@ -51,6 +54,10 @@ public class PermissionTreeVo implements Serializable {
 	public PermissionTreeVo(int type, String code) {
 		this.type = type;
 		this.code = code;
+		this.idCode = code;
+		if(code.indexOf(".") > 0){
+			this.idCode = idCode.replaceAll("\\.", "");
+		}
 	}
 	
 	public static PermissionTreeVo newRoot()
@@ -191,6 +198,14 @@ public class PermissionTreeVo implements Serializable {
 	 */
 	public void setChecked(boolean isChecked) {
 		this.isChecked = isChecked;
+	}
+
+	public String getIdCode() {
+		return idCode;
+	}
+
+	public void setIdCode(String idCode) {
+		this.idCode = idCode;
 	}
 
 }

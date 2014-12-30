@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Resources>
+	<!-- 种子数据 -->
+	<EntityResource dataType="seed" bizType="party" enable="true" async="true">
+		<confLocation>/data/seed/geography-seed.xml</confLocation>
+		<confMappingLocation>/meta/geography-meta-mapping.xml</confMappingLocation>
+		<implClazz>com.mginf.common.castor.GeographyDataCastor</implClazz>
+	</EntityResource>
+	
+	<!-- 演示或测试数据 -->
+	<EntityResource dataType="demo" bizType="party" enable="true" async="false">
+		<confLocation>/data/demo/geography-demo.xml</confLocation>
+		<confMappingLocation>/meta/geography-meta-mapping.xml</confMappingLocation>
+		<implClazz>com.mginf.common.castor.PartyDataCastor</implClazz>
+	</EntityResource>
+</Resources>
+

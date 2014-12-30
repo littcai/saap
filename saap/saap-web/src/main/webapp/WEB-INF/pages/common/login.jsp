@@ -28,7 +28,7 @@
 			</a>			
 			<ul class="nav pull-right">
 				<li class="" style="line-height: 30px;">
-					<a href="" target="_blank">SaaS统一业务运营平台</a>
+					<a href="" target="_blank"><s:message code="login.platform.name" /></a>
 				</li>
 			</ul>
 		</div> <!-- /container -->
@@ -38,7 +38,7 @@
 
 <div id="login-container">
 	<div id="login-header">
-		<h3 style="line-height: 15px;">SaaS统一业务运营平台</h3>
+		<h3 style="line-height: 15px;"><s:message code="login.platform.name" /></h3>
 	</div> <!-- /login-header -->
 	<div id="login-content" class="clearfix">
 		<!-- BEGIN LOGIN FORM -->	

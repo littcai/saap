@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+<mapping>
+	<class name="com.litt.saap.base.meta.GeographyMetaData">
+		<map-to xml="GeographyMetaData"/>
+		<field name="provinceList" type="com.litt.saap.base.po.Province" collection="arraylist">
+   			<bind-xml name="Province"/>
+   		</field>
+   		<field name="cityList" type="com.litt.saap.base.po.City" collection="arraylist">
+   			<bind-xml name="City"/>
+   		</field>
+   		<field name="areaList" type="com.litt.saap.base.po.Area" collection="arraylist">
+   			<bind-xml name="Area"/>
+   		</field>
+	</class>
+	
+  	<class name="com.litt.saap.base.po.Province">
+	  	<map-to xml="Province"/>
+   		<field name="provinceId" type="java.lang.String">
+   			<bind-xml name="provinceId" node="attribute"/>
+   		</field>
+   		<field name="provinceName" type="java.lang.String">
+   			<bind-xml name="provinceName" node="attribute"/>
+   		</field>
+  	</class>
+  	
+  	<class name="com.litt.saap.base.po.City">
+	  	<map-to xml="City"/>
+   		<field name="cityId" type="java.lang.String">
+   			<bind-xml name="cityId" node="attribute"/>
+   		</field>
+   		<field name="cityName" type="java.lang.String">
+   			<bind-xml name="cityName" node="attribute"/>
+   		</field>
+   		<field name="provinceId" type="java.lang.String">
+   			<bind-xml name="provinceId" node="attribute"/>
+   		</field>
+  	</class>
+  	
+  	<class name="com.litt.saap.base.po.Area">
+	  	<map-to xml="Area"/>
+   		<field name="areaId" type="java.lang.String">
+   			<bind-xml name="areaId" node="attribute"/>
+   		</field>
+   		<field name="areaName" type="java.lang.String">
+   			<bind-xml name="areaName" node="attribute"/>
+   		</field>
+   		<field name="cityId" type="java.lang.String">
+   			<bind-xml name="cityId" node="attribute"/>
+   		</field>
+  	</class>
+	
+</mapping>

@@ -18,7 +18,7 @@
 	
 	<!-- 系统信息及参数 -->
 	<bean id="systemInfoService" class="com.litt.saap.system.service.impl.SystemInfoServiceImpl">
-		<property name="baseUrl" value="${baseUrl}"></property>
+		<property name="baseUrl" value="${baseUrl}" />
 	</bean>
 	
 	<!-- 激活码 -->
