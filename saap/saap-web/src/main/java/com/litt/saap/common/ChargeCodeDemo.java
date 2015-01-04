@@ -128,13 +128,17 @@ public class ChargeCodeDemo {
 	public void writeFile(String filePath, String[] chargeCodes) throws IOException
 	{
 		File file = new File(filePath);
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-		for (String string : chargeCodes) {
-			bw.append(string);
-			bw.newLine();
+		BufferedWriter bw = null;
+		try {
+			bw = new BufferedWriter(new FileWriter(file, true));
+			for (String string : chargeCodes) {
+				bw.append(string);
+				bw.newLine();
+			}
+			bw.flush();
+		} finally {
+		  	IOUtils.closeQuietly(bw);
 		}
-		bw.flush();
-		IOUtils.closeQuietly(bw);
 	}
 	
 	/**
@@ -162,7 +166,6 @@ public class ChargeCodeDemo {
 	
 
 	/**
-	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
 		
