@@ -49,7 +49,7 @@ public class DictParamServiceImpl implements IDictParamService, IDictParamWebSer
 	public Integer save(DictParamVo dictParam)
 	{
 		DictParam po = BeanCopier.copy(dictParam, DictParam.class);
-		return this.save(dictParam);
+		return save(po);
 	}
 	
 	/* (non-Javadoc)

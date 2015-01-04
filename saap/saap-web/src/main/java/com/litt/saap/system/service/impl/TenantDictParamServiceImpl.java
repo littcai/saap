@@ -48,7 +48,7 @@ public class TenantDictParamServiceImpl implements ITenantDictParamWebService
 	public Integer save(TenantDictParamVo tenantDictParam)
 	{
 		TenantDictParam po = BeanCopier.copy(tenantDictParam, TenantDictParam.class);
-		return this.save(tenantDictParam);
+		return this.save(po);
 	}
 	
 	/* (non-Javadoc)
@@ -137,7 +137,7 @@ public class TenantDictParamServiceImpl implements ITenantDictParamWebService
 	 */
 	public List<TenantDictParamVo> findByType(int tenantId, String dictType, Locale locale) 
 	{
-		List<TenantDictParamVo> dictParamList = this.findByType(tenantId, dictType, locale);
+		List<TenantDictParamVo> dictParamList = tenantDictParamDao.listByType(tenantId, dictType);
 		for (TenantDictParamVo vo : dictParamList)
 		{	
 			vo.setDictContent(messageSource.getMessage("dictparam."+vo.getDictType()+"."+vo.getDictValue(), null, locale));
