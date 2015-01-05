@@ -38,17 +38,18 @@ if(startPageNo <= 0)
 }
 int countBehindCurrent = displayLinkCount - countBeforeCurrent;
 int endPageNo = curPageNo + countBehindCurrent;
+endPageNo = endPageNo>totalPage?(totalPage+1):endPageNo;
 
 boolean isFirstPage = curPageNo==1;//是否是第一页
 boolean isLastPage = curPageNo==totalPage;//是否是最后一页
 
-int firstRow = totalSize==0?0:((curPageNo-1) * pageSize + 1);
-int lastRow = firstRow + curPageNo==totalPage?(totalSize - firstRow ):totalSize;
+int firstRow = (totalSize==0?0:((curPageNo-1) * pageSize + 1));
+int lastRow = firstRow + (curPageNo==totalPage?(totalSize - firstRow ):(pageSize-1));
 
 StringBuilder sb = new StringBuilder(50);
 sb.append("<select size=\"1\" ")
 .append(" style=\"width:70px;height:25px;padding:2px 3px;margin:0 4px;\"")
-.append(" onchange=\"javascript:" + funcName + "(" + curPageNo + ", this.value);\" >");
+.append(" onchange=\"javascript:" + funcName + "(" + curPageNo + ", this.value );\" >");
 if(pageSize==DEFAULT_PAGE_SIZE)
 	sb.append("<option selected value='"+DEFAULT_PAGE_SIZE+"'>"+ DEFAULT_PAGE_SIZE +"</option>");
 else 
@@ -73,13 +74,14 @@ sb.append("</select>");
 %>
 <c:set var="firstRow" value="<%=firstRow %>"></c:set>
 <c:set var="lastRow" value="<%=lastRow %>"></c:set>
+<c:set var="totalSize" value="<%=totalSize %>"></c:set>
 <c:set var="totalPage" value="<%=totalPage %>"></c:set>
 <c:set var="pagerLength" value="<%=sb.toString() %>"></c:set>
 <c:if test="${not empty params || totalPage==0 }">
 <div class="row-fluid" style="margin: 8px 0 8px 0;">  
 	<div class="span6">
-		<div class="pull-left"  style="margin: 0 0 0 12px;">第 ${firstRow } - ${lastRow }  / 共  <%=totalSize %> 项&nbsp;&nbsp;
-			每页显示: ${pagerLength } 项
+		<div class="pull-left"  style="margin: 0 0 0 12px;"><s:message code="pager.info" arguments="${firstRow },${lastRow },${totalSize }" />&nbsp;&nbsp;
+			<s:message code="pager.length" arguments='${pagerLength }'  argumentSeparator="!"/>
 		</div>
 	</div>
 	<div class="span6">
@@ -87,18 +89,18 @@ sb.append("</select>");
 			<ul>
 				<!-- first page -->
 				<c:if test="${params.pageIndex>1 }">
-					<li><a href="javascript:${funcName }(1, <%=pageSize%>);">首页</a></li>  
+					<li><a href="javascript:${funcName }(1, <%=pageSize%>);"><s:message code="pager.first" /></a></li>  
 				</c:if>
 				<c:if test="${params.pageIndex<=0 }">
-					<li class="disabled"><span>首页</span></li>  
+					<li class="disabled"><span><s:message code="pager.first" /></span></li>  
 				</c:if>
 				
 				<!-- 前一页按钮 -->  
 		        <c:if test="${params.pageIndex <= 1 }">  
-		            <li class="disabled"><span>上一页</span></li>  
+		            <li class="disabled"><span><s:message code="pager.previous" /></span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex > 1 }">  
-		            <li><a href="javascript:${funcName }(<%=curPageNo-1%>, <%=pageSize%>);">上一页</a></li>  
+		            <li><a href="javascript:${funcName }(<%=curPageNo-1%>, <%=pageSize%>);"><s:message code="pager.previous" /></a></li>  
 		        </c:if>         
 		        
 		        <!-- 页码 -->
@@ -107,19 +109,19 @@ sb.append("</select>");
 		        <%} %>
 		  
 		        <!-- 下一页按钮 -->  
-		        <c:if test="${params.pageIndex >= params.totalPage}">  
-		            <li class="disabled"><span>下一页</span></li>  
+		        <c:if test="${params.pageIndex > params.totalPage}">  
+		            <li class="disabled"><span><s:message code="pager.next" /></span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex < params.totalPage}">  
-		            <li><a href="javascript:${funcName }(<%=curPageNo+1%>, <%=pageSize%>);">下一页</a></li>  
+		            <li><a href="javascript:${funcName }(<%=curPageNo+1%>, <%=pageSize%>);"><s:message code="pager.next" /></a></li>  
 		        </c:if>  
 		  
 		        <!-- 分页尾页按钮 -->  
 		        <c:if test="${params.pageIndex > params.totalPage}">  
-		            <li class="disabled"><span>末页</span></li>  
+		            <li class="disabled"><span><s:message code="pager.last" /></span></li>  
 		        </c:if>  
 		        <c:if test="${params.pageIndex < params.totalPage}">  
-		            <li><a href="javascript:${funcName }(<%=totalPage%>, <%=pageSize%>);">末页</a></li>  
+		            <li><a href="javascript:${funcName }(<%=totalPage%>, <%=pageSize%>);"><s:message code="pager.last" /></a></li>  
 		        </c:if>  
 			</ul>	
 		</div>	
@@ -133,10 +135,10 @@ function jumpPage(pageNo, pageSize)
 	var params = url.substring(url.indexOf("?")+1, url.length);
 	//var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");  
     //if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " ")); return "";
-	
+
 	if(url.indexOf("pageIndex")>0)
 	{
-		url = url.replaceAll("pageIndex=<%=curPageNo%>", "pageIndex="+pageNo);
+		url = url.replaceAll("pageIndex=${param.pageIndex}", "pageIndex="+pageNo);
 	}
 	else if(url.indexOf("?")<0)
 	{
@@ -155,7 +157,6 @@ function jumpPage(pageNo, pageSize)
 	{
 		url = url + "&pageSize=" + pageSize;
 	}
-	
 	location.href = url;
 }
 //-->
