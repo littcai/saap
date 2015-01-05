@@ -248,7 +248,7 @@ public class Column implements Serializable {
    */
   public String getSortField()
   {
-    return sortField;
+    return StringUtils.isEmpty(sortField)?name:sortField;
   }
 
   

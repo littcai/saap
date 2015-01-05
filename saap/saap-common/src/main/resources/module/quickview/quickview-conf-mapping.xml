@@ -164,6 +164,9 @@
 	    <field name="sortable" type="boolean" required="false">
 	    	<bind-xml name="sortable" node="attribute" />
 	    </field>
+	    <field name="sortField" type="java.lang.String" required="false">
+	    	<bind-xml name="sort-field" node="attribute" />
+	    </field>
 	    <field name="hide" type="boolean" required="false">
 	    	<bind-xml name="hide" node="attribute" />
 	    </field>

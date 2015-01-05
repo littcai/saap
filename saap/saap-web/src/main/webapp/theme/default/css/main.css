@@ -61,6 +61,21 @@ div.valid {
 	text-align: center;
 }
 
+.datatable .sortable{
+	cursor: pointer;
+}
+
+.datatable .sort-both{
+	background: url('../img/sort_both.png') no-repeat center right;
+}
+
+.datatable .sort-asc{
+	background: url('../img/sort_asc.png') no-repeat center right;
+}
+
+.datatable .sort-desc{
+	background: url('../img/sort_desc.png') no-repeat center right;
+}
 
 /* pager */
 
