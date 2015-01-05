@@ -36,6 +36,8 @@ import com.litt.core.util.ResourceUtils;
  * @version 1.0
  */
 public class ConfigUtils {
+
+    private static final String DEFAULT_CHARSET="UTF-8";
 	
 	/**
 	 * 通过castor组件加载配置文件.
@@ -56,7 +58,7 @@ public class ConfigUtils {
 			Mapping mapping = new Mapping();
 			InputSource is = new InputSource(new InputStreamReader(input));
 			mapping.loadMapping(is);
-			reader = new InputStreamReader(new FileInputStream(confFile), "utf-8");
+			reader = new InputStreamReader(new FileInputStream(confFile), DEFAULT_CHARSET);
 			Unmarshaller unmarshaller = new Unmarshaller(clazz);
 			unmarshaller.setProperty("org.exolab.castor.xml.lenient.id.validation", "true");	//禁用ID校验，castor对于局部对象的Identity属性有误
 			unmarshaller.setMapping(mapping);
@@ -72,8 +74,9 @@ public class ConfigUtils {
 	
 	public static <T> void updateByCastor(T object, String mappingFilePath, String confFilePath) 
 	{
+	    InputStream input = null;
 		try {
-			InputStream input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
+			input = ConfigUtils.class.getResourceAsStream(mappingFilePath);
 			File confFile = ResourceUtils.getFile(confFilePath);			
 			//ContentHandler handler  = 
 			
@@ -86,7 +89,7 @@ public class ConfigUtils {
 //            
 //            XMLWriter writer = new XMLWriter(new FileWriter(confFile), format);
 //            writer.setEscapeText(false);
-			Marshaller marshaller = new Marshaller(new FileWriter(confFile)); 			
+			Marshaller marshaller = new Marshaller(new FileWriter(confFile));
 			marshaller.setMapping(mapping);
 			marshaller.marshal(object);
 		} catch (MarshalException e) {
@@ -99,6 +102,8 @@ public class ConfigUtils {
 			throw new BusiException(e);
 		} catch (MappingException e) {
 			throw new BusiException(e);
+		} finally {
+		  IOUtils.closeQuietly(input);
 		}
 	}
 	

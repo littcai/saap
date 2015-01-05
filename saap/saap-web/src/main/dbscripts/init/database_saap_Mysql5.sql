@@ -1631,3 +1631,34 @@ ALTER TABLE PERMISSION ADD CONSTRAINT FK_P_MODULE_ID FOREIGN KEY (MODULE_ID)
 ALTER TABLE PERMISSION ADD CONSTRAINT FK_P_FUNC_ID FOREIGN KEY (FUNC_ID)
       REFERENCES FUNC (ID) ON DELETE CASCADE;
 
+CREATE TABLE tenant_biz_role
+(
+   id INT AUTO_INCREMENT,
+   tenant_id INT,
+   name VARCHAR(30),
+   created_by VARCHAR(30),
+   created_at DATETIME,
+   updated_by VARCHAR(30),
+   updated_at DATETIME,
+   PRIMARY KEY (id)
+)
+   ENGINE = INNODB;
+
+CREATE TABLE tenant_data_perm
+(
+   id INT AUTO_INCREMENT,
+   tenant_id INT,
+   entity_name VARCHAR(30),
+   entity_id INT,
+   field_list VARCHAR(1024),
+   PRIMARY KEY (id)
+) ENGINE = INNODB;
+
+CREATE TABLE tenant_biz_role_perm
+(
+   biz_role_id INT,
+   data_perm_id INT,
+   field_list VARCHAR(1024),
+   field_query VARCHAR(1024),
+   PRIMARY KEY (biz_role_id, data_perm_id)
+)ENGINE = INNODB;

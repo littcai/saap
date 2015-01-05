@@ -1,5 +1,7 @@
 package com.litt.saap.core.module.message.model;
 
+import java.io.Serializable;
+
 /**
  * SmsResponse.
  * 
@@ -15,7 +17,8 @@ package com.litt.saap.core.module.message.model;
  * @since 2014年2月19日
  * @version 1.0
  */
-public class SmsResponse {
+public class SmsResponse implements Serializable {
+
 	
 	private boolean isSuccess = false;
 

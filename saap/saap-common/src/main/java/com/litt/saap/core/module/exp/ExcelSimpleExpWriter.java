@@ -197,7 +197,7 @@ public class ExcelSimpleExpWriter {
       rowMap.put("state", "在用");
       rowMap.put("unit", "套");
       rowMap.put("storageDate", new Date());
-      rowMap.put("deviceValue", new BigDecimal(100.01));
+      rowMap.put("deviceValue", BigDecimal.valueOf(100.01));
       dataList.add(rowMap);
     }
     {
@@ -207,7 +207,7 @@ public class ExcelSimpleExpWriter {
       rowMap.put("state", "在用");
       rowMap.put("unit", "套");
       rowMap.put("storageDate", new Date());
-      rowMap.put("deviceValue", new BigDecimal(200.01));
+      rowMap.put("deviceValue", BigDecimal.valueOf(200.01));
       dataList.add(rowMap);
     }
     

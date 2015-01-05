@@ -296,54 +296,29 @@ public class UserExtId implements Serializable {
 		if (!(other instanceof UserExtId))
 			return false;
 		UserExtId castOther = (UserExtId) other;
+		return isEqual(id, castOther.id)
+				&& isEqual(level, castOther.getLevel())
+				&& isEqual(source, castOther.getSource())
+				&& isEqual(birthday, castOther.getBirthday())
+				&& isEqual(zipCode, castOther.getZipCode())
+				&& isEqual(address, castOther.getAddress())
+				&& isEqual(district, castOther.getDistrict())
+				&& isEqual(city, castOther.getCity())
+				&& isEqual(state, castOther.getState())
+				&& isEqual(country, castOther.getCountry())
+				&& isEqual(securityQuestion, castOther.getSecurityQuestion())
+				&& isEqual(answer, castOther.getAnswer())
+				;
+	}
 
-		return ((this.getId() == castOther.getId()) || (this.getId() != null
-				&& castOther.getId() != null && this.getId().equals(
-				castOther.getId())))
-				&& ((this.getLevel() == castOther.getLevel()) || (this
-						.getLevel() != null
-						&& castOther.getLevel() != null && this.getLevel()
-						.equals(castOther.getLevel())))
-				&& ((this.getSource() == castOther.getSource()) || (this
-						.getSource() != null
-						&& castOther.getSource() != null && this.getSource()
-						.equals(castOther.getSource())))
-				&& ((this.getBirthday() == castOther.getBirthday()) || (this
-						.getBirthday() != null
-						&& castOther.getBirthday() != null && this
-						.getBirthday().equals(castOther.getBirthday())))
-				&& ((this.getZipCode() == castOther.getZipCode()) || (this
-						.getZipCode() != null
-						&& castOther.getZipCode() != null && this.getZipCode()
-						.equals(castOther.getZipCode())))
-				&& ((this.getAddress() == castOther.getAddress()) || (this
-						.getAddress() != null
-						&& castOther.getAddress() != null && this.getAddress()
-						.equals(castOther.getAddress())))
-				&& ((this.getDistrict() == castOther.getDistrict()) || (this
-						.getDistrict() != null
-						&& castOther.getDistrict() != null && this
-						.getDistrict().equals(castOther.getDistrict())))
-				&& ((this.getCity() == castOther.getCity()) || (this.getCity() != null
-						&& castOther.getCity() != null && this.getCity()
-						.equals(castOther.getCity())))
-				&& ((this.getState() == castOther.getState()) || (this
-						.getState() != null
-						&& castOther.getState() != null && this.getState()
-						.equals(castOther.getState())))
-				&& ((this.getCountry() == castOther.getCountry()) || (this
-						.getCountry() != null
-						&& castOther.getCountry() != null && this.getCountry()
-						.equals(castOther.getCountry())))
-				&& ((this.getSecurityQuestion() == castOther
-						.getSecurityQuestion()) || (this.getSecurityQuestion() != null
-						&& castOther.getSecurityQuestion() != null && this
-						.getSecurityQuestion().equals(
-								castOther.getSecurityQuestion())))
-				&& ((this.getAnswer() == castOther.getAnswer()) || (this
-						.getAnswer() != null
-						&& castOther.getAnswer() != null && this.getAnswer()
-						.equals(castOther.getAnswer())));
+    private boolean isEqual(Integer a, Integer b) {
+		return (a == null && b ==null) || (a != null && a.equals(b));
+	}
+	private boolean isEqual(String a , String b) {
+		return (a == null && b ==null) || (a != null && a.equals(b));
+	}
+	private boolean isEqual(Date a , Date b) {
+		return a == b || (a != null && a.equals(b));
 	}
 
 	public int hashCode() {
