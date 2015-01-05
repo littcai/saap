@@ -88,5 +88,9 @@
 	<!-- 用户消息 -->
 	<bean id="userMessageDao" class="com.litt.saap.system.dao.UserMessageDao" parent="baseDao"/>
 	<bean id="userMessageService" class="com.litt.saap.system.service.impl.UserMessageServiceImpl"/>
-
+	
+	<!-- 业务角色权限 -->
+	<bean id="businessRoleDao" class="com.litt.saap.system.dao.BusinessRoleDao" parent="baseDao"/>
+	<bean id="businessPermissionDao" class="com.litt.saap.system.dao.BusinessPermissionDao" parent="baseDao"/>
+	<bean id="dataPermissionDao" class="com.litt.saap.system.dao.DataPermissionDao" parent="baseDao"/>
 </beans>
