@@ -12,8 +12,8 @@
 	<diskStore path="java.io.tmpdir/hibernate" />
 
 	<!-- Object cache -->	
-	<cache name="com.litt.saap.system.po.DictParamType" maxElementsInMemory="5000" eternal="true"/>	
-	<cache name="com.litt.saap.system.po.DictParam" maxElementsInMemory="5000" eternal="true"/>		
+	<cache name="com.litt.saap.system.po.DictParamType" maxElementsInMemory="5000" eternal="false"/>	
+	<cache name="com.litt.saap.system.po.DictParam" maxElementsInMemory="5000" eternal="false"/>		
 		
 	<!-- 特别设定Operator类的Cache，内存中最多只保存5000个Operator实例，而且idle 600秒过期 -->	
 	<cache name="com.litt.saap.system.po.UserInfo" maxElementsInMemory="5000" eternal="false"
