@@ -64,14 +64,14 @@
 						<td class="action-buttons">							
 							<div class="action-buttons">
 								
-							<c:if test="${row.status==1 }">
+							<%-- <c:if test="${row.status==1 }"> --%>
 								<a href="edit.do?id=${row.id }" class="blue" >
 									<i class="icon-pencil"></i>
 								</a>&nbsp;
 								<a href="javascript:;" class="red" onclick="rowDelete(${row.id});">
 									<i class="icon-trash"></i>
 								</a>
-							</c:if>
+							<%-- </c:if> --%>
 							<c:if test="${row.status==2 }">
 								<a href="javascript:;" class="green" onclick="rowResume(${row.id});">
 									<i class="icon-repeat"></i>
