@@ -613,23 +613,23 @@
 		           <autoVersionSubmodules>true</autoVersionSubmodules>
 		   </configuration> 		
 		</plugin>	
-		<plugin>
-			<groupId>com.atlassian.maven.plugins</groupId>
-			<artifactId>maven-clover2-plugin</artifactId>
-			<version>3.1.12</version>
-			<configuration>
-				<licenseLocation>${project.build.outputDirectory}/clover.license</licenseLocation>
-			</configuration>
-			<executions>				
-				<execution>
-		          <phase>verify</phase>
-		            <goals>
-		              <goal>instrument</goal>
-		              <goal>clover</goal>
-		            </goals>
-		          </execution>	          
-	        </executions>			
-		</plugin>
+		<!--<plugin>-->
+			<!--<groupId>com.atlassian.maven.plugins</groupId>-->
+			<!--<artifactId>maven-clover2-plugin</artifactId>-->
+			<!--<version>3.1.12</version>-->
+			<!--<configuration>-->
+				<!--<licenseLocation>${project.build.outputDirectory}/clover.license</licenseLocation>-->
+			<!--</configuration>-->
+			<!--<executions>				-->
+				<!--<execution>-->
+		          <!--<phase>verify</phase>-->
+		            <!--<goals>-->
+		              <!--<goal>instrument</goal>-->
+		              <!--<goal>clover</goal>-->
+		            <!--</goals>-->
+		          <!--</execution>	          -->
+	        <!--</executions>			-->
+		<!--</plugin>-->
 		<plugin>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-maven-plugin</artifactId>
@@ -665,6 +665,20 @@
 				</execution>
 			</executions>
 		</plugin>
+
+		 <plugin>
+			 <groupId>org.codehaus.mojo</groupId>
+			 <artifactId>findbugs-maven-plugin</artifactId>
+			 <version>2.5.4</version>
+			 <configuration>
+				 <!-- <configLocation>${basedir}/springside-findbugs.xml</configLocation> -->
+				 <threshold>High</threshold>
+				 <effort>Default</effort>
+				 <!--<findbugsXmlOutput>true</findbugsXmlOutput>-->
+				 <!-- findbugs xml-->
+				 <!--<findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>-->
+			 </configuration>
+		 </plugin>
      </plugins>    
     
   </build>
@@ -770,11 +784,11 @@
 					<artifactId>maven-surefire-report-plugin</artifactId>
 					<version>2.15</version>
 			  </plugin>	
-			  <plugin>
-                     <groupId>com.atlassian.maven.plugins</groupId>
-                     <artifactId>maven-clover2-plugin</artifactId>
-                     <version>3.1.12</version>
-              </plugin>		  
+			  <!--<plugin>-->
+                     <!--<groupId>com.atlassian.maven.plugins</groupId>-->
+                     <!--<artifactId>maven-clover2-plugin</artifactId>-->
+                     <!--<version>3.1.12</version>-->
+              <!--</plugin>		  -->
 		</plugins>
 	</reporting>
   
