@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.litt.saap.common.vo.LoginUserVo;
-import com.litt.saap.core.common.SaapConstants.RoleStatus;
-import com.litt.saap.core.module.tenant.config.TenantTypeConfigManager;
-import com.litt.saap.core.web.util.LoginUtils;
-import com.litt.saap.system.biz.ITenantBizService;
-import com.litt.saap.system.po.Role;
-import com.litt.saap.system.service.IRoleService;
-import com.litt.saap.system.vo.PermissionTreeVo;
-import com.litt.saap.system.vo.TenantVo;
-import com.litt.core.dao.page.IPageList;
 import com.litt.core.common.Utility;
-import com.litt.core.web.util.WebUtils;
+import com.litt.core.dao.page.IPageList;
 import com.litt.core.dao.ql.PageParam;
 import com.litt.core.exception.NotLoginException;
 import com.litt.core.module.annotation.Func;
 import com.litt.core.web.mvc.action.BaseController;
+import com.litt.core.web.util.WebUtils;
+import com.litt.saap.common.vo.LoginUserVo;
+import com.litt.saap.core.common.SaapConstants.RoleStatus;
+import com.litt.saap.core.web.util.LoginUtils;
+import com.litt.saap.system.biz.ITenantBizService;
+import com.litt.saap.system.po.BizRole;
+import com.litt.saap.system.po.Role;
+import com.litt.saap.system.service.IBizRoleService;
+import com.litt.saap.system.service.IRoleService;
+import com.litt.saap.system.vo.PermissionTreeVo;
 
 /**
  * 
@@ -48,6 +47,8 @@ public class BizRoleController extends BaseController
 
 	@Resource
 	private IRoleService roleService;
+	@Resource
+	private IBizRoleService bizRoleService;
 	@Resource
 	private ITenantBizService tenantBizService;
 	
@@ -74,13 +75,13 @@ public class BizRoleController extends BaseController
 		pageParam.addCond("name", name);	
 		pageParam.addCond("isDeleted", false);	
 		//Get page result
-		IPageList pageList = roleService.listPage(pageParam);		
+		IPageList pageList = bizRoleService.listPage(pageParam);		
 		
 		//return params to response
 		modelMap.addAttribute("pageParam", pageParam);	
 		modelMap.addAttribute("pageList", pageList);	
 		
-    return new ModelAndView("/system/busPerm/index");	
+    return new ModelAndView("/system/bizRole/index");	
 	
 	} 	
 	
@@ -95,7 +96,7 @@ public class BizRoleController extends BaseController
 	{   		
 		PermissionTreeVo permissionTree = tenantBizService.findTenantPermissionTree(LoginUtils.getTenantId());
 		
-		return new ModelAndView("/system/busPerm/add").addObject("permissionTree", permissionTree);
+		return new ModelAndView("/system/bizRole/add")/*.addObject("permissionTree", permissionTree)*/;
     }
 	
 	/**
@@ -111,7 +112,7 @@ public class BizRoleController extends BaseController
 	{ 
 		Role role = roleService.load(id);
 		PermissionTreeVo permissionTree = tenantBizService.findTenantPermissionTree(LoginUtils.getTenantId(), id);
-        return new ModelAndView("/system/busPerm/edit").addObject("role", role).addObject("permissionTree", permissionTree);
+        return new ModelAndView("/system/bizRole/edit").addObject("role", role).addObject("permissionTree", permissionTree);
     }	
     
 	/**
@@ -126,7 +127,7 @@ public class BizRoleController extends BaseController
 	public ModelAndView show(@RequestParam Integer id) 
 	{ 
 		Role role = roleService.load(id);		
-        return new ModelAndView("/system/busPerm/show").addObject("role", role);
+        return new ModelAndView("/system/bizRole/show").addObject("role", role);
     }   
     
     /**
@@ -135,17 +136,17 @@ public class BizRoleController extends BaseController
 	 * @param modelMap
 	 * @throws Exception 
 	 */
-	@Func(funcCode="add",moduleCode="tenant.role")
+	@Func(funcCode="add",moduleCode="tenant.bizRole")
 	@RequestMapping 
 	public void save(WebRequest request, ModelMap modelMap) throws Exception
 	{	
 		String[] permissionCodes = request.getParameterValues("permissionCodes");
 		
-		Role role = new Role();
+		BizRole role = new BizRole();
 		BeanUtils.populate(role, request.getParameterMap());	
 		role.setTenantId(LoginUtils.getTenantId());
 		role.setStatus(RoleStatus.NORMAL);
-		roleService.save(role, permissionCodes);
+		bizRoleService.save(role, permissionCodes);
 	}
 	
 	/**

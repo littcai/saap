@@ -146,7 +146,7 @@
 						maxlength: 50
 					}
 				},	
-				beforeSubmit: function(){
+				/* beforeSubmit: function(){
 					if($(".checkItem:checked").length<=0)
 					{
 						$.webtools.alert({
@@ -156,7 +156,7 @@
 				 		}); 						
 						return false;
 					}
-				},
+				}, */
 				success: function(reply){
 					 location.href =  <h:returnUrl value="index.do"></h:returnUrl>;					
 				}
