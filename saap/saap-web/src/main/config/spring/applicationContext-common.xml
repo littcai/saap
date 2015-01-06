@@ -14,14 +14,20 @@
 
 	<context:annotation-config />
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="propConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean"
+		  p:ignoreResourceNotFound="true"
+			>
 		<property name="locations">
 			<list>
 				<value>classpath:init.properties</value>
 				<value>classpath:jdbc.properties</value>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="propConfig" />
 	</bean>
 
 	<!-- i18n -->
