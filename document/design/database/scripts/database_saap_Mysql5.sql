@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/8/21 9:39:32                            */
+/* Created on:     2015/1/6 13:09:55                            */
 /*==============================================================*/
 
 
@@ -23,6 +23,14 @@ DROP TABLE IF EXISTS APP_STORE;
 DROP INDEX IDX_ATTACHMENT ON ATTACHMENT;
 
 DROP TABLE IF EXISTS ATTACHMENT;
+
+DROP TABLE IF EXISTS BIZ_ROLE;
+
+DROP TABLE IF EXISTS BIZ_ROLE_DATA_PERMISSION;
+
+DROP TABLE IF EXISTS BIZ_ROLE_FIELD_PERMISSION;
+
+DROP TABLE IF EXISTS BIZ_ROLE_MEMBER;
 
 DROP INDEX IDX_CALENDAR_DATETIME ON CALENDAR;
 
@@ -56,7 +64,7 @@ DROP INDEX IDX_CA_TENANT ON CUST_ACTIVITY;
 
 DROP TABLE IF EXISTS CUST_ACTIVITY;
 
-DROP INDEX IDX_CUST_CONTACTS_USER ON CUST_CONTACTS;
+DROP INDEX IDX_CUST_CONTACTS_CUSTOMER ON CUST_CONTACTS;
 
 DROP TABLE IF EXISTS CUST_CONTACTS;
 
@@ -73,6 +81,8 @@ DROP TABLE IF EXISTS DICT_PARAM_TYPE;
 DROP INDEX IDX_DOCUMENT_CODE ON DOCUMENT;
 
 DROP TABLE IF EXISTS DOCUMENT;
+
+DROP TABLE IF EXISTS DOCUMENT_CATEGORY;
 
 DROP INDEX IDX_DOC_HIS ON DOCUMENT_HISTORY;
 
@@ -319,8 +329,8 @@ CREATE TABLE ATTACHMENT
    MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
    DISPLAY_NAME         VARCHAR(100) NOT NULL COMMENT '显示名称',
    FILE_NAME            VARCHAR(100) NOT NULL COMMENT '文件名',
-   FILE_PATH            VARCHAR(500) NOT NULL COMMENT '文件路径',
-   FILE_SIZE            VARCHAR(50) NOT NULL COMMENT '文件大小',
+   FILE_PATH            VARCHAR(200) NOT NULL COMMENT '文件路径',
+   FILE_SIZE            DECIMAL(10,2) NOT NULL DEFAULT 0 COMMENT '文件大小',
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
@@ -340,6 +350,70 @@ CREATE INDEX IDX_ATTACHMENT ON ATTACHMENT
    RECORD_ID,
    MODULE_CODE
 );
+
+/*==============================================================*/
+/* Table: BIZ_ROLE                                              */
+/*==============================================================*/
+CREATE TABLE BIZ_ROLE
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   NAME                 VARCHAR(50) NOT NULL COMMENT '名称',
+   STATUS               INT NOT NULL DEFAULT 1 COMMENT '状态',
+   REMARK               VARCHAR(200) COMMENT '备注',
+   CREATE_BY            INT NOT NULL COMMENT '创建人',
+   CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   UPDATE_BY            INT NOT NULL COMMENT '更新人',
+   UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE BIZ_ROLE COMMENT '业务角色表';
+
+/*==============================================================*/
+/* Table: BIZ_ROLE_DATA_PERMISSION                              */
+/*==============================================================*/
+CREATE TABLE BIZ_ROLE_DATA_PERMISSION
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   BIZ_ROLE_ID          INT NOT NULL COMMENT '业务角色ID',
+   CHARGE_BY            INT NOT NULL COMMENT '授权用户ID',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+/*==============================================================*/
+/* Table: BIZ_ROLE_FIELD_PERMISSION                             */
+/*==============================================================*/
+CREATE TABLE BIZ_ROLE_FIELD_PERMISSION
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   BIZ_ROLE_ID          INT NOT NULL COMMENT '业务角色ID',
+   MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
+   FIELD_LIST           VARCHAR(1000) NOT NULL COMMENT '字段列表',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE BIZ_ROLE_FIELD_PERMISSION COMMENT '字段权限';
+
+/*==============================================================*/
+/* Table: BIZ_ROLE_MEMBER                                       */
+/*==============================================================*/
+CREATE TABLE BIZ_ROLE_MEMBER
+(
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
+   TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   BIZ_ROLE_ID          INT NOT NULL COMMENT '业务角色ID',
+   USER_ID              INT COMMENT '用户ID',
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE BIZ_ROLE_MEMBER COMMENT '角色成员表';
 
 /*==============================================================*/
 /* Table: CALENDAR                                              */
@@ -488,6 +562,14 @@ CREATE TABLE CUSTOMER
    REMARK               VARCHAR(2000) COMMENT '备注',
    CHARGE_BY            INT NOT NULL COMMENT '负责人（操作员或部门）',
    CONTACTS_ID          INT COMMENT '默认联系人ID',
+   PAYMENT_DAYS         INT NOT NULL DEFAULT 0 COMMENT '账期',
+   MAILING_ADDRESS      VARCHAR(400) COMMENT '发票邮寄地址',
+   BILLING_ADDRESS      VARCHAR(400) COMMENT '开票地址',
+   BILLING_FULL_NAME    VARCHAR(100) COMMENT '开票全称',
+   BANK_NAME            VARCHAR(100) COMMENT '银行名称',
+   ACCOUNT_NO           VARCHAR(100) COMMENT '帐号',
+   TAX_NO               VARCHAR(100) COMMENT '税号',
+   BILLING_REMARK       VARCHAR(2000) COMMENT '开票备注',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
    UPDATE_BY            INT NOT NULL COMMENT '上次修改人',
@@ -636,6 +718,7 @@ CREATE TABLE CUST_CONTACTS
             0:unknown
             1:male
             2:female',
+   BIRTHDAY             DATE COMMENT '生日',
    MOBILE               VARCHAR(50) NOT NULL COMMENT '手机号',
    EMAIL                VARCHAR(100) NOT NULL COMMENT '电子邮件',
    PHONE                VARCHAR(50) NOT NULL COMMENT '联系电话',
@@ -645,6 +728,7 @@ CREATE TABLE CUST_CONTACTS
    HEAD_IMG_URL         VARCHAR(100) COMMENT '头像URL',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
+   UPDATE_BY            INT NOT NULL COMMENT '更新人',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
    REMARK               VARCHAR(200) COMMENT '备注',
    PRIMARY KEY (ID)
@@ -654,12 +738,11 @@ ENGINE = INNODB;
 ALTER TABLE CUST_CONTACTS COMMENT '客户联系人';
 
 /*==============================================================*/
-/* Index: IDX_CUST_CONTACTS_USER                                */
+/* Index: IDX_CUST_CONTACTS_CUSTOMER                            */
 /*==============================================================*/
-CREATE INDEX IDX_CUST_CONTACTS_USER ON CUST_CONTACTS
+CREATE INDEX IDX_CUST_CONTACTS_CUSTOMER ON CUST_CONTACTS
 (
    TENANT_ID,
-   CREATE_BY,
    CUSTOMER_ID
 );
 
@@ -734,7 +817,7 @@ CREATE TABLE DICT_PARAM
    DICT_TYPE            VARCHAR(20) NOT NULL COMMENT '参数类型',
    DICT_VALUE           VARCHAR(100) NOT NULL COMMENT '参数值',
    DICT_CONTENT         VARCHAR(200) NOT NULL COMMENT '参数描述',
-   FILTER               VARCHAR(500) NOT NULL COMMENT '过滤条件',
+   FILTER               VARCHAR(500) NOT NULL DEFAULT '' COMMENT '过滤条件',
    PARAMS               VARCHAR(2000) NOT NULL COMMENT '附加参数',
    POSITION             INT NOT NULL DEFAULT 10 COMMENT '排序',
    STATUS               TINYINT NOT NULL DEFAULT 9 COMMENT '状态
@@ -752,21 +835,27 @@ ALTER TABLE DICT_PARAM COMMENT '参数字典表';
 /*==============================================================*/
 CREATE TABLE DOCUMENT
 (
+   ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    UID                  VARCHAR(36) NOT NULL COMMENT 'UID',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
+   CATEGORY_ID          INT NOT NULL COMMENT '分类ID',
    MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
    RECORD_ID            INT NOT NULL COMMENT '记录ID',
-   ATTACHMENT_ID        VARCHAR(36) NOT NULL COMMENT '附件ID',
    CODE                 VARCHAR(50) NOT NULL COMMENT '编号',
    NAME                 VARCHAR(100) NOT NULL COMMENT '名称',
    EXT                  VARCHAR(10) NOT NULL COMMENT '类型',
    BRIEF                VARCHAR(200) COMMENT '文档摘要',
+   SRC_FILE_NAME        VARCHAR(100) NOT NULL COMMENT '原文件名',
+   FILE_NAME            VARCHAR(100) NOT NULL COMMENT '现文件名',
+   FILE_PATH            VARCHAR(200) NOT NULL COMMENT '文件路径',
+   FILE_SIZE            DECIMAL(10,2) NOT NULL DEFAULT 0 COMMENT '文件大小',
    REVISION             INT NOT NULL DEFAULT 1 COMMENT '修订号',
+   IS_DELETED           BOOLEAN NOT NULL DEFAULT 0 COMMENT '是否已删除',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
    UPDATE_BY            INT NOT NULL COMMENT '更新人',
    UPDATE_DATETIME      DATETIME NOT NULL COMMENT '更新时间',
-   PRIMARY KEY (UID),
+   PRIMARY KEY (ID),
    KEY AK_DOCUMENT_UID (UID)
 )
 ENGINE = INNODB;
@@ -784,18 +873,44 @@ CREATE INDEX IDX_DOCUMENT_CODE ON DOCUMENT
 );
 
 /*==============================================================*/
+/* Table: DOCUMENT_CATEGORY                                     */
+/*==============================================================*/
+CREATE TABLE DOCUMENT_CATEGORY
+(
+   ID                   INT NOT NULL AUTO_INCREMENT,
+   TENANT_ID            INT NOT NULL,
+   PARENT_ID            INT NOT NULL DEFAULT 0,
+   NAME                 VARCHAR(50) NOT NULL,
+   LEVEL                INT NOT NULL DEFAULT 0,
+   IS_LEAF              BOOLEAN NOT NULL DEFAULT 1,
+   REMARK               VARCHAR(500),
+   CREATE_BY            INT NOT NULL,
+   CREATE_DATETIME      DATETIME NOT NULL,
+   UPDATE_BY            INT NOT NULL,
+   UPDATE_DATETIME      DATETIME NOT NULL,
+   PRIMARY KEY (ID)
+)
+ENGINE = INNODB;
+
+ALTER TABLE DOCUMENT_CATEGORY COMMENT '文档分类';
+
+/*==============================================================*/
 /* Table: DOCUMENT_HISTORY                                      */
 /*==============================================================*/
 CREATE TABLE DOCUMENT_HISTORY
 (
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
-   DOC_ID               VARCHAR(36) NOT NULL COMMENT '文档ID',
-   ATTACHMENT_ID        VARCHAR(36) NOT NULL COMMENT '附件ID',
+   CATEGORY_ID          INT NOT NULL COMMENT '分类ID',
+   DOC_ID               INT NOT NULL COMMENT '文档ID',
    CODE                 VARCHAR(50) NOT NULL COMMENT '编号',
    NAME                 VARCHAR(100) NOT NULL COMMENT '名称',
    EXT                  VARCHAR(10) NOT NULL COMMENT '类型',
    BRIEF                VARCHAR(200) COMMENT '文档摘要',
+   SRC_FILE_NAME        VARCHAR(100) NOT NULL COMMENT '原文件名',
+   FILE_NAME            VARCHAR(100) NOT NULL COMMENT '当前文件名',
+   FILE_PATH            VARCHAR(200) NOT NULL COMMENT '文件路径',
+   FILE_SIZE            DECIMAL(10,2) NOT NULL DEFAULT 0 COMMENT '文件大小',
    REVISION             INT NOT NULL DEFAULT 1 COMMENT '修订号',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
    CREATE_DATETIME      DATETIME NOT NULL COMMENT '创建时间',
@@ -822,6 +937,7 @@ CREATE TABLE DYNAMIC_SEARCH
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
    NAME                 VARCHAR(50) NOT NULL COMMENT '名称',
+   DESCR                VARCHAR(200) COMMENT '详细描述',
    MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
    PUBLISH_FLAG         BOOLEAN NOT NULL DEFAULT 0 COMMENT '是否公开',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
@@ -1008,6 +1124,7 @@ CREATE TABLE QUICK_VIEW
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
    NAME                 VARCHAR(20) NOT NULL COMMENT '名称',
+   DESCR                VARCHAR(200) COMMENT '详细描述',
    MODULE_CODE          VARCHAR(50) NOT NULL COMMENT '模块编号',
    PUBLIC_FLAG          BOOLEAN NOT NULL DEFAULT 0 COMMENT '共享标志',
    CREATE_BY            INT NOT NULL COMMENT '创建人',
