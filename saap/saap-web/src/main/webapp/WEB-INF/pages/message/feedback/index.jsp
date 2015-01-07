@@ -45,7 +45,7 @@
 		<thead>
 		  <tr>			
 			<th class="checkCol"><input type="checkbox" id="checkAll" name="checkAll" /></th>	
-			<th class="sort title"><s:message code="feedback.title" /></th>
+			<th class="sort title"><s:message code="feedback.content" /></th>
 			<th><s:message code="feedback.type" /></th>
 			<th><s:message code="affiche.expiredDate" /></th>				
 			<th><s:message code="common.action" /></th>

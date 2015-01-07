@@ -1,6 +1,11 @@
 package com.litt.saap.assistant.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -377,5 +384,78 @@ public class AttachmentController extends BaseController
 		
 		super.download(response, attachment.getDisplayName(), file);
 	}	
+	
+	@RequestMapping 
+  public void open(@RequestParam(required=false) Integer id, @RequestParam(required=false) String uid
+      , HttpServletRequest request, HttpServletResponse response) throws Exception
+  { 
+    String homePath = super.getHomePath();
+    
+    Attachment attachment = null;
+    if(id!=null)
+      attachment = attachmentService.load(id);
+    else if (!StringUtils.isEmpty(uid)) {
+      attachment = attachmentService.loadByUid(uid);
+    }
+    else {
+      throw new BusiCodeException("error.invalidParam");
+    }
+    if(attachment==null)
+    {
+      throw new BusiCodeException("attachment.error.notExist");
+    }
+    File dir = new File(homePath, attachment.getFilePath());
+    File file = new File(dir, attachment.getFileName());
+    String fileName = attachment.getDisplayName();
+    try
+    {
+      fileName = URLEncoder.encode(fileName, "utf-8");
+    }
+    catch (UnsupportedEncodingException e)
+    {
+      logger.error("Encode FileName Error:", e);
+      throw new RuntimeException(e);
+    }
+    response.reset();
+    String content = "inline; filename=" + fileName;
+    response.addHeader("Content-Disposition", content);
+    response.setCharacterEncoding("utf-8");
+    InputStream stream = null;
+    try
+    {
+      stream = new FileInputStream(file);
+      responseBinaryStream(response, this.getContentType(FilenameUtils.getExtension(fileName)), stream);     
+    }
+    catch (FileNotFoundException e)
+    {
+      logger.error("FileNotFoundException for " + file.getAbsolutePath());
+      throw new RuntimeException(e);
+    }   
+    finally
+    {
+      IOUtils.closeQuietly(stream);
+    }
+  } 
+	
+	private String getContentType(String fileExt){  
+    if("xls".equalsIgnoreCase(fileExt) || "xlsx".equalsIgnoreCase(fileExt))
+      return  "application/vnd.ms-excel" ;    
+    else if("doc".equalsIgnoreCase(fileExt) || "docx".equalsIgnoreCase(fileExt))
+      return  "application/msword" ;  
+    else if("pdf".equalsIgnoreCase(fileExt))
+      return  "application/pdf" ;
+    else if("txt".equalsIgnoreCase(fileExt))
+      return  "text/plain";
+    else if("jpg".equalsIgnoreCase(fileExt) || "jpeg".equalsIgnoreCase(fileExt))
+      return  "image/jpeg";
+    else if("gif".equalsIgnoreCase(fileExt))
+      return  "image/gif";
+    else if("png".equalsIgnoreCase(fileExt))
+      return  "image/png";
+    else {
+      return "application/octet-stream";
+    }  
+	} 
 
 }
+

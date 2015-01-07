@@ -52,6 +52,7 @@ public class InitSystemListener extends
 			logger.error("初始化配置文件未找到！");
 			throw new java.lang.RuntimeException("初始化配置文件未找到！");
 		}
+		logger.info("系统版本号："+config.getString("system.version"));
 		//homePath = props.getProperty("home.path");
 		String homePath = config.getString("home.path");
 		CoreConstants.IS_DEBUG = config.getBoolean("debug", false);

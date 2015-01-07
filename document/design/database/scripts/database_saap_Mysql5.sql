@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2015/1/6 13:09:55                            */
+/* Created on:     2015/1/7 11:16:27                            */
 /*==============================================================*/
 
 
@@ -379,7 +379,8 @@ CREATE TABLE BIZ_ROLE_DATA_PERMISSION
    ID                   INT NOT NULL AUTO_INCREMENT COMMENT '序号',
    TENANT_ID            INT NOT NULL COMMENT '租户ID',
    BIZ_ROLE_ID          INT NOT NULL COMMENT '业务角色ID',
-   CHARGE_BY            INT NOT NULL COMMENT '授权用户ID',
+   FIELD_NAME           VARCHAR(50) NOT NULL COMMENT '过滤字段名',
+   FIELD_VALUE          VARCHAR(200) NOT NULL COMMENT '过滤字段值',
    PRIMARY KEY (ID)
 )
 ENGINE = INNODB;

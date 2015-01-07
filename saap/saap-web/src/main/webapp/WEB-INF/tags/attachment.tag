@@ -16,7 +16,7 @@
 		        <input id="fileupload" type="file" name="files[]" multiple>
 		    </span>      
         </div>
-	</div>
+	</div>  
 	<div class="row-fluid">
 		<!-- The global progress bar -->
 	    <div id="progress" class="progress progress-success progress-striped">
@@ -35,15 +35,17 @@
         <table class="table table-striped">
         	<col/>
         	<col width="10%"/>
-        	<col width="10%"/>				        	
+        	<col width="280"/>				        	
         	<tbody id="files">
         		<c:forEach items="${attachmentList }" var="attachment">
         		<tr id="attachmentBox${attachment.uid }">
         			<td><p><a href="${contextPath }/assistant/attachment/download.do?uid=${attachment.uid}" target="_blank"><c:out value="${attachment.displayName }"></c:out></a>&nbsp;<i class="icon-download-alt"></i></p></td>
         			<td>${attachment.fileSize }</td>
-        			<td><c:if test="${empty readonly || !readonly }">
-        				<button type="button" class="btn btn-warning" onclick='deleteUploadFile("${attachment.uid }")'><s:message code="btn.delete" /></button>        			
-        			</c:if></td>
+        			<td><a type="button" class="btn" href="${contextPath }/assistant/attachment/open.do?id=${attachment.id}" target="_blank"><i class="icon-folder-open"></i>&nbsp;<s:message code="btn.open" /></a>&nbsp;&nbsp;
+                         <a type="button" class="btn" href="${contextPath }/assistant/attachment/download.do?id=${attachment.id}" target="_blank"><i class="icon-download-alt"></i>&nbsp;<s:message code="btn.download" /></a>
+                        <c:if test="${empty readonly || !readonly }">
+            				&nbsp;&nbsp;<button type="button" class="btn btn-warning" onclick='deleteUploadFile("${attachment.uid }")'><s:message code="btn.delete" /></button>        			
+            			</c:if></td>
         		</tr>
         		</c:forEach>
         	</tbody>

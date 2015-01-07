@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Table:biz_role_data_permission<br>
  * @author Hibernate Tools 3.4.0.CR1
  * @version 1.0
- * @since 2015-1-6 12:56:22
+ * @since 2015-1-7 11:18:10
  */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
@@ -40,17 +40,24 @@ public class BizRoleDataPermission implements Serializable {
 	private int bizRoleId;
 
 	/**
-	 * 授权用户ID.
+	 * 过滤字段名.
 	 */
-	private int chargeBy;
+	private String fieldName;
+
+	/**
+	 * 过滤字段值.
+	 */
+	private String fieldValue;
 
 	public BizRoleDataPermission() {
 	}
 
-	public BizRoleDataPermission(int tenantId, int bizRoleId, int chargeBy) {
+	public BizRoleDataPermission(int tenantId, int bizRoleId, String fieldName,
+			String fieldValue) {
 		this.tenantId = tenantId;
 		this.bizRoleId = bizRoleId;
-		this.chargeBy = chargeBy;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
 	}
 
 	/**  
@@ -109,21 +116,39 @@ public class BizRoleDataPermission implements Serializable {
 	}
 
 	/**  
-	 * Get 授权用户ID.
-	 * @return 授权用户ID
+	 * Get 过滤字段名.
+	 * @return 过滤字段名
 	 */
 
-	@Column(name = "CHARGE_BY", nullable = false)
-	public int getChargeBy() {
-		return this.chargeBy;
+	@Column(name = "FIELD_NAME", nullable = false, length = 50)
+	public String getFieldName() {
+		return this.fieldName;
 	}
 
 	/**
-	 * Set 授权用户ID.
-	 * @param chargeBy 授权用户ID
+	 * Set 过滤字段名.
+	 * @param fieldName 过滤字段名
 	 */
-	public void setChargeBy(int chargeBy) {
-		this.chargeBy = chargeBy;
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	/**  
+	 * Get 过滤字段值.
+	 * @return 过滤字段值
+	 */
+
+	@Column(name = "FIELD_VALUE", nullable = false, length = 200)
+	public String getFieldValue() {
+		return this.fieldValue;
+	}
+
+	/**
+	 * Set 过滤字段值.
+	 * @param fieldValue 过滤字段值
+	 */
+	public void setFieldValue(String fieldValue) {
+		this.fieldValue = fieldValue;
 	}
 
 }
