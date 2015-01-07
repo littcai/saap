@@ -13,7 +13,7 @@
 		        <i class="icon-plus icon-white"></i>
 		        <span><s:message code="upload.func.selectFile"></s:message></span>
 		        <!-- The file input field used as target for the file upload widget -->
-		        <input id="fileupload" type="file" name="files[]" multiple>
+		        <input id="fileupload" type="file" name="files" multiple>
 		    </span>      
         </div>
 	</div>  
@@ -72,7 +72,7 @@
 		  <td>{{displayFileSize}}</td>
 		  <td>{{#if success}}
 			<button type="button" class="btn btn-warning" onclick="deleteUploadFile('{{uid}}')"><s:message code="btn.delete" /></button>
-			<input name="attachmentUids[]" type="hidden" value="{{uid}}">
+			<input name="attachmentUids" type="hidden" value="{{uid}}">
 		  {{/if}}
 		  </td>
         </tr>
