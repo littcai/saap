@@ -1,7 +1,7 @@
 package com.litt.saap.system.dao;
 
 import com.litt.core.dao.GenericHibernateDao;
-import com.litt.saap.system.po.DataPermission;
+import com.litt.saap.system.po.BizRoleMember;
 
 /**
  * .
@@ -18,6 +18,6 @@ import com.litt.saap.system.po.DataPermission;
  * @since 2013-8-29
  * @version 1.0
  */
-public class DataPermissionDao extends GenericHibernateDao<DataPermission, Integer> {
+public class BizRoleMemberDao extends GenericHibernateDao<BizRoleMember, Integer> {
 
 }

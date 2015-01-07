@@ -11,3 +11,13 @@ target-eclipse/
 /*/*/.project
 /*/*/*/.classpath
 /*/*/*/.project
+
+*.bak
+*.log
+
+#ignore intellij files
+*.iml
+.idea
+
+#local configurations
+local.properties

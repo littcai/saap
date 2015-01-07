@@ -1,7 +1,7 @@
 package com.litt.saap.system.dao;
 
 import com.litt.core.dao.GenericHibernateDao;
-import com.litt.saap.system.po.BusinessRole;
+import com.litt.saap.system.po.BizRole;
 
 /**
  * .
@@ -18,6 +18,6 @@ import com.litt.saap.system.po.BusinessRole;
  * @since 2013-8-29
  * @version 1.0
  */
-public class BusinessRoleDao extends GenericHibernateDao<BusinessRole, Integer> {
+public class BizRoleDao extends GenericHibernateDao<BizRole, Integer> {
 
 }
